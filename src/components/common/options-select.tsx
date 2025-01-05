@@ -9,13 +9,13 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { SelectOptions } from '@/lib/types';
+import { type SelectOptions } from '@/lib/types';
 
 interface OptionsSelectProps {
   className?: string;
   triggerClassName?: string;
   placeholder: React.ReactNode;
-  value: string;
+  value: string | undefined;
   onSelectionChange: (...event: any[]) => void;
   options: SelectOptions[] | [];
   description?: React.ReactNode;
@@ -24,29 +24,21 @@ interface OptionsSelectProps {
   keyLabel?: string;
   valueLabel?: string;
 }
-
 const OptionsSelect: React.FC<OptionsSelectProps> = memo(
   ({
     className = '',
-    value = '',
+    value,
     triggerClassName = '',
     placeholder,
     options = [],
     onSelectionChange = () => {},
-    defaultValue,
     itemLabel = 'label',
     keyLabel = 'id',
     valueLabel = 'value',
   }) => {
     return (
-      <Select
-        value={value}
-        onValueChange={onSelectionChange}
-        defaultValue={defaultValue}
-      >
-        <SelectTrigger
-          className={`h-12 w-44 rounded-[14px] ${triggerClassName}`}
-        >
+      <Select value={value || undefined} onValueChange={onSelectionChange}>
+        <SelectTrigger className={`h-12 w-64 rounded-[14px] ${triggerClassName}`}>
           <SelectValue placeholder={placeholder} />
         </SelectTrigger>
         <SelectContent className={className}>
@@ -69,7 +61,7 @@ const OptionsSelect: React.FC<OptionsSelectProps> = memo(
         </SelectContent>
       </Select>
     );
-  }
+  },
 );
 
 OptionsSelect.displayName = 'OptionsSelect';

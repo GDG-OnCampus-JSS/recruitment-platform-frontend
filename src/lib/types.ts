@@ -2,7 +2,19 @@ export interface SelectOptions {
   id: string | number;
   key?: string | number;
   label?: string | number;
-  value?: unknown;
+  value?: any;
   disabled?: boolean;
-  [key: string]: unknown;
+  [key: string]: any;
+}
+export interface DataTableFilterField<TData> {
+  label: string;
+  value: keyof TData;
+  placeholder?: string;
+  options?: DropdownOption[];
+}
+export interface DropdownOption {
+  label: string;
+  value: string;
+  icon?: React.ComponentType<{ className?: string }>;
+  withCount?: boolean;
 }
