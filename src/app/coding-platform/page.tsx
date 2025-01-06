@@ -12,7 +12,6 @@ import { Button } from '@/components/ui/button';
 const EditorPage = () => {
   const [code, setCode] = useState<string>('Select a language to start coding');
   const [languageSelected, setLanguageSelected] = useState<string | undefined>();
-
   const [output, setOutput] = useState<string>('');
 
   // Find the selected language object
@@ -27,7 +26,7 @@ const EditorPage = () => {
   const submitCode = async () => {
     if (selectedLanguage) {
       const { status, data } = await postApi(
-        'http://13.126.209.98:2358/submissions/?base64_encoded=false&wait=true',
+        'http://13.233.100.121:2358/submissions/?base64_encoded=false&wait=true',
         {
           source_code: code,
           language_id: selectedLanguage.id,
