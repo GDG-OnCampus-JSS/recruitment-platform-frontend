@@ -60,7 +60,7 @@ const inputVariants = {
 };
 
 const loginSchema = z.object({
-  email: z.string().email('Please enter a valid email address').optional(),
+  email: z.string().email('Please enter a valid email address'),
   phone: z.string().min(10, 'Please enter a valid phone number').optional(),
   password: z.string().min(8, 'Password must be at least 8 characters'),
 });

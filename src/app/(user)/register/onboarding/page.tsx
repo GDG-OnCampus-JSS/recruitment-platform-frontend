@@ -177,6 +177,9 @@ export default function OnboardingPage() {
                     options={[
                       { id: '1', label: '1st Year', value: '1' },
                       { id: '2', label: '2nd Year', value: '2' },
+                      { id: '3', label: '3rd Year', value: '3' },
+                      { id: '4', label: '4th Year', value: '4' },
+                      { id: '5', label: '5th Year', value: '5' },
                     ]}
                     onSelectionChange={(value) => form.setValue('academicYear', value)}
                   />

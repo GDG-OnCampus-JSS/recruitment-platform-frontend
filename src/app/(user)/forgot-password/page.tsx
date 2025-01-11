@@ -14,28 +14,20 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { Phone, Mail, Pencil } from 'lucide-react';
 import { Icon } from '@iconify/react';
+import { validatePhoneNumber } from '@/utils/phoneValidation';
 
-const emailSchema = z.object({
-  email: z.string().email('Please enter a valid email address'),
+const forgotPasswordSchema = z.object({
+  email: z.string().email('Please enter a valid email address').optional(),
+  phone: z.string().refine(validatePhoneNumber, {
+    message: 'Please enter a valid phone number',
+  }).optional(),
+  verificationCode: z.string().min(6, 'Please enter the 6-digit code').optional(),
+  password: z.string().min(8, 'Password must be at least 8 characters').optional(),
+  confirmPassword: z.string().min(8, 'Confirm password must be at least 8 characters').optional(),
+}).refine((data) => data.password === data.confirmPassword, {
+  message: "Passwords don't match",
+  path: ['confirmPassword'],
 });
-
-const phoneSchema = z.object({
-  phone: z.string().min(10, 'Please enter a valid phone number'),
-});
-
-const verificationSchema = z.object({
-  verificationCode: z.string().min(6, 'Please enter the 6-digit code'),
-});
-
-const resetPasswordSchema = z
-  .object({
-    password: z.string().min(8, 'Password must be at least 8 characters'),
-    confirmPassword: z.string().min(8, 'Confirm password must be at least 8 characters'),
-  })
-  .refine((data) => data.password === data.confirmPassword, {
-    message: "Passwords don't match",
-    path: ['confirmPassword'],
-  });
 
 export default function ForgotPasswordPage() {
   const [step, setStep] = useState(0);
@@ -47,15 +39,7 @@ export default function ForgotPasswordPage() {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   const form = useForm({
-    resolver: zodResolver(
-      step === 0
-        ? method === 'email'
-          ? emailSchema
-          : phoneSchema
-        : step === 1
-          ? verificationSchema
-          : resetPasswordSchema,
-    ),
+    resolver: zodResolver(forgotPasswordSchema),
     defaultValues: {
       email: '',
       phone: '',

@@ -13,7 +13,7 @@ import { Button } from '@/components/ui/button';
 import FormInput from '@/components/common/form-input';
 import { TooltipProvider } from '@/components/ui/tooltip';
 import LogoGrid from '@/components/common/logo-grid';
-import Magnet from '@/components/common/Magnet';
+import { validatePhoneNumber } from '@/utils/phoneValidation';
 
 const itemVariants = {
   hidden: { opacity: 0, y: 10 },
@@ -80,16 +80,22 @@ const verificationVariants = {
   },
 };
 
-const emailSchema = z.object({
-  email: z.string().email('Please enter a valid email address'),
-});
-
-const phoneSchema = z.object({
-  phone: z.string().min(10, 'Please enter a valid phone number'),
-});
-
-const verificationSchema = z.object({
-  verificationCode: z.string().min(6, 'Please enter the 6-digit code'),
+const registerSchema = z.object({
+  email: z.string().email('Please enter a valid email address').optional(),
+  phone: z.string().refine(validatePhoneNumber, {
+    message: 'Please enter a valid phone number',
+  }).optional(),
+  verificationCode: z.string().min(6, 'Please enter the 6-digit code').optional(),
+  fullName: z.string().min(2, 'Full name must be at least 2 characters').optional(),
+  academicYear: z.enum(['1', '2', '3', '4', '5']).optional(),
+  admissionNumber: z.string().min(5, 'Admission number must be at least 5 characters').optional(),
+  password: z.string().min(8, 'Password must be at least 8 characters').optional(),
+  confirmPassword: z.string().min(8, 'Confirm password must be at least 8 characters').optional(),
+  domain: z.string().min(1, 'Please select a domain').optional(),
+  resume: z.any().refine((file) => !file || file instanceof File, 'Please upload a file').optional(),
+}).refine((data) => data.password === data.confirmPassword, {
+  message: "Passwords don't match",
+  path: ['confirmPassword'],
 });
 
 export default function RegisterPage() {
@@ -100,16 +106,19 @@ export default function RegisterPage() {
   const [isResending, setIsResending] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
-  const form = useForm<
-    z.infer<typeof emailSchema> | z.infer<typeof phoneSchema> | z.infer<typeof verificationSchema>
-  >({
-    resolver: zodResolver(
-      isVerifying ? verificationSchema : method === 'email' ? emailSchema : phoneSchema,
-    ),
+  const form = useForm<z.infer<typeof registerSchema>>({
+    resolver: zodResolver(registerSchema),
     defaultValues: {
       email: '',
       phone: '',
       verificationCode: '',
+      fullName: '',
+      academicYear: '',
+      admissionNumber: '',
+      password: '',
+      confirmPassword: '',
+      domain: '',
+      resume: null,
     },
   });
 
