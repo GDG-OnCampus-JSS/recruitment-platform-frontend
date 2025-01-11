@@ -1,34 +1,32 @@
-"use client"
-import React from "react";
-import Link from "next/link";
-import { Button } from "@/components/ui/button";
-import { BellIcon, Hand, User,Home, LayoutGrid, Globe, Medal,Menu, Import } from "lucide-react";
-import { useRouter } from "next/navigation";
-import { usePathname } from "next/navigation";
+'use client';
+import React from 'react';
+import Link from 'next/link';
+import { Button } from '@/components/ui/button';
+import { BellIcon, Hand, User, Home, LayoutGrid, Globe, Medal, Menu, Import } from 'lucide-react';
+import { useRouter } from 'next/navigation';
+import { usePathname } from 'next/navigation';
 import { useState } from 'react';
-import Image from "next/image";
-import Dropdown from "../common/selectComp";
-import { useAuth } from "@/context/authContext";
-
+import Image from 'next/image';
+import Dropdown from '../common/selectComp';
+import { useAuth } from '@/context/authContext';
 
 interface LogoutResponse {
   message: string;
 }
 
-
-export const Header = ()=>{
-    const router = useRouter();
-    const pathname = usePathname();
-    const {user,logout} = useAuth();
-    const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-    const [selectedOption, setSelectedOption] = useState<string | null>(null);
+export const Header = () => {
+  const router = useRouter();
+  const pathname = usePathname();
+  const { user, logout } = useAuth();
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [selectedOption, setSelectedOption] = useState<string | null>(null);
 
   const handleDropdownSelect = async (value: string) => {
     setSelectedOption(value);
-    if (value === "profile") {
-       router.push("dashboard/profile");
-    } else if (value === "logout") {
-    await handleLogout();       
+    if (value === 'profile') {
+      router.push('dashboard/profile');
+    } else if (value === 'logout') {
+      await handleLogout();
     }
   };
 
@@ -36,118 +34,112 @@ export const Header = ()=>{
     try {
       await logout();
     } catch (error) {
-      console.error("Error during logout:", error);
-      alert("An error occurred during logout.");
+      console.error('Error during logout:', error);
+      alert('An error occurred during logout.');
     }
   };
 
   const options = [
-    { label: "Profile", value: "profile" },
-    { label: "Logout", value: "logout" }
-];
+    { label: 'Profile', value: 'profile' },
+    { label: 'Logout', value: 'logout' },
+  ];
 
+  const navItems = [
+    { href: '/', label: 'Home', icon: Home },
+    { href: '/dashboard', label: 'Dashboard', icon: LayoutGrid },
+    { href: '/website', label: 'Website', icon: Globe },
+    { href: '/results', label: 'Results', icon: Medal },
+  ];
 
-    const navItems = [
-        { href: "/", label: "Home", icon: Home },
-        { href: "/dashboard", label: "Dashboard", icon: LayoutGrid },
-        { href: "/website", label: "Website", icon: Globe },
-        { href: "/results", label: "Results", icon: Medal }
-      ];
-    
+  return (
+    <header className="fixed left-0 top-0 z-10 w-full border-b bg-[#FFFFFF]">
+      <div className="mx-auto flex h-[66px] w-full items-center justify-between px-4 sm:px-20">
+        {/* Left section */}
+        <div className="flex items-center gap-12 md:gap-6">
+          <Link href="/">
+            <div className="flex h-[32px] w-[187px] items-center gap-1 md:w-[127px]">
+              <div className="h-[32px] w-[32px]">
+                <Image src="/logo.jpeg" alt="Logo" width={26} height={26} className="h-full w-full object-contain" />
+              </div>
+              <span className="font-sans text-sm font-normal leading-4">GDG JSSATEN</span>
+            </div>
+          </Link>
+        </div>
 
-    return (
-        <header className="border-b bg-[#FFFFFF] fixed top-0 left-0 w-full z-10">
-          <div className="w-full h-[66px] mx-auto px-4 sm:px-20 flex items-center justify-between">
-            
-              {/* Left section */}
-              <div className="flex items-center gap-12 md:gap-6">
-                <Link href="/">
-                  <div className="flex items-center gap-1 w-[187px] h-[32px] md:w-[127px]">
-                    <div className="w-[32px] h-[32px]">
-                     <img 
-                      src="/logo.jpeg" 
-                      alt="Logo"
-                      className="w-full h-full object-contain" 
-                     />
-                    </div>
-                    <span className="font-sans font-normal text-sm leading-4">GDG JSSATEN</span>
-                  </div>
-                </Link>
-                </div>
-                
-                
-            <nav className=" hidden sm:flex items-center  w-[606.88px] h-[32px] gap-[19.58px]">
-              {navItems.map((item) => (
-                <Link href={item.href} key={item.href} className="h-full">
-                  <Button 
-                    variant="ghost"
-                    className={`gap-2 ${pathname === item.href ? " text-black" : ""}`}
-                  >
-                    <item.icon className="h-4 w-4" />
-                    <span className="font-sans font-normal text-sm leading-4">{item.label}</span>
-                  </Button>
-                </Link>
-              ))}
-            </nav>
-           
-          <div className="flex items-center w-[267px] h-[36px] gap-1 sm:gap-[16px]">
-            <Button variant="outline"
-             className="w-[133px] h-[36px] gap-1 rounded-[22px] border border-[#000000] px-3 py-2" 
-             onClick={() => router.push("/help")}>
-              <Hand size={18} />
-              <span className="sm:inline  font-sans font-normal text-sm leading-4">I Have a doubt?</span>
-            </Button>
+        <nav className="hidden h-[32px] w-[606.88px] items-center gap-[19.58px] sm:flex">
+          {navItems.map((item) => (
+            <Link href={item.href} key={item.href} className="h-full">
+              <Button
+                variant="ghost"
+                className={`gap-2 ${pathname === item.href ? 'text-black' : ''}`}
+              >
+                <item.icon className="h-4 w-4" />
+                <span className="font-sans text-sm font-normal leading-4">{item.label}</span>
+              </Button>
+            </Link>
+          ))}
+        </nav>
 
-            <Button variant="ghost" className="w-[36px] h-[36px] rounded-[37px] border border-[#DDE3FF] p-[8px] bg-[#FFFFFF]">
-              <BellIcon className="h-5 w-5" />
-            </Button>
+        <div className="flex h-[36px] w-[267px] items-center gap-1 sm:gap-[16px]">
+          <Button
+            variant="outline"
+            className="h-[36px] w-[133px] gap-1 rounded-[22px] border border-[#000000] px-3 py-2"
+            onClick={() => router.push('/help')}
+          >
+            <Hand size={18} />
+            <span className="font-sans text-sm font-normal leading-4 sm:inline">
+              I Have a doubt?
+            </span>
+          </Button>
 
-           <div className=" hidden sm:block"> 
-             <Button variant="ghost" className=" w-[66px] h-[36px] rounded-[37px] border border-[#DDE3FF] p-[8px] bg-[#FFFFFF]">
-              <Image src="/avatar.png" alt="User" 
-                          width={26}
-                          height={26}
-                          className=" rounded-full" />
-              <Dropdown options={options} onSelect={handleDropdownSelect} />
-              {selectedOption && (
-              <span className="sr-only">
-                Selected: {selectedOption}
-              </span>
-      )}
-            </Button> </div>
+          <Button
+            variant="ghost"
+            className="h-[36px] w-[36px] rounded-[37px] border border-[#DDE3FF] bg-[#FFFFFF] p-[8px]"
+          >
+            <BellIcon className="h-5 w-5" />
+          </Button>
 
-
-            <div className="md:hidden flex items-center z-50">
+          <div className="hidden sm:block">
             <Button
-               variant="ghost"
-              className=" rounded-md"
-              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)} 
-        >
+              variant="ghost"
+              className="h-[36px] w-[66px] rounded-[37px] border border-[#DDE3FF] bg-[#FFFFFF] p-[8px]"
+            >
+              <Image src="/avatar.png" alt="User" width={26} height={26} className="rounded-full" />
+              <Dropdown options={options} onSelect={handleDropdownSelect} />
+              {selectedOption && <span className="sr-only">Selected: {selectedOption}</span>}
+            </Button>{' '}
+          </div>
+
+          <div className="z-50 flex items-center md:hidden">
+            <Button
+              variant="ghost"
+              className="rounded-md"
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            >
               <Menu className="h-6 w-6" />
             </Button>
-        </div>
-        {isMobileMenuOpen && (
-          <div className="md:hidden absolute top-16 left-0 right-0 w-full bg-white shadow-md p-4">
-            <nav className="">
-              {navItems.map((item) => (
-                <Link href={item.href} key={item.href} className="w-full ite">
-                  <Button
-                    variant="ghost"
-                    className={`gap-2 ${pathname === item.href ? 'text-black' : ''} w-full text-left`}
-                  >
-                    <item.icon className="h-4 w-4" />
-                    <span className="font-sans font-normal text-sm leading-4">{item.label}</span>
-                  </Button>
-                </Link>
-              ))}
-            </nav>
           </div>
-        )}
-    
+          {isMobileMenuOpen && (
+            <div className="absolute left-0 right-0 top-16 w-full bg-white p-4 shadow-md md:hidden">
+              <nav className="">
+                {navItems.map((item) => (
+                  <Link href={item.href} key={item.href} className="ite w-full">
+                    <Button
+                      variant="ghost"
+                      className={`gap-2 ${pathname === item.href ? 'text-black' : ''} w-full text-left`}
+                    >
+                      <item.icon className="h-4 w-4" />
+                      <span className="font-sans text-sm font-normal leading-4">{item.label}</span>
+                    </Button>
+                  </Link>
+                ))}
+              </nav>
+            </div>
+          )}
         </div>
       </div>
     </header>
-     );
-}
+  );
+};
 
 export default Header;

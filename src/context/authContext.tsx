@@ -1,4 +1,4 @@
-"use client"
+'use client';
 import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
 
@@ -11,9 +11,8 @@ interface User {
   domain?: string;
   year?: string;
   photo?: string;
-  resume?: string; 
-  socialLinks?: { platform: string; url: string; }[];
-  
+  resume?: string;
+  socialLinks?: { platform: string; url: string }[];
 }
 
 interface AuthContextType {
@@ -38,7 +37,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
   const fetchUserDetails = async (id: string) => {
     try {
       const response = await fetch(`${process.env.API_URL}/users/${id}`, {
-        credentials: 'include'
+        credentials: 'include',
       });
       if (response.ok) {
         const userData = await response.json();
@@ -66,17 +65,15 @@ export function AuthProvider({ children }: AuthProviderProps) {
         throw new Error(data.message || 'Login failed');
       }
 
-     
       const token = document.cookie
         .split('; ')
-        .find(row => row.startsWith('accessToken='))
+        .find((row) => row.startsWith('accessToken='))
         ?.split('=')[1];
 
       if (token) {
-        
         const decoded = JSON.parse(atob(token.split('.')[1]));
-        const userId = decoded.id;  
-        
+        const userId = decoded.id;
+
         await fetchUserDetails(userId);
         router.push('/dashboard');
       }
@@ -111,12 +108,12 @@ export function AuthProvider({ children }: AuthProviderProps) {
         }
         const token = document.cookie
           .split('; ')
-          .find(row => row.startsWith('accessToken='))
+          .find((row) => row.startsWith('accessToken='))
           ?.split('=')[1];
 
         if (token) {
           const decoded = JSON.parse(atob(token.split('.')[1]));
-          const userId = decoded.id;  
+          const userId = decoded.id;
           await fetchUserDetails(userId);
         }
       } catch (error) {
@@ -130,9 +127,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
   }, [[pathname, router]]);
 
   return (
-    <AuthContext.Provider value={{ user, loading, login, logout }}>
-      {children}
-    </AuthContext.Provider>
+    <AuthContext.Provider value={{ user, loading, login, logout }}>{children}</AuthContext.Provider>
   );
 }
 
