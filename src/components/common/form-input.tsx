@@ -1,5 +1,6 @@
+"use client"
 import React, { memo } from 'react';
-import { Copy } from 'lucide-react';
+import { Copy, AlertCircle } from 'lucide-react';
 import { useFormContext } from 'react-hook-form';
 import {
   FormControl,
@@ -53,7 +54,7 @@ const FormInput: React.FC<FormInputProps> = memo(
       <FormField
         control={control}
         name={name}
-        render={({ field }) => {
+        render={({ field, fieldState: { error } }) => {
           const { value, onChange } = field;
 
           return (
@@ -61,7 +62,7 @@ const FormInput: React.FC<FormInputProps> = memo(
               {label && (
                 <FormLabel htmlFor={name}>
                   <div className="flex flex-row items-center">
-                    <p className="text-dp-secondary-foreground mr-[4px] text-[12px] font-medium">
+                    <p className="mr-[4px] text-small font-medium">
                       {label} {isAsterisk && <span className="text-red-500">*</span>}
                     </p>
                     {info && (
@@ -86,7 +87,7 @@ const FormInput: React.FC<FormInputProps> = memo(
                       onInputChange(e.target.value);
                     }}
                     disabled={disabled}
-                    className={className}
+                    className={`${className} h-12 placeholder:text-gray-light tracking-wider`} 
                   />
 
                   {enableCopyText && (
@@ -103,7 +104,16 @@ const FormInput: React.FC<FormInputProps> = memo(
                 </div>
               </FormControl>
               {description && <FormDescription>{description}</FormDescription>}
-              {showError && <FormMessage />}
+              {showError && (
+                <>
+                  {error && (
+                    <div className="flex items-center gap-x-1">
+                      <AlertCircle className="h-4 w-4 text-destructive" />
+                      <FormMessage />
+                    </div>
+                  )}
+                </>
+              )}
             </FormItem>
           );
         }}

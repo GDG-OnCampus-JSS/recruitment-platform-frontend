@@ -1,6 +1,6 @@
 import React from 'react';
 import { Info } from 'lucide-react';
-import { Tooltip, TooltipArrow, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
+import { Tooltip,  TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
 
 interface Props {
   icon?: React.ReactNode;
@@ -15,7 +15,6 @@ const InfoTooltip: React.FC<Props> = ({ icon, size = 14, info = '' }) => {
         {icon ? icon : <Info size={size} />}
         <TooltipContent side="top" className="px-3 py-1.5 text-xs">
           {info}
-          <TooltipArrow />
         </TooltipContent>
       </TooltipTrigger>
     </Tooltip>

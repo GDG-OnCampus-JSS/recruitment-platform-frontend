@@ -1,6 +1,25 @@
 import type { Metadata } from 'next';
 import { Geist, Geist_Mono } from 'next/font/google';
+import localFont from 'next/font/local';
 import './globals.css';
+
+const productSans = localFont({
+  src: [
+    {
+      path: '../../public/fonts/Product-Sans-Regular.ttf',
+      weight: '400'
+    },
+    {
+      path: '../../public/fonts/Product Sans Medium 500.ttf',
+      weight: '500'
+    },
+    {
+      path: '../../public/fonts/Product-Sans-Bold.ttf',
+      weight: '700'
+    }
+  ],
+  variable: '--font-product-sans'
+});
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -23,8 +42,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>{children}</body>
+    <html lang="en" className={`${productSans.variable}`}>
+      <body className="antialiased font-product-sans">
+        {children}
+      </body>
     </html>
   );
 }
