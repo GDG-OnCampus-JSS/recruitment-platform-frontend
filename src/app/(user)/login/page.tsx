@@ -107,7 +107,7 @@ export default function LoginPage() {
           initial={{ scale: 0.95, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
           transition={{ duration: 0.5 }}
-          className="relative mx-auto mt-20 w-[500px] overflow-hidden rounded-[1rem] border-2 border-card shadow-card bg-white duration-300 hover:rounded-[1.5rem]"
+          className="relative mx-auto mt-20 w-[500px] overflow-hidden rounded-[1rem] border-card bg-white shadow-card duration-300 hover:rounded-[1.5rem]"
         >
           <div className="p-12">
             <motion.div
@@ -143,9 +143,7 @@ export default function LoginPage() {
                     type={method === 'email' ? 'email' : 'tel'}
                     label={method === 'email' ? 'Email' : 'Phone Number'}
                     placeholder={
-                      method === 'email'
-                        ? 'Enter your email address'
-                        : 'Enter your phone number'
+                      method === 'email' ? 'Enter your email address' : 'Enter your phone number'
                     }
                     isAsterisk
                     className={method === 'phone' ? 'pl-14' : ''}
@@ -230,7 +228,7 @@ export default function LoginPage() {
               </form>
             </Form>
           </div>
-          <div className="bg-gray-extra-light mt-[5px] p-4 text-center text-sm text-black">
+          <div className="mt-[5px] bg-gray-extra-light p-4 text-center text-sm text-black">
             Don't have an account?{' '}
             <a
               href="/register"

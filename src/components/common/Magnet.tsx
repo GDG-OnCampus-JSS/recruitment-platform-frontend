@@ -1,6 +1,6 @@
-"use client"
+'use client';
 
-import { useState, useEffect, useRef, ReactNode, CSSProperties } from "react";
+import { useState, useEffect, useRef, ReactNode, CSSProperties } from 'react';
 
 interface MagnetProps extends React.HTMLAttributes<HTMLDivElement> {
   children: ReactNode;
@@ -23,10 +23,10 @@ const Magnet = ({
   padding = 100,
   disabled = false,
   magnetStrength = 2,
-  activeTransition = "transform 0.3s ease-out",
-  inactiveTransition = "transform 0.5s ease-in-out",
-  wrapperClassName = "",
-  innerClassName = "",
+  activeTransition = 'transform 0.3s ease-out',
+  inactiveTransition = 'transform 0.5s ease-in-out',
+  wrapperClassName = '',
+  innerClassName = '',
   ...props
 }: MagnetProps) => {
   const [isActive, setIsActive] = useState<boolean>(false);
@@ -61,36 +61,28 @@ const Magnet = ({
       }
     };
 
-    window.addEventListener("mousemove", handleMouseMove);
+    window.addEventListener('mousemove', handleMouseMove);
     return () => {
-      window.removeEventListener("mousemove", handleMouseMove);
+      window.removeEventListener('mousemove', handleMouseMove);
     };
   }, [padding, disabled, magnetStrength]);
 
   const transitionStyle = isActive ? activeTransition : inactiveTransition;
 
   const wrapperStyle: CSSProperties = {
-    position: "relative",
-    display: "inline-block",
+    position: 'relative',
+    display: 'inline-block',
   };
 
   const innerStyle: CSSProperties = {
     transform: `translate3d(${position.x}px, ${position.y}px, 0)`,
     transition: transitionStyle,
-    willChange: "transform",
+    willChange: 'transform',
   };
 
   return (
-    <div
-      ref={magnetRef}
-      className={wrapperClassName}
-      style={wrapperStyle}
-      {...props}
-    >
-      <div
-        className={innerClassName}
-        style={innerStyle}
-      >
+    <div ref={magnetRef} className={wrapperClassName} style={wrapperStyle} {...props}>
+      <div className={innerClassName} style={innerStyle}>
         {children}
       </div>
     </div>

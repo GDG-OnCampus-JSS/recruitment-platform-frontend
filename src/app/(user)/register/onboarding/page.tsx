@@ -94,7 +94,7 @@ export default function OnboardingPage() {
         initial={{ scale: 0.95, opacity: 0 }}
         animate={{ scale: 1, opacity: 1 }}
         transition={{ duration: 0.5 }}
-        className="relative mx-auto mt-11 w-full max-w-[500px] overflow-hidden rounded-[1rem] border-2 border-card shadow-card bg-white"
+        className="relative mx-auto mt-11 w-full max-w-[500px] overflow-hidden rounded-[1rem] border-2 border-card bg-white shadow-card"
       >
         <div className="p-12">
           <div className="mb-10 space-y-1">

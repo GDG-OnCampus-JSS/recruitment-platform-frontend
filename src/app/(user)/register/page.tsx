@@ -175,7 +175,7 @@ export default function RegisterPage() {
           initial={{ scale: 0.95, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
           transition={{ duration: 0.5 }}
-          className="relative mx-auto mt-1 w-[500px] overflow-hidden rounded-[1rem] border-2 border-card shadow-card bg-white duration-300 hover:rounded-[1.5rem]"
+          className="relative mx-auto mt-1 w-[500px] overflow-hidden rounded-[1rem] border-card bg-white shadow-card duration-300 hover:rounded-[1.5rem]"
         >
           <div className="p-12">
             <motion.div
@@ -220,7 +220,7 @@ export default function RegisterPage() {
                         className={method === 'phone' ? 'pl-14' : ''}
                       />
                       {method === 'phone' && (
-                        <div className="absolute left-3 top-[36px]  text-sm">
+                        <div className="absolute left-3 top-[36px] text-sm">
                           <span>+ 91</span>
                           <span className="ml-2 text-gray-light">|</span>
                         </div>

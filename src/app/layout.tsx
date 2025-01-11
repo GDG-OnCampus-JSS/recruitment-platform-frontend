@@ -7,18 +7,18 @@ const productSans = localFont({
   src: [
     {
       path: '../../public/fonts/Product-Sans-Regular.ttf',
-      weight: '400'
+      weight: '400',
     },
     {
       path: '../../public/fonts/Product Sans Medium 500.ttf',
-      weight: '500'
+      weight: '500',
     },
     {
       path: '../../public/fonts/Product-Sans-Bold.ttf',
-      weight: '700'
-    }
+      weight: '700',
+    },
   ],
-  variable: '--font-product-sans'
+  variable: '--font-product-sans',
 });
 
 const geistSans = Geist({
@@ -43,9 +43,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={`${productSans.variable}`}>
-      <body className="antialiased font-product-sans">
-        {children}
-      </body>
+      <body className="font-product-sans antialiased">{children}</body>
     </html>
   );
 }

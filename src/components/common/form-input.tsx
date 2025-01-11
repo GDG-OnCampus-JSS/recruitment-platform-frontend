@@ -1,4 +1,4 @@
-"use client"
+'use client';
 import React, { memo } from 'react';
 import { Copy, AlertCircle } from 'lucide-react';
 import { useFormContext } from 'react-hook-form';
@@ -87,7 +87,7 @@ const FormInput: React.FC<FormInputProps> = memo(
                       onInputChange(e.target.value);
                     }}
                     disabled={disabled}
-                    className={`${className} h-12 placeholder:text-gray-light tracking-wider`} 
+                    className={`${className} h-12 tracking-wider placeholder:text-gray-light`}
                   />
 
                   {enableCopyText && (

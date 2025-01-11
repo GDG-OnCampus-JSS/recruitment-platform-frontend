@@ -43,7 +43,7 @@ export default {
         gray: {
           'extra-light': 'hsl(var(--gray-extra-light))',
           light: 'hsl(var(--gray-light))',
-          medium: 'hsl(var(--gray-medium))'
+          medium: 'hsl(var(--gray-medium))',
         },
         btn: {
           primary: 'hsl(var(--btn-primary))',
@@ -64,18 +64,30 @@ export default {
         'product-sans': ['var(--font-sans)'],
       },
       fontSize: {
-        small: ['var(--font-small)', {
-          letterSpacing: 'var(--spacing-small)',
-        }],
-        body: ['var(--font-body)', {
-          letterSpacing: 'var(--spacing-body)',
-        }],
-        'heading-2': ['var(--font-heading-2)', {
-          letterSpacing: 'var(--spacing-heading-2)',
-        }],
-        'heading-1': ['var(--font-heading-1)', {
-          letterSpacing: 'var(--spacing-heading-1)',
-        }],
+        small: [
+          'var(--font-small)',
+          {
+            letterSpacing: 'var(--spacing-small)',
+          },
+        ],
+        body: [
+          'var(--font-body)',
+          {
+            letterSpacing: 'var(--spacing-body)',
+          },
+        ],
+        'heading-2': [
+          'var(--font-heading-2)',
+          {
+            letterSpacing: 'var(--spacing-heading-2)',
+          },
+        ],
+        'heading-1': [
+          'var(--font-heading-1)',
+          {
+            letterSpacing: 'var(--spacing-heading-1)',
+          },
+        ],
       },
       boxShadow: {
         card: 'var(--shadow-card)',
