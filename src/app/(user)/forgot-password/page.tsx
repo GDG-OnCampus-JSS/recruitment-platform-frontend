@@ -16,18 +16,23 @@ import { Phone, Mail, Pencil } from 'lucide-react';
 import { Icon } from '@iconify/react';
 import { validatePhoneNumber } from '@/utils/phoneValidation';
 
-const forgotPasswordSchema = z.object({
-  email: z.string().email('Please enter a valid email address').optional(),
-  phone: z.string().refine(validatePhoneNumber, {
-    message: 'Please enter a valid phone number',
-  }).optional(),
-  verificationCode: z.string().min(6, 'Please enter the 6-digit code').optional(),
-  password: z.string().min(8, 'Password must be at least 8 characters').optional(),
-  confirmPassword: z.string().min(8, 'Confirm password must be at least 8 characters').optional(),
-}).refine((data) => data.password === data.confirmPassword, {
-  message: "Passwords don't match",
-  path: ['confirmPassword'],
-});
+const forgotPasswordSchema = z
+  .object({
+    email: z.string().email('Please enter a valid email address').optional(),
+    phone: z
+      .string()
+      .refine(validatePhoneNumber, {
+        message: 'Please enter a valid phone number',
+      })
+      .optional(),
+    verificationCode: z.string().min(6, 'Please enter the 6-digit code').optional(),
+    password: z.string().min(8, 'Password must be at least 8 characters').optional(),
+    confirmPassword: z.string().min(8, 'Confirm password must be at least 8 characters').optional(),
+  })
+  .refine((data) => data.password === data.confirmPassword, {
+    message: "Passwords don't match",
+    path: ['confirmPassword'],
+  });
 
 export default function ForgotPasswordPage() {
   const [step, setStep] = useState(0);

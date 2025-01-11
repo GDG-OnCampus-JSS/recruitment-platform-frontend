@@ -80,23 +80,31 @@ const verificationVariants = {
   },
 };
 
-const registerSchema = z.object({
-  email: z.string().email('Please enter a valid email address').optional(),
-  phone: z.string().refine(validatePhoneNumber, {
-    message: 'Please enter a valid phone number',
-  }).optional(),
-  verificationCode: z.string().min(6, 'Please enter the 6-digit code').optional(),
-  fullName: z.string().min(2, 'Full name must be at least 2 characters').optional(),
-  academicYear: z.enum(['1', '2', '3', '4', '5']).optional(),
-  admissionNumber: z.string().min(5, 'Admission number must be at least 5 characters').optional(),
-  password: z.string().min(8, 'Password must be at least 8 characters').optional(),
-  confirmPassword: z.string().min(8, 'Confirm password must be at least 8 characters').optional(),
-  domain: z.string().min(1, 'Please select a domain').optional(),
-  resume: z.any().refine((file) => !file || file instanceof File, 'Please upload a file').optional(),
-}).refine((data) => data.password === data.confirmPassword, {
-  message: "Passwords don't match",
-  path: ['confirmPassword'],
-});
+const registerSchema = z
+  .object({
+    email: z.string().email('Please enter a valid email address').optional(),
+    phone: z
+      .string()
+      .refine(validatePhoneNumber, {
+        message: 'Please enter a valid phone number',
+      })
+      .optional(),
+    verificationCode: z.string().min(6, 'Please enter the 6-digit code').optional(),
+    fullName: z.string().min(2, 'Full name must be at least 2 characters').optional(),
+    academicYear: z.enum(['1', '2', '3', '4', '5']).optional(),
+    admissionNumber: z.string().min(5, 'Admission number must be at least 5 characters').optional(),
+    password: z.string().min(8, 'Password must be at least 8 characters').optional(),
+    confirmPassword: z.string().min(8, 'Confirm password must be at least 8 characters').optional(),
+    domain: z.string().min(1, 'Please select a domain').optional(),
+    resume: z
+      .any()
+      .refine((file) => !file || file instanceof File, 'Please upload a file')
+      .optional(),
+  })
+  .refine((data) => data.password === data.confirmPassword, {
+    message: "Passwords don't match",
+    path: ['confirmPassword'],
+  });
 
 export default function RegisterPage() {
   const router = useRouter();
