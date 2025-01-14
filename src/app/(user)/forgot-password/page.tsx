@@ -15,6 +15,7 @@ import Link from 'next/link';
 import { Phone, Mail, Pencil } from 'lucide-react';
 import { Icon } from '@iconify/react';
 import { validatePhoneNumber } from '@/utils/phoneValidation';
+import OTPInput from '@/components/common/otp-input';
 
 const forgotPasswordSchema = z
   .object({
@@ -183,13 +184,10 @@ export default function ForgotPasswordPage() {
                           </span>{' '}
                           . Please enter to verify
                         </div>
-                        <FormInput
-                          name="verificationCode"
+                        <OTPInput
+                          onChange={(otp) => form.setValue('verificationCode', otp)}
                           label=""
-                          placeholder="Enter the 6-digit code"
                           isAsterisk
-                          className="text-center text-lg tracking-wider"
-                          maxLength={6}
                         />
                       </div>
                     </motion.div>

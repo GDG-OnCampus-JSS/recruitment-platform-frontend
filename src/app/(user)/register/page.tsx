@@ -11,6 +11,7 @@ import { Phone, Mail, Pencil } from 'lucide-react';
 import { Form } from '@/components/ui/form';
 import { Button } from '@/components/ui/button';
 import FormInput from '@/components/common/form-input';
+import OTPInput from '@/components/common/otp-input';
 import { TooltipProvider } from '@/components/ui/tooltip';
 import LogoGrid from '@/components/common/logo-grid';
 import { validatePhoneNumber } from '@/utils/phoneValidation';
@@ -82,7 +83,7 @@ const verificationVariants = {
 
 const registerSchema = z
   .object({
-    email: z.string().email('Please enter a valid email address').optional(),
+    email: z.string().email('Please enter a valid email address'),
     phone: z
       .string()
       .refine(validatePhoneNumber, {
@@ -133,9 +134,9 @@ export default function RegisterPage() {
   async function onSubmit(values: any) {
     if (!isVerifying) {
       // Store the registration data and show verification form
-      setRegistrationData(values);
+      setRegistrationData((prevData) => ({ ...prevData, ...values }));
       setIsVerifying(true);
-      form.reset({ verificationCode: '' });
+      form.setValue('verificationCode', ''); // Reset only the verificationCode field
     } else {
       // Verify OTP and redirect to onboarding
       try {
@@ -266,13 +267,10 @@ export default function RegisterPage() {
                           </span>{' '}
                           . Please enter to verify
                         </div>
-                        <FormInput
-                          name="verificationCode"
+                        <OTPInput
+                          onChange={(otp) => form.setValue('verificationCode', otp)}
                           label=""
-                          placeholder="Enter the 6-digit code"
                           isAsterisk
-                          className="text-center text-lg tracking-wider"
-                          maxLength={6}
                         />
                       </div>
                     </motion.div>
