@@ -56,7 +56,7 @@ export const PhoneStep = ({ onSuccess, initialValue }: PhoneStepProps) => {
             info="We'll send you a verification code to this phone number"
             isAsterisk
           />
-          <div className="absolute left-3 top-[36px] text-sm cursor-not-allowed">
+          <div className="absolute left-3 top-[36px] cursor-not-allowed text-sm">
             + 91
             <span className="ml-2 text-gray-light">|</span>
           </div>

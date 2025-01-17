@@ -51,7 +51,9 @@ export const EmailStep = ({ onSuccess, initialValue }: EmailStepProps) => {
           info="We'll send you a verification code to this email"
           isAsterisk
         />
-        <Button type='submit' className='w-full bg-btn-primary h-11 hover:bg-indigo-600'>Continue</Button>
+        <Button type="submit" className="h-11 w-full bg-btn-primary hover:bg-indigo-600">
+          Continue
+        </Button>
       </form>
     </Form>
   );

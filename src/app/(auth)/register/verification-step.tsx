@@ -49,9 +49,9 @@ export const VerificationStep = ({ method, data, next, onEdit }: VerificationSte
         We've sent a code to{' '}
         <span className="font-medium text-gray-900">
           {contactValue}{' '}
-          <Button 
-            variant="link" 
-            className="h-auto border p-1" 
+          <Button
+            variant="link"
+            className="h-auto border p-1"
             onClick={(e) => {
               e.preventDefault();
               onEdit();
@@ -74,8 +74,10 @@ export const VerificationStep = ({ method, data, next, onEdit }: VerificationSte
           />
 
           <div>
-            <Button className="w-full h-11" variant="outline">Resend code</Button>
-            <Button type="submit" className="mt-2 w-full bg-btn-primary h-11 hover:bg-indigo-600">
+            <Button className="h-11 w-full" variant="outline">
+              Resend code
+            </Button>
+            <Button type="submit" className="mt-2 h-11 w-full bg-btn-primary hover:bg-indigo-600">
               Continue
             </Button>
           </div>

@@ -51,7 +51,7 @@ const OptionsSelect: React.FC<OptionsSelectProps> = memo(
         )}
         <Select value={value || undefined} onValueChange={onSelectionChange}>
           <SelectTrigger className={`h-12 w-full ${triggerClassName}`}>
-            <SelectValue placeholder={placeholder}/>
+            <SelectValue placeholder={placeholder} />
           </SelectTrigger>
           <SelectContent className={className}>
             <SelectGroup>

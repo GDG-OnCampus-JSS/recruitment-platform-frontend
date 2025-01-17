@@ -32,12 +32,7 @@ export const EmailStep = ({ initialValue, onSubmit }: EmailStepProps) => {
     <div>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-4">
-          <FormInput
-            name="email"
-            label="Email"
-            placeholder="Enter your email"
-            isAsterisk
-          />
+          <FormInput name="email" label="Email" placeholder="Enter your email" isAsterisk />
           <Button type="submit" className="h-11 w-full bg-btn-primary hover:bg-indigo-600">
             Continue
           </Button>

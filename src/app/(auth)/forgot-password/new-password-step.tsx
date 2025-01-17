@@ -81,12 +81,7 @@ export const NewPasswordStep = ({ initialValues, onSubmit, onBack }: Props) => {
           </div>
 
           <div className="space-y-2">
-            <Button
-              type="button"
-              onClick={onBack}
-              variant="outline"
-              className="h-11 w-full"
-            >
+            <Button type="button" onClick={onBack} variant="outline" className="h-11 w-full">
               Back
             </Button>
             <Button type="submit" className="h-11 w-full bg-btn-primary hover:bg-indigo-600">

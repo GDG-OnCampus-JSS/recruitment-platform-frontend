@@ -45,7 +45,7 @@ const OTPInput: React.FC<OTPInputProps> = ({
       </InputOTP>
       {validationError && (
         <>
-          <div className="flex items-center gap-x-1 text-sm text-destructive mt-1">
+          <div className="mt-1 flex items-center gap-x-1 text-sm text-destructive">
             <AlertCircle className="h-4 w-4" />
             {validationError}
           </div>

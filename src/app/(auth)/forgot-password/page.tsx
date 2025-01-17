@@ -119,7 +119,7 @@ export default function ForgotPasswordPage() {
             ) : (
               <PhoneStep initialValue={formData.phone} onSubmit={handleEmailSubmit} />
             )}
-            <Divider className='my-4' text="or" />
+            <Divider className="my-4" text="or" />
             <div className="grid gap-2">
               <Button
                 variant="outline"

@@ -40,7 +40,7 @@ export default function RegisterPage() {
       console.log('Final Registration Data:', {
         ...registrationData,
       });
-      router.push('/onboarding'); 
+      router.push('/onboarding');
     }
   };
 
@@ -106,7 +106,7 @@ export default function RegisterPage() {
 
         {!isVerifying && (
           <>
-            <Divider className='my-4' text="or" />
+            <Divider className="my-4" text="or" />
             <div className="grid gap-2">
               <Button
                 variant="outline"

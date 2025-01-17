@@ -73,7 +73,7 @@ export const PersonalInformation = ({ initialValues, onSubmit }: Props) => {
               name="phone"
               label="Phone Number"
               placeholder="Enter your phone number"
-              className='pl-14'
+              className="pl-14"
               isAsterisk
             />
             <div className="absolute left-3 top-[36px] cursor-not-allowed text-sm">
