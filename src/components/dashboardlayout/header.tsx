@@ -8,16 +8,16 @@ import { usePathname } from 'next/navigation';
 import { useState } from 'react';
 import Image from 'next/image';
 import Dropdown from '../common/selectComp';
-import { useAuth } from '@/context/authContext';
+import NotificationButton from './notification';
+import { useAuthStore } from '@/context/authContext';
+import { LogoutResponse } from '@/types/types';
+import { options, navItems } from '@/types/options';
 
-interface LogoutResponse {
-  message: string;
-}
 
 export const Header = () => {
   const router = useRouter();
   const pathname = usePathname();
-  const { user, logout } = useAuth();
+  const { user, logout } = useAuthStore();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [selectedOption, setSelectedOption] = useState<string | null>(null);
 
@@ -39,18 +39,6 @@ export const Header = () => {
     }
   };
 
-  const options = [
-    { label: 'Profile', value: 'profile' },
-    { label: 'Logout', value: 'logout' },
-  ];
-
-  const navItems = [
-    { href: '/', label: 'Home', icon: Home },
-    { href: '/dashboard', label: 'Dashboard', icon: LayoutGrid },
-    { href: '/website', label: 'Website', icon: Globe },
-    { href: '/results', label: 'Results', icon: Medal },
-  ];
-
   return (
     <header className="fixed left-0 top-0 z-10 w-full border-b bg-[#FFFFFF]">
       <div className="mx-auto flex h-[66px] w-full items-center justify-between px-4 sm:px-20">
@@ -59,7 +47,13 @@ export const Header = () => {
           <Link href="/">
             <div className="flex h-[32px] w-[187px] items-center gap-1 md:w-[127px]">
               <div className="h-[32px] w-[32px]">
-                <Image src="/logo.jpeg" alt="Logo" width={26} height={26} className="h-full w-full object-contain" />
+                <Image
+                  src="/logo.jpeg"
+                  alt="Logo"
+                  width={26}
+                  height={26}
+                  className="h-full w-full object-contain"
+                />
               </div>
               <span className="font-sans text-sm font-normal leading-4">GDG JSSATEN</span>
             </div>
@@ -92,12 +86,7 @@ export const Header = () => {
             </span>
           </Button>
 
-          <Button
-            variant="ghost"
-            className="h-[36px] w-[36px] rounded-[37px] border border-[#DDE3FF] bg-[#FFFFFF] p-[8px]"
-          >
-            <BellIcon className="h-5 w-5" />
-          </Button>
+          <NotificationButton />
 
           <div className="hidden sm:block">
             <Button
