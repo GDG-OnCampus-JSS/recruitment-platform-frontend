@@ -2,31 +2,21 @@ import React, { useState } from 'react';
 import { Bell } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
+import { Notification } from '@/types/types';
 
-type Notification = {
-  id: string;
-  message: string;
-  timestamp: string;
-  isRead: boolean;
-  type: 'recruitment' | 'general' | 'event';
-};
 
 const NotificationButton = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [notifications, setNotifications] = useState<Notification[]>([
     {
       id: '1',
-      message:
-        'Congratulations! You are shortlisted for interview. Visit dashboard for more information',
-      timestamp: '2024-01-20T10:00:00Z',
+      message:'Congratulations! You are shortlisted for interview. Visit dashboard for more information',
       isRead: false,
       type: 'recruitment',
     },
     {
       id: '2',
-      message:
-        'Congratulations! You are shortlisted for interview. Visit dashboard for more information',
-      timestamp: '2024-01-19T15:30:00Z',
+      message:'Congratulations! You are shortlisted for interview. Visit dashboard for more information',
       isRead: false,
       type: 'recruitment',
     },
@@ -41,11 +31,6 @@ const NotificationButton = () => {
       ),
     );
   };
-
-  //   const formatTimestamp = (timestamp: string) => {
-  //     const date = new Date(timestamp);
-  //     return date.toLocaleDateString();
-  //   };
 
   return (
     <div className="relative">
@@ -88,9 +73,6 @@ const NotificationButton = () => {
                       <p className={`text-sm ${!notification.isRead ? 'font-medium' : ''}`}>
                         {notification.message}
                       </p>
-                      {/* <p className="mt-1 text-xs text-gray-500">
-                        {formatTimestamp(notification.timestamp)}
-                      </p> */}
                     </div>
                   </div>
                 ))

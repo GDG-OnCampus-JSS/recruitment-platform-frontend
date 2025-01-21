@@ -5,33 +5,9 @@ import Link from 'next/link';
 import { useAuth } from '@/context/authContext';
 import { ReactElement } from 'react';
 import { useRouter } from 'next/navigation';
-import {
-  Dribbble,
-  Linkedin,
-  Github,
-  Palette,
-  Mail,
-  Phone,
-  GraduationCap,
-  Pencil,
-} from 'lucide-react';
+import {Dribbble,Linkedin,Github, Palette,Mail,Phone,GraduationCap,Pencil,} from 'lucide-react';
 import { SOCIAL_PLATFORMS, reqFields } from '@/types/options';
 import { mockUser } from '@/types/options';
-
-// const mockUser = {
-//   id: 'dev-123',
-//   name: 'Developer User',
-//   email: 'developer@example.com',
-//   phone: '+91 9876543210',
-//   admissionNumber: '23cseds999',
-//   domain: 'Design',
-//   year: '1st year',
-//   socialLinks: [
-//     { platform: 'Dribbble', url: 'https://dribbble.com/profile', icon: 'dribbble' },
-//     { platform: 'LinkedIn', url: 'https://linkedin.com/in/profile', icon: 'linkedin' },
-//     { platform: 'GitHub', url: 'https://github.com/profile', icon: 'github' },
-//   ],
-// };
 
 const SocialLink = ({
   platform,

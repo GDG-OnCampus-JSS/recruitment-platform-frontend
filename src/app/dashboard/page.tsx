@@ -45,16 +45,6 @@ export const steps = [
   },
 ];
 
-// const mockUser = {
-//   id: 'dev-123',
-//   name: 'Developer User',
-//   email: 'developer@example.com',
-//   phone: '+91 9876543210',
-//   admissionNumber: '23cseds999',
-//   domain: 'Design',
-//   year: '1st year',
-// };
-
 export default function DashboardPage() {
   const { user, loading } = useAuth();
   const displayUser = user || mockUser;

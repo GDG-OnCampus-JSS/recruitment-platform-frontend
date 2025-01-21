@@ -25,7 +25,7 @@ const PasswordModal = ({ isOpen, onOpenChange, onSave }: PasswordModalProps) => 
     }
     onSave(passwordForm);
     onOpenChange(false);
-    // Reset form
+    
     setPasswordForm({
       oldPassword: '',
       newPassword: '',

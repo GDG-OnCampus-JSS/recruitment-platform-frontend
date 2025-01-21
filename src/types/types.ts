@@ -91,3 +91,9 @@ export interface SocialLink {
   name: string;
   link: string;
 }
+export type Notification = {
+  id: string;
+  message: string;
+  isRead: boolean;
+  type: 'recruitment' | 'general' | 'event';
+};
