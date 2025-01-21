@@ -80,8 +80,8 @@ export default function ForgotPasswordPage() {
   const getStepDescription = () => {
     switch (step) {
       case 0:
-        return method === 'email' 
-          ? 'Enter your email to reset password' 
+        return method === 'email'
+          ? 'Enter your email to reset password'
           : 'Enter your phone number to reset password';
       case 1:
         return `Enter the verification code sent to your ${method}`;
@@ -114,15 +114,9 @@ export default function ForgotPasswordPage() {
         {step === 0 && (
           <div>
             {method === 'email' ? (
-              <EmailStep
-                initialValue={formData.email || ''}
-                onSubmit={handleEmailSubmit}
-              />
+              <EmailStep initialValue={formData.email || ''} onSubmit={handleEmailSubmit} />
             ) : (
-              <PhoneStep
-                initialValue={formData.phone}
-                onSubmit={handleEmailSubmit}
-              />
+              <PhoneStep initialValue={formData.phone} onSubmit={handleEmailSubmit} />
             )}
             <div className="relative my-4 flex items-center justify-center">
               <div className="absolute inset-0 flex items-center">
@@ -139,7 +133,13 @@ export default function ForgotPasswordPage() {
                 className="h-11 w-full font-light"
                 onClick={() => window.open('/api/auth/google', '_self')}
               >
-                <Image src="/icons/google.svg" height={20} width={20} alt="Google" className="mr-2" />
+                <Image
+                  src="/icons/google.svg"
+                  height={20}
+                  width={20}
+                  alt="Google"
+                  className="mr-2"
+                />
                 Continue with Google
               </Button>
               <Button

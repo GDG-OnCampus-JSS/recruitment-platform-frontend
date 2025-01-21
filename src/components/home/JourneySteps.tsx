@@ -20,7 +20,9 @@ const JourneyStep = ({ title, description, duration, accentColor, iconSrc, class
         className,
       )}
     >
-      <p className="flex-1 text-muted-foreground md:text-inherit text-sm md:text-normal">{duration}</p>
+      <p className="md:text-normal flex-1 text-sm text-muted-foreground md:text-inherit">
+        {duration}
+      </p>
 
       <div className="flex flex-1 items-center gap-x-3">
         <div className={cn(`grid size-12 place-content-center rounded bg-${accentColor}-20`)}>

@@ -39,7 +39,7 @@ export default function Home() {
           >
             <div>
               <Image src="/icons/cursor-1.svg" height={30} width={30} alt="cursor" />
-              <div className="ml-8 mt-1 font-mono rounded-[4px] bg-blue-100/10 px-2 py-1 text-xs font-normal text-neutral-800 backdrop-blur">
+              <div className="ml-8 mt-1 rounded-[4px] bg-blue-100/10 px-2 py-1 font-mono text-xs font-normal text-neutral-800 backdrop-blur">
                 Register Now! 🥳
               </div>
             </div>
@@ -52,7 +52,7 @@ export default function Home() {
         <h1 className="mb-8 text-center text-4xl">
           Our <span className="font-playfair font-medium italic">domains</span>
         </h1>
-        <div className="mx-auto px-6 flex max-w-[71rem] flex-wrap justify-center gap-5">
+        <div className="mx-auto flex max-w-[71rem] flex-wrap justify-center gap-5 px-6">
           {cardData.map((card, i) => (
             <Card
               key={i}
@@ -93,7 +93,7 @@ export default function Home() {
       </section>
 
       <section className="my-[3.12rem] md:px-8">
-        <div className="animate-gradient-1 mx-auto grid max-w-[71rem] place-content-center bg-gradient-1 bg-[length:200%_200%] p-10 text-center md:rounded-2xl">
+        <div className="mx-auto grid max-w-[71rem] animate-gradient-1 place-content-center bg-gradient-1 bg-[length:200%_200%] p-10 text-center md:rounded-2xl">
           <h1 className="text-3xl font-medium">Your chance to be a part of extraordinary team!</h1>
           <p className="mt-4 max-w-[56.4rem] text-secondary-foreground">
             Join the recruitment drive at GDG and become part of a dynamic community where you can
@@ -116,7 +116,7 @@ export default function Home() {
             >
               <div>
                 <Image src="/icons/cursor-1.svg" height={30} width={30} alt="cursor" />
-                <div className="ml-8 mt-1 rounded-[4px] bg-blue-100/30 font-mono px-2 py-1 text-xs font-normal text-neutral-800 backdrop-blur">
+                <div className="ml-8 mt-1 rounded-[4px] bg-blue-100/30 px-2 py-1 font-mono text-xs font-normal text-neutral-800 backdrop-blur">
                   Register Now! 🥳
                 </div>
               </div>

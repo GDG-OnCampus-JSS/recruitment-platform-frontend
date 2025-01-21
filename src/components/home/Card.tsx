@@ -1,4 +1,4 @@
-"use client"
+'use client';
 
 import { cn } from '@/lib/utils';
 import Image from 'next/image';
@@ -28,12 +28,12 @@ export const Card = ({
         'relative max-w-[22.5rem] overflow-hidden rounded-[1rem] border border-domain-card p-[1.5rem]',
         className,
       )}
-      whileTap={{scale: 0.95}}
+      whileTap={{ scale: 0.95 }}
       whileHover={{
-        borderRadius: ["5%", "10%", "5%"],
+        borderRadius: ['5%', '10%', '5%'],
         transition: {
           duration: 0.5,
-        }
+        },
       }}
     >
       <Rays className="pointer-events-none absolute" />

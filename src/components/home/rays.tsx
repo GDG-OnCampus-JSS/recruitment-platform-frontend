@@ -1,11 +1,11 @@
-"use client";
-import { motion } from "framer-motion";
+'use client';
+import { motion } from 'framer-motion';
 
 interface Props {
   className?: string;
 }
 
-export const Rays = ({className}: Props) => {
+export const Rays = ({ className }: Props) => {
   return (
     <motion.svg
       width="360"
@@ -17,9 +17,9 @@ export const Rays = ({className}: Props) => {
       transition={{
         duration: 20,
         repeat: Infinity,
-        ease: "linear",
+        ease: 'linear',
       }}
-      style={{ transformOrigin: "center" }}
+      style={{ transformOrigin: 'center' }}
       className={className}
     >
       <g opacity="0.12">
@@ -135,14 +135,7 @@ export const Rays = ({className}: Props) => {
           stroke="white"
           strokeWidth="0.8"
         />
-        <line
-          x1="-356"
-          y1="821.202"
-          x2="662.51"
-          y2="31.1652"
-          stroke="white"
-          strokeWidth="0.8"
-        />
+        <line x1="-356" y1="821.202" x2="662.51" y2="31.1652" stroke="white" strokeWidth="0.8" />
         <line
           x1="-343.351"
           y1="837.012"
@@ -327,14 +320,7 @@ export const Rays = ({className}: Props) => {
           stroke="white"
           strokeWidth="0.8"
         />
-        <line
-          x1="52.2827"
-          y1="1063"
-          x2="253.927"
-          y2="-210.127"
-          stroke="white"
-          strokeWidth="0.8"
-        />
+        <line x1="52.2827" y1="1063" x2="253.927" y2="-210.127" stroke="white" strokeWidth="0.8" />
         <line
           x1="72.3258"
           y1="1065.87"
@@ -367,14 +353,7 @@ export const Rays = ({className}: Props) => {
           stroke="white"
           strokeWidth="0.8"
         />
-        <line
-          x1="153.1"
-          y1="1071"
-          x2="153.1"
-          y2="-218"
-          stroke="white"
-          strokeWidth="0.8"
-        />
+        <line x1="153.1" y1="1071" x2="153.1" y2="-218" stroke="white" strokeWidth="0.8" />
         <line
           x1="173.344"
           y1="1070.69"
@@ -399,14 +378,7 @@ export const Rays = ({className}: Props) => {
           stroke="white"
           strokeWidth="0.8"
         />
-        <line
-          x1="233.88"
-          y1="1065.97"
-          x2="72.326"
-          y2="-212.868"
-          stroke="white"
-          strokeWidth="0.8"
-        />
+        <line x1="233.88" y1="1065.97" x2="72.326" y2="-212.868" stroke="white" strokeWidth="0.8" />
         <line
           x1="253.927"
           y1="1063.13"
@@ -535,14 +507,7 @@ export const Rays = ({className}: Props) => {
           stroke="white"
           strokeWidth="0.8"
         />
-        <line
-          x1="548.202"
-          y1="936"
-          x2="-241.835"
-          y2="-82.5098"
-          stroke="white"
-          strokeWidth="0.8"
-        />
+        <line x1="548.202" y1="936" x2="-241.835" y2="-82.5098" stroke="white" strokeWidth="0.8" />
         <line
           x1="564.012"
           y1="923.351"
@@ -599,14 +564,7 @@ export const Rays = ({className}: Props) => {
           stroke="white"
           strokeWidth="0.8"
         />
-        <line
-          x1="662.51"
-          y1="821.835"
-          x2="-356"
-          y2="31.7973"
-          stroke="white"
-          strokeWidth="0.8"
-        />
+        <line x1="662.51" y1="821.835" x2="-356" y2="31.7973" stroke="white" strokeWidth="0.8" />
         <line
           x1="674.677"
           y1="805.652"
@@ -831,14 +789,7 @@ export const Rays = ({className}: Props) => {
           stroke="white"
           strokeWidth="0.8"
         />
-        <line
-          x1="663"
-          y1="31.7975"
-          x2="-355.51"
-          y2="821.835"
-          stroke="white"
-          strokeWidth="0.8"
-        />
+        <line x1="663" y1="31.7975" x2="-355.51" y2="821.835" stroke="white" strokeWidth="0.8" />
         <line
           x1="650.351"
           y1="15.9889"
@@ -895,14 +846,7 @@ export const Rays = ({className}: Props) => {
           stroke="white"
           strokeWidth="0.8"
         />
-        <line
-          x1="548.835"
-          y1="-82.5097"
-          x2="-241.203"
-          y2="936"
-          stroke="white"
-          strokeWidth="0.8"
-        />
+        <line x1="548.835" y1="-82.5097" x2="-241.203" y2="936" stroke="white" strokeWidth="0.8" />
         <line
           x1="532.651"
           y1="-94.676"
@@ -1063,14 +1007,7 @@ export const Rays = ({className}: Props) => {
           stroke="white"
           strokeWidth="0.8"
         />
-        <line
-          x1="153.9"
-          y1="-218"
-          x2="153.9"
-          y2="1071"
-          stroke="white"
-          strokeWidth="0.8"
-        />
+        <line x1="153.9" y1="-218" x2="153.9" y2="1071" stroke="white" strokeWidth="0.8" />
         <line
           x1="133.656"
           y1="-217.694"
@@ -1079,14 +1016,7 @@ export const Rays = ({className}: Props) => {
           stroke="white"
           strokeWidth="0.8"
         />
-        <line
-          x1="113.43"
-          y1="-216.754"
-          x2="194.367"
-          y2="1069.7"
-          stroke="white"
-          strokeWidth="0.8"
-        />
+        <line x1="113.43" y1="-216.754" x2="194.367" y2="1069.7" stroke="white" strokeWidth="0.8" />
         <line
           x1="93.2454"
           y1="-215.177"
@@ -1103,14 +1033,7 @@ export const Rays = ({className}: Props) => {
           stroke="white"
           strokeWidth="0.8"
         />
-        <line
-          x1="53.0728"
-          y1="-210.128"
-          x2="254.717"
-          y2="1063"
-          stroke="white"
-          strokeWidth="0.8"
-        />
+        <line x1="53.0728" y1="-210.128" x2="254.717" y2="1063" stroke="white" strokeWidth="0.8" />
         <line
           x1="33.1253"
           y1="-206.659"
@@ -1231,14 +1154,7 @@ export const Rays = ({className}: Props) => {
           stroke="white"
           strokeWidth="0.8"
         />
-        <line
-          x1="-241.202"
-          y1="-83"
-          x2="548.835"
-          y2="935.51"
-          stroke="white"
-          strokeWidth="0.8"
-        />
+        <line x1="-241.202" y1="-83" x2="548.835" y2="935.51" stroke="white" strokeWidth="0.8" />
         <line
           x1="-257.012"
           y1="-70.3507"
@@ -1295,14 +1211,7 @@ export const Rays = ({className}: Props) => {
           stroke="white"
           strokeWidth="0.8"
         />
-        <line
-          x1="-355.51"
-          y1="31.1654"
-          x2="663"
-          y2="821.203"
-          stroke="white"
-          strokeWidth="0.8"
-        />
+        <line x1="-355.51" y1="31.1654" x2="663" y2="821.203" stroke="white" strokeWidth="0.8" />
         <line
           x1="-367.676"
           y1="47.3483"

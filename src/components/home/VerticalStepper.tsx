@@ -42,13 +42,18 @@ export default function VerticalStepper({
               {isCompleted ? (
                 <Check className="size-3" style={{ color: `var(--${color.tick})` }} />
               ) : (
-                <span className={cn('h-2 w-2 rounded-full animate-pulse', isCurrent && `bg-${color.border}`)} />
+                <span
+                  className={cn(
+                    'h-2 w-2 animate-pulse rounded-full',
+                    isCurrent && `bg-${color.border}`,
+                  )}
+                />
               )}
             </div>
             {index !== totalSteps - 1 && (
               <div
                 className={cn(
-                  'h-[5.1rem] md:h-[3.98rem] w-px bg-muted transition-colors duration-200',
+                  'h-[5.1rem] w-px bg-muted transition-colors duration-200 md:h-[3.98rem]',
                   isCompleted && `bg-${color.background}`,
                 )}
               />

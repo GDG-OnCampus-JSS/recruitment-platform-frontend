@@ -16,8 +16,8 @@ const MotionButton = motion(ShadCnButton);
 const Button = ({ children, className, href }: ButtonProps) => {
   return (
     <MotionButton
-      whileHover={{borderRadius: "12px"}}
-      whileTap={{scale: 0.95}}
+      whileHover={{ borderRadius: '12px' }}
+      whileTap={{ scale: 0.95 }}
       asChild
       className={cn(
         'mx-auto mt-8 h-11 w-48 border border-domain-card bg-btn-primary hover:bg-indigo-600',
