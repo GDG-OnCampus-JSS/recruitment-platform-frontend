@@ -2,7 +2,7 @@
 import React from 'react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
-import { BellIcon, Hand, User, Home, LayoutGrid, Globe, Medal, Menu, Import } from 'lucide-react';
+import {  Hand,  Menu } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { usePathname } from 'next/navigation';
 import { useState } from 'react';
