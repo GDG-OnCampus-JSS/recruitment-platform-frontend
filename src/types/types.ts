@@ -63,10 +63,7 @@ export interface SocialPlatform {
   platform: string;
   icon: ReactElement;
 }
-export interface SocialPlatform {
-  platform: string;
-  icon: ReactElement;
-}
+
 export interface PasswordModalProps {
   isOpen: boolean;
   onOpenChange: (open: boolean) => void;
@@ -77,4 +74,20 @@ export interface PasswordFormData {
   oldPassword: string;
   newPassword: string;
   confirmPassword: string;
+}
+export interface FormData {
+  name: string;
+  email: string;
+  phone: string;
+  admissionNumber: string;
+  domain: string;
+  year: string;
+  photo: string;
+  resume: string;
+  [key: string]: string;
+}
+export interface SocialLink {
+  id: string;
+  name: string;
+  link: string;
 }

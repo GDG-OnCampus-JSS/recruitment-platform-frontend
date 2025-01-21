@@ -1,67 +1,76 @@
-import React from 'react'
-import { Button } from "@/components/ui/button";
-import Image from 'next/image'
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import React from 'react';
+import { Button } from '@/components/ui/button';
+import Image from 'next/image';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import Link from 'next/link';
 
 function task() {
   return (
-    <div className="min-h-screen  p-6 space-y-6 pt-12 pb-[200px]">
-       <div className="w-full bg-white ">
-        <div className="max-w-[1120px] mx-auto py-4 px-6 flex justify-between items-center">
+    <div className="min-h-screen space-y-6 p-6 pb-[200px] pt-12">
+      <div className="w-full bg-white">
+        <div className="mx-auto flex max-w-[1120px] items-center justify-between px-6 py-4">
           <Link href="/dashboard">
-          <Button variant="outline" className="border  rounded-3xl px-4 py-2 flex items-center gap-2 font-sans font-normal text-[16px] leading-5 text=[#2F3B00]">
+            <Button
+              variant="outline"
+              className="text=[#2F3B00] flex items-center gap-2 rounded-3xl border px-4 py-2 font-sans text-[16px] font-normal leading-5"
+            >
               <span>←</span> Back
             </Button>
           </Link>
-          <h1 className="font-sans text-xl font-medium absolute left-[80%] transform -translate-x-1/2">Tasks</h1>
+          <h1 className="absolute left-[80%] -translate-x-1/2 transform font-sans text-xl font-medium">
+            Tasks
+          </h1>
           <div className="w-[82px]" />
         </div>
       </div>
-      <h2 className='font-sans font-bold text-[28px] leading-[33.96px] text-[#454545] pb-2'>Do any one of the following</h2>
+      <h2 className="pb-2 font-sans text-[28px] font-bold leading-[33.96px] text-[#454545]">
+        Do any one of the following
+      </h2>
 
-
-      <div className="max-w-[1120px] mx-auto space-y-8">
-        
+      <div className="mx-auto max-w-[1120px] space-y-8">
         <div className="space-y-6">
-          <h3 className="font-sans font-medium text-[28px] leading-[33.96px]">Frontend (Clone)</h3>
-          
+          <h3 className="font-sans text-[28px] font-medium leading-[33.96px]">Frontend (Clone)</h3>
+
           <div className="space-y-4 font-sans">
-          <div className='flex flex-col md:flex-row gap-4 md:gap-0'>
-            <div className="font-normal text-[16px] leading-[25.6px] text-[#353535] pr-4 md:h-[125px]">
-              <p>This task will assess your abilities of developing UI.</p>
-              <p>
-                You need to navigate to{' '}
-                <Link href="https://slack.com/intl/en-in" className="text-[#6B83FF] underline" target="_blank">
-                  https://slack.com/intl/en-in
-                </Link>
-                {' '}and clone the UI of this page using HTML, CSS and JS.
-              </p>
-              <p>
-                Your main focus for the task would be on frontend, and it's fine if you don't
-                use any backend or mock the backend data using JSON.
-              </p>
-            </div>
-            
-            <Image
-              src="/slack-screenshot.png"
-              alt="Slack Interface"
-              width={400}
-              height={200}
-              className="rounded-lg shadow-md w-full"
-            />
+            <div className="flex flex-col gap-4 md:flex-row md:gap-0">
+              <div className="pr-4 text-[16px] font-normal leading-[25.6px] text-[#353535] md:h-[125px]">
+                <p>This task will assess your abilities of developing UI.</p>
+                <p>
+                  You need to navigate to{' '}
+                  <Link
+                    href="https://slack.com/intl/en-in"
+                    className="text-[#6B83FF] underline"
+                    target="_blank"
+                  >
+                    https://slack.com/intl/en-in
+                  </Link>{' '}
+                  and clone the UI of this page using HTML, CSS and JS.
+                </p>
+                <p>
+                  Your main focus for the task would be on frontend, and it's fine if you don't use
+                  any backend or mock the backend data using JSON.
+                </p>
+              </div>
+
+              <Image
+                src="/slack-screenshot.png"
+                alt="Slack Interface"
+                width={400}
+                height={200}
+                className="w-full rounded-lg shadow-md"
+              />
             </div>
           </div>
 
-            <div className='flex flex-col md:flex-row gap-4'>
-            <Card className="bg-custom-card-gradient  w-full md:w-[550px]">
+          <div className="flex flex-col gap-4 md:flex-row">
+            <Card className="w-full bg-custom-card-gradient md:w-[550px]">
               <CardHeader>
-                <CardTitle className="text-[#6B83FF] text-[20px] leading-[24.6px] font-bold">
+                <CardTitle className="text-[20px] font-bold leading-[24.6px] text-[#6B83FF]">
                   Judgement Criteria
                 </CardTitle>
               </CardHeader>
               <CardContent className="space-y-2">
-                <ul className="list-disc pl-4 text-sm text-[#353535] space-y-2">
+                <ul className="list-disc space-y-2 pl-4 text-sm text-[#353535]">
                   <li>Similarities on your developed page with the existing one</li>
                   <li>Responsiveness of the layout</li>
                   <li>Usage of JavaScript (if familiar) for interactivity</li>
@@ -70,102 +79,110 @@ function task() {
               </CardContent>
             </Card>
 
-            <Card className="bg-custom-card-gradient w-full md:w-[550px]">
+            <Card className="w-full bg-custom-card-gradient md:w-[550px]">
               <CardHeader>
-                <CardTitle className="text-[#6B83FF] text-[20px] leading-[24.6px] font-bold">
+                <CardTitle className="text-[20px] font-bold leading-[24.6px] text-[#6B83FF]">
                   Brownie Points
                 </CardTitle>
               </CardHeader>
               <CardContent className="space-y-2">
-                <ul className="list-disc pl-4 text-sm text-[#353535] space-y-2">
+                <ul className="list-disc space-y-2 pl-4 text-sm text-[#353535]">
                   <li>Hosted demo would give some extra points</li>
                   <li>Use of Vue.JS or React.JS</li>
                   <li>You can use UI libraries like Bootstrap, Materialize etc</li>
                 </ul>
               </CardContent>
             </Card>
-            </div>
+          </div>
         </div>
 
         <div className="flex items-center justify-center py-6">
-          <div className="w-full h-[1px] bg-gray-200"></div>
-          <div className="bg-white px-8 text-[#7D92FE] font-bold text-base">OR</div>
-          <div className="w-full h-[1px] bg-gray-200"></div>
+          <div className="h-[1px] w-full bg-gray-200"></div>
+          <div className="bg-white px-8 text-base font-bold text-[#7D92FE]">OR</div>
+          <div className="h-[1px] w-full bg-gray-200"></div>
         </div>
 
-      
         <div className="space-y-6">
-          <h3 className="font-sans font-medium text-[28px] leading-[33.96px]">Backend</h3>
+          <h3 className="font-sans text-[28px] font-medium leading-[33.96px]">Backend</h3>
 
           <div className="space-y-6">
-            <div className='flex flex-col md:flex-row gap-4'>
-            <div className='w-full md:w-[550px] '>
-            <ol className="list-decimal pl-4 text-[16px] font-sans font-normal leading-[25.6px] text-[#353535] md:w-[500px] md:h-[150px] ">
-              <li>You have to implement a simple CRUD operation</li>
-              <li>If you are implementing the authentication (Login & signup APIs) will be marked as additional</li>
-              <li>Use database to save the details</li>
-              <li>You can test your APIs in the postman</li>
-              <li>Choose a reliable framework for the task</li>
-            </ol>
+            <div className="flex flex-col gap-4 md:flex-row">
+              <div className="w-full md:w-[550px]">
+                <ol className="list-decimal pl-4 font-sans text-[16px] font-normal leading-[25.6px] text-[#353535] md:h-[150px] md:w-[500px]">
+                  <li>You have to implement a simple CRUD operation</li>
+                  <li>
+                    If you are implementing the authentication (Login & signup APIs) will be marked
+                    as additional
+                  </li>
+                  <li>Use database to save the details</li>
+                  <li>You can test your APIs in the postman</li>
+                  <li>Choose a reliable framework for the task</li>
+                </ol>
 
-            <p className="text-[16px] leading-[19.6px] font-sans font-normal text-[#454545] italic pt-2">
-              You can use a JSON file if you don't want to use a database!
-            </p>
+                <p className="pt-2 font-sans text-[16px] font-normal italic leading-[19.6px] text-[#454545]">
+                  You can use a JSON file if you don't want to use a database!
+                </p>
+              </div>
+
+              <div className="mb-6 w-full font-sans text-[16px] font-normal leading-[25.6px] md:h-[125px] md:w-[550px]">
+                <h3 className="mb-3 text-[#6B83FF]">
+                  Some key points to keep in mind while writing code
+                </h3>
+                <ul className="list-disc space-y-2 pl-4 text-[#353535]">
+                  <li>Try to write clean code and have proper comments</li>
+                  <li>
+                    Split the Code into folders (like controllers, routers, etc) to keep the code
+                    modular
+                  </li>
+                  <li>Use appropriate variable names don't use general names</li>
+                </ul>
+              </div>
             </div>
 
-            <div className="mb-6 font-sans font-normal text-[16px] leading-[25.6px] w-full md:w-[550px] md:h-[125px]">
-              <h3 className="text-[#6B83FF] mb-3">Some key points to keep in mind while writing code</h3>
-              <ul className="list-disc pl-4 text-[#353535] space-y-2">
-                <li>Try to write clean code and have proper comments</li>
-                <li>Split the Code into folders (like controllers, routers, etc) to keep the code modular</li>
-                <li>Use appropriate variable names don't use general names</li>
-              </ul>
-            </div>
-            </div>
-
-            <div className="bg-gray-50 font-sans font-normal text-[16px] leading-[25.6px] p-4 rounded">
+            <div className="rounded bg-gray-50 p-4 font-sans text-[16px] font-normal leading-[25.6px]">
               <h3 className="mb-2 text-[#6B83FF]">Where to Submit?</h3>
               <p className="text-[#353535]">
-                Create a GitHub Repository and push the code to that repository and submit the link of the repository.
+                Create a GitHub Repository and push the code to that repository and submit the link
+                of the repository.
               </p>
             </div>
 
-          <div className='flex flex-col md:flex-row gap-4'>
-            <Card className="bg-custom-card-gradient  w-full md:w-[550px]">
-              <CardHeader>
-                <CardTitle className="text-[#6B83FF] text-[20px] leading-[24.6px] font-bold">
-                  Judgement Criteria
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-2">
-                <ul className="list-disc pl-4 text-sm text-[#353535] space-y-2">
-                  <li>Similarities on your developed page with the existing one.</li>
-                  <li>Responsiveness of the layout.</li>
-                  <li>Usage of JavaScript (if familiar) for interactivity.</li>
-                  <li>Code Quality</li>
-                </ul>
-              </CardContent>
-            </Card>
+            <div className="flex flex-col gap-4 md:flex-row">
+              <Card className="w-full bg-custom-card-gradient md:w-[550px]">
+                <CardHeader>
+                  <CardTitle className="text-[20px] font-bold leading-[24.6px] text-[#6B83FF]">
+                    Judgement Criteria
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-2">
+                  <ul className="list-disc space-y-2 pl-4 text-sm text-[#353535]">
+                    <li>Similarities on your developed page with the existing one.</li>
+                    <li>Responsiveness of the layout.</li>
+                    <li>Usage of JavaScript (if familiar) for interactivity.</li>
+                    <li>Code Quality</li>
+                  </ul>
+                </CardContent>
+              </Card>
 
-            <Card className="bg-custom-card-gradient  w-full md:w-[550px]">
-              <CardHeader>
-                <CardTitle className="text-[#6B83FF] text-[20px] leading-[24.6px] font-bold">
-                  Brownie Points
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-2">
-                <ul className="list-disc pl-4 text-sm text-[#353535] space-y-2">
-                  <li>Hosted demo would give some extra points.</li>
-                  <li>Use of VueJS or ReactJS.</li>
-                  <li>You can use UI libraries like Bootstrap, Materialize etc.</li>
-                </ul>
-              </CardContent>
-            </Card>
+              <Card className="w-full bg-custom-card-gradient md:w-[550px]">
+                <CardHeader>
+                  <CardTitle className="text-[20px] font-bold leading-[24.6px] text-[#6B83FF]">
+                    Brownie Points
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-2">
+                  <ul className="list-disc space-y-2 pl-4 text-sm text-[#353535]">
+                    <li>Hosted demo would give some extra points.</li>
+                    <li>Use of VueJS or ReactJS.</li>
+                    <li>You can use UI libraries like Bootstrap, Materialize etc.</li>
+                  </ul>
+                </CardContent>
+              </Card>
             </div>
           </div>
         </div>
-      </div> 
+      </div>
     </div>
-  )
+  );
 }
-export default task
+export default task;
