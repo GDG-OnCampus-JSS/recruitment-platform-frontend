@@ -5,7 +5,16 @@ import Link from 'next/link';
 import { useAuth } from '@/context/authContext';
 import { ReactElement } from 'react';
 import { useRouter } from 'next/navigation';
-import {Dribbble,Linkedin,Github, Palette,Mail,Phone,GraduationCap,Pencil,} from 'lucide-react';
+import {
+  Dribbble,
+  Linkedin,
+  Github,
+  Palette,
+  Mail,
+  Phone,
+  GraduationCap,
+  Pencil,
+} from 'lucide-react';
 import { SOCIAL_PLATFORMS, reqFields } from '@/types/options';
 import { mockUser } from '@/types/options';
 

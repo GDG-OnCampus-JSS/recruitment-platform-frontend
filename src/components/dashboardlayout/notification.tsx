@@ -4,19 +4,20 @@ import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Notification } from '@/types/types';
 
-
 const NotificationButton = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [notifications, setNotifications] = useState<Notification[]>([
     {
       id: '1',
-      message:'Congratulations! You are shortlisted for interview. Visit dashboard for more information',
+      message:
+        'Congratulations! You are shortlisted for interview. Visit dashboard for more information',
       isRead: false,
       type: 'recruitment',
     },
     {
       id: '2',
-      message:'Congratulations! You are shortlisted for interview. Visit dashboard for more information',
+      message:
+        'Congratulations! You are shortlisted for interview. Visit dashboard for more information',
       isRead: false,
       type: 'recruitment',
     },
