@@ -1,140 +1,102 @@
-'use client';
-import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
-import { usePathname, useRouter } from 'next/navigation';
+"use client"
+import {create} from 'zustand'
+import axios from 'axios'
+import { usePathname, useRouter } from 'next/navigation'
+import { useEffect } from 'react'
+import { User,LoginResponse,AuthState } from '@/types/types'
 
-interface User {
-  id: string;
-  name: string;
-  email: string;
-  phone?: string;
-  admissionNumber?: string;
-  domain?: string;
-  year?: string;
-  photo?: string;
-  resume?: string;
-  socialLinks?: { platform: string; url: string }[];
-}
 
-interface AuthContextType {
-  user: User | null;
-  loading: boolean;
-  login: (email: string, password: string) => Promise<{ success: boolean; error?: string }>;
-  logout: () => Promise<void>;
-}
+const api = axios.create({
+  baseURL: process.env.API_URL,
+  withCredentials: true
+})
 
-export const AuthContext = createContext<AuthContextType | undefined>(undefined);
+export const useAuthStore = create<AuthState>((set) => ({
+  user: null,
+  loading: process.env.NODE_ENV === "development" ? false : true,
 
-interface AuthProviderProps {
-  children: ReactNode;
-}
+  setLoading: (loading: boolean) => set({ loading }),
 
-export function AuthProvider({ children }: AuthProviderProps) {
-  const [user, setUser] = useState<User | null>(null);
-  const [loading, setLoading] = useState<boolean>(true);
-  const router = useRouter();
-  const pathname = usePathname();
-
-  const fetchUserDetails = async (id: string) => {
+  fetchUserDetails: async (id: string) => {
     try {
-      const response = await fetch(`${process.env.API_URL}/users/${id}`, {
-        credentials: 'include',
-      });
-      if (response.ok) {
-        const userData = await response.json();
-        setUser(userData['Fetched user']);
-      }
+      const response = await api.get(`/users/${id}`)
+      set({ user: response.data['Fetched user'] })
     } catch (error) {
-      console.error('Failed to fetch user details:', error);
+      console.error('Failed to fetch user details:', error)
     }
-  };
+  },
 
-  const login = async (email: string, password: string) => {
+  checkAuth: async () => {
     try {
-      const response = await fetch(`${process.env.API_URL}/users/login`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        credentials: 'include',
-        body: JSON.stringify({ email, password }),
-      });
-
-      const data = await response.json();
-
-      if (!response.ok) {
-        throw new Error(data.message || 'Login failed');
-      }
-
       const token = document.cookie
         .split('; ')
         .find((row) => row.startsWith('accessToken='))
-        ?.split('=')[1];
+        ?.split('=')[1]
 
       if (token) {
-        const decoded = JSON.parse(atob(token.split('.')[1]));
-        const userId = decoded.id;
-
-        await fetchUserDetails(userId);
-        router.push('/dashboard');
+        const decoded = JSON.parse(atob(token.split('.')[1]))
+        await useAuthStore.getState().fetchUserDetails(decoded.id)
       }
-
-      return { success: true };
-    } catch (error: any) {
-      return { success: false, error: error.message };
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const logout = async () => {
-    try {
-      await fetch(`${process.env.API_URL}/users/logout`, {
-        method: 'POST',
-        credentials: 'include',
-      });
-      setUser(null);
-      router.push('/login');
     } catch (error) {
-      console.error('Logout failed:', error);
+      console.error('Auth check failed:', error)
+    } finally {
+      set({ loading: false })
     }
-  };
+  },
 
-  useEffect(() => {
-    const checkAuth = async () => {
-      try {
-        if (pathname === '/login') {
-          setLoading(false);
-          return;
-        }
-        const token = document.cookie
-          .split('; ')
-          .find((row) => row.startsWith('accessToken='))
-          ?.split('=')[1];
+  login: async (email: string, password: string) => {
+    try {
+      const response = await api.post('/users/login', { email, password })
+      
+      const cookies = document.cookie.split('; ')
+      const token = cookies.find(row => row.startsWith('accessToken='))?.split('=')[1]
 
-        if (token) {
-          const decoded = JSON.parse(atob(token.split('.')[1]));
-          const userId = decoded.id;
-          await fetchUserDetails(userId);
-        }
-      } catch (error) {
-        console.error('Auth check failed:', error);
-      } finally {
-        setLoading(false);
+      if (token) {
+        const decoded = JSON.parse(atob(token.split('.')[1]))
+        await useAuthStore.getState().fetchUserDetails(decoded.id)
       }
-    };
 
-    checkAuth();
-  }, [[pathname, router]]);
+      return { success: true }
+    } catch (error: any) {
+      return { 
+        success: false, 
+        error: error.response?.data?.message || 'Login failed'
+      }
+    } finally {
+      set({ loading: false })
+    }
+  },
 
-  return (
-    <AuthContext.Provider value={{ user, loading, login, logout }}>{children}</AuthContext.Provider>
-  );
-}
+  logout: async () => {
+    try {
+      await api.post('/users/logout')
+      set({ user: null })
+    } catch (error) {
+      console.error('Logout failed:', error)
+    }
+  }
+}))
 
 export const useAuth = () => {
-  const context = useContext(AuthContext);
-  if (!context) {
-    throw new Error('useAuth must be used within an AuthProvider');
-  }
-  return context;
+  const user = useAuthStore((state) => state.user);
+  const loading = useAuthStore((state) => state.loading);
+  return { user, loading };
 };
+
+export const useAuthCheck = () => {
+  const pathname = usePathname()
+  const router = useRouter()
+  const { checkAuth, setLoading } = useAuthStore()
+
+  useEffect(() => {
+    const handleAuthCheck = async () => {
+      if (pathname === '/login') {
+        setLoading(false)
+        return
+      }
+      await checkAuth()
+    }
+
+    handleAuthCheck()
+  }, [pathname, router, checkAuth, setLoading])
+}
