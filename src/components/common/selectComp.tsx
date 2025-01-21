@@ -1,10 +1,6 @@
 import React, { useState } from 'react';
 import { ChevronDown } from 'lucide-react';
-
-interface DropdownProps {
-  options: { label: string; value: string }[];
-  onSelect: (value: string) => void;
-}
+import { DropdownProps } from '@/types/types';
 
 const Dropdown: React.FC<DropdownProps> = ({ options, onSelect }) => {
   const [isOpen, setIsOpen] = useState(false);
