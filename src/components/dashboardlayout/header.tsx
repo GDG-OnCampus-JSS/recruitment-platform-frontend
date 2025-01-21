@@ -13,7 +13,6 @@ import { useAuthStore } from '@/context/authContext';
 import { LogoutResponse } from '@/types/types';
 import { options, navItems } from '@/types/options';
 
-
 export const Header = () => {
   const router = useRouter();
   const pathname = usePathname();
