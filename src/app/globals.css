@@ -30,11 +30,44 @@
     --gray-light: 0 0% 82%;
     --gray-medium: 228, 11%, 91%, 1;
 
+    /* domain card text colors */
+    --design: 36, 100%, 18%, 1;
+    --design-foreground: 36, 100%, 18%, 0.6;
+    --web: 0, 100%, 18%, 1;
+    --web-foreground: 0, 100%, 18%, 0.6;
+    --programming: 216, 100%, 18%, 1;
+    --programming-foreground: 216, 100%, 18%, 0.6;
+    --android: 149, 100%, 18%, 1;
+    --android-foreground: 149, 100%, 18%, 0.6;
+    --ml: 261, 100%, 18%, 1;
+    --ml-foreground: 259, 100%, 29%, 0.6;
+
+    /* cards backgrounds */
+    --design-card: linear-gradient(158deg, #fffcf7 21.18%, #fbce8a 85.58%);
+    --web-card: linear-gradient(158deg, #fef3f0 21.18%, #fba08a 85.58%);
+    --programming-card: linear-gradient(158deg, #f4fbfe 21.18%, #8ad1fb 85.58%);
+    --android-card: linear-gradient(158deg, #f0fef5 21.18%, #8afbb3 85.58%);
+    --ml-card: linear-gradient(158deg, #f3ecfe 21.18%, #aa8afb 85.58%);
+
+    /* border colors*/
+    --domain-card: 0, 0%, 100%, 0.52;
+    --main: 229, 100%, 93%, 1;
+
+    /* Journey Steps */
+    --register: 243, 100%, 68%;
+    --task: 217, 89%, 61%;
+    --aptitude: 41, 100%, 48%;
+    --interview: 5, 69%, 54%;
+    --result: 151, 83%, 34%;
+
     /* UI elements */
     --border: 0 0% 89.8%;
     --input: 229, 100%, 93%, 1;
     --ring: 0 0% 3.9%;
-    --border-card: 129, 129, 129, 0.05 '' /* Typography */ --font-small: 14px;
+    --border-card: 129, 129, 129, 0.05;
+
+    /* Typography */
+    --font-small: 14px;
     --font-body: 16px;
     --font-heading-2: 20px;
     --font-heading-1: 24px;
@@ -54,16 +87,27 @@
     --radius-md: calc(var(--radius) - 2px);
     --radius-sm: calc(var(--radius) - 4px);
 
-    /* Shadow */
-    --shadow-card: 0px 0px 31.2px 5px rgba(0, 0, 0, 0.03),
-      7px 10px 33.7px -5px rgba(13, 68, 122, 0.03);
+    /* Box Shadow */
+    --shadow-card: 0px 4px 10px hsl(0, 0%, 80%, 0.2), 0px 2px 6px hsl(0, 0%, 60%, 0.15);
+
+    /* Text Shadow */
+    --text-shadow-display: 2px -2px 4px hsl(250, 100%, 70%);
 
     /* Fonts */
     --font-sans: var(--font-product-sans), sans-serif;
 
     /* Backgrounds */
     --bg-logo-grid: url('/bg-logo-grid.svg');
+    --bg-home-1: url('/home/bg-1.svg');
+    --bg-home-2: url('/home/bg-2.svg');
     --bg-register-gradient: linear-gradient(180deg, rgba(247, 248, 250, 0) 1.31%, #fafafa 30.61%);
+    --gradient-1: linear-gradient(
+      98deg,
+      rgba(15, 157, 88, 0.2) 8.93%,
+      rgba(255, 255, 255, 0.62) 49.42%,
+      #fff 49.81%,
+      rgba(66, 133, 244, 0.24) 96.6%
+    );
   }
 
   .dark {
@@ -103,8 +147,30 @@
 body {
   font-family: var(--font-sans);
   font-size: var(--font-body);
+  overflow-x: hidden;
 }
 
+/* Vibrant Scrollbar */
+::-webkit-scrollbar {
+  width: 5px;
+  transition: all 0.3s ease;
+}
+
+::-webkit-scrollbar:hover {
+  transform: scaleX(1.5);
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(45deg, #3494e6, #ec6ead);
+  transition: all 0.3s ease;
+}
+
+::-webkit-scrollbar-thumb:hover {
+}
 /* Utility classes that use CSS variables */
 .text-small {
   font-size: var(--font-small);
@@ -128,4 +194,13 @@ body {
 
 .bg-register-gradient {
   background-image: var(--bg-register-gradient);
+}
+
+.text-shadow-display {
+  text-shadow: var(--text-shadow-display);
+}
+
+::selection {
+  background-color: aliceblue;
+  color: black;
 }

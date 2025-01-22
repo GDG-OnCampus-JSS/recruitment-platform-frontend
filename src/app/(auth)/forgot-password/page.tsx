@@ -12,7 +12,6 @@ import { AuthCard } from '@/components/common/auth-card';
 import { Button } from '@/components/ui/button';
 import { Mail, Phone } from 'lucide-react';
 import { PhoneStep } from './phone-step';
-import { Divider } from '@/components/common/divider';
 
 export default function ForgotPasswordPage() {
   const [step, setStep] = useState(0);
@@ -97,7 +96,7 @@ export default function ForgotPasswordPage() {
     <LogoGrid>
       <AuthCard
         footer={{
-          text: 'Remembered? Back to',
+          text: 'Remembered password?',
           linkText: 'Login',
           href: '/login',
         }}
@@ -119,7 +118,14 @@ export default function ForgotPasswordPage() {
             ) : (
               <PhoneStep initialValue={formData.phone} onSubmit={handleEmailSubmit} />
             )}
-            <Divider className="my-4" text="or" />
+            <div className="relative my-4 flex items-center justify-center">
+              <div className="absolute inset-0 flex items-center">
+                <div className="w-full border-t border-gray-300" />
+              </div>
+              <div className="relative bg-white px-4">
+                <span className="text-sm text-gray-500">or</span>
+              </div>
+            </div>
             <div className="grid gap-2">
               <Button
                 variant="outline"
@@ -161,11 +167,10 @@ export default function ForgotPasswordPage() {
         {step === 1 && (
           <VerificationStep
             method={method}
-            data={
-              method === 'email' ? { email: formData.email || '' } : { phone: formData.phone || '' }
-            }
-            next={handleVerificationSubmit}
-            onEdit={handleBack}
+            contact={method === 'email' ? formData.email || '' : formData.phone || ''}
+            initialValue={formData.verificationCode}
+            onSubmit={handleVerificationSubmit}
+            onBack={handleBack}
           />
         )}
 
