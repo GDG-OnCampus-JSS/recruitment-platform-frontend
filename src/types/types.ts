@@ -1,5 +1,4 @@
-import { ReactElement } from "react";
-
+import { ReactElement } from 'react';
 export interface User {
   id: string;
   name: string;
@@ -9,61 +8,60 @@ export interface User {
   domain?: string;
   year?: string;
   photo?: string;
-  resume?: string; 
-  socialLinks?: { platform: string; url: string; }[];
-  
+  resume?: string;
+  socialLinks?: { platform: string; url: string }[];
 }
 
 export interface LoginResponse {
-    success: boolean;
-    message?: string;
-    user?: User;
+  success: boolean;
+  message?: string;
+  user?: User;
 }
 export interface LogoutResponse {
-    message: string;
-  }
+  message: string;
+}
 
 export interface AuthState {
-  user: User | null
-  loading: boolean
-  login: (email: string, password: string) => Promise<{ success: boolean; error?: string }>
-  logout: () => Promise<void>
-  fetchUserDetails: (id: string) => Promise<void>
-  checkAuth: () => Promise<void>
-  setLoading: (loading: boolean) => void
+  user: User | null;
+  loading: boolean;
+  login: (email: string, password: string) => Promise<{ success: boolean; error?: string }>;
+  logout: () => Promise<void>;
+  fetchUserDetails: (id: string) => Promise<void>;
+  checkAuth: () => Promise<void>;
+  setLoading: (loading: boolean) => void;
 }
 export interface DropdownOption {
-    label: string;
-    value: string;
-  }
+  label: string;
+  value: string;
+}
 
-  export interface NavItem {
-    href: string;
-    label: string;
-    icon: React.ElementType;
-  }
-  
-  export interface DropdownProps {
-    options: { label: string; value: string }[]; 
-    onSelect: (value: string) => void; 
-  }
+export interface NavItem {
+  href: string;
+  label: string;
+  icon: React.ElementType;
+}
 
-  export interface StepCardProps {
-    step: number;
-    title: string;
-    description: string;
-    icon: string;
-    buttonText: string;
-    buttonVariant: 'outline' | 'default' | 'destructive';
-    iconColor: string;
-    buttonBgColor: string;
-    gradientBg: string;
-    action: string;
-  }
-  export interface SocialPlatform {
-    platform: string;
-    icon: ReactElement;
-  }
+export interface DropdownProps {
+  options: { label: string; value: string }[];
+  onSelect: (value: string) => void;
+}
+
+export interface StepCardProps {
+  step: number;
+  title: string;
+  description: string;
+  icon: string;
+  buttonText: string;
+  buttonVariant: 'outline' | 'default' | 'destructive';
+  iconColor: string;
+  buttonBgColor: string;
+  gradientBg: string;
+  action: string;
+}
+export interface SocialPlatform {
+  platform: string;
+  icon: ReactElement;
+}
 export interface PasswordModalProps {
   isOpen: boolean;
   onOpenChange: (open: boolean) => void;
@@ -75,7 +73,7 @@ export interface PasswordFormData {
   newPassword: string;
   confirmPassword: string;
 }
-export  interface FormData {
+export interface FormData {
   name: string;
   email: string;
   phone: string;
@@ -92,8 +90,8 @@ export interface SocialLink {
   link: string;
 }
 export type Notification = {
-    id: string;
-    message: string;
-    isRead: boolean;
-    type: 'recruitment' | 'general' | 'event';
-  };
+  id: string;
+  message: string;
+  isRead: boolean;
+  type: 'recruitment' | 'general' | 'event';
+};

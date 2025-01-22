@@ -2,7 +2,7 @@
 import React from 'react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
-import {  Hand,  Menu } from 'lucide-react';
+import { Hand, Menu } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { usePathname } from 'next/navigation';
 import { useState } from 'react';
@@ -10,8 +10,7 @@ import Image from 'next/image';
 import Dropdown from '../common/selectComp';
 import NotificationButton from './notification';
 import { useAuthStore } from '@/context/authContext';
-import { options,navItems } from '@/types/options';
-
+import { options, navItems } from '@/types/options';
 
 export const Header = () => {
   const router = useRouter();
@@ -37,17 +36,20 @@ export const Header = () => {
     }
   };
 
-
-
   return (
     <header className="fixed left-0 top-0 z-10 w-full border-b bg-[#FFFFFF]">
       <div className="mx-auto flex h-[66px] w-full items-center justify-between px-4 sm:px-20">
-   
         <div className="flex items-center gap-12 md:gap-6">
           <Link href="/">
             <div className="flex h-[32px] w-[187px] items-center gap-1 md:w-[127px]">
               <div className="h-[32px] w-[32px]">
-                <Image src="/logo.jpeg" alt="Logo" width={26} height={26} className="h-full w-full object-contain" />
+                <Image
+                  src="/logo.jpeg"
+                  alt="Logo"
+                  width={26}
+                  height={26}
+                  className="h-full w-full object-contain"
+                />
               </div>
               <span className="font-sans text-sm font-normal leading-4">GDG JSSATEN</span>
             </div>
@@ -80,7 +82,7 @@ export const Header = () => {
             </span>
           </Button>
 
-          <NotificationButton/>
+          <NotificationButton />
 
           <div className="hidden sm:block">
             <Button

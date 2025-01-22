@@ -4,33 +4,32 @@ import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Notification } from '@/types/types';
 
-
 const NotificationButton = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [notifications, setNotifications] = useState<Notification[]>([
     {
       id: '1',
-      message: 'Congratulations! You are shortlisted for interview. Visit dashboard for more information',
+      message:
+        'Congratulations! You are shortlisted for interview. Visit dashboard for more information',
       isRead: false,
-      type: 'recruitment'
+      type: 'recruitment',
     },
     {
       id: '2',
-      message: 'Congratulations! You are shortlisted for interview. Visit dashboard for more information',
+      message:
+        'Congratulations! You are shortlisted for interview. Visit dashboard for more information',
       isRead: false,
-      type: 'recruitment'
-    }
+      type: 'recruitment',
+    },
   ]);
 
-  const unreadCount = notifications.filter(n => !n.isRead).length;
+  const unreadCount = notifications.filter((n) => !n.isRead).length;
 
   const handleNotificationClick = (notificationId: string) => {
-    setNotifications(prev =>
-      prev.map(notification =>
-        notification.id === notificationId
-          ? { ...notification, isRead: true }
-          : notification
-      )
+    setNotifications((prev) =>
+      prev.map((notification) =>
+        notification.id === notificationId ? { ...notification, isRead: true } : notification,
+      ),
     );
   };
 
@@ -49,28 +48,25 @@ const NotificationButton = () => {
 
       {isOpen && (
         <>
-          <div 
-            className="fixed inset-0 z-40" 
-            onClick={() => setIsOpen(false)}
-          />
-          <Card className="absolute right-0 top-12 z-50 w-[455px] h-[417px] rounded-[8px] p-4 gap-2 overflow-hidden shadow-lg border border-[#DDE3FF] bg-[#FFFFFF]">
-            <div className="w-[423px]  p-3">
+          <div className="fixed inset-0 z-40" onClick={() => setIsOpen(false)} />
+          <Card className="absolute right-0 top-12 z-50 h-[417px] w-[455px] gap-2 overflow-hidden rounded-[8px] border border-[#DDE3FF] bg-[#FFFFFF] p-4 shadow-lg">
+            <div className="w-[423px] p-3">
               <h3 className="text-sm font-normal text-[#100C2C]">Notification</h3>
             </div>
             <div className="max-h-[400px] overflow-y-auto">
               {notifications.length > 0 ? (
-                notifications.map(notification => (
+                notifications.map((notification) => (
                   <div
                     key={notification.id}
-                    className={`flex items-start gap-3  p-4 h-[82px] hover:bg-gray-50 ${
+                    className={`flex h-[82px] items-start gap-3 p-4 hover:bg-gray-50 ${
                       !notification.isRead ? 'bg-gray-50' : ''
                     }`}
                     onClick={() => handleNotificationClick(notification.id)}
                   >
                     <div className="h-8 w-8 flex-shrink-0">
-                      <img 
-                        src="/logo.jpeg" 
-                        alt="GDG Logo" 
+                      <img
+                        src="/logo.jpeg"
+                        alt="GDG Logo"
                         className="h-full w-full rounded-full object-cover"
                       />
                     </div>
@@ -82,9 +78,7 @@ const NotificationButton = () => {
                   </div>
                 ))
               ) : (
-                <div className="p-4 text-center text-sm text-gray-500">
-                  No notifications
-                </div>
+                <div className="p-4 text-center text-sm text-gray-500">No notifications</div>
               )}
             </div>
           </Card>
