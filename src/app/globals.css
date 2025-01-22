@@ -2,45 +2,126 @@
 @tailwind components;
 @tailwind utilities;
 
-body {
-  font-family: Arial, Helvetica, sans-serif;
-}
-
 @layer base {
   :root {
+    /* Base colors */
     --background: 0 0% 100%;
     --foreground: 0 0% 3.9%;
+
+    /* Component colors */
     --card: 0 0% 100%;
     --card-foreground: 0 0% 3.9%;
     --popover: 0 0% 100%;
     --popover-foreground: 0 0% 3.9%;
+
+    /* Semantic colors */
     --primary: 0 0% 9%;
     --primary-foreground: 0 0% 98%;
     --secondary: 0 0% 96.1%;
     --secondary-foreground: 0 0% 9%;
     --muted: 0 0% 96.1%;
-    --muted-foreground: 0 0% 45.1%;
+    --muted-foreground: 0 0% 65%;
     --accent: 0 0% 96.1%;
     --accent-foreground: 0 0% 9%;
-    --destructive: 0 84.2% 60.2%;
+    --destructive: 0 72.2% 50.6%;
     --destructive-foreground: 0 0% 98%;
+    --btn-primary: 243, 100%, 68%, 1;
+    --gray-extra-light: 225, 100%, 99%, 1;
+    --gray-light: 0 0% 82%;
+    --gray-medium: 228, 11%, 91%, 1;
+
+    /* domain card text colors */
+    --design: 36, 100%, 18%, 1;
+    --design-foreground: 36, 100%, 18%, 0.6;
+    --web: 0, 100%, 18%, 1;
+    --web-foreground: 0, 100%, 18%, 0.6;
+    --programming: 216, 100%, 18%, 1;
+    --programming-foreground: 216, 100%, 18%, 0.6;
+    --android: 149, 100%, 18%, 1;
+    --android-foreground: 149, 100%, 18%, 0.6;
+    --ml: 261, 100%, 18%, 1;
+    --ml-foreground: 259, 100%, 29%, 0.6;
+
+    /* cards backgrounds */
+    --design-card: linear-gradient(158deg, #fffcf7 21.18%, #fbce8a 85.58%);
+    --web-card: linear-gradient(158deg, #fef3f0 21.18%, #fba08a 85.58%);
+    --programming-card: linear-gradient(158deg, #f4fbfe 21.18%, #8ad1fb 85.58%);
+    --android-card: linear-gradient(158deg, #f0fef5 21.18%, #8afbb3 85.58%);
+    --ml-card: linear-gradient(158deg, #f3ecfe 21.18%, #aa8afb 85.58%);
+
+    /* border colors*/
+    --domain-card: 0, 0%, 100%, 0.52;
+    --main: 229, 100%, 93%, 1;
+
+    /* Journey Steps */
+    --register: 243, 100%, 68%;
+    --task: 217, 89%, 61%;
+    --aptitude: 41, 100%, 48%;
+    --interview: 5, 69%, 54%;
+    --result: 151, 83%, 34%;
+
+    /* UI elements */
     --border: 0 0% 89.8%;
-    --input: 0 0% 89.8%;
+    --input: 229, 100%, 93%, 1;
     --ring: 0 0% 3.9%;
-    --chart-1: 12 76% 61%;
-    --chart-2: 173 58% 39%;
-    --chart-3: 197 37% 24%;
-    --chart-4: 43 74% 66%;
-    --chart-5: 27 87% 67%;
+    --border-card: 129, 129, 129, 0.05;
+
+    /* Typography */
+    --font-small: 14px;
+    --font-body: 16px;
+    --font-heading-2: 20px;
+    --font-heading-1: 24px;
+
+    /* Letter Spacing */
+    --spacing-small: 0.28px; /* Tighter for small text */
+    --spacing-body: 0.32px; /* Slightly tight for body */
+    --spacing-heading-2: 0.4px; /* Tighter for headings */
+    --spacing-heading-1: auto; /* Tightest for large headings */
+
+    /* Spacing and Sizing */
+    --header-height: 60px;
+    --sidebar-width: 280px;
+
+    /* Radii */
     --radius: 0.5rem;
+    --radius-md: calc(var(--radius) - 2px);
+    --radius-sm: calc(var(--radius) - 4px);
+
+    /* Box Shadow */
+    --shadow-card: 0px 4px 10px hsl(0, 0%, 80%, 0.2), 0px 2px 6px hsl(0, 0%, 60%, 0.15);
+
+    /* Text Shadow */
+    --text-shadow-display: 2px -2px 4px hsl(250, 100%, 70%);
+
+    /* Fonts */
+    --font-sans: var(--font-product-sans), sans-serif;
+
+    /* Backgrounds */
+    --bg-logo-grid: url('/bg-logo-grid.svg');
+    --bg-home-1: url('/home/bg-1.svg');
+    --bg-home-2: url('/home/bg-2.svg');
+    --bg-register-gradient: linear-gradient(180deg, rgba(247, 248, 250, 0) 1.31%, #fafafa 30.61%);
+    --gradient-1: linear-gradient(
+      98deg,
+      rgba(15, 157, 88, 0.2) 8.93%,
+      rgba(255, 255, 255, 0.62) 49.42%,
+      #fff 49.81%,
+      rgba(66, 133, 244, 0.24) 96.6%
+    );
   }
+
   .dark {
+    /* Base colors */
     --background: 0 0% 3.9%;
     --foreground: 0 0% 98%;
+
+    /* Component colors */
     --card: 0 0% 3.9%;
     --card-foreground: 0 0% 98%;
     --popover: 0 0% 3.9%;
     --popover-foreground: 0 0% 98%;
+
+    /* Semantic colors */
     --primary: 0 0% 98%;
     --primary-foreground: 0 0% 9%;
     --secondary: 0 0% 14.9%;
@@ -51,22 +132,75 @@ body {
     --accent-foreground: 0 0% 98%;
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 0 0% 98%;
+
+    /* UI elements */
     --border: 0 0% 14.9%;
     --input: 0 0% 14.9%;
     --ring: 0 0% 83.1%;
-    --chart-1: 220 70% 50%;
-    --chart-2: 160 60% 45%;
-    --chart-3: 30 80% 55%;
-    --chart-4: 280 65% 60%;
-    --chart-5: 340 75% 55%;
+
+    /* Dark mode specific backgrounds */
+    --bg-register-gradient: linear-gradient(180deg, rgba(0, 0, 0, 0) 1.31%, #121212 30.61%);
   }
 }
 
-@layer base {
-  * {
-    @apply border-border;
-  }
-  body {
-    @apply bg-background text-foreground;
-  }
+/* Base styles */
+body {
+  font-family: var(--font-sans);
+  font-size: var(--font-body);
+  overflow-x: hidden;
+}
+
+/* Vibrant Scrollbar */
+::-webkit-scrollbar {
+  width: 5px;
+  transition: all 0.3s ease;
+}
+
+::-webkit-scrollbar:hover {
+  transform: scaleX(1.5);
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(45deg, #3494e6, #ec6ead);
+  transition: all 0.3s ease;
+}
+
+::-webkit-scrollbar-thumb:hover {
+}
+/* Utility classes that use CSS variables */
+.text-small {
+  font-size: var(--font-small);
+}
+
+.text-body {
+  font-size: var(--font-body);
+}
+
+.text-heading-3 {
+  font-size: var(--font-heading-3);
+}
+
+.text-heading-2 {
+  font-size: var(--font-heading-2);
+}
+
+.bg-logo-grid {
+  background-image: var(--bg-logo-grid);
+}
+
+.bg-register-gradient {
+  background-image: var(--bg-register-gradient);
+}
+
+.text-shadow-display {
+  text-shadow: var(--text-shadow-display);
+}
+
+::selection {
+  background-color: aliceblue;
+  color: black;
 }

@@ -1,5 +1,4 @@
 import { ReactElement } from 'react';
-
 export interface User {
   id: string;
   name: string;
@@ -63,7 +62,6 @@ export interface SocialPlatform {
   platform: string;
   icon: ReactElement;
 }
-
 export interface PasswordModalProps {
   isOpen: boolean;
   onOpenChange: (open: boolean) => void;
@@ -84,7 +82,7 @@ export interface FormData {
   year: string;
   photo: string;
   resume: string;
-  [key: string]: string;
+  [key: string]: string; // Index signature for social platform links
 }
 export interface SocialLink {
   id: string;

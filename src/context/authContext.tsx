@@ -3,7 +3,7 @@ import { create } from 'zustand';
 import axios from 'axios';
 import { usePathname, useRouter } from 'next/navigation';
 import { useEffect } from 'react';
-import { User, LoginResponse, AuthState } from '@/types/types';
+import { AuthState } from '@/types/types';
 
 const api = axios.create({
   baseURL: process.env.API_URL,

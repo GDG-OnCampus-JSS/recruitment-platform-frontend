@@ -2,7 +2,7 @@
 import React from 'react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
-import { BellIcon, Hand, User, Home, LayoutGrid, Globe, Medal, Menu, Import } from 'lucide-react';
+import { Hand, Menu } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { usePathname } from 'next/navigation';
 import { useState } from 'react';
@@ -10,7 +10,6 @@ import Image from 'next/image';
 import Dropdown from '../common/selectComp';
 import NotificationButton from './notification';
 import { useAuthStore } from '@/context/authContext';
-import { LogoutResponse } from '@/types/types';
 import { options, navItems } from '@/types/options';
 
 export const Header = () => {
@@ -34,14 +33,12 @@ export const Header = () => {
       await logout();
     } catch (error) {
       console.error('Error during logout:', error);
-      alert('An error occurred during logout.');
     }
   };
 
   return (
     <header className="fixed left-0 top-0 z-10 w-full border-b bg-[#FFFFFF]">
       <div className="mx-auto flex h-[66px] w-full items-center justify-between px-4 sm:px-20">
-        {/* Left section */}
         <div className="flex items-center gap-12 md:gap-6">
           <Link href="/">
             <div className="flex h-[32px] w-[187px] items-center gap-1 md:w-[127px]">
