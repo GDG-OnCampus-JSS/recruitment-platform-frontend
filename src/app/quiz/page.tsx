@@ -11,7 +11,7 @@ export default function Quiz() {
   return (
     <div>
       <Header />
-      <div className="mt-14 bg-[#fff] p-[20px] h-screen lg:h-full">
+      <div className="mt-14 h-screen bg-[#fff] p-[20px] lg:h-full">
         <div className="flex justify-between">
           <button className="rounded-3xl border px-2 py-1">
             <Link href="/dashboard" className="flex">
@@ -20,7 +20,7 @@ export default function Quiz() {
           </button>
           <span className="font-semibold">Aptitude Quiz</span>
         </div>
-        <div className="mx-auto my-4 lg:mt-auto grid max-h-[440px] max-w-[650px] gap-[10px] rounded-xl border px-8 py-6 lg:py-4 shadow-xl">
+        <div className="mx-auto my-4 grid max-h-[440px] max-w-[650px] gap-[10px] rounded-xl border px-8 py-6 shadow-xl lg:mt-auto lg:py-4">
           <div className="flex max-h-[22px] justify-between text-[#432AD8]">
             <div className="">
               <span className="max-w-[123px] text-[18px]">Selected Year:</span>
@@ -49,15 +49,15 @@ export default function Quiz() {
             </ul>
           </div>
 
-          <div className='max-w-full flex justify-center'>
-          <Button
-            variant="outline"
-            type="button"
-            className="lg:w-100 lg:px-[224px] max-h-11 px-32 cursor-pointer rounded-lg border-none bg-[#635BFF] py-[11px] font-light text-white"
-            onClick={() => router.push(`/quiz/aptitude`)}
-          >
-            Let's Begin
-          </Button>
+          <div className="flex max-w-full justify-center">
+            <Button
+              variant="outline"
+              type="button"
+              className="lg:w-100 max-h-11 cursor-pointer rounded-lg border-none bg-[#635BFF] px-32 py-[11px] font-light text-white lg:px-[224px]"
+              onClick={() => router.push(`/quiz/aptitude`)}
+            >
+              Let's Begin
+            </Button>
           </div>
         </div>
       </div>
