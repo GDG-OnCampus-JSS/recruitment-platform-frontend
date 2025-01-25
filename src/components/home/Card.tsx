@@ -41,7 +41,7 @@ export const Card = ({
         src={decorImageSrc}
         width={520.17}
         height={251.17}
-        className="pointer-events-none absolute -bottom-[5rem] left-0 h-[200px]"
+        className="pointer-events-none absolute -bottom-[3rem] left-0 h-[200px]"
         alt="rays"
       />
 
