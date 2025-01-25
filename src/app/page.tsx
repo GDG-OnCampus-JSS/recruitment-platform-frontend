@@ -24,26 +24,6 @@ export default function Home() {
           Your Journey to GDG begins here!
         </p>
         <Button href="/register" className="z-10">
-          <Cursor
-            attachToParent
-            variants={{
-              initial: { scale: 0.3, opacity: 0 },
-              animate: { scale: 1, opacity: 1 },
-              exit: { scale: 0.3, opacity: 0 },
-            }}
-            transition={{
-              ease: 'easeInOut',
-              duration: 0.15,
-            }}
-            className="left-14 top-4"
-          >
-            <div>
-              <Image src="/icons/cursor-1.svg" height={30} width={30} alt="cursor" />
-              <div className="ml-8 mt-1 rounded-[4px] bg-blue-100/10 px-2 py-1 font-mono text-xs font-normal text-neutral-800 backdrop-blur">
-                Register Now! 🥳
-              </div>
-            </div>
-          </Cursor>
           Register
         </Button>
       </section>
@@ -52,7 +32,7 @@ export default function Home() {
         <h1 className="mb-8 text-center text-4xl">
           Our <span className="font-playfair font-medium italic">domains</span>
         </h1>
-        <div className="mx-auto flex max-w-[71rem] flex-wrap justify-center gap-5 px-6">
+        <div className="mx-auto flex max-w-[73rem] flex-wrap justify-center gap-5 px-6">
           {cardData.map((card, i) => (
             <Card
               key={i}
@@ -100,29 +80,7 @@ export default function Home() {
             learn, grow, and create. Whether you're a developer, designer, or simply passionate
             about technology, there's a place for you here.
           </p>
-          <Button href="/register">
-            <Cursor
-              attachToParent
-              variants={{
-                initial: { scale: 0.3, opacity: 0 },
-                animate: { scale: 1, opacity: 1 },
-                exit: { scale: 0.3, opacity: 0 },
-              }}
-              transition={{
-                ease: 'easeInOut',
-                duration: 0.15,
-              }}
-              className="left-14 top-4"
-            >
-              <div>
-                <Image src="/icons/cursor-1.svg" height={30} width={30} alt="cursor" />
-                <div className="ml-8 mt-1 rounded-[4px] bg-blue-100/30 px-2 py-1 font-mono text-xs font-normal text-neutral-800 backdrop-blur">
-                  Register Now! 🥳
-                </div>
-              </div>
-            </Cursor>
-            Register
-          </Button>
+          <Button href="/register">Register</Button>
         </div>
       </section>
     </>
