@@ -4,7 +4,6 @@ import { EllipseIcon } from './ellipse-1';
 import { EllipseIcon2 } from './ellipse-2';
 import { Star } from './star';
 import { WavyLine } from './wavy-line';
-import CountUp from '../common/count-up';
 
 interface BannerProps {
   className?: string;
