@@ -1,83 +1,88 @@
+import { Banner } from '@/components/home/Banner';
+import { Card } from '@/components/home/Card';
+import { JourneyStep } from '@/components/home/JourneySteps';
+import ShinyText from '@/components/home/ShinyText';
+import VerticalStepper from '@/components/home/VerticalStepper';
+import Button from '@/components/home/Button';
+import { cardData, journeySteps, stepColors } from '@/constants/homePageConstants';
+import { Cursor } from '@/components/common/cursor';
 import Image from 'next/image';
+
+// Steps of the Vertical Stepper thing
+const currentStep = 3;
 
 export default function Home() {
   return (
-    <div className="grid min-h-screen grid-rows-[20px_1fr_20px] items-center justify-items-center gap-16 p-8 pb-20 font-[family-name:var(--font-geist-sans)] sm:p-20">
-      <main className="row-start-2 flex flex-col items-center gap-8 sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-center font-[family-name:var(--font-geist-mono)] text-sm sm:text-left">
-          <li className="mb-2">
-            Get started by editing{' '}
-            <code className="rounded bg-black/[.05] px-1 py-0.5 font-semibold dark:bg-white/[.06]">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
-
-        <div className="flex flex-col items-center gap-4 sm:flex-row">
-          <a
-            className="flex h-10 items-center justify-center gap-2 rounded-full border border-solid border-transparent bg-foreground px-4 text-sm text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] sm:h-12 sm:px-5 sm:text-base"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="flex h-10 items-center justify-center rounded-full border border-solid border-black/[.08] px-4 text-sm transition-colors hover:border-transparent hover:bg-[#f2f2f2] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] sm:h-12 sm:min-w-44 sm:px-5 sm:text-base"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+    <>
+      <section className="relative grid min-h-screen place-content-center overflow-x-hidden bg-home-1 bg-cover bg-no-repeat">
+        <div className="group absolute h-screen w-screen bg-slate-100/10 backdrop-blur-lg md:backdrop-blur-none"></div>
+        <div className="z-10 mx-auto rounded-3xl border border-main bg-white px-5 py-1">
+          <ShinyText text="Google Developer Groups" className="text-[#a50000a4]" />
         </div>
-      </main>
-      <footer className="row-start-3 flex flex-wrap items-center justify-center gap-6">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image aria-hidden src="/file.svg" alt="File icon" width={16} height={16} />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image aria-hidden src="/window.svg" alt="Window icon" width={16} height={16} />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image aria-hidden src="/globe.svg" alt="Globe icon" width={16} height={16} />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
+        <Banner className="w-fit" />
+        <p className="z-10 mt-10 text-center text-xl text-secondary-foreground">
+          Your Journey to GDG begins here!
+        </p>
+        <Button href="/register" className="z-10">
+          Register
+        </Button>
+      </section>
+
+      <section className="mt-[3.5rem] grid min-h-screen place-content-center">
+        <h1 className="mb-8 text-center text-4xl">
+          Our <span className="font-playfair font-medium italic">domains</span>
+        </h1>
+        <div className="mx-auto flex max-w-[73rem] flex-wrap justify-center gap-5 px-6">
+          {cardData.map((card, i) => (
+            <Card
+              key={i}
+              className={card.className}
+              descriptionClass={card.descriptionClass}
+              title={card.title}
+              description={card.description}
+              logoImageSrc={card.logoImageSrc}
+              decorImageSrc={card.decorImageSrc}
+            />
+          ))}
+        </div>
+      </section>
+
+      <section className="relative flex min-h-screen flex-col items-center justify-center gap-y-8 overflow-x-hidden bg-home-2 bg-cover bg-no-repeat">
+        <div className="group absolute h-screen w-screen bg-slate-100/10 backdrop-blur-sm md:backdrop-blur-none"></div>
+        <h1 className="rounded-2xl bg-blue-100/10 p-3 text-4xl backdrop-blur-sm sm:bg-transparent md:rounded-none md:p-0">
+          Journey <span className="font-playfair font-medium italic">steps</span>
+        </h1>
+        <div className="relative w-full max-w-[52rem] space-y-8 pl-24 pr-4 md:px-10 lg:ml-[11rem]">
+          {journeySteps.map((step) => (
+            <JourneyStep
+              key={step.id}
+              title={step.title}
+              description={step.description}
+              duration={step.duration}
+              accentColor={step.accentColor}
+              iconSrc={step.iconSrc}
+            />
+          ))}
+          <VerticalStepper
+            totalSteps={5}
+            currentStep={currentStep}
+            className="absolute left-10 top-2 md:-top-4 md:left-[20rem]"
+            stepColors={stepColors}
+          />
+        </div>
+      </section>
+
+      <section className="my-[3.12rem] md:px-8">
+        <div className="mx-auto grid max-w-[71rem] animate-gradient-1 place-content-center bg-gradient-1 bg-[length:200%_200%] p-10 text-center md:rounded-2xl">
+          <h1 className="text-3xl font-medium">Your chance to be a part of extraordinary team!</h1>
+          <p className="mt-4 max-w-[56.4rem] text-secondary-foreground">
+            Join the recruitment drive at GDG and become part of a dynamic community where you can
+            learn, grow, and create. Whether you're a developer, designer, or simply passionate
+            about technology, there's a place for you here.
+          </p>
+          <Button href="/register">Register</Button>
+        </div>
+      </section>
+    </>
   );
 }
