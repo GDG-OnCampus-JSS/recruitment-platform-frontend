@@ -1,8 +1,8 @@
 'use client';
-import React,{useState} from 'react';
+import React, { useState } from 'react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
-import { Hand,  Menu, } from 'lucide-react';
+import { Hand, Menu } from 'lucide-react';
 import { useRouter, usePathname } from 'next/navigation';
 import Image from 'next/image';
 import Dropdown from '../common/selectComp';

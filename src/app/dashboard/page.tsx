@@ -68,44 +68,33 @@ export default function DashboardPage() {
         <div className="mb-8 flex items-start justify-between">
           <div className="flex items-center gap-6">
             <div className="h-20 w-20 rounded-full">
-              <Image
-                src="/avatar.svg"
-                alt="User"
-                width={80}
-                height={80}
-                
-              />
+              <Image src="/avatar.svg" alt="User" width={80} height={80} />
             </div>
             <div className="font-product-sans flex flex-col md:gap-1">
-              <h1 className=" text-lg sm:text-[28px] font-bold leading-[33.96px] text-[#151515]">
+              <h1 className="text-lg font-bold leading-[33.96px] text-[#151515] sm:text-[28px]">
                 Hey! {displayUser.name}
               </h1>
               {!isProfileComplete && (
                 <div className="flex items-center gap-2">
-                <div className="hidden sm:block">
-        <Image
-          src="/info.svg"
-          alt="info"
-          width={24}
-          height={24}
-        />
-      </div>
-                <p className=" sm:text-base font-normal tracking-[0.02em] text-[#EB8D8D] ">
-                  Your profile is not complete!{' '}
-                  <Link
-                    href="/dashboard/profile"
-                    className="font-product-sans sm:text-xl font-normal leading-[24.26px] tracking-[0.02em] text-black underline"
-                  >
-                    Complete now
-                  </Link>
-                </p>
+                  <div className="hidden sm:block">
+                    <Image src="/info.svg" alt="info" width={24} height={24} />
+                  </div>
+                  <p className="font-normal tracking-[0.02em] text-[#EB8D8D] sm:text-base">
+                    Your profile is not complete!{' '}
+                    <Link
+                      href="/dashboard/profile"
+                      className="font-product-sans font-normal leading-[24.26px] tracking-[0.02em] text-black underline sm:text-xl"
+                    >
+                      Complete now
+                    </Link>
+                  </p>
                 </div>
               )}
             </div>
           </div>
 
           <div className="h-6 w-[153px]">
-            <h2 className="p-2 sm:p-0 font-product-sans sm:text-[20px] font-medium leading-[24.26px]">
+            <h2 className="font-product-sans p-2 font-medium leading-[24.26px] sm:p-0 sm:text-[20px]">
               Your Dashboard
             </h2>
           </div>

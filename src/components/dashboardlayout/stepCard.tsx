@@ -17,10 +17,10 @@ const StepCard = ({
   gradientBg,
   action,
 }: StepCardProps) => {
-
   return (
     <Card
-      className={`mx-auto w-full max-w-sm ${gradientBg} rounded-lg border border-solid border-[#DDE3FF]`}>
+      className={`mx-auto w-full max-w-sm ${gradientBg} rounded-lg border border-solid border-[#DDE3FF]`}
+    >
       <CardContent className="relative flex h-full flex-col p-4">
         <div className="absolute right-4 top-4 text-sm font-medium text-[#0C0C0C]">
           {String(step).padStart(2, '0')}
@@ -31,12 +31,12 @@ const StepCard = ({
 
         <div className="mt-12 flex flex-col gap-4">
           <div className="flex h-12 w-12 items-center justify-start">
-          <Image
+            <Image
               src={icon}
               alt={title}
               width={48}
               height={48}
-              className="w-full h-full"
+              className="h-full w-full"
               style={{ color: iconColor }}
             />
           </div>

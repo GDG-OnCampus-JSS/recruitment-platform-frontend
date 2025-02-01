@@ -150,7 +150,7 @@ const EditProfilePage = () => {
 
   return (
     <div className="min-h-screen space-y-6 p-2 pb-52 pt-12">
-      <div className="w-full ">
+      <div className="w-full">
         <div className="mx-auto flex max-w-[1120px] items-center justify-between pt-4">
           <Link href="/dashboard">
             <Button

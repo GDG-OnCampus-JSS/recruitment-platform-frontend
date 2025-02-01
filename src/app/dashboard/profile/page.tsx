@@ -7,13 +7,8 @@ import { useAuth } from '@/context/authContext';
 import { ReactElement } from 'react';
 import { useRouter } from 'next/navigation';
 import { User } from '@/types/types';
-import {
-  Mail,
-  Phone,
-  GraduationCap,
-  Pencil,
-} from 'lucide-react';
-import { SOCIAL_PLATFORMS, reqFields,mockUser } from '@/types/options';
+import { Mail, Phone, GraduationCap, Pencil } from 'lucide-react';
+import { SOCIAL_PLATFORMS, reqFields, mockUser } from '@/types/options';
 
 const SocialLink = ({
   platform,
@@ -46,7 +41,7 @@ const SocialLink = ({
 export default function ProfilePage() {
   const router = useRouter();
   const { user, loading } = useAuth();
-  const displayUser =  (user || mockUser) as User;
+  const displayUser = (user || mockUser) as User;
 
   const calculateProfileCompletion = (user: typeof displayUser) => {
     const fields = reqFields;
@@ -101,20 +96,20 @@ export default function ProfilePage() {
                 </button>
               </Link>
               <div className="flex flex-col items-start space-y-3">
-              <div className="rounded-full border-4 border-dashed stroke-dash border-[#635BFF] ">
-                <div className="h-[130px] w-[130px] rounded-full border-2 border-[#635BFF] overflow-hidden">
-                  <Image
-                    src={displayUser.photo || '/DP.jpeg'} 
-                    alt="Profile"
-                    width={130}
-                    height={130}
-                    className="object-cover"
-                  />
+                <div className="stroke-dash rounded-full border-4 border-dashed border-[#635BFF]">
+                  <div className="h-[130px] w-[130px] overflow-hidden rounded-full border-2 border-[#635BFF]">
+                    <Image
+                      src={displayUser.photo || '/DP.jpeg'}
+                      alt="Profile"
+                      width={130}
+                      height={130}
+                      className="object-cover"
+                    />
+                  </div>
                 </div>
-              </div>
                 <div>
                   <div className="flex items-center gap-2">
-                    <h2 className="text-xl font-medium mr-4">{displayUser.name}</h2>
+                    <h2 className="mr-4 text-xl font-medium">{displayUser.name}</h2>
                     <span className="text-xs text-[#635BFF]">•</span>
                     <span className="text-sm">{displayUser.year}</span>
                   </div>
@@ -122,19 +117,19 @@ export default function ProfilePage() {
                 </div>
 
                 <div className="w-full pt-2">
-                  <div className="flex justify-center ">
+                  <div className="flex justify-center">
                     <div className="w-[70%] border-b border-[#0000001A]"></div>
                   </div>
-                  <div className=" flex items-center justify-between">
+                  <div className="flex items-center justify-between">
                     <span className="text-sm font-medium">{profileCompletion}%</span>
-                    <span className='pb-2 mx-1'>-</span>
-                 
-                  <div className="mb-1 w-full">
-                    <div
-                      className="h-[7px] rounded-full bg-[#635BFF]"
-                      style={{ width: `${profileCompletion}%` }}
-                    />
-                  </div>
+                    <span className="mx-1 pb-2">-</span>
+
+                    <div className="mb-1 w-full">
+                      <div
+                        className="h-[7px] rounded-full bg-[#635BFF]"
+                        style={{ width: `${profileCompletion}%` }}
+                      />
+                    </div>
                   </div>
                   <p className="font-product-sans mb-3 p-2 text-[16px] font-normal leading-[19.41px] text-[#838383]">
                     {isProfileComplete
@@ -144,7 +139,7 @@ export default function ProfilePage() {
                   {!isProfileComplete && (
                     <Button
                       variant="outline"
-                      className=" px-4 py-[14px] w-[120] border-[#635BFF] p-2 text-sm text-[#635BFF] transition-colors hover:bg-[#635BFF] hover:text-white"
+                      className="w-[120] border-[#635BFF] p-2 px-4 py-[14px] text-sm text-[#635BFF] transition-colors hover:bg-[#635BFF] hover:text-white"
                       onClick={handleCompleteProfile}
                     >
                       Complete profile
@@ -159,7 +154,7 @@ export default function ProfilePage() {
           <div className="grid w-full grid-rows-[auto_1fr] gap-5 sm:w-full lg:w-[740px]">
             <div className="grid grid-cols-1 gap-5 sm:grid-cols-1 md:grid-cols-2">
               <Card className="h-[229px] w-full shadow-sm">
-                <CardContent className="p-8 ">
+                <CardContent className="p-8">
                   <h3 className="mb-4 text-xl font-medium">Basic details</h3>
                   <div className="space-y-3">
                     <div className="flex items-center gap-3 break-all text-sm">
