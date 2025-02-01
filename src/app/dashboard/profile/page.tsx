@@ -75,12 +75,12 @@ export default function ProfilePage() {
           <Link href="/dashboard">
             <Button
               variant="outline"
-              className="text=[#2F3B00] font-product-sans flex items-center gap-2 rounded-3xl border px-4 py-2 text-base font-normal leading-5"
+              className="text=[#2F3B00] flex items-center gap-2 rounded-3xl border px-4 py-2 font-product-sans text-base font-normal leading-5"
             >
               <span>←</span> Back
             </Button>
           </Link>
-          <h1 className="font-product-sans absolute left-[80%] text-xl font-medium"> Profile</h1>
+          <h1 className="absolute left-[80%] font-product-sans text-xl font-medium"> Profile</h1>
           <div className="w-[82px]" />
         </div>
       </div>
@@ -91,8 +91,8 @@ export default function ProfilePage() {
           <Card className="bg-blue-gradient w-full p-2 shadow-sm sm:w-full lg:w-[300px]">
             <CardContent className="relative p-4">
               <Link href="/dashboard/profile/editProfile">
-                <button className="absolute right-4 top-4 rounded-full border bg-white p-1 shadow-sm">
-                  <Pencil size={16} />
+                <button className="absolute right-4 top-4 rounded-lg border p-1 shadow-sm">
+                  <Image src="/icons/user.svg" alt="Profile" width={20} height={20} />
                 </button>
               </Link>
               <div className="flex flex-col items-start space-y-3">
@@ -109,8 +109,8 @@ export default function ProfilePage() {
                 </div>
                 <div>
                   <div className="flex items-center gap-2">
-                    <h2 className="mr-4 text-xl font-medium">{displayUser.name}</h2>
-                    <span className="text-xs text-[#635BFF]">•</span>
+                    <h2 className="text-xl font-medium">{displayUser.name}</h2>
+                    <span className="ml-5 text-lg text-[#635BFF]">•</span>
                     <span className="text-sm">{displayUser.year}</span>
                   </div>
                   <p className="text-sm text-[#635BFF]">Aspiring {displayUser.domain}</p>
@@ -120,18 +120,18 @@ export default function ProfilePage() {
                   <div className="flex justify-center">
                     <div className="w-[70%] border-b border-[#0000001A]"></div>
                   </div>
-                  <div className="flex items-center justify-between">
-                    <span className="text-sm font-medium">{profileCompletion}%</span>
-                    <span className="mx-1 pb-2">-</span>
+                  <div className="flex items-center justify-between py-2">
+                    <span className="mb-1 text-sm font-medium">{profileCompletion}%</span>
+                    <span className="mx-1 mb-1"> -</span>
 
-                    <div className="mb-1 w-full">
+                    <div className="mb-1 w-full rounded-full bg-[#F2F2F2]">
                       <div
-                        className="h-[7px] rounded-full bg-[#635BFF]"
+                        className="h-[7px] w-[194px] rounded-full bg-[#635BFF]"
                         style={{ width: `${profileCompletion}%` }}
                       />
                     </div>
                   </div>
-                  <p className="font-product-sans mb-3 p-2 text-[16px] font-normal leading-[19.41px] text-[#838383]">
+                  <p className="mb-3 p-2 font-product-sans text-[16px] font-normal leading-[19.41px] text-[#838383]">
                     {isProfileComplete
                       ? 'Your profile is complete!'
                       : 'Complete your profile to let recruiters know more about you!'}
@@ -139,7 +139,7 @@ export default function ProfilePage() {
                   {!isProfileComplete && (
                     <Button
                       variant="outline"
-                      className="w-[120] border-[#635BFF] p-2 px-4 py-[14px] text-sm text-[#635BFF] transition-colors hover:bg-[#635BFF] hover:text-white"
+                      className="ml-2 w-[120] border-[#635BFF] px-4 py-[14px] text-sm text-[#635BFF] transition-colors hover:bg-[#635BFF] hover:text-white"
                       onClick={handleCompleteProfile}
                     >
                       Complete profile
@@ -153,11 +153,11 @@ export default function ProfilePage() {
           {/* Right Column */}
           <div className="grid w-full grid-rows-[auto_1fr] gap-5 sm:w-full lg:w-[740px]">
             <div className="grid grid-cols-1 gap-5 sm:grid-cols-1 md:grid-cols-2">
-              <Card className="h-[229px] w-full shadow-sm">
+              <Card className="w-full shadow-sm sm:h-[229px]">
                 <CardContent className="p-8">
                   <h3 className="mb-4 text-xl font-medium">Basic details</h3>
                   <div className="space-y-3">
-                    <div className="flex items-center gap-3 break-all text-sm">
+                    <div className="flex items-center gap-3 text-sm">
                       <Mail size={18} className="text-[#3D3D3D]" />
                       <span>{displayUser.email}</span>
                     </div>
@@ -190,7 +190,7 @@ export default function ProfilePage() {
             </div>
 
             <Card className="h-[197px] w-full shadow-sm">
-              <CardContent className="p-6 sm:p-8">
+              <CardContent className="p-6 md:p-8">
                 <h3 className="mb-4 text-xl font-medium">Submitted links</h3>
                 <div className="grid grid-cols-1 gap-4 sm:grid-cols-1 md:grid-cols-2">
                   <div className="space-y-3">

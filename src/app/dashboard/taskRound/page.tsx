@@ -12,18 +12,18 @@ function task() {
           <Link href="/dashboard">
             <Button
               variant="outline"
-              className="text=[#2F3B00] font-product-sans flex items-center gap-2 rounded-3xl border px-4 py-2 text-[16px] font-normal leading-5"
+              className="text=[#2F3B00] flex items-center gap-2 rounded-3xl border px-4 py-2 font-product-sans text-[16px] font-normal leading-5"
             >
               <span>←</span> Back
             </Button>
           </Link>
-          <h1 className="font-product-sans absolute left-[80%] -translate-x-1/2 transform text-xl font-medium">
+          <h1 className="absolute left-[80%] -translate-x-1/2 transform font-product-sans text-xl font-medium">
             Tasks
           </h1>
           <div className="w-[82px]" />
         </div>
       </div>
-      <h2 className="font-product-sans pb-2 text-[28px] font-bold leading-[33.96px] text-[#454545]">
+      <h2 className="pb-2 font-product-sans text-[28px] font-bold leading-[33.96px] text-[#454545]">
         Do any one of the following
       </h2>
 
@@ -33,7 +33,7 @@ function task() {
             Frontend (Clone)
           </h3>
 
-          <div className="font-product-sans space-y-4">
+          <div className="space-y-4 font-product-sans">
             <div className="flex flex-col gap-4 md:flex-row md:gap-0">
               <div className="pr-4 text-[16px] font-normal leading-[25.6px] text-[#353535] md:h-[125px]">
                 <p>This task will assess your abilities of developing UI.</p>
@@ -72,7 +72,7 @@ function task() {
                 </CardTitle>
               </CardHeader>
               <CardContent className="space-y-2">
-                <ul className="list-disc space-y-2 pl-4 text-sm text-[#353535]">
+                <ul className="list-disc space-y-1 pl-4 text-sm text-[#353535]">
                   <li>Similarities on your developed page with the existing one</li>
                   <li>Responsiveness of the layout</li>
                   <li>Usage of JavaScript (if familiar) for interactivity</li>
@@ -88,7 +88,7 @@ function task() {
                 </CardTitle>
               </CardHeader>
               <CardContent className="space-y-2">
-                <ul className="list-disc space-y-2 pl-4 text-sm text-[#353535]">
+                <ul className="list-disc space-y-1 pl-4 text-sm text-[#353535]">
                   <li>Hosted demo would give some extra points</li>
                   <li>Use of Vue.JS or React.JS</li>
                   <li>You can use UI libraries like Bootstrap, Materialize etc</li>
@@ -110,7 +110,7 @@ function task() {
           <div className="space-y-6">
             <div className="flex flex-col gap-4 md:flex-row">
               <div className="w-full md:w-[550px]">
-                <ol className="font-product-sans list-decimal pl-4 text-[16px] font-normal leading-[25.6px] text-[#353535] md:h-[150px] md:w-[500px]">
+                <ol className="list-decimal pl-4 font-product-sans text-[16px] font-normal leading-[25.6px] text-[#353535] md:h-[150px] md:w-[500px]">
                   <li>You have to implement a simple CRUD operation</li>
                   <li>
                     If you are implementing the authentication (Login & signup APIs) will be marked
@@ -121,12 +121,12 @@ function task() {
                   <li>Choose a reliable framework for the task</li>
                 </ol>
 
-                <p className="font-product-sans pt-2 text-[16px] font-normal italic leading-[19.6px] text-[#454545]">
+                <p className="pt-2 font-product-sans text-[16px] font-normal italic leading-[19.6px] text-[#454545]">
                   You can use a JSON file if you don't want to use a database!
                 </p>
               </div>
 
-              <div className="font-product-sans mb-6 w-full text-[16px] font-normal leading-[25.6px] md:h-[125px] md:w-[550px]">
+              <div className="mb-6 w-full font-product-sans text-[16px] font-normal leading-[25.6px] md:h-[125px] md:w-[550px]">
                 <h3 className="mb-3 text-[#6B83FF]">
                   Some key points to keep in mind while writing code
                 </h3>
@@ -141,7 +141,7 @@ function task() {
               </div>
             </div>
 
-            <div className="font-product-sans rounded bg-gray-50 p-4 text-[16px] font-normal leading-[25.6px]">
+            <div className="rounded bg-gray-50 p-4 font-product-sans text-[16px] font-normal leading-[25.6px]">
               <h3 className="mb-2 text-[#6B83FF]">Where to Submit?</h3>
               <p className="text-[#353535]">
                 Create a GitHub Repository and push the code to that repository and submit the link
@@ -157,7 +157,7 @@ function task() {
                   </CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-2">
-                  <ul className="list-disc space-y-2 pl-4 text-sm text-[#353535]">
+                  <ul className="list-disc space-y-1 pl-4 text-sm text-[#353535]">
                     <li>Similarities on your developed page with the existing one.</li>
                     <li>Responsiveness of the layout.</li>
                     <li>Usage of JavaScript (if familiar) for interactivity.</li>
@@ -173,7 +173,7 @@ function task() {
                   </CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-2">
-                  <ul className="list-disc space-y-2 pl-4 text-sm text-[#353535]">
+                  <ul className="list-disc space-y-1 pl-4 text-sm text-[#353535]">
                     <li>Hosted demo would give some extra points.</li>
                     <li>Use of VueJS or ReactJS.</li>
                     <li>You can use UI libraries like Bootstrap, Materialize etc.</li>

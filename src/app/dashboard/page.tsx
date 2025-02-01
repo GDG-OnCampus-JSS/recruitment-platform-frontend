@@ -70,16 +70,16 @@ export default function DashboardPage() {
             <div className="h-20 w-20 rounded-full">
               <Image src="/avatar.svg" alt="User" width={80} height={80} />
             </div>
-            <div className="font-product-sans flex flex-col md:gap-1">
+            <div className="flex flex-col font-product-sans md:gap-1">
               <h1 className="text-lg font-bold leading-[33.96px] text-[#151515] sm:text-[28px]">
                 Hey! {displayUser.name}
               </h1>
               {!isProfileComplete && (
                 <div className="flex items-center gap-2">
                   <div className="hidden sm:block">
-                    <Image src="/info.svg" alt="info" width={24} height={24} />
+                    <Image src="/icons/info.svg" alt="info" width={24} height={24} />
                   </div>
-                  <p className="font-normal tracking-[0.02em] text-[#EB8D8D] sm:text-base">
+                  <p className="items-center text-[14px] font-normal tracking-[0.02em] text-[#EB8D8D] sm:flex sm:gap-2 sm:text-base">
                     Your profile is not complete!{' '}
                     <Link
                       href="/dashboard/profile"
@@ -93,8 +93,8 @@ export default function DashboardPage() {
             </div>
           </div>
 
-          <div className="h-6 w-[153px]">
-            <h2 className="font-product-sans p-2 font-medium leading-[24.26px] sm:p-0 sm:text-[20px]">
+          <div className="h-6 sm:w-[153px]">
+            <h2 className="font-product-sans font-medium leading-[24.26px] sm:text-[20px]">
               Your Dashboard
             </h2>
           </div>

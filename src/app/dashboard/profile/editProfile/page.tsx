@@ -155,12 +155,12 @@ const EditProfilePage = () => {
           <Link href="/dashboard">
             <Button
               variant="outline"
-              className="px- text=[#2F3B00] font-product-sans flex items-center gap-2 rounded-3xl border py-2 text-[16px] font-normal leading-5"
+              className="px- text=[#2F3B00] flex items-center gap-2 rounded-3xl border py-2 font-product-sans text-[16px] font-normal leading-5"
             >
               <span>←</span> Back
             </Button>
           </Link>
-          <h1 className="font-product-sans absolute left-[80%] -translate-x-[100%] transform text-xl font-medium">
+          <h1 className="absolute left-[80%] mr-2 transform font-product-sans font-medium sm:-translate-x-[100%] sm:text-xl">
             Your Profile
           </h1>
           <div className="w-[82px]" />
@@ -183,7 +183,7 @@ const EditProfilePage = () => {
 
                 <div className="flex-1 space-y-6">
                   <div className="space-y-4">
-                    <label className="font-product-sans block text-[16px] font-normal leading-[19.41px]">
+                    <label className="block font-product-sans text-[16px] font-normal leading-[19.41px]">
                       Full Name*
                     </label>
                     <input
@@ -217,7 +217,7 @@ const EditProfilePage = () => {
 
                     <div className="space-y-4">
                       <div>
-                        <label className="font-product-sans block pb-1 text-[16px] font-normal leading-[19.41px]">
+                        <label className="block pb-1 font-product-sans text-[16px] font-normal leading-[19.41px]">
                           Email address*
                         </label>
                         <input
@@ -230,7 +230,7 @@ const EditProfilePage = () => {
                       </div>
 
                       <div>
-                        <label className="font-product-sans block pb-1 text-[16px] font-normal leading-[19.41px]">
+                        <label className="block pb-1 font-product-sans text-[16px] font-normal leading-[19.41px]">
                           Phone Number*
                         </label>
                         <input
@@ -244,7 +244,7 @@ const EditProfilePage = () => {
 
                       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                         <div>
-                          <label className="font-product-sans block pb-1 text-[16px] font-normal leading-[19.41px]">
+                          <label className="block pb-1 font-product-sans text-[16px] font-normal leading-[19.41px]">
                             Academic year*
                           </label>
                           <select
@@ -262,7 +262,7 @@ const EditProfilePage = () => {
                         </div>
 
                         <div>
-                          <label className="font-product-sans block pb-1 text-[16px] font-normal leading-[19.41px]">
+                          <label className="block pb-1 font-product-sans text-[16px] font-normal leading-[19.41px]">
                             Admission number*
                           </label>
                           <input
@@ -296,7 +296,7 @@ const EditProfilePage = () => {
 
                 <div className="flex-1 space-y-6">
                   <div>
-                    <label className="font-product-sans block pb-1 text-[16px] font-normal leading-[19.41px]">
+                    <label className="block pb-1 font-product-sans text-[16px] font-normal leading-[19.41px]">
                       Domain*
                     </label>
                     <select
@@ -335,7 +335,7 @@ const EditProfilePage = () => {
 
                   {SOCIAL_PLATFORMS.map(({ platform }) => (
                     <div key={platform}>
-                      <label className="font-product-sans block pb-1 text-[16px] font-normal leading-[19.41px]">
+                      <label className="block pb-1 font-product-sans text-[16px] font-normal leading-[19.41px]">
                         {platform} Link (optional)
                       </label>
                       <input
