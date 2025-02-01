@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import Image from 'next/image';
 import { Bell } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
@@ -64,9 +65,11 @@ const NotificationButton = () => {
                     onClick={() => handleNotificationClick(notification.id)}
                   >
                     <div className="h-8 w-8 flex-shrink-0">
-                      <img
-                        src="/logo.jpeg"
+                      <Image
+                        src="/logo.svg"
                         alt="GDG Logo"
+                        height={32}
+                        width={32}
                         className="h-full w-full rounded-full object-cover"
                       />
                     </div>

@@ -1,6 +1,7 @@
 'use client';
 import { useState, useEffect, ChangeEvent, FormEvent } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
@@ -149,17 +150,17 @@ const EditProfilePage = () => {
 
   return (
     <div className="min-h-screen space-y-6 p-2 pb-52 pt-12">
-      <div className="w-full bg-white">
+      <div className="w-full ">
         <div className="mx-auto flex max-w-[1120px] items-center justify-between pt-4">
           <Link href="/dashboard">
             <Button
               variant="outline"
-              className="px- text=[#2F3B00] flex items-center gap-2 rounded-3xl border py-2 font-sans text-[16px] font-normal leading-5"
+              className="px- text=[#2F3B00] font-product-sans flex items-center gap-2 rounded-3xl border py-2 text-[16px] font-normal leading-5"
             >
               <span>←</span> Back
             </Button>
           </Link>
-          <h1 className="absolute left-[80%] -translate-x-[100%] transform font-sans text-xl font-medium">
+          <h1 className="font-product-sans absolute left-[80%] -translate-x-[100%] transform text-xl font-medium">
             Your Profile
           </h1>
           <div className="w-[82px]" />
@@ -172,7 +173,7 @@ const EditProfilePage = () => {
               {/* Personal Info */}
               <div className="flex flex-col gap-4 sm:flex-row sm:gap-8">
                 <div className="w-full sm:w-80">
-                  <h2 className="font-sans text-[16px] font-medium leading-[19.41px] text-[#100C2C]">
+                  <h2 className="font-product-sans text-[16px] font-medium leading-[19.41px] text-[#100C2C]">
                     About
                   </h2>
                   <p className="text-base font-normal text-gray-500">
@@ -182,7 +183,7 @@ const EditProfilePage = () => {
 
                 <div className="flex-1 space-y-6">
                   <div className="space-y-4">
-                    <label className="block font-sans text-[16px] font-normal leading-[19.41px]">
+                    <label className="font-product-sans block text-[16px] font-normal leading-[19.41px]">
                       Full Name*
                     </label>
                     <input
@@ -199,11 +200,7 @@ const EditProfilePage = () => {
                         className="flex cursor-pointer flex-col items-center gap-4 sm:flex-row"
                       >
                         <div className="relative h-[75px] w-[75px] overflow-hidden rounded-full">
-                          <img
-                            src={profileImage}
-                            alt="Profile"
-                            className="h-full w-full object-cover"
-                          />
+                          <Image src={profileImage} alt="Profile" layout="fill" objectFit="cover" />
                           <input
                             type="file"
                             id="photo"
@@ -220,7 +217,7 @@ const EditProfilePage = () => {
 
                     <div className="space-y-4">
                       <div>
-                        <label className="block pb-1 font-sans text-[16px] font-normal leading-[19.41px]">
+                        <label className="font-product-sans block pb-1 text-[16px] font-normal leading-[19.41px]">
                           Email address*
                         </label>
                         <input
@@ -233,7 +230,7 @@ const EditProfilePage = () => {
                       </div>
 
                       <div>
-                        <label className="block pb-1 font-sans text-[16px] font-normal leading-[19.41px]">
+                        <label className="font-product-sans block pb-1 text-[16px] font-normal leading-[19.41px]">
                           Phone Number*
                         </label>
                         <input
@@ -247,7 +244,7 @@ const EditProfilePage = () => {
 
                       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                         <div>
-                          <label className="block pb-1 font-sans text-[16px] font-normal leading-[19.41px]">
+                          <label className="font-product-sans block pb-1 text-[16px] font-normal leading-[19.41px]">
                             Academic year*
                           </label>
                           <select
@@ -265,7 +262,7 @@ const EditProfilePage = () => {
                         </div>
 
                         <div>
-                          <label className="block pb-1 font-sans text-[16px] font-normal leading-[19.41px]">
+                          <label className="font-product-sans block pb-1 text-[16px] font-normal leading-[19.41px]">
                             Admission number*
                           </label>
                           <input
@@ -289,7 +286,7 @@ const EditProfilePage = () => {
               {/* Professional Sec */}
               <div className="flex flex-col gap-4 sm:flex-row sm:gap-8">
                 <div className="w-full sm:w-80">
-                  <h2 className="font-sans text-[16px] font-medium leading-[19.41px] text-black">
+                  <h2 className="font-product-sans text-[16px] font-medium leading-[19.41px] text-black">
                     Professional Identity
                   </h2>
                   <p className="text-gray-500">
@@ -299,7 +296,7 @@ const EditProfilePage = () => {
 
                 <div className="flex-1 space-y-6">
                   <div>
-                    <label className="block pb-1 font-sans text-[16px] font-normal leading-[19.41px]">
+                    <label className="font-product-sans block pb-1 text-[16px] font-normal leading-[19.41px]">
                       Domain*
                     </label>
                     <select
@@ -322,7 +319,7 @@ const EditProfilePage = () => {
                       className="flex cursor-pointer flex-col items-center gap-4 sm:flex-row"
                     >
                       <div className="relative h-[160px] w-[265px] overflow-hidden rounded-[8px] border">
-                        <img src="/" alt="RESUME" className="h-full w-full object-cover" />
+                        <Image src="/" alt="RESUME" layout="fill" objectFit="cover" />
                         <input
                           type="file"
                           id="resume-upload"
@@ -338,7 +335,7 @@ const EditProfilePage = () => {
 
                   {SOCIAL_PLATFORMS.map(({ platform }) => (
                     <div key={platform}>
-                      <label className="block pb-1 font-sans text-[16px] font-normal leading-[19.41px]">
+                      <label className="font-product-sans block pb-1 text-[16px] font-normal leading-[19.41px]">
                         {platform} Link (optional)
                       </label>
                       <input

@@ -1,5 +1,4 @@
 'use client';
-import { ClipboardList, Brain, Users } from 'lucide-react';
 import Link from 'next/link';
 import StepCard from '@/components/dashboardlayout/stepCard';
 import Image from 'next/image';
@@ -11,7 +10,7 @@ export const steps = [
     step: 1,
     title: 'Task Round',
     description: 'Show your technical prowess up with your solution.',
-    icon: 'ClipboardList',
+    icon: '/icons/book.svg',
     buttonText: 'View more',
     buttonVariant: 'outline' as const,
     iconColor: '#4285F4',
@@ -23,7 +22,7 @@ export const steps = [
     step: 2,
     title: 'Aptitude Quiz',
     description: 'A quick 30-min quiz to test your technical aptitude.',
-    icon: 'Brain',
+    icon: '/icons/mind.svg',
     buttonText: 'Start Quiz',
     buttonVariant: 'default' as const,
     iconColor: '#FBBC04',
@@ -35,7 +34,7 @@ export const steps = [
     step: 3,
     title: 'Personal Interview',
     description: 'The final step, a conversation to seal your place.',
-    icon: 'Users',
+    icon: '/icons/meet.svg',
     buttonText: 'Schedule now',
     buttonVariant: 'destructive' as const,
     iconColor: '#EA4335',
@@ -68,35 +67,47 @@ export default function DashboardPage() {
       <div className="mx-auto max-w-[1120px] px-4 pt-20">
         <div className="mb-8 flex items-start justify-between">
           <div className="flex items-center gap-6">
-            <div className="h-20 w-20 overflow-hidden rounded-full">
+            <div className="h-20 w-20 rounded-full">
               <Image
-                src="/avatar.png"
+                src="/avatar.svg"
                 alt="User"
                 width={80}
                 height={80}
-                className="h-20 w-20 rounded-full"
+                
               />
             </div>
-            <div className="flex flex-col gap-1 font-sans">
-              <h1 className="text-[28px] font-bold leading-[33.96px] text-black">
+            <div className="font-product-sans flex flex-col md:gap-1">
+              <h1 className=" text-lg sm:text-[28px] font-bold leading-[33.96px] text-[#151515]">
                 Hey! {displayUser.name}
               </h1>
               {!isProfileComplete && (
-                <p className="text-base font-normal tracking-[0.02em] text-[#EB8D8D]">
+                <div className="flex items-center gap-2">
+                <div className="hidden sm:block">
+        <Image
+          src="/info.svg"
+          alt="info"
+          width={24}
+          height={24}
+        />
+      </div>
+                <p className=" sm:text-base font-normal tracking-[0.02em] text-[#EB8D8D] ">
                   Your profile is not complete!{' '}
                   <Link
                     href="/dashboard/profile"
-                    className="font-sans text-xl font-normal leading-[24.26px] tracking-[0.02em] text-black underline"
+                    className="font-product-sans sm:text-xl font-normal leading-[24.26px] tracking-[0.02em] text-black underline"
                   >
                     Complete now
                   </Link>
                 </p>
+                </div>
               )}
             </div>
           </div>
 
           <div className="h-6 w-[153px]">
-            <h2 className="font-sans text-[20px] font-medium leading-[24.26px]">Your Dashboard</h2>
+            <h2 className="p-2 sm:p-0 font-product-sans sm:text-[20px] font-medium leading-[24.26px]">
+              Your Dashboard
+            </h2>
           </div>
         </div>
 

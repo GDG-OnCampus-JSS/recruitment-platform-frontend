@@ -45,7 +45,7 @@ const PasswordModal = ({ isOpen, onOpenChange, onSave }: PasswordModalProps) => 
 
         <div className="space-y-4 py-4">
           <div className="space-y-2">
-            <label className="font-sans text-[16px] text-sm font-normal leading-[19.41px]">
+            <label className="font-product-sans text-[16px] text-sm font-normal leading-[19.41px]">
               Old password
             </label>
             <input
@@ -59,7 +59,7 @@ const PasswordModal = ({ isOpen, onOpenChange, onSave }: PasswordModalProps) => 
           </div>
 
           <div className="space-y-2">
-            <label className="font-sans text-[16px] text-sm font-normal leading-[19.41px]">
+            <label className="font-product-sans text-[16px] text-sm font-normal leading-[19.41px]">
               New Password
             </label>
             <input
@@ -73,7 +73,7 @@ const PasswordModal = ({ isOpen, onOpenChange, onSave }: PasswordModalProps) => 
           </div>
 
           <div className="space-y-2">
-            <label className="font-sans text-[16px] text-sm font-normal leading-[19.41px]">
+            <label className="font-product-sans text-[16px] text-sm font-normal leading-[19.41px]">
               Repeat New Password
             </label>
             <input

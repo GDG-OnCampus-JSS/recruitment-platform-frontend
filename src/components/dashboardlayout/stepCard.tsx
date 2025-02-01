@@ -1,8 +1,8 @@
 'use client';
 import React from 'react';
+import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
-import { ClipboardList, Brain, Users } from 'lucide-react';
 import { StepCardProps } from '@/types/types';
 
 const StepCard = ({
@@ -17,16 +17,10 @@ const StepCard = ({
   gradientBg,
   action,
 }: StepCardProps) => {
-  const Icon = { ClipboardList, Brain, Users }[icon];
-
-  if (!Icon) {
-    return <div>Icon not found</div>;
-  }
 
   return (
     <Card
-      className={`mx-auto w-full max-w-sm ${gradientBg} rounded-lg border border-solid border-[#DDE3FF]`}
-    >
+      className={`mx-auto w-full max-w-sm ${gradientBg} rounded-lg border border-solid border-[#DDE3FF]`}>
       <CardContent className="relative flex h-full flex-col p-4">
         <div className="absolute right-4 top-4 text-sm font-medium text-[#0C0C0C]">
           {String(step).padStart(2, '0')}
@@ -37,7 +31,14 @@ const StepCard = ({
 
         <div className="mt-12 flex flex-col gap-4">
           <div className="flex h-12 w-12 items-center justify-start">
-            <Icon className="h-full w-full" strokeWidth={0} fill={iconColor} />
+          <Image
+              src={icon}
+              alt={title}
+              width={48}
+              height={48}
+              className="w-full h-full"
+              style={{ color: iconColor }}
+            />
           </div>
 
           <div className="flex flex-col gap-2">
