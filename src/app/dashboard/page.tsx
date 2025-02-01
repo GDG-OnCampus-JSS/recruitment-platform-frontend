@@ -52,7 +52,7 @@ export default function DashboardPage() {
   const isProfileComplete = reqFields.every(
     (field) =>
       mockUser[field as keyof typeof mockUser] &&
-      mockUser[field as keyof typeof mockUser].toString().trim() !== '',
+      mockUser[field as keyof typeof mockUser]?.toString().trim() !== '',
   );
 
   if (loading) {
