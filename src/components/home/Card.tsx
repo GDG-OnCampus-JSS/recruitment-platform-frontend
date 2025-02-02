@@ -36,7 +36,11 @@ export const Card = ({
         },
       }}
       initial={{ opacity: 0.2 }}
-      whileInView={{ translateY: '-10px', opacity: 1, transition: { ease: 'linear', duration: 0.5} }}
+      whileInView={{
+        translateY: '-10px',
+        opacity: 1,
+        transition: { ease: 'linear', duration: 0.5 },
+      }}
       viewport={{ once: true, margin: '-5%', amount: 0.5 }}
     >
       <Rays className="pointer-events-none absolute" />
