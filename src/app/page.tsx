@@ -1,12 +1,9 @@
-import { Banner } from '@/components/home/Banner';
+import { Banner, CTA, Logo } from '@/components/home/Banner';
 import { Card } from '@/components/home/Card';
 import { JourneyStep } from '@/components/home/JourneySteps';
-import ShinyText from '@/components/home/ShinyText';
 import VerticalStepper from '@/components/home/VerticalStepper';
 import Button from '@/components/home/Button';
 import { cardData, journeySteps, stepColors } from '@/constants/homePageConstants';
-import { Cursor } from '@/components/common/cursor';
-import Image from 'next/image';
 
 // Steps of the Vertical Stepper thing
 const currentStep = 3;
@@ -16,20 +13,13 @@ export default function Home() {
     <>
       <section className="relative grid min-h-screen place-content-center overflow-x-hidden bg-home-1 bg-cover bg-no-repeat">
         <div className="group absolute h-screen w-screen bg-slate-100/10 backdrop-blur-lg md:backdrop-blur-none"></div>
-        <div className="z-10 mx-auto rounded-3xl border border-main bg-white px-5 py-1">
-          <ShinyText text="Google Developer Groups" className="text-[#a50000a4]" />
-        </div>
+        <Logo />
         <Banner className="w-fit" />
-        <p className="z-10 mt-10 text-center text-xl text-secondary-foreground">
-          Your Journey to GDG begins here!
-        </p>
-        <Button href="/register" className="z-10">
-          Register
-        </Button>
+        <CTA />
       </section>
 
-      <section className="mt-[3.5rem] grid min-h-screen place-content-center">
-        <h1 className="mb-8 text-center text-4xl">
+      <section className="mb-28 mt-[3.5rem] grid min-h-screen place-content-center xl:mb-0">
+        <h1 className="mb-12 text-center text-4xl">
           Our <span className="font-playfair font-medium italic">domains</span>
         </h1>
         <div className="mx-auto flex max-w-[73rem] flex-wrap justify-center gap-5 px-6">

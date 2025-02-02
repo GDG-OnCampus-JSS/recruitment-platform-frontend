@@ -25,7 +25,7 @@ export const Card = ({
   return (
     <motion.div
       className={cn(
-        'relative max-w-[22.5rem] overflow-hidden rounded-[1rem] border border-domain-card p-[1.5rem]',
+        'relative max-w-[22.5rem] overflow-hidden rounded-[1rem] border p-[1.5rem]',
         className,
       )}
       whileTap={{ scale: 0.95 }}
@@ -35,6 +35,9 @@ export const Card = ({
           duration: 0.5,
         },
       }}
+      initial={{ opacity: 0.2 }}
+      whileInView={{ translateY: '-10px', opacity: 1, transition: { ease: 'linear', duration: 0.5} }}
+      viewport={{ once: true, margin: '-5%', amount: 0.5 }}
     >
       <Rays className="pointer-events-none absolute" />
       <Image

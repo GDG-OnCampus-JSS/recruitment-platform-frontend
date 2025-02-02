@@ -37,11 +37,24 @@ export default {
           'linear-gradient(180deg, rgba(255, 255, 255, 0) 79.81%, rgba(229, 23, 23, 0.2) 110.57%), radial-gradient(189.45% 125.93% at 95.28% 90.75%, #ffefed 0%, #fff 40.25%)',
         'custom-card-gradient':
           'linear-gradient(181.5deg, rgba(0, 0, 0, 0) 79.12%, rgba(65, 222, 247, 0.052) 99.35%),radial-gradient(100.83% 100.34% at 103.47% 102.91%, rgba(115, 109, 242, 0.12) 0%, rgba(255, 255, 255, 0) 100%) ',
+
+        'logo-grid': 'var(--bg-logo-grid)',
+        'home-1': 'var(--bg-home-1)',
+        'home-2': 'var(--bg-home-2)',
+        'register-gradient': 'var(--bg-register-gradient)',
+        'design-card': 'var(--design-card)',
+        'web-card': 'var(--web-card)',
+        'programming-card': 'var(--programming-card)',
+        'android-card': 'var(--android-card)',
+        'ml-card': 'var(--ml-card)',
+        'gradient-1': 'var(--gradient-1)',
       },
       boxShadow: {
         'blue-button': '-4px -5px 24.6px 0px rgba(0, 0, 0, 0.25) inset',
         'yellow-button': '-4px -5px 24.6px 0px rgba(94, 94, 94, 0.14) inset',
         'red-button': '-4px -5px 24.6px 0px rgba(94, 94, 94, 0.25) inset',
+
+        card: 'var(--shadow-card)',
       },
       colors: {
         'blue-button': '#4285f4',
@@ -170,34 +183,19 @@ export default {
           },
         ],
       },
-      boxShadow: {
-        card: 'var(--shadow-card)',
-      },
-      backgroundImage: {
-        'logo-grid': 'var(--bg-logo-grid)',
-        'home-1': 'var(--bg-home-1)',
-        'home-2': 'var(--bg-home-2)',
-        'register-gradient': 'var(--bg-register-gradient)',
-        'design-card': 'var(--design-card)',
-        'web-card': 'var(--web-card)',
-        'programming-card': 'var(--programming-card)',
-        'android-card': 'var(--android-card)',
-        'ml-card': 'var(--ml-card)',
-        'gradient-1': 'var(--gradient-1)',
-      },
       keyframes: {
         shine: {
           '0%': { 'background-position': '100%' },
           '100%': { 'background-position': '-100%' },
         },
-        'gradient-1': {
+        gradient: {
           '0%': { backgroundPosition: '0% 50%' },
           '50%': { backgroundPosition: '100% 50%' },
           '100%': { backgroundPosition: '0% 50%' },
         },
       },
       animation: {
-        'gradient-1': 'gradient-1 15s ease infinite',
+        gradient: 'gradient 8s linear infinite',
         shine: 'shine 5s linear infinite',
       },
     },
