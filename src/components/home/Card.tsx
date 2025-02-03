@@ -25,7 +25,7 @@ export const Card = ({
   return (
     <motion.div
       className={cn(
-        'relative max-w-[22.5rem] overflow-hidden rounded-[1rem] border p-[1.5rem] cursor-pointer',
+        'relative max-w-[22.5rem] cursor-pointer overflow-hidden rounded-[1rem] border p-[1.5rem]',
         className,
       )}
       whileTap={{ scale: 0.95 }}
