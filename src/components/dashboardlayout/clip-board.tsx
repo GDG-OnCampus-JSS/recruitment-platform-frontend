@@ -1,12 +1,12 @@
 import React from 'react';
 
-const clip = ({ width = 47, height = 47, color = "#4284F3" }) => {
+const clip = ({ width = 47, height = 47, color = '#4284F3' }) => {
   return (
-    <svg 
-      width={width} 
-      height={height} 
-      viewBox="0 0 47 47" 
-      fill="none" 
+    <svg
+      width={width}
+      height={height}
+      viewBox="0 0 47 47"
+      fill="none"
       xmlns="http://www.w3.org/2000/svg"
     >
       <path

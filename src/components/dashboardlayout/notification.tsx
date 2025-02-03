@@ -3,7 +3,7 @@ import Image from 'next/image';
 import { Bell } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
-import { Notification } from '@/types/types';
+import { Notification } from '@/lib/types';
 
 const NotificationButton = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -50,8 +50,8 @@ const NotificationButton = () => {
       {isOpen && (
         <>
           <div className="fixed inset-0 z-40" onClick={() => setIsOpen(false)} />
-          <Card className="absolute right-0 top-12 z-50 h-[417px] w-[455px] gap-2 overflow-hidden rounded-[8px] border border-[#DDE3FF] bg-[#FFFFFF] p-4 shadow-lg">
-            <div className="w-[423px] p-3">
+          <Card className="absolute right-0 top-12 z-50 h-[417px] w-[82vw] gap-2 overflow-hidden rounded-[8px] border border-[#DDE3FF] bg-[#FFFFFF] p-4 shadow-lg sm:w-[455px]">
+            <div className="w-full p-3">
               <h3 className="text-sm font-normal text-[#100C2C]">Notification</h3>
             </div>
             <div className="max-h-[400px] overflow-y-auto">

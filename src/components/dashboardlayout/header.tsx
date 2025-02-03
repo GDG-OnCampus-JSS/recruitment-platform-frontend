@@ -8,7 +8,7 @@ import Image from 'next/image';
 import Dropdown from '../common/selectComp';
 import NotificationButton from './notification';
 import { useAuthStore } from '@/context/authContext';
-import { options, navItems } from '@/types/options';
+import { options, navItems } from '@/lib/options';
 
 export const Header = () => {
   const router = useRouter();
@@ -20,7 +20,7 @@ export const Header = () => {
   const handleDropdownSelect = async (value: string) => {
     setSelectedOption(value);
     if (value === 'profile') {
-      router.push('dashboard/profile');
+      router.push('/dashboard/profile');
     } else if (value === 'logout') {
       await handleLogout();
     }
@@ -49,7 +49,7 @@ export const Header = () => {
                   className="h-full w-full object-contain"
                 />
               </div>
-              <span className="font-sans text-sm font-normal leading-4">GDG JSSATEN</span>
+              <span className="text-sm font-normal leading-4">GDG JSSATEN</span>
             </div>
           </Link>
         </div>
@@ -62,9 +62,7 @@ export const Header = () => {
                 className={`gap-2 ${pathname === item.href ? 'text-black' : ''}`}
               >
                 <item.icon className="h-4 w-4" />
-                <span className="font-product-sans text-sm font-normal leading-4">
-                  {item.label}
-                </span>
+                <span className="text-sm font-normal leading-4">{item.label}</span>
               </Button>
             </Link>
           ))}
@@ -77,9 +75,7 @@ export const Header = () => {
             onClick={() => router.push('/help')}
           >
             <Hand size={18} />
-            <span className="font-product-sans text-sm font-normal leading-4 sm:inline">
-              I Have a doubt?
-            </span>
+            <span className="text-sm font-normal leading-4 sm:inline">I Have a doubt?</span>
           </Button>
 
           <NotificationButton />
@@ -114,9 +110,7 @@ export const Header = () => {
                       className={`gap-2 ${pathname === item.href ? 'text-black' : ''} w-full text-left`}
                     >
                       <item.icon className="h-4 w-4" />
-                      <span className="font-product-sans text-sm font-normal leading-4">
-                        {item.label}
-                      </span>
+                      <span className="text-sm font-normal leading-4">{item.label}</span>
                     </Button>
                   </Link>
                 ))}

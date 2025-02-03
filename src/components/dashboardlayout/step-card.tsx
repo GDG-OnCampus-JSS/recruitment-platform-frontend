@@ -31,9 +31,7 @@ const StepCard = ({
 
         <div className="mt-12 flex flex-col gap-4">
           <div className="flex h-12 w-12 items-center justify-start">
-          <div style={{ color: iconColor }}>
-  {React.createElement(icon)} 
-</div>
+            <div style={{ color: iconColor }}>{React.createElement(icon)}</div>
           </div>
 
           <div className="flex flex-col gap-2">

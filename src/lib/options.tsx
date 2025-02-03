@@ -59,16 +59,16 @@ export const steps = [
 ];
 
 export const yearOptions = [
-  { value: '1st year', label: '1st Year' },
-  { value: '2nd year', label: '2nd Year' },
+  { id: '1', value: '1st year', label: '1st Year' },
+  { id: '2', value: '2nd year', label: '2nd Year' },
 ];
 
 export const domainOptions = [
-  { value: 'Design', label: 'Design' },
-  { value: 'Web Development', label: 'Development' },
-  { value: 'AI', label: 'AI' },
-  { value: ' Android Development', label: 'Android Development' },
-  { value: 'Programming', label: 'Programming' },
+  { id: '1', value: 'Design', label: 'Design' },
+  { id: '2', value: 'Web Development', label: 'Development' },
+  { id: '3', value: 'AI', label: 'AI' },
+  { id: '4', value: ' Android Development', label: 'Android Development' },
+  { id: '5', value: 'Programming', label: 'Programming' },
 ];
 
 export const SOCIAL_PLATFORMS = [

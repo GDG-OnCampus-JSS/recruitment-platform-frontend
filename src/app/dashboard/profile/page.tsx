@@ -6,9 +6,9 @@ import Image from 'next/image';
 import { useAuth } from '@/context/authContext';
 import { ReactElement } from 'react';
 import { useRouter } from 'next/navigation';
-import { User } from '@/types/types';
-import { Mail, Phone, GraduationCap, Pencil } from 'lucide-react';
-import { SOCIAL_PLATFORMS, reqFields, mockUser } from '@/types/options';
+import { User } from '@/lib/types';
+import { Mail, Phone, GraduationCap, UserPen, ArrowLeft } from 'lucide-react';
+import { SOCIAL_PLATFORMS, reqFields, mockUser } from '@/lib/options';
 
 const SocialLink = ({
   platform,
@@ -58,7 +58,7 @@ export default function ProfilePage() {
     );
   };
   const handleCompleteProfile = () => {
-    router.push('/dashboard/profile/editProfile');
+    router.push('/dashboard/profile/edit-profile');
   };
 
   if (loading) {
@@ -69,19 +69,18 @@ export default function ProfilePage() {
     );
   }
   return (
-    <div className="min-h-screen space-y-6 p-2 pb-52 pt-12 lg:min-h-[calc(100vh-212px)]">
+    <div className="min-h-screen space-y-6 p-2 pt-12 lg:min-h-[calc(100vh-212px)]">
       <div className="w-full bg-white">
         <div className="mx-auto flex max-w-[1120px] items-center justify-between px-6 pt-4">
           <Link href="/dashboard">
             <Button
               variant="outline"
-              className="text=[#2F3B00] flex items-center gap-2 rounded-3xl border px-4 py-2 font-product-sans text-base font-normal leading-5"
+              className="text=[#2F3B00] flex items-center gap-2 rounded-3xl border px-4 py-2 text-base font-normal leading-5"
             >
-              <span>←</span> Back
+              <ArrowLeft /> Back
             </Button>
           </Link>
-          <h1 className="absolute left-[80%] font-product-sans text-xl font-medium"> Profile</h1>
-          <div className="w-[82px]" />
+          <h1 className="text-xl font-medium"> Profile</h1>
         </div>
       </div>
 
@@ -90,13 +89,13 @@ export default function ProfilePage() {
           {/* Left Column */}
           <Card className="bg-blue-gradient w-full p-2 shadow-sm sm:w-full lg:w-[300px]">
             <CardContent className="relative p-4">
-              <Link href="/dashboard/profile/editProfile">
+              <Link href="/dashboard/profile/edit-profile">
                 <button className="absolute right-4 top-4 rounded-lg border p-1 shadow-sm">
-                  <Image src="/icons/user.svg" alt="Profile" width={20} height={20} />
+                  <UserPen size={20} />
                 </button>
               </Link>
               <div className="flex flex-col items-start space-y-3">
-                <div className="stroke-dash rounded-full border-4 border-dashed border-[#635BFF]">
+                <div className="rounded-full border-4 border-dashed border-[#635BFF]">
                   <div className="h-[130px] w-[130px] overflow-hidden rounded-full border-2 border-[#635BFF]">
                     <Image
                       src={displayUser.photo || '/DP.jpeg'}
@@ -131,7 +130,7 @@ export default function ProfilePage() {
                       />
                     </div>
                   </div>
-                  <p className="mb-3 p-2 font-product-sans text-[16px] font-normal leading-[19.41px] text-[#838383]">
+                  <p className="mb-3 p-2 text-[16px] font-normal leading-[19.41px] text-[#838383]">
                     {isProfileComplete
                       ? 'Your profile is complete!'
                       : 'Complete your profile to let recruiters know more about you!'}
