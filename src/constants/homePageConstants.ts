@@ -1,3 +1,14 @@
+import { Android } from '../../public/home';
+import { AndroidBlob } from '../../public/home';
+import { Design } from '../../public/home';
+import { DesignBlob } from '../../public/home';
+import { MachineLearning } from '../../public/home';
+import { MachineLearningBlob } from '../../public/home';
+import { Programming } from '../../public/home';
+import { ProgrammingBlob } from '../../public/home';
+import { WebBlob } from '../../public/home';
+import { WebDev } from '../../public/home';
+
 export const cardData = [
   {
     title: 'Design',
@@ -5,8 +16,8 @@ export const cardData = [
       "We're a vibrant community for anyone who cares for design. We share stories, uncover insights, surface opportunities in Design.",
     className: 'bg-design-card text-domain-design',
     descriptionClass: 'text-domain-design-foreground',
-    logoImageSrc: '/home/design.svg',
-    decorImageSrc: '/home/design-decor.svg',
+    logoComponent: Design,
+    decorComponent: DesignBlob,
   },
   {
     title: 'Web Development',
@@ -14,8 +25,8 @@ export const cardData = [
       'Build the web, shape the future. Join our community to explore the endless possibilities of web development.',
     className: 'bg-web-card text-domain-web',
     descriptionClass: 'text-domain-web-foreground',
-    logoImageSrc: '/home/web.svg',
-    decorImageSrc: '/home/web-decor.svg',
+    logoComponent: WebDev,
+    decorComponent: WebBlob,
   },
   {
     title: 'Programming',
@@ -23,8 +34,8 @@ export const cardData = [
       'Code your ideas into reality. Discover tools, share knowledge, and grow your programming skills.',
     className: 'bg-programming-card text-domain-programming',
     descriptionClass: 'text-domain-programming-foreground',
-    logoImageSrc: '/home/prog.svg',
-    decorImageSrc: '/home/prog-decor.svg',
+    logoComponent: Programming,
+    decorComponent: ProgrammingBlob,
   },
   {
     title: 'Android Development',
@@ -32,8 +43,8 @@ export const cardData = [
       'Create apps that impact lives. Dive into Android development with support from a thriving community.',
     className: 'bg-android-card text-domain-android',
     descriptionClass: 'text-domain-android-foreground',
-    logoImageSrc: '/home/android.svg',
-    decorImageSrc: '/home/android-decor.svg',
+    logoComponent: Android,
+    decorComponent: AndroidBlob,
   },
   {
     title: 'Machine Learning',
@@ -41,8 +52,8 @@ export const cardData = [
       'Unlock the power of data. Explore machine learning, build models, and innovate with artificial intelligence.',
     className: 'bg-ml-card text-domain-ml',
     descriptionClass: 'text-domain-ml-foreground',
-    logoImageSrc: '/home/ml.svg',
-    decorImageSrc: '/home/ml-decor.svg',
+    logoComponent: MachineLearning,
+    decorComponent: MachineLearningBlob,
   },
 ];
 

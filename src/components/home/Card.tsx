@@ -8,8 +8,8 @@ import { motion } from 'motion/react';
 interface CardProps {
   title: string;
   description: string;
-  logoImageSrc: string;
-  decorImageSrc: string;
+  logoComponent: React.ReactNode;
+  decorComponent: React.ReactNode;
   className?: string;
   descriptionClass?: string;
 }
@@ -17,15 +17,15 @@ interface CardProps {
 export const Card = ({
   title,
   description,
-  logoImageSrc,
+  logoComponent,
   className,
   descriptionClass,
-  decorImageSrc,
+  decorComponent,
 }: CardProps) => {
   return (
     <motion.div
       className={cn(
-        'relative max-w-[22.5rem] overflow-hidden rounded-[1rem] border p-[1.5rem]',
+        'relative max-w-[22.5rem] overflow-hidden rounded-[1rem] border p-[1.5rem] cursor-pointer',
         className,
       )}
       whileTap={{ scale: 0.95 }}
@@ -44,15 +44,11 @@ export const Card = ({
       viewport={{ once: true, margin: '-5%', amount: 0.5 }}
     >
       <Rays className="pointer-events-none absolute" />
-      <Image
-        src={decorImageSrc}
-        width={520.17}
-        height={251.17}
-        className="pointer-events-none absolute -bottom-[3rem] left-0 h-[200px]"
-        alt="rays"
-      />
+      <div className="pointer-events-none absolute -bottom-[3rem] left-0 w-[520.17px]">
+        {decorComponent}
+      </div>
 
-      <Image src={logoImageSrc} height={60} width={60} alt={title} />
+      <div className="h-[60px] w-[60px]">{logoComponent}</div>
       <h2 className="mt-4 text-xl font-medium">{title}</h2>
       <p className={cn('mb-16 mt-2', descriptionClass)}>{description}</p>
     </motion.div>

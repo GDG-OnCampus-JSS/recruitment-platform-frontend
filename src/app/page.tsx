@@ -23,17 +23,19 @@ export default function Home() {
           Our <span className="font-playfair font-medium italic">domains</span>
         </h1>
         <div className="mx-auto flex max-w-[73rem] flex-wrap justify-center gap-5 px-6">
-          {cardData.map((card, i) => (
-            <Card
-              key={i}
-              className={card.className}
-              descriptionClass={card.descriptionClass}
-              title={card.title}
-              description={card.description}
-              logoImageSrc={card.logoImageSrc}
-              decorImageSrc={card.decorImageSrc}
-            />
-          ))}
+          {cardData.map((card, i) => {
+            return (
+              <Card
+                key={i}
+                className={card.className}
+                descriptionClass={card.descriptionClass}
+                title={card.title}
+                description={card.description}
+                decorComponent={<card.decorComponent />}
+                logoComponent={<card.logoComponent />}
+              />
+            );
+          })}
         </div>
       </section>
 
@@ -63,7 +65,7 @@ export default function Home() {
       </section>
 
       <section className="my-[3.12rem] md:px-8">
-        <div className="animate-gradient-1 mx-auto grid max-w-[71rem] place-content-center bg-gradient-1 bg-[length:200%_200%] p-10 text-center md:rounded-2xl">
+        <div className="mx-auto grid max-w-[71rem] animate-gradient-1 place-content-center bg-gradient-1 bg-[length:200%_200%] p-10 text-center md:rounded-2xl">
           <h1 className="text-3xl font-medium">Your chance to be a part of extraordinary team!</h1>
           <p className="mt-4 max-w-[56.4rem] text-secondary-foreground">
             Join the recruitment drive at GDG and become part of a dynamic community where you can

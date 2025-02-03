@@ -1,0 +1,14 @@
+export const Programming = () => {
+  return (
+    <svg width="60" height="60" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <rect width="60" height="60" rx="12" fill="#BBDFFE" />
+      <path
+        d="M21.6667 23.3337L15 30.0003L21.6667 36.667M38.3333 23.3337L45 30.0003L38.3333 36.667M33.3333 16.667L26.6667 43.3337"
+        stroke="black"
+        strokeWidth="3.2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+};
