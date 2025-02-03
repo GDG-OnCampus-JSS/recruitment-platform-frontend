@@ -1,49 +1,41 @@
-import axios from 'axios';
-import { mockUser } from '@/types/options';
-
-const isDevelopment = true;
+import { getByIdApi, getByParamsApi, postApi, putApi, deleteApi } from '@/api/api';
+import { toast } from 'sonner';
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000/api';
 
-const api = axios.create({
-  baseURL: API_BASE_URL,
-  withCredentials: true,
-});
-
-const handleRequest = async (requestFn: () => Promise<any>) => {
-  if (isDevelopment) {
-    return mockUser;
-  }
-  try {
-    return await requestFn();
-  } catch (error) {
-    console.log('Error during request:', error);
-    return mockUser; // Fallback to mock user if there's an error
-  }
-};
-
 export const profileService = {
-  getUserProfile: (userId: string) =>
-    handleRequest(() =>
-      api.get(`/users/${userId}`).then((response) => response.data['Fetched user']),
-    ),
+  async getUserProfile(userId: string) {
+    const { status, data } = await getByIdApi('/users', userId);
+    if (status === 200) return data['Fetched user'];
+    toast.error('Failed to fetch profile');
+    return null;
+  },
 
-  updateProfile: (userId: string, userData: any) =>
-    handleRequest(() =>
-      api.put(`/users/${userId}`, userData).then((response) => response.data.user),
-    ),
+  async updateProfile(userId: string, userData: any) {
+    const { status, data } = await putApi(`/users/${userId}`, userData);
+    if (status === 200) return data.user;
+    toast.error(data?.message || 'Update failed');
+    return null;
+  },
 
-  getSocialLinks: (userId: string) =>
-    handleRequest(() => api.get(`/social/${userId}`).then((response) => response.data)),
+  async getSocialLinks(userId: string) {
+    const { status, data } = await getByParamsApi('/social', { userId });
+    return status === 200 ? data : [];
+  },
 
-  createSocialLink: (userId: string, name: string, link: string) =>
-    api.post(`/social/${userId}`, { name, link }).then((response) => response.data.socialLink),
+  async createSocialLink(userId: string, name: string, link: string) {
+    const { status, data } = await postApi('/social', { userId, name, link });
+    if (status === 201) return data.socialLink;
+    toast.error('Failed to create link');
+    return null;
+  },
 
-  updateSocialLink: (linkId: string, link: string) =>
-    api.put(`/social/${linkId}`, { link }).then((response) => response.data.updatedLink),
+  async updateSocialLink(linkId: string, link: string) {
+    const { status, data } = await putApi(`/social/${linkId}`, { link });
+    return status === 200 ? data.updatedLink : null;
+  },
 
-  deleteSocialLink: (linkId: string) =>
-    api.put(`/social/${linkId}/delete`).catch((error) => {
-      console.error('Error deleting social link:', error);
-      throw error;
-    }),
+  async deleteSocialLink(linkId: string) {
+    const { status } = await deleteApi(`/social/${linkId}`);
+    return status === 204;
+  },
 };

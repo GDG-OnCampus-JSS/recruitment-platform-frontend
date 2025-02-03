@@ -1,28 +1,24 @@
 'use client';
 import { create } from 'zustand';
-import axios from 'axios';
 import { usePathname, useRouter } from 'next/navigation';
-import { useEffect } from 'react';
-import { AuthState } from '@/types/types';
-
-const api = axios.create({
-  baseURL: process.env.API_URL,
-  withCredentials: true,
-});
+import { useEffect, useState, useMemo } from 'react';
+import { AuthState } from '@/lib/types';
+import { getApi, postApi, getByIdApi } from '@/api/api';
+import { toast } from 'sonner';
 
 export const useAuthStore = create<AuthState>((set) => ({
   user: null,
   loading: process.env.NODE_ENV === 'development' ? false : true,
-
   setLoading: (loading: boolean) => set({ loading }),
 
   fetchUserDetails: async (id: string) => {
-    try {
-      const response = await api.get(`/users/${id}`);
-      set({ user: response.data['Fetched user'] });
-    } catch (error) {
-      console.error('Failed to fetch user details:', error);
+    const { status, data } = await getByIdApi('/users', id);
+    if (status === 200) {
+      set({ user: data['Fetched user'] });
+      return data['Fetched user'];
     }
+    toast.error('Failed to load user profile');
+    return null;
   },
 
   checkAuth: async () => {
@@ -37,49 +33,64 @@ export const useAuthStore = create<AuthState>((set) => ({
         await useAuthStore.getState().fetchUserDetails(decoded.id);
       }
     } catch (error) {
-      console.error('Auth check failed:', error);
+      toast.error('Session expired - Please login again');
     } finally {
       set({ loading: false });
     }
   },
 
   login: async (email: string, password: string) => {
-    try {
-      const response = await api.post('/users/login', { email, password });
+    set({ loading: true });
+    const { status, data } = await postApi('/users/login', { email, password });
 
-      const cookies = document.cookie.split('; ');
-      const token = cookies.find((row) => row.startsWith('accessToken='))?.split('=')[1];
+    if (status === 200) {
+      const token = document.cookie
+        .split('; ')
+        .find((row) => row.startsWith('accessToken='))
+        ?.split('=')[1];
 
       if (token) {
         const decoded = JSON.parse(atob(token.split('.')[1]));
         await useAuthStore.getState().fetchUserDetails(decoded.id);
       }
-
+      toast.success('Login successful');
       return { success: true };
-    } catch (error: any) {
-      return {
-        success: false,
-        error: error.response?.data?.message || 'Login failed',
-      };
-    } finally {
-      set({ loading: false });
     }
+
+    set({ loading: false });
+    toast.error(data?.message || 'Login failed');
+    return { success: false, error: data?.message };
   },
 
   logout: async () => {
-    try {
-      await api.post('/users/logout');
+    const { status } = await postApi('/users/logout', {}); // No try-catch needed
+    if (status === 200) {
       set({ user: null });
-    } catch (error) {
-      console.error('Logout failed:', error);
+      toast.success('Logged out successfully');
+    } else {
+      toast.error('Logout failed');
     }
   },
 }));
 
 export const useAuth = () => {
-  const user = useAuthStore((state) => state.user);
-  const loading = useAuthStore((state) => state.loading);
-  return { user, loading };
+  const [authState, setAuthState] = useState(() => ({
+    user: useAuthStore.getState().user,
+    loading: useAuthStore.getState().loading,
+  }));
+
+  useEffect(() => {
+    const unsubscribe = useAuthStore.subscribe((state) => {
+      setAuthState({
+        user: state.user,
+        loading: state.loading,
+      });
+    });
+
+    return unsubscribe;
+  }, []);
+
+  return useMemo(() => authState, [authState]);
 };
 
 export const useAuthCheck = () => {
@@ -88,14 +99,23 @@ export const useAuthCheck = () => {
   const { checkAuth, setLoading } = useAuthStore();
 
   useEffect(() => {
-    const handleAuthCheck = async () => {
+    let isMounted = true;
+
+    const verifyAuth = async () => {
       if (pathname === '/login') {
         setLoading(false);
         return;
       }
-      await checkAuth();
+
+      if (isMounted) {
+        await checkAuth();
+      }
     };
 
-    handleAuthCheck();
-  }, [pathname, router, checkAuth, setLoading]);
+    verifyAuth();
+
+    return () => {
+      isMounted = false;
+    };
+  }, [pathname]);
 };
