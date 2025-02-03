@@ -3,7 +3,7 @@ import React from 'react';
 import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
-import { StepCardProps } from '@/types/types';
+import { StepCardProps } from '@/lib/types';
 
 const StepCard = ({
   step,
@@ -31,14 +31,9 @@ const StepCard = ({
 
         <div className="mt-12 flex flex-col gap-4">
           <div className="flex h-12 w-12 items-center justify-start">
-            <Image
-              src={icon}
-              alt={title}
-              width={48}
-              height={48}
-              className="h-full w-full"
-              style={{ color: iconColor }}
-            />
+          <div style={{ color: iconColor }}>
+  {React.createElement(icon)} 
+</div>
           </div>
 
           <div className="flex flex-col gap-2">

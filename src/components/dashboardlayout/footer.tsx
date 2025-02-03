@@ -1,28 +1,34 @@
 import Image from 'next/image';
+import { Linkedin,Instagram,Github,Youtube,X } from 'lucide-react';
 
 export const Footer = () => {
   const SocialIcons = () => (
     <div className="flex gap-6">
-      <a href="#" className="text-[#454545] transition-colors hover:text-gray-900">
-        <Image src="/icons/linkedin.svg" alt="Linkedin" width={24} height={24} />
-      </a>
-      <a href="#" className="text-[#454545] transition-colors hover:text-gray-900">
-        <Image src="/icons/insta.svg" alt="Insta" width={24} height={24} />
-      </a>
-      <a href="#" className="text-[#454545] transition-colors hover:text-gray-900">
-        <Image src="/icons/yt.svg" alt="Youtube" width={24} height={24} />
-      </a>
-      <a href="#" className="text-[#454545] transition-colors hover:text-gray-900">
-        <Image src="/icons/github.svg" alt="Github" width={24} height={24} />
-      </a>
-      <a href="#" className="text-[#454545] transition-colors hover:text-gray-900">
-        <Image src="/icons/x.svg" alt="X" width={24} height={24} />
-      </a>
+          <a href="#" className="text-[#454545] transition-colors hover:text-gray-900">
+      <Linkedin  size={24} />
+    </a>
+    
+    <a href="#" className="text-[#454545] transition-colors hover:text-gray-900">
+      <Instagram  size={24} />
+    </a>
+    
+    <a href="#" className="text-[#454545] transition-colors hover:text-gray-900">
+      <Youtube  size={24} />
+    </a>
+    
+    <a href="#" className="text-[#454545] transition-colors hover:text-gray-900">
+      <Github  size={24} />
+    </a>
+    
+    <a href="#" className="text-[#454545] transition-colors hover:text-gray-900">
+      <X size={24} />
+    </a>
+
     </div>
   );
 
   return (
-    <footer className="fixed bottom-0 h-[212px] w-full border-t-4 border-t-[#DDE3FF] bg-[#F5F7FF]">
+    <footer className=" h-[212px] w-full border-t-4 border-t-[#DDE3FF] bg-[#F5F7FF]">
       <div className="flex items-start justify-start gap-4 px-8 pt-[42px] sm:px-20">
         <Image src="/logo.svg" alt="Logo" width={36} height={24} className="mt-[6px]" />
         <div>
