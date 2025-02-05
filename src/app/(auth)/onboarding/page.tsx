@@ -44,7 +44,6 @@ export default function OnboardingPage() {
       sessionStorage.removeItem('registrationData');
       router.push('/dashboard');
     }
-
   };
 
   const handleBack = () => {

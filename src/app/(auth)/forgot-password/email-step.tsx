@@ -30,7 +30,10 @@ export const EmailStep = ({ initialValue, onSuccess }: EmailStepProps) => {
   const onSubmit = async (data: z.infer<typeof emailSchema>) => {
     onSuccess({ email: data.email });
 
-    const { status, data: responseData } = await postApi(apiEndPoints.users.verifyEmail, data.email);
+    const { status, data: responseData } = await postApi(
+      apiEndPoints.users.verifyEmail,
+      data.email,
+    );
 
     if (status === statusCode.Ok200) {
       console.log('Response:', responseData);
