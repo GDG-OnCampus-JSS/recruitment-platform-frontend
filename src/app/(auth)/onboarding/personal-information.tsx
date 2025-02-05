@@ -31,10 +31,10 @@ interface Props {
     password?: string;
     confirmPassword?: string;
   };
-  onSubmit: (values: PersonalInfoFormValues) => void;
+  onSuccess: (values: PersonalInfoFormValues) => void;
 }
 
-export const PersonalInformation = ({ initialValues, onSubmit }: Props) => {
+export const PersonalInformation = ({ initialValues, onSuccess }: Props) => {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
@@ -61,7 +61,7 @@ export const PersonalInformation = ({ initialValues, onSubmit }: Props) => {
   return (
     <div>
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+        <form onSubmit={form.handleSubmit(onSuccess)} className="space-y-4">
           <FormInput
             name="fullname"
             label="Full Name"
