@@ -3,9 +3,13 @@ import * as z from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Form } from '@/components/ui/form';
 import { useForm } from 'react-hook-form';
-import OTPInput from '@/components/common/otp-input';
 import { Button } from '@/components/ui/button';
 import { Pencil } from 'lucide-react';
+import { OTPInput } from '@/components/common/form-otp';
+import { postApi } from '@/api/api';
+import { statusCode } from '@/constants/apiStatus';
+import { useSessionStorage } from '@/hooks/use-session-storage';
+import { apiEndPoints } from '@/api/apiEndpoints';
 
 interface VerificationStepProps {
   method: 'email' | 'phone';
@@ -24,6 +28,9 @@ const verificationSchema = z.object({
 type VerificationFormValues = z.infer<typeof verificationSchema>;
 
 export const VerificationStep = ({ method, data, next, onEdit }: VerificationStepProps) => {
+  // const { getSessionData } = useSessionStorage();
+  const contactValue = method === 'email' ? data.email : data.phone;
+
   const form = useForm<VerificationFormValues>({
     resolver: zodResolver(verificationSchema),
     defaultValues: {
@@ -37,48 +44,65 @@ export const VerificationStep = ({ method, data, next, onEdit }: VerificationSte
   }, [method, form]);
 
   const onSubmit = async (values: VerificationFormValues) => {
-    console.log('Submitted OTP', values.otp);
-    next();
+    const data = {
+      email: contactValue,
+      otp: parseInt(values.otp),
+    };
+
+    const { status, data: responseData } = await postApi(apiEndPoints.users.verifyEmail, {
+      data,
+    });
+
+    if (status === statusCode.Ok200) {
+      console.log('Response:', responseData);
+      // next();
+    }
   };
 
-  const contactValue = method === 'email' ? data.email : data.phone;
+  const resendOtpToEmail = async () => {
+    const reqData = {
+      email: data.email,
+    };
+    const { status, data: responseData } = await postApi(apiEndPoints.users.registerEmail, {
+      reqData,
+    });
+
+    if (status === statusCode.Ok200) {
+      console.log('Response:', responseData);
+    }
+  };
 
   return (
     <div className="space-y-6">
-      <div className="min-w-[300px] max-w-[500px] text-sm text-muted-foreground">
-        We've sent a code to{' '}
-        <span className="font-medium text-gray-900">
-          {contactValue}{' '}
+      <div className="flex flex-col text-sm leading-normal text-muted-foreground">
+        <div className="flex items-center">
+          <p className="mr-1"> We've sent a code to</p>
+          <p className="font-medium text-gray-900">{contactValue}</p>
           <Button
-            variant="link"
-            className="h-auto border p-1"
-            onClick={(e) => {
-              e.preventDefault();
-              onEdit();
-            }}
+            variant="ghost"
+            className="ml-1 flex size-4 h-auto items-center gap-1 border"
+            onClick={onEdit}
           >
-            <Pencil className="h-3 w-3" />
+            <Pencil className="size-1" />
           </Button>
-        </span>{' '}
-        . Please enter to verify
+        </div>
+        <p>Please enter to verify</p>
       </div>
 
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-          <OTPInput
-            value={form.watch('otp')}
-            onChange={(otp) => form.setValue('otp', otp, { shouldValidate: true })}
-            isAsterisk
-            validationError={form.formState.errors.otp?.message}
-            length={6}
-          />
-
-          <div>
-            <Button className="h-11 w-full" variant="outline">
-              Resend code
-            </Button>
-            <Button type="submit" className="mt-2 h-11 w-full bg-btn-primary hover:bg-indigo-600">
+          <OTPInput className="w-96" name="otp" isAsterisk />
+          <div className="flex flex-col gap-2">
+            <Button type="submit" className="h-11 w-full bg-btn-primary hover:bg-indigo-600">
               Continue
+            </Button>
+            <Button
+              type="button"
+              onClick={resendOtpToEmail}
+              className="h-11 w-full"
+              variant="outline"
+            >
+              Resend code
             </Button>
           </div>
         </form>

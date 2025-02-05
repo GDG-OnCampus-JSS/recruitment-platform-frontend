@@ -1,7 +1,6 @@
 'use client';
 
 import { useState } from 'react';
-import { motion } from 'framer-motion';
 import Image from 'next/image';
 import Link from 'next/link';
 import LogoGrid from '@/components/common/logo-grid';
@@ -9,31 +8,31 @@ import { PersonalInformation } from './personal-information';
 import { AdditionalDetails } from './additional-details';
 import { useRouter } from 'next/navigation';
 import { AuthCard } from '@/components/common/auth-card';
+import { useSessionStorage } from '@/hooks/use-session-storage';
 
 export default function OnboardingPage() {
   const [step, setStep] = useState(0);
   const [formData, setFormData] = useState({});
   const router = useRouter();
+  const { getSessionData } = useSessionStorage();
 
   const handlePersonalInfoSubmit = (values: any) => {
     setFormData((prev) => ({ ...prev, ...values }));
     setStep(1);
   };
 
+  //use this to get email for registration
+
   const handleAdditionalDetailsSubmit = async (values: any) => {
     const finalData = {
       ...formData,
       ...values,
+      ...getSessionData('registrationData'),
     };
 
-    try {
-      console.log('Final submission:', finalData);
-      // Here you would send the data to your backend
-      // await submitData(finalData);
-      // router.push('/dashboard');
-    } catch (error) {
-      console.error('Error submitting form:', error);
-    }
+    console.log('Final Data:', finalData);
+    //call api
+    // call postApi and then remove the data from sessionStorage
   };
 
   const handleBack = () => {

@@ -1,5 +1,9 @@
-export const endPoints = {
+import { verify } from 'crypto';
+
+export const apiEndPoints = {
   users: {
+    registerEmail: '/users/send-otp-email',
+    verifyEmail: '/users/verify-otp-email',
     register: '/users/register',
     login: '/users/login',
     verifyToken: (token: string) => `/users/verify/${token}`,

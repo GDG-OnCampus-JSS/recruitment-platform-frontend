@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import Image from 'next/image';
-import { Phone, Mail, Router } from 'lucide-react';
+import { Phone, Mail } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import LogoGrid from '@/components/common/logo-grid';
 import Link from 'next/link';
@@ -12,13 +12,14 @@ import { VerificationStep } from './verification-step';
 import { PhoneStep } from './phone-step';
 import { useRouter } from 'next/navigation';
 import { Divider } from '@/components/common/divider';
+import { useSessionStorage } from '@/hooks/use-session-storage';
 
 export default function RegisterPage() {
   const [method, setMethod] = useState<'email' | 'phone'>('email');
   const [isVerifying, setIsVerifying] = useState(false);
   const [registrationData, setRegistrationData] = useState<{ email?: string; phone?: string }>({});
   const [initialStep, setInitialStep] = useState<number>(0);
-  const router = useRouter(); // Correct initialization of router
+  const router = useRouter();
 
   const switchMethod = () => {
     if (!isVerifying) {

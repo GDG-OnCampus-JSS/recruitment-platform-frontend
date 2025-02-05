@@ -5,6 +5,11 @@ import { Form } from '@/components/ui/form';
 import { useForm } from 'react-hook-form';
 import FormInput from '@/components/common/form-input';
 import { Button } from '@/components/ui/button';
+import { postApi } from '@/api/api';
+import { apiEndPoints } from '@/api/apiEndpoints';
+import { Stats } from 'fs';
+import { statusCode } from '@/constants/apiStatus';
+import { useSessionStorage } from '@/hooks/use-session-storage';
 
 const emailSchema = z.object({
   email: z.string().email('Please enter a valid email address'),
@@ -24,6 +29,7 @@ export const EmailStep = ({ onSuccess, initialValue }: EmailStepProps) => {
       email: initialValue || '',
     },
   });
+  const { setSessionData } = useSessionStorage();
 
   useEffect(() => {
     if (initialValue) {
@@ -32,11 +38,15 @@ export const EmailStep = ({ onSuccess, initialValue }: EmailStepProps) => {
   }, [initialValue, form]);
 
   const onSubmit = async (data: EmailFormValues) => {
-    try {
-      onSuccess(data);
-    } catch (error) {
-      console.error('Error submitting email:', error);
+    onSuccess(data);
+
+    // hit an api here for email registration send email
+    const { status, data: responseData } = await postApi(apiEndPoints.users.registerEmail, data);
+    if (status === statusCode.Ok200) {
+      console.log('Response:', responseData);
+      setSessionData('email', data.email);
     }
+    // const { status, data: responseData } = await postApi(`${apiEndPoints.users}`, data);
   };
 
   return (
