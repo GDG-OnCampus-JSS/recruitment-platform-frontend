@@ -9,6 +9,9 @@ import { AdditionalDetails } from './additional-details';
 import { useRouter } from 'next/navigation';
 import { AuthCard } from '@/components/common/auth-card';
 import { useSessionStorage } from '@/hooks/use-session-storage';
+import { postApi } from '@/api/api';
+import { apiEndPoints } from '@/api/apiEndpoints';
+import { statusCode } from '@/constants/apiStatus';
 
 export default function OnboardingPage() {
   const [step, setStep] = useState(0);
@@ -32,7 +35,15 @@ export default function OnboardingPage() {
 
     console.log('Final Data:', finalData);
     //call api
+
     // call postApi and then remove the data from sessionStorage
+    const { status, data: responseData } = await postApi(apiEndPoints.users.register, finalData);
+
+    if (status === statusCode.Ok200) {
+      console.log('Response:', responseData);
+      sessionStorage.removeItem('registrationData');
+      router.push('/dashboard');
+    }
   };
 
   const handleBack = () => {
@@ -57,11 +68,11 @@ export default function OnboardingPage() {
         </div>
 
         {step === 0 ? (
-          <PersonalInformation initialValues={formData} onSubmit={handlePersonalInfoSubmit} />
+          <PersonalInformation initialValues={formData} onSuccess={handlePersonalInfoSubmit} />
         ) : (
           <AdditionalDetails
             initialValues={formData}
-            onSubmit={handleAdditionalDetailsSubmit}
+            onSuccess={handleAdditionalDetailsSubmit}
             onBack={handleBack}
           />
         )}

@@ -6,6 +6,9 @@ import { Form } from '@/components/ui/form';
 import { useForm } from 'react-hook-form';
 import FormInput from '@/components/common/form-input';
 import { Button } from '@/components/ui/button';
+import { postApi } from '@/api/api';
+import { apiEndPoints } from '@/api/apiEndpoints';
+import { statusCode } from '@/constants/apiStatus';
 
 const phoneSchema = z.object({
   phone: z.string().min(1, 'Phone number is required').refine(validatePhoneNumber, {
@@ -34,11 +37,12 @@ export const PhoneStep = ({ onSuccess, initialValue }: PhoneStepProps) => {
     }
   }, [initialValue, form]);
 
-  const onSubmit = async (values: PhoneFormValues) => {
-    try {
-      onSuccess(values);
-    } catch (error) {
-      console.error('Error submitting phone:', error);
+  const onSubmit = async (data: PhoneFormValues) => {
+    onSuccess(data);
+
+    const { status, data: responseData } = await postApi(apiEndPoints.users.verifyPhone, data);
+    if (status === statusCode.Ok200) {
+      console.log('Response:', responseData);
     }
   };
 

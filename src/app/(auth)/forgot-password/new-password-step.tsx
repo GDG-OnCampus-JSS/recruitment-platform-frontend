@@ -8,6 +8,9 @@ import { Form } from '@/components/ui/form';
 import FormInput from '@/components/common/form-input';
 import { Button } from '@/components/ui/button';
 import { Icon } from '@iconify/react';
+import { postApi } from '@/api/api';
+import { apiEndPoints } from '@/api/apiEndpoints';
+import { statusCode } from '@/constants/apiStatus';
 
 const newPasswordSchema = z
   .object({
@@ -26,11 +29,11 @@ interface Props {
     password?: string;
     confirmPassword?: string;
   };
-  onSubmit: (values: NewPasswordFormValues) => void;
+  onSuccess: (values: NewPasswordFormValues) => void;
   onBack: () => void;
 }
 
-export const NewPasswordStep = ({ initialValues, onSubmit, onBack }: Props) => {
+export const NewPasswordStep = ({ initialValues, onSuccess, onBack }: Props) => {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
@@ -41,6 +44,16 @@ export const NewPasswordStep = ({ initialValues, onSubmit, onBack }: Props) => {
       confirmPassword: initialValues?.confirmPassword || '',
     },
   });
+
+  const onSubmit = async (data: NewPasswordFormValues) => {
+    onSuccess(data);
+
+    const { status, data: responseData } = await postApi(apiEndPoints.users.resetPassword, data);
+
+    if (status === statusCode.Ok200) {
+      console.log('Response:', responseData);
+    }
+  };
 
   return (
     <div>

@@ -13,6 +13,9 @@ import { PhoneStep } from './phone-step';
 import { useRouter } from 'next/navigation';
 import { Divider } from '@/components/common/divider';
 import { useSessionStorage } from '@/hooks/use-session-storage';
+import { postApi } from '@/api/api';
+import { apiEndPoints } from '@/api/apiEndpoints';
+import { statusCode } from '@/constants/apiStatus';
 
 export default function RegisterPage() {
   const [method, setMethod] = useState<'email' | 'phone'>('email');
@@ -30,7 +33,7 @@ export default function RegisterPage() {
 
   const steps = [{ label: 'Register to Recruitments 25' }, { label: `Verify your ${method}` }];
 
-  const handleNextStep = (data?: { email?: string; phone?: string }) => {
+  const handleNextStep = async (data?: { email?: string; phone?: string }) => {
     if (data) {
       setRegistrationData(data);
     }
@@ -38,10 +41,12 @@ export default function RegisterPage() {
       setInitialStep(initialStep + 1);
       setIsVerifying(true);
     } else {
-      console.log('Final Registration Data:', {
-        ...registrationData,
-      });
-      router.push('/onboarding');
+      const { status, data: responseData } = await postApi(apiEndPoints.users.register, data);
+
+      if (status === statusCode.Ok200) {
+        console.log('Response:', responseData);
+        router.push('/dashboard');
+      }
     }
   };
 
