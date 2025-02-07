@@ -1,16 +1,14 @@
 'use client';
-import React from 'react';
+import React, { useState } from 'react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Hand, Menu } from 'lucide-react';
-import { useRouter } from 'next/navigation';
-import { usePathname } from 'next/navigation';
-import { useState } from 'react';
+import { useRouter, usePathname } from 'next/navigation';
 import Image from 'next/image';
 import Dropdown from '../common/selectComp';
 import NotificationButton from './notification';
 import { useAuthStore } from '@/context/authContext';
-import { options, navItems } from '@/types/options';
+import { options, navItems } from '@/lib/options';
 
 export const Header = () => {
   const router = useRouter();
@@ -22,7 +20,7 @@ export const Header = () => {
   const handleDropdownSelect = async (value: string) => {
     setSelectedOption(value);
     if (value === 'profile') {
-      router.push('dashboard/profile');
+      router.push('/dashboard/profile');
     } else if (value === 'logout') {
       await handleLogout();
     }
@@ -44,14 +42,14 @@ export const Header = () => {
             <div className="flex h-[32px] w-[187px] items-center gap-1 md:w-[127px]">
               <div className="h-[32px] w-[32px]">
                 <Image
-                  src="/logo.jpeg"
+                  src="/logo.svg"
                   alt="Logo"
                   width={26}
                   height={26}
                   className="h-full w-full object-contain"
                 />
               </div>
-              <span className="font-sans text-sm font-normal leading-4">GDG JSSATEN</span>
+              <span className="text-sm font-normal leading-4">GDG JSSATEN</span>
             </div>
           </Link>
         </div>
@@ -64,7 +62,7 @@ export const Header = () => {
                 className={`gap-2 ${pathname === item.href ? 'text-black' : ''}`}
               >
                 <item.icon className="h-4 w-4" />
-                <span className="font-sans text-sm font-normal leading-4">{item.label}</span>
+                <span className="text-sm font-normal leading-4">{item.label}</span>
               </Button>
             </Link>
           ))}
@@ -77,9 +75,7 @@ export const Header = () => {
             onClick={() => router.push('/help')}
           >
             <Hand size={18} />
-            <span className="font-sans text-sm font-normal leading-4 sm:inline">
-              I Have a doubt?
-            </span>
+            <span className="text-sm font-normal leading-4 sm:inline">I Have a doubt?</span>
           </Button>
 
           <NotificationButton />
@@ -89,7 +85,7 @@ export const Header = () => {
               variant="ghost"
               className="h-[36px] w-[66px] rounded-[37px] border border-[#DDE3FF] bg-[#FFFFFF] p-[8px]"
             >
-              <Image src="/avatar.png" alt="User" width={26} height={26} className="rounded-full" />
+              <Image src="/avatar.svg" alt="User" width={26} height={26} className="rounded-full" />
               <Dropdown options={options} onSelect={handleDropdownSelect} />
               {selectedOption && <span className="sr-only">Selected: {selectedOption}</span>}
             </Button>{' '}
@@ -114,7 +110,7 @@ export const Header = () => {
                       className={`gap-2 ${pathname === item.href ? 'text-black' : ''} w-full text-left`}
                     >
                       <item.icon className="h-4 w-4" />
-                      <span className="font-sans text-sm font-normal leading-4">{item.label}</span>
+                      <span className="text-sm font-normal leading-4">{item.label}</span>
                     </Button>
                   </Link>
                 ))}

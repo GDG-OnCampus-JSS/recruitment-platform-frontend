@@ -2,21 +2,13 @@
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
+import Image from 'next/image';
 import { useAuth } from '@/context/authContext';
 import { ReactElement } from 'react';
 import { useRouter } from 'next/navigation';
-import {
-  Dribbble,
-  Linkedin,
-  Github,
-  Palette,
-  Mail,
-  Phone,
-  GraduationCap,
-  Pencil,
-} from 'lucide-react';
-import { SOCIAL_PLATFORMS, reqFields } from '@/types/options';
-import { mockUser } from '@/types/options';
+import { User } from '@/lib/types';
+import { Mail, Phone, GraduationCap, UserPen, ArrowLeft } from 'lucide-react';
+import { SOCIAL_PLATFORMS, reqFields, mockUser } from '@/lib/options';
 
 const SocialLink = ({
   platform,
@@ -49,7 +41,7 @@ const SocialLink = ({
 export default function ProfilePage() {
   const router = useRouter();
   const { user, loading } = useAuth();
-  const displayUser = user || mockUser;
+  const displayUser = (user || mockUser) as User;
 
   const calculateProfileCompletion = (user: typeof displayUser) => {
     const fields = reqFields;
@@ -66,7 +58,7 @@ export default function ProfilePage() {
     );
   };
   const handleCompleteProfile = () => {
-    router.push('/dashboard/profile/editProfile');
+    router.push('/dashboard/profile/edit-profile');
   };
 
   if (loading) {
@@ -77,19 +69,18 @@ export default function ProfilePage() {
     );
   }
   return (
-    <div className="min-h-screen space-y-6 p-2 pb-52 pt-12 lg:min-h-[calc(100vh-212px)]">
+    <div className="min-h-screen space-y-6 p-2 pt-12 lg:min-h-[calc(100vh-212px)]">
       <div className="w-full bg-white">
         <div className="mx-auto flex max-w-[1120px] items-center justify-between px-6 pt-4">
           <Link href="/dashboard">
             <Button
               variant="outline"
-              className="text=[#2F3B00] flex items-center gap-2 rounded-3xl border px-4 py-2 font-sans text-[16px] font-normal leading-5"
+              className="text=[#2F3B00] flex items-center gap-2 rounded-3xl border px-4 py-2 text-base font-normal leading-5"
             >
-              <span>←</span> Back
+              <ArrowLeft /> Back
             </Button>
           </Link>
-          <h1 className="absolute left-[80%] font-sans text-xl font-medium"> Profile</h1>
-          <div className="w-[82px]" />
+          <h1 className="text-xl font-medium"> Profile</h1>
         </div>
       </div>
 
@@ -98,42 +89,48 @@ export default function ProfilePage() {
           {/* Left Column */}
           <Card className="w-full bg-blue-gradient p-2 shadow-sm sm:w-full lg:w-[300px]">
             <CardContent className="relative p-4">
-              <Link href="/dashboard/profile/editProfile">
-                <button className="absolute right-4 top-4 rounded-full border bg-white p-1 shadow-sm">
-                  <Pencil size={16} />
+              <Link href="/dashboard/profile/edit-profile">
+                <button className="absolute right-4 top-4 rounded-lg border p-1 shadow-sm">
+                  <UserPen size={20} />
                 </button>
               </Link>
               <div className="flex flex-col items-start space-y-3">
-                <div className="relative">
-                  <img
-                    src="/DP.jpeg"
-                    alt="Profile"
-                    className="h-[130px] w-[130px] rounded-full border-2 border-dashed border-indigo-600"
-                  />
+                <div className="rounded-full border-4 border-dashed border-[#635BFF]">
+                  <div className="h-[130px] w-[130px] overflow-hidden rounded-full border-2 border-[#635BFF]">
+                    <Image
+                      src={displayUser.photo || '/DP.jpeg'}
+                      alt="Profile"
+                      width={130}
+                      height={130}
+                      className="object-cover"
+                    />
+                  </div>
                 </div>
                 <div>
                   <div className="flex items-center gap-2">
                     <h2 className="text-xl font-medium">{displayUser.name}</h2>
-                    <span className="text-xs text-[#635BFF]">•</span>
+                    <span className="ml-5 text-lg text-[#635BFF]">•</span>
                     <span className="text-sm">{displayUser.year}</span>
                   </div>
                   <p className="text-sm text-[#635BFF]">Aspiring {displayUser.domain}</p>
                 </div>
 
                 <div className="w-full pt-2">
-                  <div className="flex justify-center py-1">
+                  <div className="flex justify-center">
                     <div className="w-[70%] border-b border-[#0000001A]"></div>
                   </div>
-                  <div className="mb-1 flex items-center justify-between">
-                    <span className="text-sm font-medium">{profileCompletion}%</span>
+                  <div className="flex items-center justify-between py-2">
+                    <span className="mb-1 text-sm font-medium">{profileCompletion}%</span>
+                    <span className="mx-1 mb-1"> -</span>
+
+                    <div className="mb-1 w-full rounded-full bg-[#F2F2F2]">
+                      <div
+                        className="h-[7px] w-[194px] rounded-full bg-[#635BFF]"
+                        style={{ width: `${profileCompletion}%` }}
+                      />
+                    </div>
                   </div>
-                  <div className="mb-2 h-1.5 w-full rounded-full bg-gray-100">
-                    <div
-                      className="h-[11px] rounded-full bg-[#635BFF]"
-                      style={{ width: `${profileCompletion}%` }}
-                    />
-                  </div>
-                  <p className="mb-3 p-2 font-sans text-[16px] font-normal leading-[19.41px] text-[#838383]">
+                  <p className="mb-3 p-2 text-[16px] font-normal leading-[19.41px] text-[#838383]">
                     {isProfileComplete
                       ? 'Your profile is complete!'
                       : 'Complete your profile to let recruiters know more about you!'}
@@ -141,7 +138,7 @@ export default function ProfilePage() {
                   {!isProfileComplete && (
                     <Button
                       variant="outline"
-                      className="h-[44px] w-full border-[#635BFF] p-2 text-sm text-[#635BFF] transition-colors hover:bg-[#635BFF] hover:text-white"
+                      className="ml-2 w-[120] border-[#635BFF] px-4 py-[14px] text-sm text-[#635BFF] transition-colors hover:bg-[#635BFF] hover:text-white"
                       onClick={handleCompleteProfile}
                     >
                       Complete profile
@@ -155,11 +152,11 @@ export default function ProfilePage() {
           {/* Right Column */}
           <div className="grid w-full grid-rows-[auto_1fr] gap-5 sm:w-full lg:w-[740px]">
             <div className="grid grid-cols-1 gap-5 sm:grid-cols-1 md:grid-cols-2">
-              <Card className="h-[229px] w-full shadow-sm">
-                <CardContent className="p-6">
+              <Card className="w-full shadow-sm sm:h-[229px]">
+                <CardContent className="p-8">
                   <h3 className="mb-4 text-xl font-medium">Basic details</h3>
                   <div className="space-y-3">
-                    <div className="flex items-center gap-3 break-all text-sm">
+                    <div className="flex items-center gap-3 text-sm">
                       <Mail size={18} className="text-[#3D3D3D]" />
                       <span>{displayUser.email}</span>
                     </div>
@@ -176,17 +173,27 @@ export default function ProfilePage() {
               </Card>
 
               <Card className="w-full shadow-sm">
-                <CardContent className="p-4">
+                <CardContent className="p-8">
                   <h3 className="mb-4 text-xl font-medium">Your resume</h3>
-                  <div className="rounded-lg border border-[#635BFF] bg-gray-50 p-3">
-                    <img src="/" alt="Resume Preview" className="h-auto w-full" />
+                  <div className="rounded-lg border border-[#635BFF] p-3">
+                    {displayUser.resume ? (
+                      <Image
+                        src="/"
+                        alt="Resume"
+                        width={300}
+                        height={100}
+                        className="h-auto w-full"
+                      />
+                    ) : (
+                      <p className="text-center">No resume uploaded</p>
+                    )}
                   </div>
                 </CardContent>
               </Card>
             </div>
 
             <Card className="h-[197px] w-full shadow-sm">
-              <CardContent className="p-6">
+              <CardContent className="p-6 md:p-8">
                 <h3 className="mb-4 text-xl font-medium">Submitted links</h3>
                 <div className="grid grid-cols-1 gap-4 sm:grid-cols-1 md:grid-cols-2">
                   <div className="space-y-3">
