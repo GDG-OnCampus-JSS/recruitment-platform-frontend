@@ -87,7 +87,7 @@ export default function ProfilePage() {
       <div className="mx-auto max-w-[1120px] px-4 pt-4 sm:px-6">
         <div className="grid w-full grid-cols-1 gap-5 sm:grid-cols-1 lg:grid-cols-[300px_1fr]">
           {/* Left Column */}
-          <Card className="bg-blue-gradient w-full p-2 shadow-sm sm:w-full lg:w-[300px]">
+          <Card className="w-full bg-blue-gradient p-2 shadow-sm sm:w-full lg:w-[300px]">
             <CardContent className="relative p-4">
               <Link href="/dashboard/profile/edit-profile">
                 <button className="absolute right-4 top-4 rounded-lg border p-1 shadow-sm">

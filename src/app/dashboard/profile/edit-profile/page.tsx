@@ -276,11 +276,12 @@ const EditProfilePage = () => {
 
                         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                           <OptionsSelect
+                            name="year" 
                             label="Academic year*"
-                            value={form.watch('year')}
+                            placeholder="Select your year"
                             onSelectionChange={(value) => form.setValue('year', value)}
                             options={yearOptions}
-                            placeholder="Select your year"
+                         
                           />
 
                           <FormInput name="admissionNumber" label="Admission number*" type="text" />
@@ -308,7 +309,7 @@ const EditProfilePage = () => {
                   <div className="flex-1 space-y-6">
                     <OptionsSelect
                       label="Domain*"
-                      value={form.watch('domain')}
+                      name="domain"
                       onSelectionChange={(value) => form.setValue('domain', value)}
                       options={domainOptions}
                       placeholder="Select your domain"

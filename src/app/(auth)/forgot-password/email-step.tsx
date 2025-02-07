@@ -6,6 +6,9 @@ import * as z from 'zod';
 import { Form } from '@/components/ui/form';
 import FormInput from '@/components/common/form-input';
 import { Button } from '@/components/ui/button';
+import { postApi } from '@/api/api';
+import { apiEndPoints } from '@/api/apiEndpoints';
+import { statusCode } from '@/constants/apiStatus';
 
 const emailSchema = z.object({
   email: z.string().email('Please enter a valid email'),
@@ -13,10 +16,10 @@ const emailSchema = z.object({
 
 interface EmailStepProps {
   initialValue?: string;
-  onSubmit: (values: { email: string }) => void;
+  onSuccess: (values: { email: string }) => void;
 }
 
-export const EmailStep = ({ initialValue, onSubmit }: EmailStepProps) => {
+export const EmailStep = ({ initialValue, onSuccess }: EmailStepProps) => {
   const form = useForm<{ email: string }>({
     resolver: zodResolver(emailSchema),
     defaultValues: {
@@ -24,14 +27,23 @@ export const EmailStep = ({ initialValue, onSubmit }: EmailStepProps) => {
     },
   });
 
-  const handleSubmit = (values: { email: string }) => {
-    onSubmit({ email: values.email });
+  const onSubmit = async (data: z.infer<typeof emailSchema>) => {
+    onSuccess({ email: data.email });
+
+    const { status, data: responseData } = await postApi(
+      apiEndPoints.users.verifyEmail,
+      data.email,
+    );
+
+    if (status === statusCode.Ok200) {
+      console.log('Response:', responseData);
+    }
   };
 
   return (
     <div>
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-4">
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
           <FormInput name="email" label="Email" placeholder="Enter your email" isAsterisk />
           <Button type="submit" className="h-11 w-full bg-btn-primary hover:bg-indigo-600">
             Continue

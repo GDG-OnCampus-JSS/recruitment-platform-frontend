@@ -16,7 +16,7 @@ const MotionButton = motion(ShadCnButton);
 const Button = ({ children, className, href }: ButtonProps) => {
   return (
     <MotionButton
-      whileHover={{ borderRadius: '12px' }}
+      whileHover={{ borderRadius: '12px', scaleX: 1.05 }}
       whileTap={{ scale: 0.95 }}
       asChild
       className={cn(

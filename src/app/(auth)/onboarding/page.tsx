@@ -1,7 +1,6 @@
 'use client';
 
 import { useState } from 'react';
-import { motion } from 'framer-motion';
 import Image from 'next/image';
 import Link from 'next/link';
 import LogoGrid from '@/components/common/logo-grid';
@@ -9,30 +8,41 @@ import { PersonalInformation } from './personal-information';
 import { AdditionalDetails } from './additional-details';
 import { useRouter } from 'next/navigation';
 import { AuthCard } from '@/components/common/auth-card';
+import { useSessionStorage } from '@/hooks/use-session-storage';
+import { postApi } from '@/api/api';
+import { apiEndPoints } from '@/api/apiEndpoints';
+import { statusCode } from '@/constants/apiStatus';
 
 export default function OnboardingPage() {
   const [step, setStep] = useState(0);
   const [formData, setFormData] = useState({});
   const router = useRouter();
+  const { getSessionData } = useSessionStorage();
 
   const handlePersonalInfoSubmit = (values: any) => {
     setFormData((prev) => ({ ...prev, ...values }));
     setStep(1);
   };
 
+  //use this to get email for registration
+
   const handleAdditionalDetailsSubmit = async (values: any) => {
     const finalData = {
       ...formData,
       ...values,
+      ...getSessionData('registrationData'),
     };
 
-    try {
-      console.log('Final submission:', finalData);
-      // Here you would send the data to your backend
-      // await submitData(finalData);
-      // router.push('/dashboard');
-    } catch (error) {
-      console.error('Error submitting form:', error);
+    console.log('Final Data:', finalData);
+    //call api
+
+    // call postApi and then remove the data from sessionStorage
+    const { status, data: responseData } = await postApi(apiEndPoints.users.register, finalData);
+
+    if (status === statusCode.Ok200) {
+      console.log('Response:', responseData);
+      sessionStorage.removeItem('registrationData');
+      router.push('/dashboard');
     }
   };
 
@@ -58,11 +68,11 @@ export default function OnboardingPage() {
         </div>
 
         {step === 0 ? (
-          <PersonalInformation initialValues={formData} onSubmit={handlePersonalInfoSubmit} />
+          <PersonalInformation initialValues={formData} onSuccess={handlePersonalInfoSubmit} />
         ) : (
           <AdditionalDetails
             initialValues={formData}
-            onSubmit={handleAdditionalDetailsSubmit}
+            onSuccess={handleAdditionalDetailsSubmit}
             onBack={handleBack}
           />
         )}

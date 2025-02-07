@@ -7,6 +7,9 @@ import { Form } from '@/components/ui/form';
 import FormInput from '@/components/common/form-input';
 import { Button } from '@/components/ui/button';
 import { validatePhoneNumber } from '@/utils/phoneValidation';
+import { postApi } from '@/api/api';
+import { apiEndPoints } from '@/api/apiEndpoints';
+import { statusCode } from '@/constants/apiStatus';
 
 const phoneSchema = z.object({
   phone: z.string().refine(validatePhoneNumber, {
@@ -16,10 +19,10 @@ const phoneSchema = z.object({
 
 interface PhoneStepProps {
   initialValue?: string;
-  onSubmit: (values: { phone: string }) => void;
+  onSuccess: (values: { phone: string }) => void;
 }
 
-export const PhoneStep = ({ initialValue, onSubmit }: PhoneStepProps) => {
+export const PhoneStep = ({ initialValue, onSuccess }: PhoneStepProps) => {
   const form = useForm<{ phone: string }>({
     resolver: zodResolver(phoneSchema),
     defaultValues: {
@@ -27,14 +30,20 @@ export const PhoneStep = ({ initialValue, onSubmit }: PhoneStepProps) => {
     },
   });
 
-  const handleSubmit = (values: { phone: string }) => {
-    onSubmit({ phone: values.phone });
+  const onSubmit = async (data: z.infer<typeof phoneSchema>) => {
+    onSuccess({ phone: data.phone });
+
+    const { status, data: responseData } = await postApi(apiEndPoints.users.verifyPhone, data);
+
+    if (status === statusCode.Ok200) {
+      console.log('Response:', responseData);
+    }
   };
 
   return (
     <div>
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-4">
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
           <div className="relative">
             <FormInput
               name="phone"

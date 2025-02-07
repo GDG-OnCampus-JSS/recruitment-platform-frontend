@@ -32,7 +32,7 @@ export const steps = [
     iconColor: '#FBBC04',
     buttonBgColor: 'bg-[#FBBC04]',
     gradientBg: 'bg-yellow-gradient',
-    action: '/dashboard/aptitude-quiz',
+    action: '/quiz',
   },
   {
     step: 3,

@@ -17,6 +17,10 @@ import { Icon } from '@iconify/react';
 import { validatePhoneNumber } from '@/utils/phoneValidation';
 import { AuthCard } from '@/components/common/auth-card';
 import { Divider } from '@/components/common/divider';
+import { postApi } from '@/api/api';
+import { apiEndPoints } from '@/api/apiEndpoints';
+import { statusCode } from '@/constants/apiStatus';
+import { useSessionStorage } from '@/hooks/use-session-storage';
 
 const loginSchema = z
   .object({
@@ -44,6 +48,7 @@ export default function LoginPage() {
   const [method, setMethod] = useState<'email' | 'phone'>('email');
   const [isLoading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+  const { setSessionData } = useSessionStorage();
 
   const form = useForm<z.infer<typeof loginSchema>>({
     resolver: zodResolver(loginSchema),
@@ -54,19 +59,15 @@ export default function LoginPage() {
     },
   });
 
-  async function onSubmit(values: any) {
-    try {
-      setIsLoading(true);
-      // handle the login with your backend
-      console.log('Logging in with:', values);
-      // If login is successful, redirect to dashboard
+  const onSubmit = async (data: z.infer<typeof loginSchema>) => {
+    const { status, data: responseData } = await postApi(apiEndPoints.users.login, data);
+
+    if (status === statusCode.Ok200) {
+      console.log('Response:', responseData);
+      setSessionData('user', data);
       router.push('/dashboard');
-    } catch (error) {
-      console.error('Login failed:', error);
-    } finally {
-      setIsLoading(false);
     }
-  }
+  };
 
   const switchMethod = () => {
     const newMethod = method === 'email' ? 'phone' : 'email';

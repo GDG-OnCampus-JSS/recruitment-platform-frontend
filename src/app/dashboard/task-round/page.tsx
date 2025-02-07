@@ -61,7 +61,7 @@ function task() {
           </div>
 
           <div className="flex flex-col gap-4 md:flex-row">
-            <Card className="bg-custom-card-gradient w-full md:w-[550px]">
+            <Card className="w-full bg-custom-card-gradient md:w-[550px]">
               <CardHeader>
                 <CardTitle className="text-[20px] font-bold leading-[24.6px] text-[#6B83FF]">
                   Judgement Criteria
@@ -77,7 +77,7 @@ function task() {
               </CardContent>
             </Card>
 
-            <Card className="bg-custom-card-gradient w-full md:w-[550px]">
+            <Card className="w-full bg-custom-card-gradient md:w-[550px]">
               <CardHeader>
                 <CardTitle className="text-[20px] font-bold leading-[24.6px] text-[#6B83FF]">
                   Brownie Points
@@ -146,7 +146,7 @@ function task() {
             </div>
 
             <div className="flex flex-col gap-4 md:flex-row">
-              <Card className="bg-custom-card-gradient w-full md:w-[550px]">
+              <Card className="w-full bg-custom-card-gradient md:w-[550px]">
                 <CardHeader>
                   <CardTitle className="text-[20px] font-bold leading-[24.6px] text-[#6B83FF]">
                     Judgement Criteria
@@ -162,7 +162,7 @@ function task() {
                 </CardContent>
               </Card>
 
-              <Card className="bg-custom-card-gradient w-full md:w-[550px]">
+              <Card className="w-full bg-custom-card-gradient md:w-[550px]">
                 <CardHeader>
                   <CardTitle className="text-[20px] font-bold leading-[24.6px] text-[#6B83FF]">
                     Brownie Points
