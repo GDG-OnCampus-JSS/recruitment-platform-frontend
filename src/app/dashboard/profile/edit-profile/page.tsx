@@ -1,5 +1,5 @@
 'use client';
-import { useState, useEffect, ChangeEvent} from 'react';
+import { useState, useEffect, ChangeEvent } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
@@ -129,7 +129,7 @@ const EditProfilePage = () => {
     }
   };
 
-  const handleSavePassword = async(passwords: {
+  const handleSavePassword = async (passwords: {
     oldPassword: string;
     newPassword: string;
     confirmPassword: string;
@@ -140,17 +140,17 @@ const EditProfilePage = () => {
         return;
       }
       const { user } = useAuthStore.getState();
-    
-    const token = user?.token ; 
-    if (!token) {
-    toast.error('Authentication required');
-    return;
-    }
+
+      const token = user?.token;
+      if (!token) {
+        toast.error('Authentication required');
+        return;
+      }
       const { status, data } = await ApiRoutes.resetPassword({
-        token, 
+        token,
         newPassword: passwords.newPassword,
       });
-  
+
       if (status === 200) {
         toast.success('Password updated successfully');
         setIsPasswordModalOpen(false);

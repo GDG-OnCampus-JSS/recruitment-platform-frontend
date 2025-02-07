@@ -22,7 +22,10 @@ export const profileService = {
   },
 
   async createSocialLink(userId: string, platform: string, newLink: string) {
-    const { status, data } = await ApiRoutes.createSocialLink(userId, { name: platform, link: newLink });
+    const { status, data } = await ApiRoutes.createSocialLink(userId, {
+      name: platform,
+      link: newLink,
+    });
     if (status === 201) return data.socialLink;
     toast.error('Failed to create link');
     return null;

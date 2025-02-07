@@ -16,7 +16,7 @@ export const useAuthStore = create<AuthState>((set) => ({
     const { status, data } = await ApiRoutes.getUserById(userId);
     if (status === 200) {
       const userData = data['Fetched user'];
-      set({ user:{ ...userData, token: currentState.user?.token } });
+      set({ user: { ...userData, token: currentState.user?.token } });
       return userData;
     }
     toast.error('Failed to load user profile');
@@ -27,7 +27,6 @@ export const useAuthStore = create<AuthState>((set) => ({
     const currentState = useAuthStore.getState();
     const token = currentState.user?.token;
     if (!token) {
-     
       set({ user: null, loading: false });
       toast.error('Session expired - Please login again');
       return;
@@ -35,24 +34,20 @@ export const useAuthStore = create<AuthState>((set) => ({
     const { status, data } = await ApiRoutes.verifyToken(token);
 
     if (status === 200) {
-      
-      const userId = data.userId; 
+      const userId = data.userId;
       await useAuthStore.getState().fetchUserDetails(userId);
     } else {
-     
       const refreshResponse = await ApiRoutes.refreshToken(token);
       if (refreshResponse.status === 200) {
-
-        const userId = refreshResponse.data.userId; 
+        const userId = refreshResponse.data.userId;
         await useAuthStore.getState().fetchUserDetails(userId);
       } else {
-      
         set({ user: null });
         toast.error('Session expired - Please login again');
       }
     }
 
-      set({ loading: false });
+    set({ loading: false });
   },
 
   login: async (email: string, password: string) => {
