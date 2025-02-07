@@ -276,12 +276,11 @@ const EditProfilePage = () => {
 
                         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                           <OptionsSelect
-                            name="year" 
+                            name="year"
                             label="Academic year*"
                             placeholder="Select your year"
                             onSelectionChange={(value) => form.setValue('year', value)}
                             options={yearOptions}
-                         
                           />
 
                           <FormInput name="admissionNumber" label="Admission number*" type="text" />
