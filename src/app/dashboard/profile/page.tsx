@@ -175,7 +175,8 @@ export default function ProfilePage() {
               <Card className="w-full shadow-sm">
                 <CardContent className="p-8">
                   <h3 className="mb-4 text-xl font-medium">Your resume</h3>
-                  <div className="rounded-lg border border-[#635BFF] bg-gray-50 p-3">
+                  <div className="rounded-lg border border-[#635BFF]  p-3">
+                  {displayUser.resume ? (
                     <Image
                       src="/"
                       alt="Resume"
@@ -183,6 +184,9 @@ export default function ProfilePage() {
                       height={100}
                       className="h-auto w-full"
                     />
+                  ) : (
+                    <p className="text-center ">No resume uploaded</p>
+                  )}
                   </div>
                 </CardContent>
               </Card>

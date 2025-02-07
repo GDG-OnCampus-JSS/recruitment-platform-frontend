@@ -1,9 +1,9 @@
 'use client';
 import { create } from 'zustand';
-import { usePathname, useRouter } from 'next/navigation';
+import { usePathname } from 'next/navigation';
 import { useEffect, useState, useMemo } from 'react';
 import { AuthState } from '@/lib/types';
-import { getApi, postApi, getByIdApi } from '@/api/api';
+import { ApiRoutes } from '@/api/routes';
 import { toast } from 'sonner';
 
 export const useAuthStore = create<AuthState>((set) => ({
@@ -11,48 +11,58 @@ export const useAuthStore = create<AuthState>((set) => ({
   loading: process.env.NODE_ENV === 'development' ? false : true,
   setLoading: (loading: boolean) => set({ loading }),
 
-  fetchUserDetails: async (id: string) => {
-    const { status, data } = await getByIdApi('/users', id);
+  fetchUserDetails: async (userId: string) => {
+    const currentState = useAuthStore.getState();
+    const { status, data } = await ApiRoutes.getUserById(userId);
     if (status === 200) {
-      set({ user: data['Fetched user'] });
-      return data['Fetched user'];
+      const userData = data['Fetched user'];
+      set({ user:{ ...userData, token: currentState.user?.token } });
+      return userData;
     }
     toast.error('Failed to load user profile');
     return null;
   },
 
   checkAuth: async () => {
-    try {
-      const token = document.cookie
-        .split('; ')
-        .find((row) => row.startsWith('accessToken='))
-        ?.split('=')[1];
-
-      if (token) {
-        const decoded = JSON.parse(atob(token.split('.')[1]));
-        await useAuthStore.getState().fetchUserDetails(decoded.id);
-      }
-    } catch (error) {
+    const currentState = useAuthStore.getState();
+    const token = currentState.user?.token;
+    if (!token) {
+     
+      set({ user: null, loading: false });
       toast.error('Session expired - Please login again');
-    } finally {
-      set({ loading: false });
+      return;
     }
+    const { status, data } = await ApiRoutes.verifyToken(token);
+
+    if (status === 200) {
+      
+      const userId = data.userId; 
+      await useAuthStore.getState().fetchUserDetails(userId);
+    } else {
+     
+      const refreshResponse = await ApiRoutes.refreshToken(token);
+      if (refreshResponse.status === 200) {
+
+        const userId = refreshResponse.data.userId; 
+        await useAuthStore.getState().fetchUserDetails(userId);
+      } else {
+      
+        set({ user: null });
+        toast.error('Session expired - Please login again');
+      }
+    }
+
+      set({ loading: false });
   },
 
   login: async (email: string, password: string) => {
     set({ loading: true });
-    const { status, data } = await postApi('/users/login', { email, password });
+    const { status, data } = await ApiRoutes.login({ email, password });
 
     if (status === 200) {
-      const token = document.cookie
-        .split('; ')
-        .find((row) => row.startsWith('accessToken='))
-        ?.split('=')[1];
-
-      if (token) {
-        const decoded = JSON.parse(atob(token.split('.')[1]));
-        await useAuthStore.getState().fetchUserDetails(decoded.id);
-      }
+      const { token, user: userData } = data;
+      set({ user: { ...userData, token } });
+      await useAuthStore.getState().fetchUserDetails(userData.id);
       toast.success('Login successful');
       return { success: true };
     }
@@ -63,7 +73,7 @@ export const useAuthStore = create<AuthState>((set) => ({
   },
 
   logout: async () => {
-    const { status } = await postApi('/users/logout', {}); // No try-catch needed
+    const { status } = await ApiRoutes.logout();
     if (status === 200) {
       set({ user: null });
       toast.success('Logged out successfully');
@@ -95,7 +105,7 @@ export const useAuth = () => {
 
 export const useAuthCheck = () => {
   const pathname = usePathname();
-  const router = useRouter();
+
   const { checkAuth, setLoading } = useAuthStore();
 
   useEffect(() => {

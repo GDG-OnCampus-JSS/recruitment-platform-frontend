@@ -1,5 +1,5 @@
 'use client';
-import { useState, useEffect, ChangeEvent, FormEvent } from 'react';
+import { useState, useEffect, ChangeEvent} from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
@@ -18,6 +18,8 @@ import { profileService } from '@/context/profileContext';
 import { ArrowLeft } from 'lucide-react';
 import OptionsSelect from '@/components/common/options-select';
 import { validatePhoneNumber } from '@/utils/phoneValidation';
+import { ApiRoutes } from '@/api/routes';
+import { toast } from 'sonner';
 
 const profileSchema = z.object({
   name: z.string().min(1, 'Full name is required'),
@@ -127,13 +129,38 @@ const EditProfilePage = () => {
     }
   };
 
-  const handleSavePassword = (passwords: {
+  const handleSavePassword = async(passwords: {
     oldPassword: string;
     newPassword: string;
     confirmPassword: string;
   }) => {
-    // apicall
-    console.log('Saving password:', passwords);
+    try {
+      if (passwords.newPassword !== passwords.confirmPassword) {
+        toast.error('New password and confirm password do not match');
+        return;
+      }
+      const { user } = useAuthStore.getState();
+    
+    const token = user?.token ; 
+    if (!token) {
+    toast.error('Authentication required');
+    return;
+    }
+      const { status, data } = await ApiRoutes.resetPassword({
+        token, 
+        newPassword: passwords.newPassword,
+      });
+  
+      if (status === 200) {
+        toast.success('Password updated successfully');
+        setIsPasswordModalOpen(false);
+      } else {
+        toast.error(data?.message || 'Failed to update password');
+      }
+    } catch (error) {
+      console.error('Error updating password:', error);
+      toast.error('An error occurred while updating the password');
+    }
   };
 
   async function onSubmit(values: z.infer<typeof profileSchema>) {
@@ -150,8 +177,10 @@ const EditProfilePage = () => {
       if (profileImageFile) formData.append('photo', profileImageFile);
       if (resumeFile) formData.append('resume', resumeFile);
 
-      await profileService.updateProfile(userId, formData);
-
+      const response = await profileService.updateProfile(userId, formData);
+      if (!response) {
+        throw new Error('Profile update failed');
+      }
       const existingSocialLinks: SocialLink[] = await profileService.getSocialLinks(userId);
 
       for (const { platform } of SOCIAL_PLATFORMS) {

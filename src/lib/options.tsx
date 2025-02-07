@@ -94,4 +94,4 @@ export const mockUser = {
     { platform: 'GitHub', url: 'https://github.com/profile', icon: 'github' },
   ],
 };
-export const reqFields = ['name', 'email', 'phone', 'admissionNumber', 'domain', 'year', 'resume'];
+export const reqFields = ['name', 'email', 'phone', 'admissionNumber','photo', 'domain', 'year', 'resume'];
