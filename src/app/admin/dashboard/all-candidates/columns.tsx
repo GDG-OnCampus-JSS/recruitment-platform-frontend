@@ -127,7 +127,7 @@ export const columns: ColumnDef<AllCandidates>[] = [
             row.getValue('interviewStatus') === 'Cleared'
               ? 'bg-green-100 text-green-700'
               : row.getValue('interviewStatus') === 'Not Attempted'
-                ? ' text-black bg-neutral-100'
+                ? 'bg-neutral-100 text-black'
                 : 'bg-red-400 text-white'
           }`}
         >

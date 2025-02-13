@@ -1,5 +1,5 @@
-"use client";
-import { Button } from "@/components/ui/button";
+'use client';
+import { Button } from '@/components/ui/button';
 import {
   ColumnDef,
   ColumnFiltersState,
@@ -11,7 +11,7 @@ import {
   getSortedRowModel,
   VisibilityState,
   useReactTable,
-} from "@tanstack/react-table";
+} from '@tanstack/react-table';
 
 import {
   Table,
@@ -20,17 +20,17 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table";
-import { useState } from "react";
-import { cn } from "@/lib/utils";
-import { Input } from "@/components/ui/input";
+} from '@/components/ui/table';
+import { useState } from 'react';
+import { cn } from '@/lib/utils';
+import { Input } from '@/components/ui/input';
 import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
   DropdownMenuContent,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { Filter, Search, UserCheck } from "lucide-react";
+} from '@/components/ui/dropdown-menu';
+import { Filter, Search, UserCheck } from 'lucide-react';
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -71,13 +71,11 @@ export function DataTable<TData, TValue>({
         <div className="relative">
           <Input
             placeholder="Search by name"
-            value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}
-            onChange={(event) =>
-              table.getColumn("name")?.setFilterValue(event.target.value)
-            }
-            className="max-w-sm py-6 pl-12 rounded-xl my-4 mx-0 bg-[#ECF0FF] border-none placeholder:text-neutral-500 transition-all"
+            value={(table.getColumn('name')?.getFilterValue() as string) ?? ''}
+            onChange={(event) => table.getColumn('name')?.setFilterValue(event.target.value)}
+            className="mx-0 my-4 max-w-sm rounded-xl border-none bg-[#ECF0FF] py-6 pl-12 transition-all placeholder:text-neutral-500"
           />
-          <Search className="absolute top-1/2 -translate-y-1/2 left-4 text-neutral-600 pointer-events-none size-5" />
+          <Search className="pointer-events-none absolute left-4 top-1/2 size-5 -translate-y-1/2 text-neutral-600" />
         </div>
 
         {/* Status Filter Dropdown */}
@@ -86,7 +84,7 @@ export function DataTable<TData, TValue>({
             <DropdownMenuTrigger asChild>
               <Button
                 variant="outline"
-                className="ml-2 font-base py-6 rounded-xl text-neutral-700 bg-[#ECF0FF] border-none hover:bg-indigo-100"
+                className="font-base ml-2 rounded-xl border-none bg-[#ECF0FF] py-6 text-neutral-700 hover:bg-indigo-100"
               >
                 <UserCheck className="size-4" />
                 Filter by Status
@@ -94,28 +92,19 @@ export function DataTable<TData, TValue>({
             </DropdownMenuTrigger>
             <DropdownMenuContent align="start" className="rounded-xl">
               <DropdownMenuCheckboxItem
-                className="py-3 "
-                checked={
-                  table.getColumn("shortlisted")?.getFilterValue() === true
-                }
+                className="py-3"
+                checked={table.getColumn('shortlisted')?.getFilterValue() === true}
                 onCheckedChange={(value) =>
-                  table
-                    .getColumn("shortlisted")
-                    ?.setFilterValue(value ? true : undefined)
+                  table.getColumn('shortlisted')?.setFilterValue(value ? true : undefined)
                 }
               >
                 Shortlisted
               </DropdownMenuCheckboxItem>
               <DropdownMenuCheckboxItem
                 className="py-3"
-                checked={
-                  table.getColumn("interviewStatus")?.getFilterValue() ===
-                  "Cleared"
-                }
+                checked={table.getColumn('interviewStatus')?.getFilterValue() === 'Cleared'}
                 onCheckedChange={(value) =>
-                  table
-                    .getColumn("interviewStatus")
-                    ?.setFilterValue(value ? "Cleared" : undefined)
+                  table.getColumn('interviewStatus')?.setFilterValue(value ? 'Cleared' : undefined)
                 }
               >
                 Interview Cleared
@@ -127,7 +116,7 @@ export function DataTable<TData, TValue>({
             <DropdownMenuTrigger asChild>
               <Button
                 variant="outline"
-                className="ml-auto font-base py-6 rounded-xl text-neutral-700 bg-[#ECF0FF] border-none hover:bg-indigo-100"
+                className="font-base ml-auto rounded-xl border-none bg-[#ECF0FF] py-6 text-neutral-700 hover:bg-indigo-100"
               >
                 <Filter className="size-4" />
                 All Fitlers
@@ -141,11 +130,9 @@ export function DataTable<TData, TValue>({
                   return (
                     <DropdownMenuCheckboxItem
                       key={column.id}
-                      className="capitalize py-2"
+                      className="py-2 capitalize"
                       checked={column.getIsVisible()}
-                      onCheckedChange={(value) =>
-                        column.toggleVisibility(!!value)
-                      }
+                      onCheckedChange={(value) => column.toggleVisibility(!!value)}
                     >
                       {column.id}
                     </DropdownMenuCheckboxItem>
@@ -155,9 +142,9 @@ export function DataTable<TData, TValue>({
           </DropdownMenu>
         </div>
       </div>
-      <div className="border rounded-xl overflow-hidden">
+      <div className="overflow-hidden rounded-xl border">
         <Table>
-          <TableHeader className="bg-[#ECF0FF] rounded-2xl shadow">
+          <TableHeader className="rounded-2xl bg-[#ECF0FF] shadow">
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
                 {headerGroup.headers.map((header) => {
@@ -165,10 +152,7 @@ export function DataTable<TData, TValue>({
                     <TableHead key={header.id} className="px-8 py-4">
                       {header.isPlaceholder
                         ? null
-                        : flexRender(
-                            header.column.columnDef.header,
-                            header.getContext()
-                          )}
+                        : flexRender(header.column.columnDef.header, header.getContext())}
                     </TableHead>
                   );
                 })}
@@ -180,25 +164,19 @@ export function DataTable<TData, TValue>({
               table.getRowModel().rows.map((row) => (
                 <TableRow
                   key={row.id}
-                  data-state={row.getIsSelected() && "selected"}
+                  data-state={row.getIsSelected() && 'selected'}
                   className="hover:bg-indigo-50/40"
                 >
                   {row.getVisibleCells().map((cell) => (
                     <TableCell key={cell.id} className="pl-8">
-                      {flexRender(
-                        cell.column.columnDef.cell,
-                        cell.getContext()
-                      )}
+                      {flexRender(cell.column.columnDef.cell, cell.getContext())}
                     </TableCell>
                   ))}
                 </TableRow>
               ))
             ) : (
               <TableRow>
-                <TableCell
-                  colSpan={columns.length}
-                  className="h-24 text-center"
-                >
+                <TableCell colSpan={columns.length} className="h-24 text-center">
                   No results.
                 </TableCell>
               </TableRow>
@@ -208,11 +186,11 @@ export function DataTable<TData, TValue>({
 
         {/* Next and Previous Buttons */}
       </div>
-      <div className="flex items-center justify-between mt-10">
+      <div className="mt-10 flex items-center justify-between">
         {/* Total Users */}
         <div>
-          <p className="text-sm text-neutral-500 mb-2">
-            Total: <span className="text-black font-medium">{data.length}</span>
+          <p className="mb-2 text-sm text-neutral-500">
+            Total: <span className="font-medium text-black">{data.length}</span>
           </p>
         </div>
 
@@ -222,7 +200,7 @@ export function DataTable<TData, TValue>({
             size="sm"
             onClick={() => table.previousPage()}
             disabled={!table.getCanPreviousPage()}
-            className="w-28 py-5 rounded-xl"
+            className="w-28 rounded-xl py-5"
           >
             Previous
           </Button>
@@ -230,7 +208,7 @@ export function DataTable<TData, TValue>({
             size="sm"
             onClick={() => table.nextPage()}
             disabled={!table.getCanNextPage()}
-            className="bg-indigo-500 w-28 py-5 rounded-xl hover:bg-indigo-800"
+            className="w-28 rounded-xl bg-indigo-500 py-5 hover:bg-indigo-800"
           >
             Next
           </Button>
