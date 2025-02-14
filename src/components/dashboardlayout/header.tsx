@@ -1,5 +1,5 @@
 'use client';
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Hand, Menu } from 'lucide-react';
@@ -8,7 +8,13 @@ import Image from 'next/image';
 import Dropdown from '../common/selectComp';
 import NotificationButton from './notification';
 import { useAuthStore } from '@/context/authContext';
-import { options, navItems } from '@/lib/options';
+import { options, navItems,mockUser } from '@/lib/options';
+import { User } from '@/lib/types';
+import EditProfileDialog from '../admin/edit-profile';
+import ProfileDropdown from '../admin/profile-dropdown';
+import MobileMenu from './mobile-menu';
+import { profileService } from '@/context/profileContext';
+import { toast } from 'sonner';
 
 export const Header = () => {
   const router = useRouter();
@@ -16,6 +22,36 @@ export const Header = () => {
   const { user, logout } = useAuthStore();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [selectedOption, setSelectedOption] = useState<string | null>(null);
+  const [isEditProfileOpen, setIsEditProfileOpen] = useState(false);
+  const [displayUser, setDisplayUser] = useState<User>(user || mockUser);
+
+  const isAdminRoute = pathname?.startsWith('/admin');
+
+  useEffect(() => {
+    if (isEditProfileOpen && user?.id) {
+      fetchUserProfile();
+    }
+  }, [isEditProfileOpen, user?.id]);
+
+  const fetchUserProfile = async () => {
+    if (!user?.id) return;
+    const profileData = await profileService.getUserProfile(user.id);
+    if (profileData) {
+      setDisplayUser(profileData); 
+    }
+  };
+
+  const handleProfileSubmit = async (values: any): Promise<void> => {
+    if (!user?.id) return;
+    const updatedProfile = await profileService.updateProfile(user.id, values);
+    if (updatedProfile) {
+      toast.success('Profile updated successfully');
+      setDisplayUser(updatedProfile); 
+      setIsEditProfileOpen(false); 
+    } else {
+      toast.error('Failed to update profile');
+    }
+  };
 
   const handleDropdownSelect = async (value: string) => {
     setSelectedOption(value);
@@ -69,29 +105,36 @@ export const Header = () => {
         </nav>
 
         <div className="flex h-[36px] w-[267px] items-center gap-1 sm:gap-[16px]">
+          <div className="hidden sm:block">
           <Button
             variant="outline"
-            className="h-[36px] w-[133px] gap-1 rounded-[22px] border border-[#000000] px-3 py-2"
+            className="flex h-[36px] w-[133px] gap-1 items-center justify-center rounded-[22px]  px-3 py-2"
             onClick={() => router.push('/help')}
           >
             <Hand size={18} />
-            <span className="text-sm font-normal leading-4 sm:inline">I Have a doubt?</span>
+            <span className=" text-[#100C2C] text-sm font-normal leading-4 ">I have a doubt</span>
           </Button>
+          </div>
 
           <NotificationButton />
 
           <div className="hidden sm:block">
+          {isAdminRoute ? (
+              <ProfileDropdown 
+              onEditProfile={() => setIsEditProfileOpen(true)} 
+            />
+            ) : (
             <Button
               variant="ghost"
-              className="h-[36px] w-[66px] rounded-[37px] border border-[#DDE3FF] bg-[#FFFFFF] p-[8px]"
+              className="h-[36px] w-[66px] rounded-[37px] border border-[#DDE3FF] bg-[#FFFFFF] "
             >
-              <Image src="/avatar.svg" alt="User" width={26} height={26} className="rounded-full" />
+              <Image src="/avatar.svg" alt="User" width={26} height={26} className="rounded-full ml-2" />
               <Dropdown options={options} onSelect={handleDropdownSelect} />
               {selectedOption && <span className="sr-only">Selected: {selectedOption}</span>}
-            </Button>{' '}
+            </Button>   )}
           </div>
 
-          <div className="z-50 flex items-center md:hidden">
+          <div className=" md:hidden">
             <Button
               variant="ghost"
               className="rounded-md"
@@ -100,23 +143,24 @@ export const Header = () => {
               <Menu className="h-6 w-6" />
             </Button>
           </div>
-          {isMobileMenuOpen && (
-            <div className="absolute left-0 right-0 top-16 w-full bg-white p-4 shadow-md md:hidden">
-              <nav className="">
-                {navItems.map((item) => (
-                  <Link href={item.href} key={item.href} className="ite w-full">
-                    <Button
-                      variant="ghost"
-                      className={`gap-2 ${pathname === item.href ? 'text-black' : ''} w-full text-left`}
-                    >
-                      <item.icon className="h-4 w-4" />
-                      <span className="text-sm font-normal leading-4">{item.label}</span>
-                    </Button>
-                  </Link>
-                ))}
-              </nav>
-            </div>
-          )}
+          <EditProfileDialog 
+                  isOpen={isEditProfileOpen}
+                  onClose={() => setIsEditProfileOpen(false)}
+                  userData={displayUser}
+                  onSubmit={handleProfileSubmit}
+                />
+      <MobileMenu
+        isOpen={isMobileMenuOpen}
+        navItems={navItems}
+        pathname={pathname}
+        onHelpClick={() => router.push('/help')}
+        isAdminRoute={isAdminRoute}
+        onEditProfile={() => setIsEditProfileOpen(true)} 
+  isEditProfileOpen={isEditProfileOpen} 
+  onCloseEditProfile={() => setIsEditProfileOpen(false)} 
+  userData={displayUser} 
+  onSubmitProfile={handleProfileSubmit} 
+      />
         </div>
       </div>
     </header>

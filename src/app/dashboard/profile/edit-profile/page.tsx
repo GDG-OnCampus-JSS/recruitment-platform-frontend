@@ -5,17 +5,16 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
 import { Form } from '@/components/ui/form';
 import FormInput from '@/components/common/form-input';
-import Link from 'next/link';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent } from '@/components/ui/card';
+import { Dialog, DialogContent, DialogTitle, DialogHeader } from '@/components/ui/dialog';
 import { useAuthStore } from '@/context/authContext';
-import { SocialLink, SelectOptions } from '@/lib/types';
+import { SocialLink, EditProfileProps } from '@/lib/types';
 import { yearOptions, domainOptions, SOCIAL_PLATFORMS } from '@/lib/options';
 import PasswordModal from '@/components/dashboardlayout/password-modal';
 import { profileService } from '@/context/profileContext';
-import { ArrowLeft } from 'lucide-react';
+import { PencilLine,Upload,X } from 'lucide-react';
 import OptionsSelect from '@/components/common/options-select';
 import { validatePhoneNumber } from '@/utils/phoneValidation';
 import { ApiRoutes } from '@/api/routes';
@@ -47,7 +46,7 @@ const profileSchema = z.object({
   ),
 });
 
-const EditProfilePage = () => {
+const EditProfilePage = ({isOpen, onClose }: EditProfileProps) => {
   const router = useRouter();
   const { user } = useAuthStore();
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -55,7 +54,7 @@ const EditProfilePage = () => {
   const [isPasswordModalOpen, setIsPasswordModalOpen] = useState(false);
   const [profileImageFile, setProfileImageFile] = useState<File | null>(null);
   const [resumeFile, setResumeFile] = useState<File | null>(null);
-
+  const [activeTab, setActiveTab] = useState<'basic' | 'professional'>('basic');
   const userId = user?.id || 'dev-123';
 
   const form = useForm<z.infer<typeof profileSchema>>({
@@ -129,6 +128,15 @@ const EditProfilePage = () => {
     }
   };
 
+  const handleRemoveResume = () => {
+    setResumeFile(null);
+    form.setValue('resume', '');
+    const fileInput = document.getElementById('resume-upload') as HTMLInputElement;
+    if (fileInput) {
+      fileInput.value = '';
+    }
+  };
+
   const handleSavePassword = async (passwords: {
     oldPassword: string;
     newPassword: string;
@@ -198,184 +206,212 @@ const EditProfilePage = () => {
           await profileService.deleteSocialLink(existingLink.id);
         }
       }
-
-      router.push('/dashboard/profile');
+      onClose();
+      router.refresh();
     } catch (error) {
       console.error('Error saving changes:', error);
+      toast.error('Failed to update profile');
     } finally {
       setIsSubmitting(false);
     }
   }
 
   return (
-    <div className="min-h-screen space-y-6 p-2 pt-12">
-      <div className="w-full">
-        <div className="mx-auto flex max-w-[1120px] items-center justify-between pt-4">
-          <Link href="/dashboard">
+    <Dialog open={isOpen && !isPasswordModalOpen} onOpenChange={onClose}>
+    <DialogContent className="max-h-[90vh] w-[400px] sm:w-[598px] overflow-y-auto scrollbar-none p-0">
+      <DialogHeader className="p-4">
+        <DialogTitle className="text-xl pl-2 sm:text-[28px] sm:pl-10 font-normal">
+          Edit Profile
+        </DialogTitle>
+      </DialogHeader>
+
+      <div className="flex flex-col items-center px-4 sm:px-6 pt-6">
+        <div className="relative mb-6">
+          <div className="relative h-24 w-24 sm:h-32 sm:w-32 overflow-hidden rounded-full">
+            <Image
+              src={profileImage}
+              alt="Profile"
+              layout="fill"
+              objectFit="cover"
+              className="sm:h-32 sm:w-32"
+            />
+          </div>
+          <label
+            className="absolute bottom-0 right-0 cursor-pointer"
+            htmlFor="photo-upload"
+          >
+            <input
+              type="file"
+              id="photo-upload"
+              className="hidden"
+              onChange={handleImageUpload}
+              accept="image/*"
+            />
+            <PencilLine className="h-6 w-6 sm:h-8 sm:w-8 bg-[#E7E7E7] p-1 rounded-[333px]" />
+          </label>
+        </div>
+
+        <div className="mb-6 w-full sm:pl-2 sm:w-[470px] overflow-x-auto border-b">
+          <div className="flex min-w-max">
             <Button
-              variant="outline"
-              className="px- text=[#2F3B00] flex items-center gap-2 rounded-3xl border py-2 text-[16px] font-normal leading-5"
+              type="button"
+              variant="ghost"
+              className={`flex rounded-none font-medium text-sm sm:text-base sm:w-[94px] border-b-[1px] px-4 sm:px-6 py-2 ${
+                activeTab === 'basic'
+                  ? 'border-[#100C2C]'
+                  : 'border-transparent'
+              }`}
+              onClick={() => setActiveTab('basic')}
             >
-              <ArrowLeft /> Back
+              Basic Details
             </Button>
-          </Link>
-          <h1 className="font-medium sm:text-xl">Your Profile</h1>
+            <Button
+              type="button"
+              variant="ghost"
+              className={`flex rounded-none font-medium text-sm sm:text-base sm:w-[152px] border-b-[1px] ml-4 sm:ml-6 py-2 ${
+                activeTab === 'professional'
+                  ? 'border-[#100C2C]'
+                  : 'border-transparent'
+              }`}
+              onClick={() => setActiveTab('professional')}
+            >
+              Professional Identity
+            </Button>
+          </div>
         </div>
       </div>
 
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)}>
-          <Card className="max-w-[1120px] border border-gray-200">
-            <CardContent className="p-4 sm:p-10">
-              <div className="mx-auto w-full max-w-[1120px] space-y-8">
-                {/* Personal Info */}
-                <div className="flex flex-col gap-4 sm:flex-row sm:gap-8">
-                  <div className="w-full sm:w-80">
-                    <h2 className="text-[16px] font-medium leading-[19.41px] text-[#100C2C]">
-                      About
-                    </h2>
-                    <p className="text-base font-normal text-gray-500">
-                      Tell us about yourself so that we know who you are.
-                    </p>
-                  </div>
+        <form
+          onSubmit={form.handleSubmit(onSubmit)}
+          className="w-full px-4 sm:w-[518px] sm:pl-[10px]"
+        >
+          {activeTab === 'basic' ? (
+            <div className="space-y-3">
+              <FormInput
+                name="name"
+                label="Name"
+                isAsterisk
+                className="h-[76px] font-normal text-base"
+              />
+              <FormInput
+                name="email"
+                label="Email"
+                isAsterisk
+                className="h-[76px] font-normal text-base"
+              />
+              <FormInput
+                name="phone"
+                label="Phone no"
+                isAsterisk
+                className="h-[76px] font-normal text-base"
+              />
+              <OptionsSelect
+                label="Academic year"
+                name="year"
+                onSelectionChange={(value) => form.setValue('year', value)}
+                options={yearOptions}
+                placeholder="Select your year"
+                isAsterisk
+                className="font-normal text-base"
+              />
+              <FormInput
+                name="admissionNumber"
+                label="Admission number"
+                isAsterisk
+                className="h-[79px] font-normal text-base"
+              />
+            </div>
+          ) : (
+            <div className="space-y-3">
+              <OptionsSelect
+                label="Domain"
+                name="domain"
+                onSelectionChange={(value) => form.setValue('domain', value)}
+                options={domainOptions}
+                placeholder="Select your domain"
+                isAsterisk
+                className="font-normal text-base"
+              />
 
-                  <div className="flex-1 space-y-6">
-                    <div className="space-y-4">
-                      <FormInput name="name" label="Full Name*" type="text" />
-
-                      <div className="mt-4">
-                        <label
-                          htmlFor="photo"
-                          className="flex cursor-pointer flex-col items-center gap-4 sm:flex-row"
-                        >
-                          <div className="relative h-[75px] w-[75px] overflow-hidden rounded-full">
-                            <Image
-                              src={profileImage}
-                              alt="Profile"
-                              layout="fill"
-                              objectFit="cover"
-                            />
-                            <input
-                              type="file"
-                              id="photo"
-                              className="hidden"
-                              onChange={handleImageUpload}
-                              accept="image/*"
-                            />
-                          </div>
-                          <span className="mt-2 border border-[#DDE3FF] p-3 text-[#100C2C] sm:mt-0">
-                            Upload a new photo
-                          </span>
-                        </label>
-                      </div>
-
-                      <div className="space-y-4">
-                        <FormInput name="email" label="Email address*" type="text" />
-
-                        <FormInput name="phone" label="Phone Number*" type="text" />
-
-                        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-                          <OptionsSelect
-                            name="year"
-                            label="Academic year*"
-                            placeholder="Select your year"
-                            onSelectionChange={(value) => form.setValue('year', value)}
-                            options={yearOptions}
-                          />
-
-                          <FormInput name="admissionNumber" label="Admission number*" type="text" />
-                        </div>
-                      </div>
-                    </div>
-                  </div>
+              <div className="space-y-3">
+                <label className="text-base font-medium">
+                  Upload Resume (optional)
+                </label>
+                <div className="flex items-center space-x-2">
+                  <Button
+                    type="button"
+                    variant="outline"
+                    onClick={() => document.getElementById('resume-upload')?.click()}
+                    className="w-full"
+                  >
+                    <Upload /> Select file
+                  </Button>
+                  <input
+                    type="file"
+                    id="resume-upload"
+                    className="hidden"
+                    onChange={handleResumeUpload}
+                    accept=".pdf,.doc,.docx"
+                  />
                 </div>
-
-                <div className="flex justify-center py-1">
-                  <div className="w-full border-b border-[#DDE3FF]"></div>
-                </div>
-
-                {/* Professional Section */}
-                <div className="flex flex-col gap-4 sm:flex-row sm:gap-8">
-                  <div className="w-full sm:w-80">
-                    <h2 className="text-[16px] font-medium leading-[19.41px] text-black">
-                      Professional Identity
-                    </h2>
-                    <p className="text-gray-500">
-                      Sharing more details about yourself will help you stand out more.
-                    </p>
+                {resumeFile && (
+                  <div className="flex items-center justify-between rounded-md border border-gray-200 p-2">
+                    <span className="text-sm text-gray-600 truncate max-w-[200px]">
+                      {resumeFile.name}
+                    </span>
+                    <Button
+                      type="button"
+                      variant="ghost"
+                      size="sm"
+                      onClick={handleRemoveResume}
+                      className="h-8 w-8 p-0 hover:bg-gray-100"
+                    >
+                      <X className="h-4 w-4 text-gray-500" />
+                    </Button>
                   </div>
-
-                  <div className="flex-1 space-y-6">
-                    <OptionsSelect
-                      label="Domain*"
-                      name="domain"
-                      onSelectionChange={(value) => form.setValue('domain', value)}
-                      options={domainOptions}
-                      placeholder="Select your domain"
-                    />
-
-                    <div className="mt-4">
-                      <label
-                        htmlFor="resume-upload"
-                        className="flex cursor-pointer flex-col items-center gap-4 sm:flex-row"
-                      >
-                        <div className="relative h-[160px] w-[265px] overflow-hidden rounded-[8px] border">
-                          <Image src="/" alt="RESUME" layout="fill" objectFit="cover" />
-                          <input
-                            type="file"
-                            id="resume-upload"
-                            className="hidden"
-                            accept=".pdf,.doc,.docx"
-                            onChange={handleResumeUpload}
-                          />
-                        </div>
-                        <span className="mt-2 border border-[#DDE3FF] p-3 text-[#100C2C] sm:mt-0">
-                          Re-Upload Resume
-                        </span>
-                      </label>
-                    </div>
-
-                    {SOCIAL_PLATFORMS.map(({ platform }) => (
-                      <FormInput
-                        key={platform}
-                        name={platform.toLowerCase()}
-                        label={`${platform} Link (optional)`}
-                        type="url"
-                        placeholder="Paste link here"
-                      />
-                    ))}
-                  </div>
-                </div>
+                )}
               </div>
-            </CardContent>
-          </Card>
 
-          <div className="mx-auto flex max-w-[1120px] flex-col items-center justify-between gap-4 px-4 pt-8 sm:flex-row sm:px-6">
-            <Button
-              type="button"
-              variant="outline"
-              onClick={() => setIsPasswordModalOpen(true)}
-              className="w-full border-[#635BFF] px-6 text-[#635BFF] hover:bg-[#635BFF] hover:text-white sm:w-auto"
-            >
-              Change password
-            </Button>
+              {SOCIAL_PLATFORMS.map(({ platform }) => (
+                <FormInput
+                  key={platform}
+                  name={platform.toLowerCase()}
+                  label={`${platform} Profile (optional)`}
+                  placeholder="Paste link here"
+                  className="font-normal text-base text-[#000000]"
+                />
+              ))}
+            </div>
+          )}
+
+          <div className="mt-6 flex flex-col items-center justify-between pt-3">
             <Button
               type="submit"
-              className="w-full bg-[#635BFF] px-6 text-white hover:bg-[#635BFF]/90 sm:w-auto"
               disabled={isSubmitting}
+              className="w-full my-2 bg-[#635BFF] font-medium text-base hover:text-white"
             >
-              {isSubmitting ? 'Saving...' : 'Save Changes'}
+              {isSubmitting ? 'Saving...' : 'Save changes'}
+            </Button>
+            <Button
+              type="button"
+              variant="ghost"
+              onClick={() => setIsPasswordModalOpen(true)}
+              className="text-[#DB4437] w-full pb-4 font-medium text-base"
+            >
+              Change Password
             </Button>
           </div>
         </form>
       </Form>
+    </DialogContent>
 
-      <PasswordModal
-        isOpen={isPasswordModalOpen}
-        onOpenChange={setIsPasswordModalOpen}
-        onSave={handleSavePassword}
-      />
-    </div>
+    <PasswordModal
+      isOpen={isPasswordModalOpen}
+      onOpenChange={setIsPasswordModalOpen}
+      onSave={handleSavePassword}
+    />
+  </Dialog>
   );
 };
 

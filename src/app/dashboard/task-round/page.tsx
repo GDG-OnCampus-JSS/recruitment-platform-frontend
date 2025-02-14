@@ -1,14 +1,57 @@
+'use client'
 import React from 'react';
 import { Button } from '@/components/ui/button';
 import Image from 'next/image';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import Link from 'next/link';
 import { ArrowLeft } from 'lucide-react';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import * as z from 'zod';
+import { Form } from '@/components/ui/form';
+import FormInput from '@/components/common/form-input';
+import { useAuthStore } from '@/context/authContext';
+import { mockUser } from '@/lib/options';
+import { User } from '@/lib/types';
+import { ApiRoutes } from '@/api/routes';
 
-function task() {
+
+const taskSchema = z.object({
+  link: z.string().url("Invalid URL format"),
+});
+
+
+
+function Task() {
+   const { user } = useAuthStore();
+   const displayUser = (user || mockUser) as User;
+  const form = useForm<z.infer<typeof taskSchema>>({
+    resolver: zodResolver(taskSchema),
+    defaultValues: {link: '' },
+  });
+  
+  const onSubmit =async (data: { link: string })=> {
+    console.log('Submitted URL:', data.link);
+    const socialLinkData = {
+      platform: 'project',
+      url: data.link
+    };
+  
+    const response = await ApiRoutes.createSocialLink(displayUser.id, socialLinkData);
+    if (response.status === 200) {
+      await ApiRoutes.updateUser(displayUser.id, {
+        projectStatus: true
+      });
+      alert('Task link submitted successfully!');
+      form.reset();
+    } else {
+      alert('Failed to submit task link');
+    }
+  };
+  
   return (
     <div className="min-h-screen space-y-6 p-6 pt-12">
-      <div className="w-full bg-white">
+      <div className="w-full ">
         <div className="mx-auto flex items-center justify-between px-6 py-4">
           <Link href="/dashboard">
             <Button
@@ -18,10 +61,10 @@ function task() {
               <ArrowLeft /> Back
             </Button>
           </Link>
-          <h1 className="text-xl font-medium">Tasks</h1>
+          <h1 className="text-xl font-medium xl-">Tasks</h1>
         </div>
       </div>
-      <h2 className="pb-2 text-[28px] font-bold leading-[33.96px] text-[#454545]">
+      <h2 className="pb-2 text-[28px] font-bold leading-[33.96px] text-[#635BFF]">
         Do any one of the following
       </h2>
 
@@ -55,13 +98,13 @@ function task() {
                 alt="Slack "
                 width={400}
                 height={200}
-                className="w-full rounded-lg shadow-md"
+                className="w-full rounded-lg shadow-md "
               />
             </div>
           </div>
 
           <div className="flex flex-col gap-4 md:flex-row">
-            <Card className="w-full bg-custom-card-gradient md:w-[550px]">
+            <Card className="w-full md:w-[440px]  xl:w-[550px]">
               <CardHeader>
                 <CardTitle className="text-[20px] font-bold leading-[24.6px] text-[#6B83FF]">
                   Judgement Criteria
@@ -77,7 +120,7 @@ function task() {
               </CardContent>
             </Card>
 
-            <Card className="w-full bg-custom-card-gradient md:w-[550px]">
+            <Card className="w-full md:w-[440px]  xl:w-[550px]">
               <CardHeader>
                 <CardTitle className="text-[20px] font-bold leading-[24.6px] text-[#6B83FF]">
                   Brownie Points
@@ -95,18 +138,22 @@ function task() {
         </div>
 
         <div className="flex items-center justify-center py-6">
-          <div className="h-[1px] w-full bg-gray-200"></div>
-          <div className="bg-white px-8 text-base font-bold text-[#7D92FE]">OR</div>
-          <div className="h-[1px] w-full bg-gray-200"></div>
+          <div className="h-[1px] w-full  bg-gradient-line rotate-180"></div>
+          
+          <div className=" px-8 text-[28px] font-medium text-[#100C2C]">OR</div>
+          <div className="h-[1px] w-full bg-gradient-line"></div>
         </div>
 
         <div className="space-y-6">
+          <div className='flex justify-between items-center'>
           <h3 className="text-[28px] font-medium leading-[33.96px]">Backend</h3>
+          <div className="h-[1px] sm:w-[981px] bg-gradient-line "></div>
+          </div>
 
           <div className="space-y-6">
             <div className="flex flex-col gap-4 md:flex-row">
-              <div className="w-full md:w-[550px]">
-                <ol className="list-decimal pl-4 text-[16px] font-normal leading-[25.6px] text-[#353535] md:h-[150px] md:w-[500px]">
+              <div className="w-full xl:w-[550px]">
+                <ol className="list-decimal pl-4 text-[16px] font-normal leading-[25.6px] text-[#353535] md:h-[150px] xl:w-[500px]">
                   <li>You have to implement a simple CRUD operation</li>
                   <li>
                     If you are implementing the authentication (Login & signup APIs) will be marked
@@ -122,7 +169,7 @@ function task() {
                 </p>
               </div>
 
-              <div className="mb-6 w-full text-[16px] font-normal leading-[25.6px] md:h-[125px] md:w-[550px]">
+              <div className="mb-6 w-full text-[16px] font-normal leading-[25.6px] md:h-[125px] xl:w-[550px]">
                 <h3 className="mb-3 text-[#6B83FF]">
                   Some key points to keep in mind while writing code
                 </h3>
@@ -146,7 +193,7 @@ function task() {
             </div>
 
             <div className="flex flex-col gap-4 md:flex-row">
-              <Card className="w-full bg-custom-card-gradient md:w-[550px]">
+              <Card className="w-full md:w-[440px]  xl:w-[550px]">
                 <CardHeader>
                   <CardTitle className="text-[20px] font-bold leading-[24.6px] text-[#6B83FF]">
                     Judgement Criteria
@@ -162,7 +209,7 @@ function task() {
                 </CardContent>
               </Card>
 
-              <Card className="w-full bg-custom-card-gradient md:w-[550px]">
+              <Card className="w-full  md:w-[440px]  xl:w-[550px]">
                 <CardHeader>
                   <CardTitle className="text-[20px] font-bold leading-[24.6px] text-[#6B83FF]">
                     Brownie Points
@@ -177,10 +224,27 @@ function task() {
                 </CardContent>
               </Card>
             </div>
+
+            <div className="flex flex-col sm:flex-row items-center justify-center py-6">
+          <div className="h-[1px] sm:w-96 bg-gradient-line rotate-180"></div>
+          <div className=" px-8 sm:text-[28px] font-medium tracking-[0.56px] text-[#100C2C]">Ready to Submit?</div>
+          <div className="h-[1px] sm:w-[446px] bg-gradient-line "></div>
+        </div>
+
+        <Form {...form}>
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 w-full max-w-md mx-auto flex flex-col items-center px-4 sm:px-0">
+          <div className='h-12 w-full px-0 sm:px-3'>
+            <FormInput {...form.register("link")} name="link"  type="url" placeholder="Add link here..."className="w-full" />
+          </div>
+          <Button type="submit" className="w-full sm:w-auto bg-[#635BFF] text-white px-4 py-2 rounded-md">
+            Submit
+          </Button>
+        </form>
+      </Form>
           </div>
         </div>
       </div>
     </div>
   );
 }
-export default task;
+export default Task;

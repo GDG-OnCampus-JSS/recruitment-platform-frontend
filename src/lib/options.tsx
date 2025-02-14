@@ -47,7 +47,7 @@ export const steps = [
   {
     step: 3,
     title: 'Personal Interview',
-    description: 'The final step, a conversation to seal your place.',
+    description: 'The final step: a conversation to seal your place.',
     icon: 'Users',
     buttonText: 'Schedule now',
     buttonVariant: 'destructive' as const,
@@ -93,6 +93,9 @@ export const mockUser = {
     { platform: 'LinkedIn', url: 'https://linkedin.com/in/profile', icon: 'linkedin' },
     { platform: 'GitHub', url: 'https://github.com/profile', icon: 'github' },
   ],
+  projectStatus: false, 
+  interviewStatus: false, 
+  reviewStatus: false,
 };
 export const reqFields = [
   'name',

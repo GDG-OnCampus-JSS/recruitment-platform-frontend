@@ -38,10 +38,10 @@ const NotificationButton = () => {
     <div className="relative">
       <Button
         variant="ghost"
-        className="relative h-[36px] w-[36px] rounded-[37px] border border-[#DDE3FF] bg-[#FFFFFF] p-[8px]"
+        className=" ml-20 sm:ml-0 relative h-[36px] w-[36px] rounded-[37px] border border-[#DDE3FF] bg-[#FFFFFF] p-[8px]"
         onClick={() => setIsOpen(!isOpen)}
       >
-        <Bell className="h-5 w-5" />
+        <Bell className="text-[#100C2C]  h-5 w-5" />
         {unreadCount > 0 && (
           <span className="absolute right-1 top-1 h-2 w-2 rounded-full bg-red-500" />
         )}
