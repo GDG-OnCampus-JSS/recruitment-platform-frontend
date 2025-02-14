@@ -93,8 +93,8 @@ export const mockUser = {
     { platform: 'LinkedIn', url: 'https://linkedin.com/in/profile', icon: 'linkedin' },
     { platform: 'GitHub', url: 'https://github.com/profile', icon: 'github' },
   ],
-  projectStatus: false, 
-  interviewStatus: false, 
+  projectStatus: false,
+  interviewStatus: false,
   reviewStatus: false,
 };
 export const reqFields = [

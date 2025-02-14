@@ -1,9 +1,9 @@
 'use client';
 import { useState, useEffect } from 'react';
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { Button } from "@/components/ui/button";
-import {  PencilLine, X } from "lucide-react";
-import Image from "next/image";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { Button } from '@/components/ui/button';
+import { PencilLine, X } from 'lucide-react';
+import Image from 'next/image';
 import FormInput from '@/components/common/form-input';
 import { useForm } from 'react-hook-form';
 import * as z from 'zod';
@@ -12,7 +12,7 @@ import { Form } from '@/components/ui/form';
 import { User } from '@/lib/types';
 import PasswordModal from '../dashboardlayout/password-modal';
 import { toast } from 'sonner';
-import { ApiRoutes} from '@/api/routes';
+import { ApiRoutes } from '@/api/routes';
 import { useAuthStore } from '@/context/authContext';
 
 interface EditProfileDialogProps {
@@ -22,7 +22,6 @@ interface EditProfileDialogProps {
   onSubmit: (values: z.infer<typeof profileSchema>) => Promise<void>;
 }
 
-
 const profileSchema = z.object({
   name: z.string().min(1, 'Name is required'),
   email: z.string().email('Please enter a valid email address'),
@@ -30,7 +29,12 @@ const profileSchema = z.object({
   domain: z.string().min(1, 'Domain is required'),
 });
 
-export default function EditProfileDialog({ isOpen, onClose, userData, onSubmit }: EditProfileDialogProps) {
+export default function EditProfileDialog({
+  isOpen,
+  onClose,
+  userData,
+  onSubmit,
+}: EditProfileDialogProps) {
   const [profileImage, setProfileImage] = useState(userData?.photo || '/avatar.jpg');
   const [isPasswordModalOpen, setIsPasswordModalOpen] = useState(false);
 
@@ -40,8 +44,8 @@ export default function EditProfileDialog({ isOpen, onClose, userData, onSubmit 
       name: userData?.name || '',
       email: userData?.email || '',
       phone: userData?.phone || '',
-      domain: userData?.domain || ''
-    }
+      domain: userData?.domain || '',
+    },
   });
 
   useEffect(() => {
@@ -50,7 +54,7 @@ export default function EditProfileDialog({ isOpen, onClose, userData, onSubmit 
         name: userData.name,
         email: userData.email,
         phone: userData.phone,
-        domain: userData.domain
+        domain: userData.domain,
       });
       setProfileImage(userData.photo || '/avatar.jpg');
     }
@@ -96,77 +100,58 @@ export default function EditProfileDialog({ isOpen, onClose, userData, onSubmit 
   };
 
   return (
-<div>
-    <Dialog open={isOpen && !isPasswordModalOpen} onOpenChange={onClose}>
-      <DialogContent className="w-[350px] sm:w-[598px]">
-        <DialogHeader>
-          <div className="flex items-center justify-between">
-            <DialogTitle className="text-xl font-normal">Edit Profile</DialogTitle>
-          </div>
-        </DialogHeader>
-
-        <div className="flex justify-center py-4">
-        <div className="relative mb-6">
-          <div className="relative h-32 w-32 overflow-hidden rounded-full">
-            <Image
-              src={profileImage}
-              alt="Profile"
-              layout="fill"
-              objectFit="cover"
-              className="h-32 w-32"
-            />
-          </div>
-         <div  className="absolute bottom-0 right-0 cursor-pointer " >
-         <PencilLine className="h-8 w-8 bg-[#E7E7E7] p-[5px] rounded-[333px] "/>
-         </div>
-         </div>
-        </div>
-
-        <Form {...form}>
-          <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-4">
-            <FormInput
-              name="name"
-              label="Name"
-              type="text"
-            />
-            <FormInput
-              name="email"
-              label="Email"
-              type="text"
-            />
-            <FormInput
-              name="phone"
-              label="Phone no"
-              type="text"
-            />
-            <FormInput
-              name="domain"
-              label="Domain"
-              type="text"
-            />
-
-            <div className=" flex justify-between">
-              <Button
-                type="button"
-                variant="ghost"
-                className="h-auto font-medium text-base p-0 text-[#DB4437]  "
-                 onClick={() => setIsPasswordModalOpen(true)}
-              >
-                Change Password
-              </Button>
-
-              <Button
-                type="submit"
-                className=" bg-[#635BFF] rounded-[6px] py-3 px-5"
-              >
-                Save changes
-              </Button>
+    <div>
+      <Dialog open={isOpen && !isPasswordModalOpen} onOpenChange={onClose}>
+        <DialogContent className="w-[350px] sm:w-[598px]">
+          <DialogHeader>
+            <div className="flex items-center justify-between">
+              <DialogTitle className="text-xl font-normal">Edit Profile</DialogTitle>
             </div>
-          </form>
-        </Form>
-      </DialogContent>
-    </Dialog>
-    <PasswordModal
+          </DialogHeader>
+
+          <div className="flex justify-center py-4">
+            <div className="relative mb-6">
+              <div className="relative h-32 w-32 overflow-hidden rounded-full">
+                <Image
+                  src={profileImage}
+                  alt="Profile"
+                  layout="fill"
+                  objectFit="cover"
+                  className="h-32 w-32"
+                />
+              </div>
+              <div className="absolute bottom-0 right-0 cursor-pointer">
+                <PencilLine className="h-8 w-8 rounded-[333px] bg-[#E7E7E7] p-[5px]" />
+              </div>
+            </div>
+          </div>
+
+          <Form {...form}>
+            <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-4">
+              <FormInput name="name" label="Name" type="text" />
+              <FormInput name="email" label="Email" type="text" />
+              <FormInput name="phone" label="Phone no" type="text" />
+              <FormInput name="domain" label="Domain" type="text" />
+
+              <div className="flex justify-between">
+                <Button
+                  type="button"
+                  variant="ghost"
+                  className="h-auto p-0 text-base font-medium text-[#DB4437]"
+                  onClick={() => setIsPasswordModalOpen(true)}
+                >
+                  Change Password
+                </Button>
+
+                <Button type="submit" className="rounded-[6px] bg-[#635BFF] px-5 py-3">
+                  Save changes
+                </Button>
+              </div>
+            </form>
+          </Form>
+        </DialogContent>
+      </Dialog>
+      <PasswordModal
         isOpen={isPasswordModalOpen}
         onOpenChange={setIsPasswordModalOpen}
         onSave={handleSavePassword}

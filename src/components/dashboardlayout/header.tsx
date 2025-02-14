@@ -1,5 +1,5 @@
 'use client';
-import React, { useState,useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Hand, Menu } from 'lucide-react';
@@ -8,7 +8,7 @@ import Image from 'next/image';
 import Dropdown from '../common/selectComp';
 import NotificationButton from './notification';
 import { useAuthStore } from '@/context/authContext';
-import { options, navItems,mockUser } from '@/lib/options';
+import { options, navItems, mockUser } from '@/lib/options';
 import { User } from '@/lib/types';
 import EditProfileDialog from '../admin/edit-profile';
 import ProfileDropdown from '../admin/profile-dropdown';
@@ -37,7 +37,7 @@ export const Header = () => {
     if (!user?.id) return;
     const profileData = await profileService.getUserProfile(user.id);
     if (profileData) {
-      setDisplayUser(profileData); 
+      setDisplayUser(profileData);
     }
   };
 
@@ -46,8 +46,8 @@ export const Header = () => {
     const updatedProfile = await profileService.updateProfile(user.id, values);
     if (updatedProfile) {
       toast.success('Profile updated successfully');
-      setDisplayUser(updatedProfile); 
-      setIsEditProfileOpen(false); 
+      setDisplayUser(updatedProfile);
+      setIsEditProfileOpen(false);
     } else {
       toast.error('Failed to update profile');
     }
@@ -106,35 +106,40 @@ export const Header = () => {
 
         <div className="flex h-[36px] w-[267px] items-center gap-1 sm:gap-[16px]">
           <div className="hidden sm:block">
-          <Button
-            variant="outline"
-            className="flex h-[36px] w-[133px] gap-1 items-center justify-center rounded-[22px]  px-3 py-2"
-            onClick={() => router.push('/help')}
-          >
-            <Hand size={18} />
-            <span className=" text-[#100C2C] text-sm font-normal leading-4 ">I have a doubt</span>
-          </Button>
+            <Button
+              variant="outline"
+              className="flex h-[36px] w-[133px] items-center justify-center gap-1 rounded-[22px] px-3 py-2"
+              onClick={() => router.push('/help')}
+            >
+              <Hand size={18} />
+              <span className="text-sm font-normal leading-4 text-[#100C2C]">I have a doubt</span>
+            </Button>
           </div>
 
           <NotificationButton />
 
           <div className="hidden sm:block">
-          {isAdminRoute ? (
-              <ProfileDropdown 
-              onEditProfile={() => setIsEditProfileOpen(true)} 
-            />
+            {isAdminRoute ? (
+              <ProfileDropdown onEditProfile={() => setIsEditProfileOpen(true)} />
             ) : (
-            <Button
-              variant="ghost"
-              className="h-[36px] w-[66px] rounded-[37px] border border-[#DDE3FF] bg-[#FFFFFF] "
-            >
-              <Image src="/avatar.svg" alt="User" width={26} height={26} className="rounded-full ml-2" />
-              <Dropdown options={options} onSelect={handleDropdownSelect} />
-              {selectedOption && <span className="sr-only">Selected: {selectedOption}</span>}
-            </Button>   )}
+              <Button
+                variant="ghost"
+                className="h-[36px] w-[66px] rounded-[37px] border border-[#DDE3FF] bg-[#FFFFFF]"
+              >
+                <Image
+                  src="/avatar.svg"
+                  alt="User"
+                  width={26}
+                  height={26}
+                  className="ml-2 rounded-full"
+                />
+                <Dropdown options={options} onSelect={handleDropdownSelect} />
+                {selectedOption && <span className="sr-only">Selected: {selectedOption}</span>}
+              </Button>
+            )}
           </div>
 
-          <div className=" md:hidden">
+          <div className="md:hidden">
             <Button
               variant="ghost"
               className="rounded-md"
@@ -143,24 +148,24 @@ export const Header = () => {
               <Menu className="h-6 w-6" />
             </Button>
           </div>
-          <EditProfileDialog 
-                  isOpen={isEditProfileOpen}
-                  onClose={() => setIsEditProfileOpen(false)}
-                  userData={displayUser}
-                  onSubmit={handleProfileSubmit}
-                />
-      <MobileMenu
-        isOpen={isMobileMenuOpen}
-        navItems={navItems}
-        pathname={pathname}
-        onHelpClick={() => router.push('/help')}
-        isAdminRoute={isAdminRoute}
-        onEditProfile={() => setIsEditProfileOpen(true)} 
-  isEditProfileOpen={isEditProfileOpen} 
-  onCloseEditProfile={() => setIsEditProfileOpen(false)} 
-  userData={displayUser} 
-  onSubmitProfile={handleProfileSubmit} 
-      />
+          <EditProfileDialog
+            isOpen={isEditProfileOpen}
+            onClose={() => setIsEditProfileOpen(false)}
+            userData={displayUser}
+            onSubmit={handleProfileSubmit}
+          />
+          <MobileMenu
+            isOpen={isMobileMenuOpen}
+            navItems={navItems}
+            pathname={pathname}
+            onHelpClick={() => router.push('/help')}
+            isAdminRoute={isAdminRoute}
+            onEditProfile={() => setIsEditProfileOpen(true)}
+            isEditProfileOpen={isEditProfileOpen}
+            onCloseEditProfile={() => setIsEditProfileOpen(false)}
+            userData={displayUser}
+            onSubmitProfile={handleProfileSubmit}
+          />
         </div>
       </div>
     </header>

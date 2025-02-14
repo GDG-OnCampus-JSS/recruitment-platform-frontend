@@ -22,7 +22,7 @@ const StepCard = ({
       className={`mx-auto w-full max-w-sm ${gradientBg} rounded-lg border border-solid border-[#DDE3FF]`}
     >
       <CardContent className="relative flex h-full flex-col p-4">
-        <div className="absolute right-4 top-8  font-medium text-[#0C0C0C] text-base ">
+        <div className="absolute right-4 top-8 text-base font-medium text-[#0C0C0C]">
           {String(step).padStart(2, '0')}
         </div>
 

@@ -1,4 +1,4 @@
-'use client'
+'use client';
 import React from 'react';
 import { Button } from '@/components/ui/button';
 import Image from 'next/image';
@@ -15,32 +15,29 @@ import { mockUser } from '@/lib/options';
 import { User } from '@/lib/types';
 import { ApiRoutes } from '@/api/routes';
 
-
 const taskSchema = z.object({
-  link: z.string().url("Invalid URL format"),
+  link: z.string().url('Invalid URL format'),
 });
 
-
-
 function Task() {
-   const { user } = useAuthStore();
-   const displayUser = (user || mockUser) as User;
+  const { user } = useAuthStore();
+  const displayUser = (user || mockUser) as User;
   const form = useForm<z.infer<typeof taskSchema>>({
     resolver: zodResolver(taskSchema),
-    defaultValues: {link: '' },
+    defaultValues: { link: '' },
   });
-  
-  const onSubmit =async (data: { link: string })=> {
+
+  const onSubmit = async (data: { link: string }) => {
     console.log('Submitted URL:', data.link);
     const socialLinkData = {
       platform: 'project',
-      url: data.link
+      url: data.link,
     };
-  
+
     const response = await ApiRoutes.createSocialLink(displayUser.id, socialLinkData);
     if (response.status === 200) {
       await ApiRoutes.updateUser(displayUser.id, {
-        projectStatus: true
+        projectStatus: true,
       });
       alert('Task link submitted successfully!');
       form.reset();
@@ -48,10 +45,10 @@ function Task() {
       alert('Failed to submit task link');
     }
   };
-  
+
   return (
     <div className="min-h-screen space-y-6 p-6 pt-12">
-      <div className="w-full ">
+      <div className="w-full">
         <div className="mx-auto flex items-center justify-between px-6 py-4">
           <Link href="/dashboard">
             <Button
@@ -61,7 +58,7 @@ function Task() {
               <ArrowLeft /> Back
             </Button>
           </Link>
-          <h1 className="text-xl font-medium xl-">Tasks</h1>
+          <h1 className="xl- text-xl font-medium">Tasks</h1>
         </div>
       </div>
       <h2 className="pb-2 text-[28px] font-bold leading-[33.96px] text-[#635BFF]">
@@ -98,13 +95,13 @@ function Task() {
                 alt="Slack "
                 width={400}
                 height={200}
-                className="w-full rounded-lg shadow-md "
+                className="w-full rounded-lg shadow-md"
               />
             </div>
           </div>
 
           <div className="flex flex-col gap-4 md:flex-row">
-            <Card className="w-full md:w-[440px]  xl:w-[550px]">
+            <Card className="w-full md:w-[440px] xl:w-[550px]">
               <CardHeader>
                 <CardTitle className="text-[20px] font-bold leading-[24.6px] text-[#6B83FF]">
                   Judgement Criteria
@@ -120,7 +117,7 @@ function Task() {
               </CardContent>
             </Card>
 
-            <Card className="w-full md:w-[440px]  xl:w-[550px]">
+            <Card className="w-full md:w-[440px] xl:w-[550px]">
               <CardHeader>
                 <CardTitle className="text-[20px] font-bold leading-[24.6px] text-[#6B83FF]">
                   Brownie Points
@@ -138,16 +135,16 @@ function Task() {
         </div>
 
         <div className="flex items-center justify-center py-6">
-          <div className="h-[1px] w-full  bg-gradient-line rotate-180"></div>
-          
-          <div className=" px-8 text-[28px] font-medium text-[#100C2C]">OR</div>
+          <div className="h-[1px] w-full rotate-180 bg-gradient-line"></div>
+
+          <div className="px-8 text-[28px] font-medium text-[#100C2C]">OR</div>
           <div className="h-[1px] w-full bg-gradient-line"></div>
         </div>
 
         <div className="space-y-6">
-          <div className='flex justify-between items-center'>
-          <h3 className="text-[28px] font-medium leading-[33.96px]">Backend</h3>
-          <div className="h-[1px] sm:w-[981px] bg-gradient-line "></div>
+          <div className="flex items-center justify-between">
+            <h3 className="text-[28px] font-medium leading-[33.96px]">Backend</h3>
+            <div className="h-[1px] bg-gradient-line sm:w-[981px]"></div>
           </div>
 
           <div className="space-y-6">
@@ -193,7 +190,7 @@ function Task() {
             </div>
 
             <div className="flex flex-col gap-4 md:flex-row">
-              <Card className="w-full md:w-[440px]  xl:w-[550px]">
+              <Card className="w-full md:w-[440px] xl:w-[550px]">
                 <CardHeader>
                   <CardTitle className="text-[20px] font-bold leading-[24.6px] text-[#6B83FF]">
                     Judgement Criteria
@@ -209,7 +206,7 @@ function Task() {
                 </CardContent>
               </Card>
 
-              <Card className="w-full  md:w-[440px]  xl:w-[550px]">
+              <Card className="w-full md:w-[440px] xl:w-[550px]">
                 <CardHeader>
                   <CardTitle className="text-[20px] font-bold leading-[24.6px] text-[#6B83FF]">
                     Brownie Points
@@ -225,22 +222,36 @@ function Task() {
               </Card>
             </div>
 
-            <div className="flex flex-col sm:flex-row items-center justify-center py-6">
-          <div className="h-[1px] sm:w-96 bg-gradient-line rotate-180"></div>
-          <div className=" px-8 sm:text-[28px] font-medium tracking-[0.56px] text-[#100C2C]">Ready to Submit?</div>
-          <div className="h-[1px] sm:w-[446px] bg-gradient-line "></div>
-        </div>
+            <div className="flex flex-col items-center justify-center py-6 sm:flex-row">
+              <div className="h-[1px] rotate-180 bg-gradient-line sm:w-96"></div>
+              <div className="px-8 font-medium tracking-[0.56px] text-[#100C2C] sm:text-[28px]">
+                Ready to Submit?
+              </div>
+              <div className="h-[1px] bg-gradient-line sm:w-[446px]"></div>
+            </div>
 
-        <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 w-full max-w-md mx-auto flex flex-col items-center px-4 sm:px-0">
-          <div className='h-12 w-full px-0 sm:px-3'>
-            <FormInput {...form.register("link")} name="link"  type="url" placeholder="Add link here..."className="w-full" />
-          </div>
-          <Button type="submit" className="w-full sm:w-auto bg-[#635BFF] text-white px-4 py-2 rounded-md">
-            Submit
-          </Button>
-        </form>
-      </Form>
+            <Form {...form}>
+              <form
+                onSubmit={form.handleSubmit(onSubmit)}
+                className="mx-auto flex w-full max-w-md flex-col items-center space-y-4 px-4 sm:px-0"
+              >
+                <div className="h-12 w-full px-0 sm:px-3">
+                  <FormInput
+                    {...form.register('link')}
+                    name="link"
+                    type="url"
+                    placeholder="Add link here..."
+                    className="w-full"
+                  />
+                </div>
+                <Button
+                  type="submit"
+                  className="w-full rounded-md bg-[#635BFF] px-4 py-2 text-white sm:w-auto"
+                >
+                  Submit
+                </Button>
+              </form>
+            </Form>
           </div>
         </div>
       </div>

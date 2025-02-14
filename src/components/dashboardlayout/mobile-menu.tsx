@@ -12,11 +12,11 @@ interface MobileMenuProps {
   pathname: string;
   onHelpClick: () => void;
   isAdminRoute: boolean;
-  onEditProfile: () => void; 
-  isEditProfileOpen: boolean; 
-  onCloseEditProfile: () => void; 
-  userData: any; 
-  onSubmitProfile: (values: any) => Promise<void>; 
+  onEditProfile: () => void;
+  isEditProfileOpen: boolean;
+  onCloseEditProfile: () => void;
+  userData: any;
+  onSubmitProfile: (values: any) => Promise<void>;
 }
 
 const MobileMenu: React.FC<MobileMenuProps> = ({
@@ -37,22 +37,20 @@ const MobileMenu: React.FC<MobileMenuProps> = ({
     <>
       <div className="fixed inset-0 top-[66px] z-50 bg-white">
         {isAdminRoute && (
-          <div className="absolute top-4 right-4 z-60">
+          <div className="z-60 absolute right-4 top-4">
             <ProfileDropdown onEditProfile={onEditProfile} />
           </div>
         )}
         <div className="h-full overflow-y-auto pb-20">
-          
           <nav className="px-2 py-4">
             {navItems.map((item) => (
               <Link href={item.href} key={item.href}>
                 <div
-                  className={`mb-2 flex items-center rounded-lg px-4 py-3 transition-colors
-                    ${
-                      pathname === item.href
-                        ? 'bg-indigo-50 text-indigo-600'
-                        : 'text-gray-700 hover:bg-gray-50'
-                    }`}
+                  className={`mb-2 flex items-center rounded-lg px-4 py-3 transition-colors ${
+                    pathname === item.href
+                      ? 'bg-indigo-50 text-indigo-600'
+                      : 'text-gray-700 hover:bg-gray-50'
+                  }`}
                 >
                   <item.icon
                     className={`mr-3 h-5 w-5 ${
@@ -65,7 +63,6 @@ const MobileMenu: React.FC<MobileMenuProps> = ({
             ))}
           </nav>
 
-          
           <div className="absolute bottom-0 left-0 right-0 border-t border-gray-100 bg-white p-4">
             <Button
               variant="outline"

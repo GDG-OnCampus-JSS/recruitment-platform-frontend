@@ -67,7 +67,7 @@ export default function DashboardPage() {
   }
 
   return (
-    <div className=" min-h-screen lg:min-h-[calc(100vh-212px)]">
+    <div className="min-h-screen lg:min-h-[calc(100vh-212px)]">
       <div className="mx-auto px-4 pt-20">
         <div className="mb-8 flex items-start justify-between">
           <div className="flex items-center gap-6">

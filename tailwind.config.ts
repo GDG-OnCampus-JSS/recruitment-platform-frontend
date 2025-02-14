@@ -27,7 +27,6 @@ export default {
   theme: {
     extend: {
       backgroundImage: {
-        
         'line-gradient':
           'linear-gradient(90deg, rgba(117, 120, 255, 0.46) 0%, rgba(122, 117, 136, 0) 84.43%, rgba(102, 102, 102, 0) 100%)',
         'blue-gradient':
@@ -36,13 +35,14 @@ export default {
           'linear-gradient(180deg, rgba(255, 255, 255, 0) 79.81%, rgba(229, 119, 23, 0.2) 110.57%), radial-gradient(189.45% 125.93% at 95.28% 90.75%, #FFFDEC 0%, #FFFFFF 40.25%)',
         'red-gradient':
           'linear-gradient(180deg, rgba(255, 255, 255, 0.00) 79.81%, rgba(229, 23, 23, 0.20) 110.57%), radial-gradient(189.45% 125.93% at 95.28% 90.75%, #FFEFED 0%, #FFF 40.25%)',
-          'blue':'linear-gradient(181deg, rgba(0, 0, 0, 0.00) 79.12%, rgba(65, 222, 246, 0.05) 99.35%), radial-gradient(119.93% 142.25% at 103.47% 102.91%, rgba(115, 109, 242, 0.12) 0%, rgba(255, 255, 255, 0.00) 100%)',
+        blue: 'linear-gradient(181deg, rgba(0, 0, 0, 0.00) 79.12%, rgba(65, 222, 246, 0.05) 99.35%), radial-gradient(119.93% 142.25% at 103.47% 102.91%, rgba(115, 109, 242, 0.12) 0%, rgba(255, 255, 255, 0.00) 100%)',
         'custom-card-gradient':
           'linear-gradient(181.5deg, rgba(0, 0, 0, 0) 79.12%, rgba(65, 222, 247, 0.052) 99.35%),radial-gradient(100.83% 100.34% at 103.47% 102.91%, rgba(115, 109, 242, 0.12) 0%, rgba(255, 255, 255, 0) 100%) ',
-       'custom-gradient':
+        'custom-gradient':
           ' linear-gradient(180deg, rgba(0, 0, 0, 0) 75%, rgba(65, 222, 247, 0.1) 100%) ,radial-gradient(80% 80% at 50% 50%, rgba(115, 109, 242, 0.2) 0%, rgba(255, 255, 255, 0) 100%)',
-           'gradient-line':'linear-gradient(90deg, rgba(85, 85, 85, 0.00) 0%, rgba(99, 91, 255, 0.25) 59%)',
-      
+        'gradient-line':
+          'linear-gradient(90deg, rgba(85, 85, 85, 0.00) 0%, rgba(99, 91, 255, 0.25) 59%)',
+
         'logo-grid': 'var(--bg-logo-grid)',
         'home-1': 'var(--bg-home-1)',
         'home-2': 'var(--bg-home-2)',

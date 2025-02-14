@@ -9,10 +9,10 @@ export interface User {
   domain?: string;
   year?: string;
   photo?: string;
-  resume?: string|null;
+  resume?: string | null;
   socialLinks?: { platform: string; url: string }[];
-  projectStatus?: boolean; 
-  interviewStatus?: boolean; 
+  projectStatus?: boolean;
+  interviewStatus?: boolean;
   reviewStatus?: boolean;
 }
 
@@ -125,5 +125,3 @@ export interface EditProfileProps {
   isOpen: boolean;
   onClose: () => void;
 }
-
-
