@@ -9,8 +9,11 @@ export interface User {
   domain?: string;
   year?: string;
   photo?: string;
-  resume?: string;
+  resume?: string | null;
   socialLinks?: { platform: string; url: string }[];
+  projectStatus?: boolean;
+  interviewStatus?: boolean;
+  reviewStatus?: boolean;
 }
 
 export interface LoginResponse {
@@ -116,4 +119,9 @@ export interface DropdownOption {
   value: string;
   icon?: React.ComponentType<{ className?: string }>;
   withCount?: boolean;
+}
+
+export interface EditProfileProps {
+  isOpen: boolean;
+  onClose: () => void;
 }

@@ -84,6 +84,8 @@ export const useAuth = () => {
     loading: useAuthStore.getState().loading,
   }));
 
+  const logout = useAuthStore((state) => state.logout);
+
   useEffect(() => {
     const unsubscribe = useAuthStore.subscribe((state) => {
       setAuthState({
@@ -95,7 +97,7 @@ export const useAuth = () => {
     return unsubscribe;
   }, []);
 
-  return useMemo(() => authState, [authState]);
+  return useMemo(() => ({ ...authState, logout }), [authState, logout]);
 };
 
 export const useAuthCheck = () => {

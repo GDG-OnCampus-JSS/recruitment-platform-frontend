@@ -4,11 +4,12 @@ import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useAuth } from '@/context/authContext';
-import { ReactElement } from 'react';
+import { ReactElement, useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { User } from '@/lib/types';
 import { Mail, Phone, GraduationCap, UserPen, ArrowLeft } from 'lucide-react';
 import { SOCIAL_PLATFORMS, reqFields, mockUser } from '@/lib/options';
+import EditProfilePage from './edit-profile/page';
 
 const SocialLink = ({
   platform,
@@ -39,11 +40,18 @@ const SocialLink = ({
 };
 
 export default function ProfilePage() {
-  const router = useRouter();
+  const [mounted, setMounted] = useState(false);
+  const [displayUser, setDisplayUser] = useState<User | null>(null);
   const { user, loading } = useAuth();
-  const displayUser = (user || mockUser) as User;
+  const [isEditProfileOpen, setIsEditProfileOpen] = useState(false);
 
-  const calculateProfileCompletion = (user: typeof displayUser) => {
+  useEffect(() => {
+    setMounted(true);
+    setDisplayUser((user || mockUser) as User);
+  }, [user]);
+
+  const calculateProfileCompletion = (user: User | null) => {
+    if (!user) return 0;
     const fields = reqFields;
     const completedFields = fields.filter((field) => !!user[field as keyof typeof user]);
     return Math.round((completedFields.length / fields.length) * 100);
@@ -53,15 +61,16 @@ export default function ProfilePage() {
   const isProfileComplete = profileCompletion === 100;
 
   const findUserLink = (platform: string) => {
-    return displayUser.socialLinks?.find(
+    return displayUser?.socialLinks?.find(
       (link) => link.platform.toLowerCase() === platform.toLowerCase(),
     );
   };
-  const handleCompleteProfile = () => {
-    router.push('/dashboard/profile/edit-profile');
+
+  const handleOpenEditProfile = () => {
+    setIsEditProfileOpen(true);
   };
 
-  if (loading) {
+  if (!mounted || loading || !displayUser) {
     return (
       <div className="flex min-h-screen items-center justify-center">
         <p className="text-lg">Loading...</p>
@@ -70,12 +79,12 @@ export default function ProfilePage() {
   }
   return (
     <div className="min-h-screen space-y-6 p-2 pt-12 lg:min-h-[calc(100vh-212px)]">
-      <div className="w-full bg-white">
+      <div className="w-full">
         <div className="mx-auto flex max-w-[1120px] items-center justify-between px-6 pt-4">
           <Link href="/dashboard">
             <Button
               variant="outline"
-              className="text=[#2F3B00] flex items-center gap-2 rounded-3xl border px-4 py-2 text-base font-normal leading-5"
+              className="text[#2F3B00] inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-3xl border px-4 py-2 text-base font-normal leading-5"
             >
               <ArrowLeft /> Back
             </Button>
@@ -86,14 +95,15 @@ export default function ProfilePage() {
 
       <div className="mx-auto max-w-[1120px] px-4 pt-4 sm:px-6">
         <div className="grid w-full grid-cols-1 gap-5 sm:grid-cols-1 lg:grid-cols-[300px_1fr]">
-          {/* Left Column */}
-          <Card className="w-full bg-blue-gradient p-2 shadow-sm sm:w-full lg:w-[300px]">
+          <Card className="w-full bg-blue p-2 shadow-sm sm:w-full lg:w-[300px]">
             <CardContent className="relative p-4">
-              <Link href="/dashboard/profile/edit-profile">
-                <button className="absolute right-4 top-4 rounded-lg border p-1 shadow-sm">
-                  <UserPen size={20} />
-                </button>
-              </Link>
+              <Button
+                variant="ghost"
+                className="absolute right-4 top-4 rounded-lg border border-[#432AD880] p-2"
+                onClick={handleOpenEditProfile}
+              >
+                <UserPen size={20} />
+              </Button>
               <div className="flex flex-col items-start space-y-3">
                 <div className="rounded-full border-4 border-dashed border-[#635BFF]">
                   <div className="h-[130px] w-[130px] overflow-hidden rounded-full border-2 border-[#635BFF]">
@@ -109,7 +119,7 @@ export default function ProfilePage() {
                 <div>
                   <div className="flex items-center gap-2">
                     <h2 className="text-xl font-medium">{displayUser.name}</h2>
-                    <span className="ml-5 text-lg text-[#635BFF]">•</span>
+                    <span className="ml-2 rounded-full text-lg text-[#635BFF]">•</span>
                     <span className="text-sm">{displayUser.year}</span>
                   </div>
                   <p className="text-sm text-[#635BFF]">Aspiring {displayUser.domain}</p>
@@ -125,7 +135,7 @@ export default function ProfilePage() {
 
                     <div className="mb-1 w-full rounded-full bg-[#F2F2F2]">
                       <div
-                        className="h-[7px] w-[194px] rounded-full bg-[#635BFF]"
+                        className="h-[7px] rounded-full bg-[#635BFF]"
                         style={{ width: `${profileCompletion}%` }}
                       />
                     </div>
@@ -138,8 +148,8 @@ export default function ProfilePage() {
                   {!isProfileComplete && (
                     <Button
                       variant="outline"
-                      className="ml-2 w-[120] border-[#635BFF] px-4 py-[14px] text-sm text-[#635BFF] transition-colors hover:bg-[#635BFF] hover:text-white"
-                      onClick={handleCompleteProfile}
+                      className="inline-flex items-center justify-center gap-2 whitespace-nowrap border-[#635BFF] px-4 py-[14px] text-sm text-[#635BFF] transition-colors hover:bg-[#635BFF] hover:text-white"
+                      onClick={handleOpenEditProfile}
                     >
                       Complete profile
                     </Button>
@@ -149,8 +159,7 @@ export default function ProfilePage() {
             </CardContent>
           </Card>
 
-          {/* Right Column */}
-          <div className="grid w-full grid-rows-[auto_1fr] gap-5 sm:w-full lg:w-[740px]">
+          <div className="grid w-full grid-rows-[auto_1fr] gap-5 sm:w-full xl:w-[740px]">
             <div className="grid grid-cols-1 gap-5 sm:grid-cols-1 md:grid-cols-2">
               <Card className="w-full shadow-sm sm:h-[229px]">
                 <CardContent className="p-8">
@@ -212,6 +221,7 @@ export default function ProfilePage() {
           </div>
         </div>
       </div>
+      <EditProfilePage isOpen={isEditProfileOpen} onClose={() => setIsEditProfileOpen(false)} />
     </div>
   );
 }

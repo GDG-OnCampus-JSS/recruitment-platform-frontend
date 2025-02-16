@@ -9,10 +9,10 @@ export const metadata: Metadata = {
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
   return (
-    <main>
+    <div className="flex min-h-screen flex-col">
       <Header />
-      {children}
+      <main className="mx-auto p-4">{children}</main>
       <Footer />
-    </main>
+    </div>
   );
 }

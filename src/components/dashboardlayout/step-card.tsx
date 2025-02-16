@@ -22,12 +22,12 @@ const StepCard = ({
       className={`mx-auto w-full max-w-sm ${gradientBg} rounded-lg border border-solid border-[#DDE3FF]`}
     >
       <CardContent className="relative flex h-full flex-col p-4">
-        <div className="absolute right-4 top-4 text-sm font-medium text-[#0C0C0C]">
+        <div className="absolute right-4 top-8 text-base font-medium text-[#0C0C0C]">
           {String(step).padStart(2, '0')}
         </div>
 
         {/* Gradient Line */}
-        <div className="absolute left-0 top-4 h-[1px] w-full bg-gradient-to-r from-[#7578FF75] via-transparent to-transparent" />
+        <div className="absolute left-0 top-10 h-[1px] w-full bg-gradient-to-r from-[#7578FF75] via-transparent to-transparent" />
 
         <div className="mt-12 flex flex-col gap-4">
           <div className="flex h-12 w-12 items-center justify-start">
@@ -36,7 +36,7 @@ const StepCard = ({
 
           <div className="flex flex-col gap-2">
             <h3 className="text-xl font-medium leading-6 text-[#3B3B3B]">{title}</h3>
-            <p className="text-sm leading-5 tracking-wide text-[#858585]">{description}</p>
+            <p className="text-base leading-5 tracking-wide text-[#858585]">{description}</p>
           </div>
 
           <div className="mt-4 flex justify-end">

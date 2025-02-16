@@ -39,7 +39,7 @@ const PasswordModal = ({ isOpen, onOpenChange, onSave }: PasswordModalProps) => 
       <DialogContent className="w-[82vw] sm:max-w-[598px]">
         <DialogHeader>
           <div className="flex items-center justify-between">
-            <DialogTitle>Change Password</DialogTitle>
+            <DialogTitle className="text-[28px] font-normal">Change Password</DialogTitle>
             <Button variant="ghost" className="h-6 w-6 p-0" onClick={() => onOpenChange(false)} />
           </div>
         </DialogHeader>
