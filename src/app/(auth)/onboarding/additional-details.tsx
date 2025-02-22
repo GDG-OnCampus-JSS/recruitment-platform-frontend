@@ -9,18 +9,19 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
 import { academicYearOptions, domainOptions } from '@/constants/registration';
+import { checkIfObjectNotEmpty } from '@/lib/helpers';
 
 const additionalDetailsSchema = z.object({
   admissionNumber: z
     .string()
     .min(1, 'Admission number is required')
     .regex(/^\d{2}[A-Za-z]{2,7}\d{1,3}$/, 'Admission number must follow the pattern 23CSEAIML083'), // custom regex for admission number
-  domain: z.string().min(1, 'Please select a domain'),
-  academicYear: z
+  year: z
     .string({
       required_error: 'Please select an academic year',
     })
     .min(1, 'Academic year is required'),
+  domain: z.string().min(1, 'Please select a domain'),
   resume: z
     .any()
     .refine((file) => !file || file instanceof File, 'Please upload a file')
@@ -30,41 +31,40 @@ const additionalDetailsSchema = z.object({
 type AdditionalDetailsFormValues = z.infer<typeof additionalDetailsSchema>;
 
 interface Props {
-  initialValues?: {
-    admissionNumber?: string;
-    domain?: string;
-    academicYear?: '1' | '2';
-    resume?: File;
-  };
-  onSuccess: (values: AdditionalDetailsFormValues) => void;
-  onBack: () => void;
+  formData: any;
+  setFormData: React.Dispatch<React.SetStateAction<any>>;
+  nextStep: () => void;
+  prevStep: () => void;
 }
 
-export const AdditionalDetails = ({ initialValues, onSuccess, onBack }: Props) => {
+export const AdditionalDetails = ({ formData, setFormData, nextStep, prevStep }: Props) => {
   const form = useForm<AdditionalDetailsFormValues>({
     resolver: zodResolver(additionalDetailsSchema),
-    defaultValues: {
-      admissionNumber: initialValues?.admissionNumber || '',
-      domain: initialValues?.domain || '',
-      academicYear: initialValues?.academicYear || undefined,
-      resume: initialValues?.resume,
-    },
+    defaultValues: checkIfObjectNotEmpty(formData)
+      ? {
+          ...formData,
+          admissionNumber: '',
+          domain: '',
+          year: '',
+          resume: null,
+        }
+      : {
+          admissionNumber: '',
+          domain: '',
+          year: '',
+          resume: null,
+        },
   });
 
-  useEffect(() => {
-    if (initialValues) {
-      Object.entries(initialValues).forEach(([key, value]) => {
-        if (value) {
-          form.setValue(key as keyof AdditionalDetailsFormValues, value);
-        }
-      });
-    }
-  }, [initialValues, form]);
+  const handleSubmit = (values: AdditionalDetailsFormValues) => {
+    setFormData((prev: any) => ({ ...prev, ...values }));
+    nextStep();
+  };
 
   return (
     <div>
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSuccess)} className="space-y-4">
+        <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-4">
           <FormInput
             name="admissionNumber"
             label="Admission Number"
@@ -73,14 +73,11 @@ export const AdditionalDetails = ({ initialValues, onSuccess, onBack }: Props) =
           />
 
           <OptionsSelect
-            name="academicYear"
+            name="year"
             label="Academic Year"
             placeholder="Select your academic year"
             isAsterisk
             options={academicYearOptions}
-            onSelectionChange={(value) => {
-              console.log('Selected:', value);
-            }}
           />
 
           <OptionsSelect
@@ -89,7 +86,6 @@ export const AdditionalDetails = ({ initialValues, onSuccess, onBack }: Props) =
             placeholder="Select your domain"
             isAsterisk
             options={domainOptions}
-            onSelectionChange={(value) => form.setValue('domain', value)}
           />
 
           <div className="space-y-2">
@@ -109,7 +105,7 @@ export const AdditionalDetails = ({ initialValues, onSuccess, onBack }: Props) =
           </div>
 
           <div className="space-y-2">
-            <Button type="button" onClick={onBack} variant="outline" className="h-11 w-full">
+            <Button type="button" onClick={prevStep} variant="outline" className="h-11 w-full">
               Back
             </Button>
             <Button type="submit" className="h-11 w-full bg-btn-primary hover:bg-indigo-600">

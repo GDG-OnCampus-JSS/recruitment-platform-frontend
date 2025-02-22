@@ -7,10 +7,11 @@ import * as z from 'zod';
 import FormInput from '@/components/common/form-input';
 import { Button } from '@/components/ui/button';
 import { Icon } from '@iconify/react';
+import { checkIfObjectNotEmpty } from '@/lib/helpers';
 
 const personalInfoSchema = z
   .object({
-    fullname: z.string().min(3, 'Full name should be at least 3 characters'),
+    name: z.string().min(3, 'Full name should be at least 3 characters'),
     phone: z.string().refine(validatePhoneNumber, {
       message: 'Please enter a valid phone number',
     }),
@@ -25,49 +26,41 @@ const personalInfoSchema = z
 type PersonalInfoFormValues = z.infer<typeof personalInfoSchema>;
 
 interface Props {
-  initialValues?: {
-    fullname?: string;
-    phone?: string;
-    password?: string;
-    confirmPassword?: string;
-  };
-  onSuccess: (values: PersonalInfoFormValues) => void;
+  formData: any;
+  setFormData: React.Dispatch<React.SetStateAction<any>>;
+  nextStep: () => void;
 }
 
-export const PersonalInformation = ({ initialValues, onSuccess }: Props) => {
+export const PersonalInformation = ({ formData, setFormData, nextStep }: Props) => {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   const form = useForm<PersonalInfoFormValues>({
     resolver: zodResolver(personalInfoSchema),
-    defaultValues: {
-      fullname: initialValues?.fullname || '',
-      phone: initialValues?.phone || '',
-      password: initialValues?.password || '',
-      confirmPassword: initialValues?.confirmPassword || '',
-    },
+    defaultValues: checkIfObjectNotEmpty(formData)
+      ? { ...formData, phone: formData?.phone?.replace(/^\+91/, '') }
+      : {
+          name: '',
+          phone: '',
+          password: '',
+          confirmPassword: '',
+        },
   });
 
-  useEffect(() => {
-    if (initialValues) {
-      Object.entries(initialValues).forEach(([key, value]) => {
-        if (value) {
-          form.setValue(key as keyof PersonalInfoFormValues, value);
-        }
-      });
-    }
-  }, [initialValues, form]);
+  const handleSubmit = (values: PersonalInfoFormValues) => {
+    const modifiedValues = {
+      ...values,
+      phone: `+91${values.phone}`,
+    };
+    setFormData((prev: any) => ({ ...prev, ...modifiedValues }));
+    nextStep();
+  };
 
   return (
     <div>
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSuccess)} className="space-y-4">
-          <FormInput
-            name="fullname"
-            label="Full Name"
-            placeholder="Enter your full name"
-            isAsterisk
-          />
+        <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-4">
+          <FormInput name="name" label="Full Name" placeholder="Enter your full name" isAsterisk />
           <div className="relative">
             <FormInput
               name="phone"

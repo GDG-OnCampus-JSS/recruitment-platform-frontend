@@ -12,10 +12,8 @@ import { useSessionStorage } from '@/hooks/use-session-storage';
 import { apiEndPoints } from '@/api/apiEndpoints';
 
 interface VerificationStepProps {
-  method: 'email' | 'phone';
   data: {
     email?: string;
-    phone?: string;
   };
   next: () => void;
   onEdit: () => void;
@@ -27,9 +25,9 @@ const verificationSchema = z.object({
 
 type VerificationFormValues = z.infer<typeof verificationSchema>;
 
-export const VerificationStep = ({ method, data, next, onEdit }: VerificationStepProps) => {
+export const VerificationStep = ({ data, next, onEdit }: VerificationStepProps) => {
   // const { getSessionData } = useSessionStorage();
-  const contactValue = method === 'email' ? data.email : data.phone;
+  const contactValue = data.email;
 
   const form = useForm<VerificationFormValues>({
     resolver: zodResolver(verificationSchema),
@@ -37,11 +35,6 @@ export const VerificationStep = ({ method, data, next, onEdit }: VerificationSte
       otp: '',
     },
   });
-
-  // Reset form when method changes
-  useEffect(() => {
-    form.reset();
-  }, [method, form]);
 
   const onSubmit = async (values: VerificationFormValues) => {
     const data = {
@@ -54,8 +47,8 @@ export const VerificationStep = ({ method, data, next, onEdit }: VerificationSte
     });
 
     if (status === statusCode.Ok200) {
-      console.log('Response:', responseData);
-      // next();
+      // console.log('Response:', responseData);
+      next();
     }
   };
 
@@ -63,9 +56,7 @@ export const VerificationStep = ({ method, data, next, onEdit }: VerificationSte
     const reqData = {
       email: data.email,
     };
-    const { status, data: responseData } = await postApi(apiEndPoints.users.registerEmail, {
-      reqData,
-    });
+    const { status, data: responseData } = await postApi(apiEndPoints.users.registerEmail, reqData);
 
     if (status === statusCode.Ok200) {
       console.log('Response:', responseData);
@@ -86,7 +77,7 @@ export const VerificationStep = ({ method, data, next, onEdit }: VerificationSte
             <Pencil className="size-1" />
           </Button>
         </div>
-        <p>Please enter to verify</p>
+        <p>Please enter the code to verify</p>
       </div>
 
       <Form {...form}>

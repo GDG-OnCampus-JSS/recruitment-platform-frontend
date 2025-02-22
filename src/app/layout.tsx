@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { Geist, Geist_Mono, Playfair_Display } from 'next/font/google';
 import localFont from 'next/font/local';
 import './globals.css';
+import { Toaster } from '@/components/ui/toaster';
 
 const playfairDisplay = Playfair_Display({
   subsets: ['latin'],
@@ -49,7 +50,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={`${productSans.variable}`}>
-      <body className="font-product-sans antialiased">{children}</body>
+      <body className="font-product-sans antialiased">
+        <Toaster />
+        {children}
+      </body>
     </html>
   );
 }

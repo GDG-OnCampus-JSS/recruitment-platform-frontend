@@ -12,25 +12,28 @@ import { useSessionStorage } from '@/hooks/use-session-storage';
 import { postApi } from '@/api/api';
 import { apiEndPoints } from '@/api/apiEndpoints';
 import { statusCode } from '@/constants/apiStatus';
+import { useToast } from '@/hooks/use-toast';
 
 export default function OnboardingPage() {
   const [step, setStep] = useState(0);
-  const [formData, setFormData] = useState({});
+  const [formData, setFormData] = useState<any>({});
   const router = useRouter();
   const { getSessionData } = useSessionStorage();
+  const { toast } = useToast();
 
-  const handlePersonalInfoSubmit = (values: any) => {
-    setFormData((prev) => ({ ...prev, ...values }));
+  const nextStep = () => {
     setStep(1);
   };
 
-  //use this to get email for registration
+  const prevStep = () => {
+    setStep(0);
+  };
 
-  const handleAdditionalDetailsSubmit = async (values: any) => {
+  const handleSubmit = async () => {
     const finalData = {
       ...formData,
-      ...values,
-      ...getSessionData('registrationData'),
+      email: getSessionData('email'),
+      year: formData.year ? Number(formData.year) : undefined,
     };
 
     console.log('Final Data:', finalData);
@@ -40,15 +43,17 @@ export default function OnboardingPage() {
     const { status, data: responseData } = await postApi(apiEndPoints.users.register, finalData);
 
     if (status === statusCode.Ok200) {
-      console.log('Response:', responseData);
-      sessionStorage.removeItem('registrationData');
-      router.push('/dashboard');
+      toast({
+        variant: 'success',
+        title: 'Registration Successful',
+        description: 'You have successfully registered',
+      });
+      // sessionStorage.removeItem('registrationData');
+      // router.push('/dashboard');
     }
   };
 
-  const handleBack = () => {
-    setStep(0);
-  };
+  console.log(formData);
 
   return (
     <LogoGrid>
@@ -68,12 +73,13 @@ export default function OnboardingPage() {
         </div>
 
         {step === 0 ? (
-          <PersonalInformation initialValues={formData} onSuccess={handlePersonalInfoSubmit} />
+          <PersonalInformation formData={formData} setFormData={setFormData} nextStep={nextStep} />
         ) : (
           <AdditionalDetails
-            initialValues={formData}
-            onSuccess={handleAdditionalDetailsSubmit}
-            onBack={handleBack}
+            formData={formData}
+            setFormData={setFormData}
+            nextStep={handleSubmit}
+            prevStep={prevStep}
           />
         )}
       </AuthCard>

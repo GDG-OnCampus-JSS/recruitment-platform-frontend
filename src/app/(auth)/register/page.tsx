@@ -2,38 +2,31 @@
 
 import { useState } from 'react';
 import Image from 'next/image';
-import { Phone, Mail } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import LogoGrid from '@/components/common/logo-grid';
 import Link from 'next/link';
 import { AuthCard } from '@/components/common/auth-card';
 import { EmailStep } from './email-step';
 import { VerificationStep } from './verification-step';
-import { PhoneStep } from './phone-step';
 import { useRouter } from 'next/navigation';
 import { Divider } from '@/components/common/divider';
 import { useSessionStorage } from '@/hooks/use-session-storage';
 import { postApi } from '@/api/api';
 import { apiEndPoints } from '@/api/apiEndpoints';
 import { statusCode } from '@/constants/apiStatus';
+import { useToast } from '@/hooks/use-toast';
 
 export default function RegisterPage() {
-  const [method, setMethod] = useState<'email' | 'phone'>('email');
+  const [method, setMethod] = useState<'email'>('email');
   const [isVerifying, setIsVerifying] = useState(false);
-  const [registrationData, setRegistrationData] = useState<{ email?: string; phone?: string }>({});
+  const [registrationData, setRegistrationData] = useState<{ email?: string }>({});
   const [initialStep, setInitialStep] = useState<number>(0);
   const router = useRouter();
+  const { toast } = useToast();
 
-  const switchMethod = () => {
-    if (!isVerifying) {
-      const newMethod = method === 'email' ? 'phone' : 'email';
-      setMethod(newMethod);
-    }
-  };
+  const steps = [{ label: 'Register to Recruitments 25' }, { label: `Verify your email` }];
 
-  const steps = [{ label: 'Register to Recruitments 25' }, { label: `Verify your ${method}` }];
-
-  const handleNextStep = async (data?: { email?: string; phone?: string }) => {
+  const handleNextStep = async (data?: { email?: string }) => {
     if (data) {
       setRegistrationData(data);
     }
@@ -41,44 +34,45 @@ export default function RegisterPage() {
       setInitialStep(initialStep + 1);
       setIsVerifying(true);
     } else {
-      const { status, data: responseData } = await postApi(apiEndPoints.users.register, data);
+      toast({
+        variant: 'success',
+        title: 'OTP verified successfully',
+        description: 'OTP verified continue with further steps',
+        duration: 5000,
+      });
+      router.push('/onboarding');
 
-      if (status === statusCode.Ok200) {
-        console.log('Response:', responseData);
-        router.push('/dashboard');
-      }
+      // const { status, data: responseData } = await postApi(apiEndPoints.users.register, data);
+
+      // if (status === statusCode.Ok200) {
+      //   console.log('Response:', responseData);
+      // }
     }
   };
 
   const handleEdit = () => {
-    const currentMethod = method;
+    // const currentMethod = method;
     const currentData = registrationData;
 
     setInitialStep(0);
     setIsVerifying(false);
 
-    setMethod(currentMethod);
+    // setMethod(currentMethod);
     setRegistrationData(currentData);
   };
 
   const renderForm = (step: number) => {
     switch (step) {
       case 0:
-        return method === 'email' ? (
+        return (
           <EmailStep
             onSuccess={(data) => handleNextStep({ email: data.email })}
             initialValue={registrationData.email}
-          />
-        ) : (
-          <PhoneStep
-            onSuccess={(data) => handleNextStep({ phone: data.phone })}
-            initialValue={registrationData.phone}
           />
         );
       case 1:
         return (
           <VerificationStep
-            method={method}
             data={registrationData}
             next={() => handleNextStep()}
             onEdit={handleEdit}
@@ -99,7 +93,7 @@ export default function RegisterPage() {
         {/* Title */}
         <div className="mb-6 flex items-center justify-between gap-4">
           <h1 className="text-heading-1 font-medium text-gray-900">
-            {isVerifying ? `Verify your ${method}` : "Register to Recruitments'25"}
+            {isVerifying ? `Verify your email` : "Register to Recruitments'25"}
           </h1>
           <div>
             <Link href="/">
@@ -122,24 +116,6 @@ export default function RegisterPage() {
               >
                 <Image src="/icons/google.svg" height={20} width={20} alt="Google" />
                 Continue with Google
-              </Button>
-              <Button
-                variant="outline"
-                type="button"
-                className="h-11 w-full font-light"
-                onClick={switchMethod}
-              >
-                {method === 'email' ? (
-                  <>
-                    <Phone className="h-6 w-6" />
-                    Continue with Phone
-                  </>
-                ) : (
-                  <>
-                    <Mail className="h-12 w-12" />
-                    Continue with Email
-                  </>
-                )}
               </Button>
             </div>
           </>
