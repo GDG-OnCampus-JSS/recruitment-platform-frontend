@@ -43,10 +43,10 @@ export const AdditionalDetails = ({ formData, setFormData, nextStep, prevStep }:
     defaultValues: checkIfObjectNotEmpty(formData)
       ? {
           ...formData,
-          admissionNumber: '',
-          domain: '',
-          year: '',
-          resume: null,
+          admissionNumber: formData?.admissionNumber ?? '',
+          domain: formData?.domain ?? '',
+          year: formData?.year ?? '',
+          resume: formData?.resume ?? '',
         }
       : {
           admissionNumber: '',
@@ -56,15 +56,21 @@ export const AdditionalDetails = ({ formData, setFormData, nextStep, prevStep }:
         },
   });
 
-  const handleSubmit = (values: AdditionalDetailsFormValues) => {
+  const onSubmit = (values: AdditionalDetailsFormValues) => {
     setFormData((prev: any) => ({ ...prev, ...values }));
     nextStep();
   };
 
+  const { watch, reset, handleSubmit } = form;
+
+  useEffect(() => {
+    reset({ ...formData });
+  }, [formData, reset]);
+
   return (
     <div>
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-4">
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
           <FormInput
             name="admissionNumber"
             label="Admission Number"
@@ -98,6 +104,7 @@ export const AdditionalDetails = ({ formData, setFormData, nextStep, prevStep }:
               onChange={(e) => {
                 const file = e.target.files?.[0];
                 if (file) {
+                  setFormData((prev: any) => ({ ...prev, resume: file }));
                   form.setValue('resume', file);
                 }
               }}

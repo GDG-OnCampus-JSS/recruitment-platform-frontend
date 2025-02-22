@@ -36,10 +36,6 @@ export default function OnboardingPage() {
       year: formData.year ? Number(formData.year) : undefined,
     };
 
-    console.log('Final Data:', finalData);
-    //call api
-
-    // call postApi and then remove the data from sessionStorage
     const { status, data: responseData } = await postApi(apiEndPoints.users.register, finalData);
 
     if (status === statusCode.Ok200) {
@@ -48,12 +44,10 @@ export default function OnboardingPage() {
         title: 'Registration Successful',
         description: 'You have successfully registered',
       });
-      // sessionStorage.removeItem('registrationData');
-      // router.push('/dashboard');
+      sessionStorage.removeItem('email');
+      router.push('/dashboard');
     }
   };
-
-  console.log(formData);
 
   return (
     <LogoGrid>

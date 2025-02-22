@@ -7,7 +7,6 @@ import FormInput from '@/components/common/form-input';
 import { Button } from '@/components/ui/button';
 import { postApi } from '@/api/api';
 import { apiEndPoints } from '@/api/apiEndpoints';
-import { Stats } from 'fs';
 import { statusCode } from '@/constants/apiStatus';
 import { useSessionStorage } from '@/hooks/use-session-storage';
 
@@ -40,13 +39,11 @@ export const EmailStep = ({ onSuccess, initialValue }: EmailStepProps) => {
   const onSubmit = async (data: EmailFormValues) => {
     onSuccess(data);
 
-    // hit an api here for email registration send email
     const { status, data: responseData } = await postApi(apiEndPoints.users.registerEmail, data);
     if (status === statusCode.Ok200) {
       console.log('Response:', responseData);
       setSessionData('email', data.email);
     }
-    // const { status, data: responseData } = await postApi(`${apiEndPoints.users}`, data);
   };
 
   return (
