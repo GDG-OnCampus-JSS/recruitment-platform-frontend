@@ -71,7 +71,7 @@ export const EmailStep = ({ onSuccess, initialValue }: EmailStepProps) => {
           disabled={form.formState.isSubmitting}
           className="h-11 w-full bg-btn-primary hover:bg-indigo-600"
         >
-          {form.formState.isSubmitting ? <Spinner className='text-white'/> : 'Continue'}
+          {form.formState.isSubmitting ? <Spinner className="text-white" /> : 'Continue'}
         </Button>
       </form>
     </Form>

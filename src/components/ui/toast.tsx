@@ -54,11 +54,11 @@ const Toast = React.forwardRef<
   const Icon =
     icon ||
     {
-      pending: <AlertCircle className="text-toast-warning h-5 w-5" />,
-      submitted: <CircleArrowRight className="text-toast-info h-5 w-5 -rotate-45" />,
-      success: <CircleCheck className="text-toast-success h-5 w-5" />,
-      destructive: <CircleX className="text-toast-error h-5 w-5" />,
-      expired: <Clock className="text-toast-warning-serious h-5 w-5" />,
+      pending: <AlertCircle className="h-5 w-5 text-toast-warning" />,
+      submitted: <CircleArrowRight className="h-5 w-5 -rotate-45 text-toast-info" />,
+      success: <CircleCheck className="h-5 w-5 text-toast-success" />,
+      destructive: <CircleX className="h-5 w-5 text-toast-error" />,
+      expired: <Clock className="h-5 w-5 text-toast-warning-serious" />,
     }[variant as string];
 
   return (
@@ -96,7 +96,7 @@ const ToastClose = React.forwardRef<
   <ToastPrimitives.Close
     ref={ref}
     className={cn(
-      'absolute right-4 top-7 -translate-y-1/2 rounded-md p-1 text-foreground/50 opacity-100 transition-opacity hover:text-foreground focus:outline-none focus:ring-1 ',
+      'absolute right-4 top-7 -translate-y-1/2 rounded-md p-1 text-foreground/50 opacity-100 transition-opacity hover:text-foreground focus:outline-none focus:ring-1',
       className,
     )}
     toast-close=""

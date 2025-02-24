@@ -31,7 +31,7 @@ export default function OnboardingPage() {
   };
 
   const handleSubmit = async () => {
-    setIsSubmitting(true); 
+    setIsSubmitting(true);
     const finalData = {
       ...formData,
       email: getSessionData('email'),
@@ -61,7 +61,7 @@ export default function OnboardingPage() {
         title: 'Error!',
         description: errorMessage,
       });
-      setIsSubmitting(true); 
+      setIsSubmitting(true);
     }
   };
 
