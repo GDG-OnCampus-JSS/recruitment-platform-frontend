@@ -15,6 +15,9 @@ import ProfileDropdown from '../admin/profile-dropdown';
 import MobileMenu from './mobile-menu';
 import { profileService } from '@/context/profileContext';
 import { toast } from 'sonner';
+import { postApi } from '@/api/api';
+import { apiEndPoints } from '@/api/apiEndpoints';
+import { statusCode } from '@/constants/apiStatus';
 
 export const Header = () => {
   const router = useRouter();
@@ -63,10 +66,10 @@ export const Header = () => {
   };
 
   const handleLogout = async () => {
-    try {
-      await logout();
-    } catch (error) {
-      console.error('Error during logout:', error);
+    const { status } = await postApi(apiEndPoints.users.logout);
+
+    if (status == statusCode.Ok200) {
+      router.push('/');
     }
   };
 

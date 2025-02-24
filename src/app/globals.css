@@ -25,10 +25,37 @@
     --accent-foreground: 0 0% 9%;
     --destructive: 0 72.2% 50.6%;
     --destructive-foreground: 0 0% 98%;
+    --success: 144, 100%, 39%;
+    --success-foreground: 0 0% 98%;
     --btn-primary: 243, 100%, 68%, 1;
     --gray-extra-light: 225, 100%, 99%, 1;
     --gray-light: 0 0% 82%;
     --gray-medium: 228, 11%, 91%, 1;
+    
+    --toast-warning: 24 95% 53%;
+    --toast-warning-foreground: 24 95% 53%;
+    --toast-warning-border: 36 100% 83%;
+    --toast-warning-2: 36 100% 98%;
+
+    --toast-error: 0 84% 60%;
+    --toast-error-foreground: 0 84% 60%;
+    --toast-error-border: 0 84% 89%;
+    --toast-error-2: 0 86% 97%;
+
+    --toast-success: 142 71% 45%;
+    --toast-success-foreground: 142 71% 45%;
+    --toast-success-border: 142 76% 85%;
+    --toast-success-2: 142 76% 97%;
+
+    --toast-info: 217 91% 60%;
+    --toast-info-foreground: 217 91% 60%;
+    --toast-info-border: 214 95% 87%;
+    --toast-info-2: 214 95% 97%;
+
+    --toast-warning-serious: 216 27% 47%;
+    --toast-warning-serious-foreground: 216 27% 47%;
+    --toast-warning-serious-border: 214 32% 91%;
+    --toast-warning-serious-2: 210 40% 98%;
 
     /* domain card text colors */
     --design: 36, 100%, 18%, 1;

@@ -19,6 +19,7 @@ export default function OnboardingPage() {
   const [formData, setFormData] = useState<any>({});
   const router = useRouter();
   const { getSessionData } = useSessionStorage();
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const { toast } = useToast();
 
   const nextStep = () => {
@@ -30,22 +31,37 @@ export default function OnboardingPage() {
   };
 
   const handleSubmit = async () => {
+    setIsSubmitting(true); 
     const finalData = {
       ...formData,
       email: getSessionData('email'),
       year: formData.year ? Number(formData.year) : undefined,
     };
+    console.log('Final Data', finalData);
 
     const { status, data: responseData } = await postApi(apiEndPoints.users.register, finalData);
+    console.log(responseData);
 
-    if (status === statusCode.Ok200) {
+    if (status === statusCode.Created201) {
+      const successMessage = responseData?.message || 'Account registered.';
       toast({
         variant: 'success',
         title: 'Registration Successful',
-        description: 'You have successfully registered',
+        description: successMessage,
       });
       sessionStorage.removeItem('email');
       router.push('/dashboard');
+    } else {
+      const errorMessage =
+        Array.isArray(responseData?.errors) && responseData.errors.length > 0
+          ? responseData.errors[0]
+          : responseData?.message || 'Something went wrong. Please try again.';
+      toast({
+        variant: 'destructive',
+        title: 'Error!',
+        description: errorMessage,
+      });
+      setIsSubmitting(true); 
     }
   };
 
@@ -74,6 +90,7 @@ export default function OnboardingPage() {
             setFormData={setFormData}
             nextStep={handleSubmit}
             prevStep={prevStep}
+            isSubmitting={isSubmitting}
           />
         )}
       </AuthCard>

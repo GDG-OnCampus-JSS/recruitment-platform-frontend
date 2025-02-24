@@ -9,6 +9,8 @@ import { postApi } from '@/api/api';
 import { apiEndPoints } from '@/api/apiEndpoints';
 import { statusCode } from '@/constants/apiStatus';
 import { useSessionStorage } from '@/hooks/use-session-storage';
+import { useToast } from '@/hooks/use-toast';
+import { Spinner } from '@/components/common/spinner';
 
 const emailSchema = z.object({
   email: z.string().email('Please enter a valid email address'),
@@ -22,6 +24,8 @@ interface EmailStepProps {
 }
 
 export const EmailStep = ({ onSuccess, initialValue }: EmailStepProps) => {
+  const { toast } = useToast();
+
   const form = useForm<EmailFormValues>({
     resolver: zodResolver(emailSchema),
     defaultValues: {
@@ -37,12 +41,16 @@ export const EmailStep = ({ onSuccess, initialValue }: EmailStepProps) => {
   }, [initialValue, form]);
 
   const onSubmit = async (data: EmailFormValues) => {
-    onSuccess(data);
-
     const { status, data: responseData } = await postApi(apiEndPoints.users.registerEmail, data);
     if (status === statusCode.Ok200) {
-      console.log('Response:', responseData);
+      onSuccess(data);
       setSessionData('email', data.email);
+    } else {
+      toast({
+        variant: 'destructive',
+        title: 'Internal Server Error',
+        description: responseData.message,
+      });
     }
   };
 
@@ -58,8 +66,12 @@ export const EmailStep = ({ onSuccess, initialValue }: EmailStepProps) => {
           info="We'll send you a verification code to this email"
           isAsterisk
         />
-        <Button type="submit" className="h-11 w-full bg-btn-primary hover:bg-indigo-600">
-          Continue
+        <Button
+          type="submit"
+          disabled={form.formState.isSubmitting}
+          className="h-11 w-full bg-btn-primary hover:bg-indigo-600"
+        >
+          {form.formState.isSubmitting ? <Spinner className='text-white'/> : 'Continue'}
         </Button>
       </form>
     </Form>

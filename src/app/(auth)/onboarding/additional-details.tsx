@@ -10,6 +10,7 @@ import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
 import { academicYearOptions, domainOptions } from '@/constants/registration';
 import { checkIfObjectNotEmpty } from '@/lib/helpers';
+import { Spinner } from '@/components/common/spinner';
 
 const additionalDetailsSchema = z.object({
   admissionNumber: z
@@ -35,9 +36,16 @@ interface Props {
   setFormData: React.Dispatch<React.SetStateAction<any>>;
   nextStep: () => void;
   prevStep: () => void;
+  isSubmitting?: boolean;
 }
 
-export const AdditionalDetails = ({ formData, setFormData, nextStep, prevStep }: Props) => {
+export const AdditionalDetails = ({
+  formData,
+  setFormData,
+  nextStep,
+  prevStep,
+  isSubmitting,
+}: Props) => {
   const form = useForm<AdditionalDetailsFormValues>({
     resolver: zodResolver(additionalDetailsSchema),
     defaultValues: checkIfObjectNotEmpty(formData)
@@ -115,8 +123,19 @@ export const AdditionalDetails = ({ formData, setFormData, nextStep, prevStep }:
             <Button type="button" onClick={prevStep} variant="outline" className="h-11 w-full">
               Back
             </Button>
-            <Button type="submit" className="h-11 w-full bg-btn-primary hover:bg-indigo-600">
-              Submit
+            {/* Add disabled state while submitting form when the submission bug is fixed */}
+            <Button
+              type="submit"
+              className="h-11 w-full bg-btn-primary hover:bg-indigo-600"
+              // disabled={isSubmitting}
+            >
+              {isSubmitting ? (
+                <>
+                  <Spinner className="text-white" />
+                </>
+              ) : (
+                'Submit'
+              )}
             </Button>
           </div>
         </form>

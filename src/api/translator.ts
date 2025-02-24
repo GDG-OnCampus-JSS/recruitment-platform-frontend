@@ -5,6 +5,7 @@ import { apiEndUrl } from './urls';
 // Create an instance of axios with custom configuration
 const axiosInstance = axios.create({
   baseURL: apiEndUrl,
+  withCredentials: true,
   // headers: {
   //   'Content-Type': 'application/json',
   // },

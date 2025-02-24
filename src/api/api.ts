@@ -43,7 +43,7 @@ export const getByParamsApi = async (url: string, params: any) => {
   }
 };
 
-export const postApi = async (url: string, request: any, showToaster = true) => {
+export const postApi = async (url: string, request: any = {}, showToaster = true) => {
   try {
     const result = await axiosInstance.post(url, request);
     return {

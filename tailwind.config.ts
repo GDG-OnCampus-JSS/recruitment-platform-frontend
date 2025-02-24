@@ -62,6 +62,36 @@ export default {
         card: 'var(--shadow-card)',
       },
       colors: {
+        'toast-warning': {
+          DEFAULT: 'hsl(var(--toast-warning))',
+          foreground: 'hsl(var(--toast-warning-foreground))',
+          border: 'hsl(var(--toast-warning-border))',
+          2: 'hsl(var(--toast-warning-2))',
+        },
+        'toast-error': {
+          DEFAULT: 'hsl(var(--toast-error))',
+          foreground: 'hsl(var(--toast-error-foreground))',
+          border: 'hsl(var(--toast-error-border))',
+          2: 'hsl(var(--toast-error-2))',
+        },
+        'toast-success': {
+          DEFAULT: 'hsl(var(--toast-success))',
+          foreground: 'hsl(var(--toast-success-foreground))',
+          border: 'hsl(var(--toast-success-border))',
+          2: 'hsl(var(--toast-success-2))',
+        },
+        'toast-info': {
+          DEFAULT: 'hsl(var(--toast-info))',
+          foreground: 'hsl(var(--toast-info-foreground))',
+          border: 'hsl(var(--toast-info-border))',
+          2: 'hsl(var(--toast-info-2))',
+        },
+        'toast-warning-serious': {
+          DEFAULT: 'hsl(var(--toast-warning-serious))',
+          foreground: 'hsl(var(--toast-warning-serious-foreground))',
+          border: 'hsl(var(--toast-warning-serious-border))',
+          2: 'hsl(var(--toast-warning-serious-2))',
+        },
         'blue-button': '#4285f4',
         'yellow-button': '#fbbc04',
         'red-button': '#ea4335',
@@ -94,6 +124,10 @@ export default {
         destructive: {
           DEFAULT: 'hsl(var(--destructive))',
           foreground: 'hsl(var(--destructive-foreground))',
+        },
+        success: {
+          DEFAULT: 'hsl(var(--success))',
+          foreground: 'hsl(var(--success-foreground))',
         },
         gray: {
           'extra-light': 'hsl(var(--gray-extra-light))',
