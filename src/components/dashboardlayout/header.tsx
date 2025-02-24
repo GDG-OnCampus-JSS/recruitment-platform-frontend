@@ -47,15 +47,15 @@ export const Header = () => {
   };
 
   const handleProfileSubmit = async (values: any): Promise<void> => {
-  //   if (!user?.id) return;
-  //   const updatedProfile = await profileService.updateProfile(user.id, values);
-  //   if (updatedProfile) {
-  //     toast.success('Profile updated successfully');
-  //     setDisplayUser(updatedProfile);
-  //     setIsEditProfileOpen(false);
-  //   } else {
-  //     toast.error('Failed to update profile');
-  //   }
+    //   if (!user?.id) return;
+    //   const updatedProfile = await profileService.updateProfile(user.id, values);
+    //   if (updatedProfile) {
+    //     toast.success('Profile updated successfully');
+    //     setDisplayUser(updatedProfile);
+    //     setIsEditProfileOpen(false);
+    //   } else {
+    //     toast.error('Failed to update profile');
+    //   }
   };
 
   const handleDropdownSelect = async (value: string) => {
