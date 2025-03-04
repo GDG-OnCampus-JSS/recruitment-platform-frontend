@@ -16,7 +16,7 @@ const additionalDetailsSchema = z.object({
   admissionNumber: z
     .string()
     .min(1, 'Admission number is required')
-    .regex(/^\d{2}[A-Za-z]{2,7}\d{1,3}$/, 'Admission number must follow the pattern 23CSEAIML083'), // custom regex for admission number
+    .regex(/^\d{2}[A-Za-z]{2,7}\d{1,3}$/, 'Admission number must follow the pattern XX[AA]XXX'),
   year: z
     .string({
       required_error: 'Please select an academic year',
@@ -67,6 +67,11 @@ export const AdditionalDetails = ({
   const onSubmit = (values: AdditionalDetailsFormValues) => {
     setFormData((prev: any) => ({ ...prev, ...values }));
     nextStep();
+  };
+
+  const onPrevClick = (values: AdditionalDetailsFormValues) => {
+    setFormData((prev: any) => ({ ...prev, ...values }));
+    prevStep();
   };
 
   const { watch, reset, handleSubmit } = form;
@@ -120,7 +125,12 @@ export const AdditionalDetails = ({
           </div>
 
           <div className="space-y-2">
-            <Button type="button" onClick={prevStep} variant="outline" className="h-11 w-full">
+            <Button
+              type="button"
+              onClick={() => onPrevClick(form.getValues())}
+              variant="outline"
+              className="h-11 w-full"
+            >
               Back
             </Button>
             {/* Add disabled state while submitting form when the submission bug is fixed */}
