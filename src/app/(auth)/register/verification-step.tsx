@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import * as z from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Form } from '@/components/ui/form';
@@ -10,6 +10,8 @@ import { postApi } from '@/api/api';
 import { statusCode } from '@/constants/apiStatus';
 import { useSessionStorage } from '@/hooks/use-session-storage';
 import { apiEndPoints } from '@/api/apiEndpoints';
+import { useToast } from '@/hooks/use-toast';
+import { Spinner } from '@/components/common/spinner';
 
 interface VerificationStepProps {
   data: {
@@ -26,6 +28,8 @@ const verificationSchema = z.object({
 type VerificationFormValues = z.infer<typeof verificationSchema>;
 
 export const VerificationStep = ({ data, next, onEdit }: VerificationStepProps) => {
+  const [isResending, setIsResending] = useState<boolean>(false);
+  const { toast } = useToast();
   // const { getSessionData } = useSessionStorage();
   const contactValue = data.email;
 
@@ -42,17 +46,21 @@ export const VerificationStep = ({ data, next, onEdit }: VerificationStepProps) 
       otp: parseInt(values.otp),
     };
 
-    const { status, data: responseData } = await postApi(apiEndPoints.users.verifyEmail, {
-      data,
-    });
+    const { status, data: responseData } = await postApi(apiEndPoints.users.verifyEmail, data);
 
     if (status === statusCode.Ok200) {
-      // console.log('Response:', responseData);
+      console.log('Response:', responseData);
       next();
+    } else {
+      toast({
+        variant: 'destructive',
+        title: 'Incorrect OTP',
+      });
     }
   };
 
   const resendOtpToEmail = async () => {
+    setIsResending(true);
     const reqData = {
       email: data.email,
     };
@@ -60,7 +68,21 @@ export const VerificationStep = ({ data, next, onEdit }: VerificationStepProps) 
 
     if (status === statusCode.Ok200) {
       console.log('Response:', responseData);
+      toast({
+        variant: 'success',
+        title: 'OTP Sent Successfully!',
+        description:
+          'A new OTP has been sent to your email. Please check your inbox and follow the instructions to proceed.',
+      });
+    } else {
+      toast({
+        variant: 'destructive',
+        title: 'Error Resending OTP!',
+        description:
+          'We encountered an issue while trying to resend your OTP. Please try again later or contact support if the problem persists.',
+      });
     }
+    setIsResending(true);
   };
 
   return (
@@ -84,8 +106,12 @@ export const VerificationStep = ({ data, next, onEdit }: VerificationStepProps) 
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
           <OTPInput className="w-96" name="otp" isAsterisk />
           <div className="flex flex-col gap-2">
-            <Button type="submit" className="h-11 w-full bg-btn-primary hover:bg-indigo-600">
-              Continue
+            <Button
+              type="submit"
+              disabled={form.formState.isSubmitting}
+              className="h-11 w-full bg-btn-primary hover:bg-indigo-600"
+            >
+              {form.formState.isSubmitting ? <Spinner className="text-white" /> : 'Continue'}
             </Button>
             <Button
               type="button"

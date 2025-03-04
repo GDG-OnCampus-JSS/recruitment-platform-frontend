@@ -1,60 +1,42 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import * as z from 'zod';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
-import { Phone, Mail } from 'lucide-react';
 import { Form } from '@/components/ui/form';
 import { Button } from '@/components/ui/button';
 import FormInput from '@/components/common/form-input';
 import LogoGrid from '@/components/common/logo-grid';
 import Link from 'next/link';
 import { Icon } from '@iconify/react';
-import { validatePhoneNumber } from '@/utils/phoneValidation';
 import { AuthCard } from '@/components/common/auth-card';
 import { Divider } from '@/components/common/divider';
 import { postApi } from '@/api/api';
 import { apiEndPoints } from '@/api/apiEndpoints';
 import { statusCode } from '@/constants/apiStatus';
 import { useSessionStorage } from '@/hooks/use-session-storage';
+import { useToast } from '@/hooks/use-toast';
+import { Spinner } from '@/components/common/spinner';
 
-const loginSchema = z
-  .object({
-    email: z.string().email('Please enter a valid email address').optional(),
-    phone: z
-      .string()
-      .refine((phone) => !phone || validatePhoneNumber(phone), {
-        message: 'Please enter a valid phone number',
-      })
-      .optional(),
-    password: z.string().min(8, 'Password must be at least 8 characters'),
-  })
-  .refine(
-    (data) => {
-      return data.email || data.phone;
-    },
-    {
-      message: 'Either email or phone is required',
-      path: ['email', 'phone'],
-    },
-  );
+const loginSchema = z.object({
+  email: z.string().email('Please enter a valid email address').optional(),
+  password: z.string().min(8, 'Password must be at least 8 characters'),
+});
 
 export default function LoginPage() {
   const router = useRouter();
-  const [method, setMethod] = useState<'email' | 'phone'>('email');
-  const [isLoading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const { setSessionData } = useSessionStorage();
+  const { toast } = useToast();
 
   const form = useForm<z.infer<typeof loginSchema>>({
     resolver: zodResolver(loginSchema),
     defaultValues: {
       email: '',
-      phone: '',
       password: '',
     },
   });
@@ -66,14 +48,29 @@ export default function LoginPage() {
       console.log('Response:', responseData);
       setSessionData('user', data);
       router.push('/dashboard');
+    } else {
+      const errorMessage =
+        Array.isArray(responseData?.errors) && responseData.errors.length > 0
+          ? responseData.errors[0]
+          : responseData?.message || 'Something went wrong. Please try again.';
+      toast({
+        variant: 'destructive',
+        title: 'Authenctication Error',
+        description: errorMessage,
+      });
     }
   };
 
-  const switchMethod = () => {
-    const newMethod = method === 'email' ? 'phone' : 'email';
-    setMethod(newMethod);
-    form.reset({ [newMethod]: '' });
-  };
+  // // toast for UI testing, do not push in production
+  // useEffect(() => {
+  //   // Trigger a permanent toast on mount for UI testing
+  //   toast({
+  //     variant: 'destructive',
+  //     title: 'Permanent Toast',
+  //     description: 'This toast is for UI testing and will not auto-dismiss.',
+  //     duration: Infinity,
+  //   });
+  // }, [toast]);
 
   return (
     <LogoGrid>
@@ -115,21 +112,12 @@ export default function LoginPage() {
               className="relative"
             >
               <FormInput
-                name={method === 'email' ? 'email' : 'phone'}
-                type={method === 'email' ? 'text' : 'tel'}
-                label={method === 'email' ? 'Email' : 'Phone Number'}
-                placeholder={
-                  method === 'email' ? 'Enter your email address' : 'Enter your phone number'
-                }
+                name="email"
+                type="text"
+                label="Email"
+                placeholder="Enter your Email Address"
                 isAsterisk
-                className={method === 'phone' ? 'pl-14' : ''}
               />
-              {method === 'phone' && (
-                <div className="absolute left-3 top-[36px] text-sm">
-                  <span>+ 91</span>
-                  <span className="ml-2 text-gray-light">|</span>
-                </div>
-              )}
               <div className="mt-4 items-center">
                 <div className="relative">
                   <FormInput
@@ -160,9 +148,15 @@ export default function LoginPage() {
             <Button
               type="submit"
               className="h-11 w-full border bg-btn-primary tracking-wide hover:bg-indigo-600"
-              disabled={isLoading}
+              disabled={form.formState.isSubmitting}
             >
-              {isLoading ? 'Please wait...' : 'Continue'}
+              {form.formState.isSubmitting ? (
+                <>
+                  <Spinner className="text-white" />
+                </>
+              ) : (
+                'Submit'
+              )}
             </Button>
             <Divider className="my-4" text="or" />
             <div className="grid gap-2">
@@ -174,24 +168,6 @@ export default function LoginPage() {
               >
                 <Image src="/icons/google.svg" height={20} width={20} alt="Google" />
                 Continue with Google
-              </Button>
-              <Button
-                variant="outline"
-                type="button"
-                className="h-11 w-full font-light"
-                onClick={switchMethod}
-              >
-                {method === 'email' ? (
-                  <>
-                    <Phone className="h-6 w-6" />
-                    Continue with Phone
-                  </>
-                ) : (
-                  <>
-                    <Mail className="h-12 w-12" />
-                    Continue with Email
-                  </>
-                )}
               </Button>
             </div>
           </form>

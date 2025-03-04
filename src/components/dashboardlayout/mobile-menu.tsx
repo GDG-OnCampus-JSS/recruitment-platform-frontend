@@ -1,10 +1,11 @@
 import React from 'react';
 import Link from 'next/link';
-import { Hand } from 'lucide-react';
+import { Hand, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { NavItem } from '@/lib/types';
 import ProfileDropdown from '../admin/profile-dropdown';
 import EditProfileDialog from '../admin/edit-profile';
+import { motion, AnimatePresence, delay } from 'motion/react';
 
 interface MobileMenuProps {
   isOpen: boolean;
@@ -17,6 +18,7 @@ interface MobileMenuProps {
   onCloseEditProfile: () => void;
   userData: any;
   onSubmitProfile: (values: any) => Promise<void>;
+  onCloseMenu: () => void;
 }
 
 const MobileMenu: React.FC<MobileMenuProps> = ({
@@ -30,60 +32,118 @@ const MobileMenu: React.FC<MobileMenuProps> = ({
   onCloseEditProfile,
   userData,
   onSubmitProfile,
+  onCloseMenu,
 }) => {
   if (!isOpen) return null;
 
   return (
-    <>
-      <div className="fixed inset-0 top-[66px] z-50 bg-white">
-        {isAdminRoute && (
-          <div className="z-60 absolute right-4 top-4">
-            <ProfileDropdown onEditProfile={onEditProfile} />
-          </div>
-        )}
-        <div className="h-full overflow-y-auto pb-20">
-          <nav className="px-2 py-4">
-            {navItems.map((item) => (
-              <Link href={item.href} key={item.href}>
-                <div
-                  className={`mb-2 flex items-center rounded-lg px-4 py-3 transition-colors ${
-                    pathname === item.href
-                      ? 'bg-indigo-50 text-indigo-600'
-                      : 'text-gray-700 hover:bg-gray-50'
-                  }`}
-                >
-                  <item.icon
-                    className={`mr-3 h-5 w-5 ${
-                      pathname === item.href ? 'text-indigo-600' : 'text-gray-400'
-                    }`}
-                  />
-                  <span className="text-sm font-medium">{item.label}</span>
-                </div>
-              </Link>
-            ))}
-          </nav>
-
-          <div className="absolute bottom-0 left-0 right-0 border-t border-gray-100 bg-white p-4">
-            <Button
-              variant="outline"
-              onClick={onHelpClick}
-              className="flex w-full items-center justify-center gap-2 rounded-full border-2 border-black py-3 text-sm font-medium"
-            >
-              <Hand className="h-5 w-5" />
-              <span>I Have a doubt?</span>
+    <AnimatePresence mode="wait">
+      {isOpen && (
+        <motion.div
+          className={`fixed inset-0 z-50 h-screen bg-white`}
+          initial={{ y: '-100%' }}
+          animate={{ y: 0 }}
+          exit={{ y: '-100%' }}
+          transition={{ duration: 0.5 }}
+        >
+          {isAdminRoute && (
+            <div className="z-60 absolute right-4 top-4">
+              <ProfileDropdown onEditProfile={onEditProfile} />
+            </div>
+          )}
+          <div className="mr-4 mt-4 flex items-center justify-end">
+            <Button onClick={onCloseMenu}>
+              <X />
             </Button>
           </div>
-        </div>
-      </div>
-
-      <EditProfileDialog
-        isOpen={isEditProfileOpen}
-        onClose={onCloseEditProfile}
-        userData={userData}
-        onSubmit={onSubmitProfile}
-      />
-    </>
+          <div className="overflow-y-auto pb-20">
+            <motion.nav
+              className="space-y-2 px-3 py-4"
+              variants={linkContainerVariants}
+              initial="hidden"
+              animate="visible"
+            >
+              {navItems.map((item) => (
+                <div className="overflow-hidden" key={item.href}>
+                  <motion.li variants={linkVariants} className="list-none">
+                    <Link
+                      href={item.href}
+                      className={`flex items-center rounded-lg px-4 py-5 transition-colors ${
+                        pathname === item.href
+                          ? 'bg-indigo-50 text-indigo-600'
+                          : 'bg-gray-50 text-gray-700 hover:bg-gray-100'
+                      }`}
+                    >
+                      <item.icon
+                        className={`mr-3 h-5 w-5 ${
+                          pathname === item.href ? 'text-indigo-600' : 'text-gray-400'
+                        }`}
+                      />
+                      <span className="text-sm font-medium">{item.label}</span>
+                    </Link>
+                  </motion.li>
+                </div>
+              ))}
+            </motion.nav>
+            <motion.div
+              initial={{ opacity: 0, translateY: 100 }}
+              animate={{
+                opacity: 1,
+                translateY: 0,
+                transition: { delay: 1.2, ease: 'easeInOut', duration: 1 },
+              }}
+              className="absolute bottom-0 left-0 right-0 border-gray-100 bg-white p-4"
+            >
+              <Button
+                variant="outline"
+                onClick={onHelpClick}
+                className="flex w-full items-center justify-center gap-2 rounded-full border-2 border-black bg-neutral-100 py-6 text-sm font-medium"
+              >
+                <Hand className="h-4 w-4" />
+                <span>I Have a doubt</span>
+              </Button>
+            </motion.div>
+          </div>
+          <EditProfileDialog
+            isOpen={isEditProfileOpen}
+            onClose={onCloseEditProfile}
+            userData={userData}
+            onSubmit={onSubmitProfile}
+          />
+        </motion.div>
+      )}
+    </AnimatePresence>
   );
 };
 
 export default MobileMenu;
+
+const linkContainerVariants = {
+  hidden: {
+    opacity: 0,
+  },
+  visible: {
+    opacity: 1,
+    transition: {
+      delay: 0.5,
+      staggerChildren: 0.3,
+    },
+  },
+};
+
+const linkVariants = {
+  hidden: {
+    opacity: 0,
+    y: 100,
+    transition: {
+      duration: 1,
+    },
+  },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 1,
+    },
+  },
+};
