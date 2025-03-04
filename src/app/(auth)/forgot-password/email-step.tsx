@@ -8,36 +8,31 @@ import FormInput from '@/components/common/form-input';
 import { Button } from '@/components/ui/button';
 import { postApi } from '@/api/api';
 import { apiEndPoints } from '@/api/apiEndpoints';
-import { statusCode } from '@/constants/apiStatus';
+import { handleToastApiResponse } from '@/lib/helpers';
 
 const emailSchema = z.object({
   email: z.string().email('Please enter a valid email'),
 });
 
-interface EmailStepProps {
-  initialValue?: string;
-  onSuccess: (values: { email: string }) => void;
-}
-
-export const EmailStep = ({ initialValue, onSuccess }: EmailStepProps) => {
+export const EmailStep = () => {
   const form = useForm<{ email: string }>({
     resolver: zodResolver(emailSchema),
     defaultValues: {
-      email: initialValue || '',
+      email: '',
     },
   });
 
   const onSubmit = async (data: z.infer<typeof emailSchema>) => {
-    onSuccess({ email: data.email });
+    const requestData = {
+      email: data.email,
+    };
 
     const { status, data: responseData } = await postApi(
-      apiEndPoints.users.verifyEmail,
-      data.email,
+      apiEndPoints.users.requestPasswordReset,
+      requestData,
     );
 
-    if (status === statusCode.Ok200) {
-      console.log('Response:', responseData);
-    }
+    handleToastApiResponse(status, responseData);
   };
 
   return (

@@ -2,14 +2,14 @@ import { verify } from 'crypto';
 
 export const apiEndPoints = {
   users: {
-    registerEmail: '/users/send-otp-email',
-    verifyEmail: '/users/verify-otp-email',
-    verifyPhone: '/users/verify-otp-phone',
-    register: '/users/register',
-    login: '/users/login',
+    registerEmail: '/users/send-otp-email', //used
+    verifyEmail: '/users/verify-otp-email', //used
+    register: '/users/register', //used
+    login: '/users/login', //used
+    requestPasswordReset: '/users/request-password-reset', //used
     verifyToken: (token: string) => `/users/verify/${token}`,
-    requestPasswordReset: '/users/request-password-reset',
     resetPassword: '/users/reset-password',
+
     logout: '/users/logout',
     refreshToken: '/users/refresh-token',
     getAll: '/users',

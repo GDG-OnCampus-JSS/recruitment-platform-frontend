@@ -1,18 +1,22 @@
 'use client';
 
-import { useState } from 'react';
+import { getApi, postApi } from '@/api/api';
+import { handleToastApiResponse } from '@/lib/helpers';
+import { Icon } from '@iconify/react';
+import { useParams } from 'next/navigation';
+import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
 import { Form } from '@/components/ui/form';
 import FormInput from '@/components/common/form-input';
 import { Button } from '@/components/ui/button';
-import { Icon } from '@iconify/react';
-import { postApi } from '@/api/api';
 import { apiEndPoints } from '@/api/apiEndpoints';
 import { statusCode } from '@/constants/apiStatus';
 import { AuthCard } from '@/components/common/auth-card';
 import LogoGrid from '@/components/common/logo-grid';
+import Link from 'next/link';
+import Image from 'next/image';
 
 const newPasswordSchema = z
   .object({
@@ -26,14 +30,12 @@ const newPasswordSchema = z
 
 type NewPasswordFormValues = z.infer<typeof newPasswordSchema>;
 
-interface Props {
-  onSuccess: (values: NewPasswordFormValues) => void;
-  onBack: () => void;
-}
-
-export const NewPasswordStep = ({ onSuccess, onBack }: Props) => {
+const ResetPasswordPage = () => {
+  const token = useParams().token?.toString();
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [isTokenValid, setIsTokenValid] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
 
   const form = useForm<NewPasswordFormValues>({
     resolver: zodResolver(newPasswordSchema),
@@ -43,15 +45,69 @@ export const NewPasswordStep = ({ onSuccess, onBack }: Props) => {
     },
   });
 
-  const onSubmit = async (data: NewPasswordFormValues) => {
-    onSuccess(data);
-
-    const { status, data: responseData } = await postApi(apiEndPoints.users.resetPassword, data);
-
+  const validateToken = async (token: string) => {
+    const { status, data } = await getApi(apiEndPoints.users.verifyToken(token));
     if (status === statusCode.Ok200) {
-      console.log('Response:', responseData);
+      setIsTokenValid(true);
     }
+    handleToastApiResponse(status, data);
   };
+
+  const onSubmit = async (data: NewPasswordFormValues) => {
+    const payLoadData = {
+      password: data.password,
+      token: token,
+    };
+
+    const { status, data: responseData } = await postApi(
+      apiEndPoints.users.resetPassword,
+      payLoadData,
+    );
+
+    handleToastApiResponse(status, responseData);
+  };
+
+  useEffect(() => {
+    setIsLoading(true);
+    if (token) {
+      validateToken(token);
+    }
+    setIsLoading(false);
+  }, [token]);
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
+  if (!isTokenValid) {
+    return (
+      <LogoGrid>
+        <AuthCard
+          footer={{
+            text: 'Remembered password?',
+            linkText: 'Login',
+            href: '/login',
+          }}
+        >
+          <div className="mb-10 space-y-1">
+            <div className="flex flex-col items-center gap-20">
+              <Link href="/">
+                <Image src="/gdg-logo.svg" height={40} width={40} alt="GDG Logo" />
+              </Link>
+              <div className="flex flex-col items-center gap-4">
+                <h1 className="text-center text-heading-1 font-medium text-gray-900">
+                  The token has expired. Kindly request a new token
+                </h1>
+                <Button className="h-11 w-full bg-btn-primary hover:bg-indigo-600">
+                  <Link href="/forgot-password">Request New Token</Link>
+                </Button>
+              </div>
+            </div>
+          </div>
+        </AuthCard>
+      </LogoGrid>
+    );
+  }
 
   return (
     <LogoGrid>
@@ -62,6 +118,14 @@ export const NewPasswordStep = ({ onSuccess, onBack }: Props) => {
           href: '/login',
         }}
       >
+        <div className="mb-10 space-y-1">
+          <div className="flex items-center justify-between gap-32">
+            <h1 className="text-heading-1 font-medium text-gray-900">Reset Password</h1>
+            <Link href="/">
+              <Image src="/gdg-logo.svg" height={40} width={40} alt="GDG Logo" />
+            </Link>
+          </div>
+        </div>
         <div>
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
@@ -99,14 +163,9 @@ export const NewPasswordStep = ({ onSuccess, onBack }: Props) => {
                 />
               </div>
 
-              <div className="space-y-2">
-                <Button type="button" onClick={onBack} variant="outline" className="h-11 w-full">
-                  Back
-                </Button>
-                <Button type="submit" className="h-11 w-full bg-btn-primary hover:bg-indigo-600">
-                  Reset Password
-                </Button>
-              </div>
+              <Button type="submit" className="h-11 w-full bg-btn-primary hover:bg-indigo-600">
+                Reset Password
+              </Button>
             </form>
           </Form>
         </div>
@@ -114,3 +173,5 @@ export const NewPasswordStep = ({ onSuccess, onBack }: Props) => {
     </LogoGrid>
   );
 };
+
+export default ResetPasswordPage;

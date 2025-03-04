@@ -23,7 +23,7 @@ import { useToast } from '@/hooks/use-toast';
 import { Spinner } from '@/components/common/spinner';
 
 const loginSchema = z.object({
-  email: z.string().email('Please enter a valid email address').optional(),
+  email: z.string().email('Please enter a valid email address'),
   password: z.string().min(8, 'Password must be at least 8 characters'),
 });
 

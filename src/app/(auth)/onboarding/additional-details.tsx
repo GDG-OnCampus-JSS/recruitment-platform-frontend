@@ -74,7 +74,7 @@ export const AdditionalDetails = ({
     prevStep();
   };
 
-  const { watch, reset, handleSubmit } = form;
+  const { reset, handleSubmit } = form;
 
   useEffect(() => {
     reset({ ...formData });
@@ -133,11 +133,10 @@ export const AdditionalDetails = ({
             >
               Back
             </Button>
-            {/* Add disabled state while submitting form when the submission bug is fixed */}
             <Button
               type="submit"
               className="h-11 w-full bg-btn-primary hover:bg-indigo-600"
-              // disabled={isSubmitting}
+              disabled={isSubmitting}
             >
               {isSubmitting ? (
                 <>
