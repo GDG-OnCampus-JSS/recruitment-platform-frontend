@@ -86,7 +86,7 @@ export const Header = () => {
   };
 
   return (
-    <header className="fixed left-0 top-0 z-20 w-full border-b bg-white px-8 py-2 md:border-b-0 lg:bg-white/50 lg:backdrop-blur-lg">
+    <header className="fixed left-0 top-0 z-20 w-full border-b bg-white px-8 py-3 md:border-b-0 lg:bg-white/50 lg:backdrop-blur-lg xl:px-[80px]">
       <div className="mx-auto flex w-full max-w-7xl items-center justify-between">
         <div className="flex items-center">
           <Link href="/">

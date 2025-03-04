@@ -8,7 +8,13 @@ import FormInput from '@/components/common/form-input';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
-import { Dialog, DialogContent, DialogTitle, DialogHeader } from '@/components/ui/dialog';
+import {
+  Dialog,
+  DialogContent,
+  DialogTitle,
+  DialogHeader,
+  DialogClose,
+} from '@/components/ui/dialog';
 import { useAuthStore } from '@/context/authContext';
 import { SocialLink, EditProfileProps } from '@/lib/types';
 import { yearOptions, domainOptions, SOCIAL_PLATFORMS } from '@/lib/options';
@@ -218,14 +224,15 @@ const EditProfilePage = ({ isOpen, onClose }: EditProfileProps) => {
 
   return (
     <Dialog open={isOpen && !isPasswordModalOpen} onOpenChange={onClose}>
-      <DialogContent className="max-h-[90vh] w-[400px] overflow-y-auto p-0 scrollbar-none sm:w-[598px]">
-        <DialogHeader className="p-4">
-          <DialogTitle className="pl-2 text-xl font-normal sm:pl-10 sm:text-[28px]">
-            Edit Profile
-          </DialogTitle>
+      <DialogContent className="max-h-[90vh] w-[400px] min-w-max overflow-y-auto rounded-lg p-10 pb-8 scrollbar-none sm:w-[598px] [&>button]:hidden">
+        <DialogHeader className="flex flex-row justify-between">
+          <DialogTitle className="text-xl font-normal sm:text-[28px]">Edit Profile</DialogTitle>
+          <DialogClose onClick={onClose}>
+            <X size={24} />
+          </DialogClose>
         </DialogHeader>
 
-        <div className="flex flex-col items-center px-4 pt-6 sm:px-6">
+        <div className="flex flex-col items-center pt-6 sm:px-6">
           <div className="relative mb-6">
             <div className="relative h-24 w-24 overflow-hidden rounded-full sm:h-32 sm:w-32">
               <Image

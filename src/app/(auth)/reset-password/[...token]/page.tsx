@@ -34,7 +34,7 @@ const ResetPasswordPage = () => {
   const token = useParams().token?.toString();
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  const [isTokenValid, setIsTokenValid] = useState(true);
+  const [isTokenValid, setIsTokenValid] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
   const form = useForm<NewPasswordFormValues>({
@@ -47,9 +47,10 @@ const ResetPasswordPage = () => {
 
   const validateToken = async (token: string) => {
     const { status, data } = await getApi(apiEndPoints.users.verifyToken(token));
-    if (status === statusCode.Ok200) {
-      setIsTokenValid(true);
-    }
+
+    if (status === statusCode.Ok200) setIsTokenValid(true);
+    else setIsTokenValid(false);
+
     handleToastApiResponse(status, data);
   };
 

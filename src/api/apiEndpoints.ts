@@ -7,17 +7,16 @@ export const apiEndPoints = {
     register: '/users/register', //used
     login: '/users/login', //used
     requestPasswordReset: '/users/request-password-reset', //used
-    verifyToken: (token: string) => `/users/verify/${token}`,
-    resetPassword: '/users/reset-password',
-
-    logout: '/users/logout',
-    refreshToken: '/users/refresh-token',
-    getAll: '/users',
-    shortlist: '/users/shortlist',
-    domain: '/users/domain',
-    getById: (id: string) => `/users/${id}`,
-    update: (id: string) => `/users/${id}`,
-    delete: (id: string) => `/users/${id}`,
+    verifyToken: (token: string) => `/users/verify/${token}`, //used
+    resetPassword: '/users/reset-password', //used
+    logout: '/users/logout', // ? Not Working
+    // refreshToken: '/users/refresh-token',
+    // getAll: '/users',
+    // shortlist: '/users/shortlist',
+    // domain: '/users/domain',
+    // getById: (id: string) => `/users/${id}`,
+    // update: (id: string) => `/users/${id}`,
+    // delete: (id: string) => `/users/${id}`,
   },
 
   oauth: {},
