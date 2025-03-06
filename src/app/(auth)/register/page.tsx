@@ -41,23 +41,15 @@ export default function RegisterPage() {
         duration: 5000,
       });
       router.push('/onboarding');
-
-      // const { status, data: responseData } = await postApi(apiEndPoints.users.register, data);
-
-      // if (status === statusCode.Ok200) {
-      //   console.log('Response:', responseData);
-      // }
     }
   };
 
   const handleEdit = () => {
-    // const currentMethod = method;
     const currentData = registrationData;
 
     setInitialStep(0);
     setIsVerifying(false);
 
-    // setMethod(currentMethod);
     setRegistrationData(currentData);
   };
 

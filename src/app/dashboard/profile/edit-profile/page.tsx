@@ -25,6 +25,7 @@ import OptionsSelect from '@/components/common/options-select';
 import { validatePhoneNumber } from '@/utils/phoneValidation';
 import { ApiRoutes } from '@/api/routes';
 import { toast } from 'sonner';
+import useUserStore from '@/stores/userStore';
 
 const profileSchema = z.object({
   name: z.string().min(1, 'Full name is required'),
@@ -54,27 +55,28 @@ const profileSchema = z.object({
 
 const EditProfilePage = ({ isOpen, onClose }: EditProfileProps) => {
   const router = useRouter();
-  const { user } = useAuthStore();
+
+  const user = useUserStore((state) => state.user);
+
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [profileImage, setProfileImage] = useState<string>('/DP.jpeg');
   const [isPasswordModalOpen, setIsPasswordModalOpen] = useState(false);
+  const [profileImage, setProfileImage] = useState<string | null>(user?.photo ?? null);
   const [profileImageFile, setProfileImageFile] = useState<File | null>(null);
   const [resumeFile, setResumeFile] = useState<File | null>(null);
   const [activeTab, setActiveTab] = useState<'basic' | 'professional'>('basic');
-  const userId = user?.id || 'dev-123';
 
   const form = useForm<z.infer<typeof profileSchema>>({
     resolver: zodResolver(profileSchema),
     mode: 'onSubmit',
     defaultValues: {
-      name: '',
-      email: '',
-      phone: '',
-      admissionNumber: '',
-      domain: '',
-      year: '',
-      photo: '',
-      resume: '',
+      name: user?.name ?? '',
+      email: user?.email ?? '',
+      phone: user?.phone ?? '',
+      admissionNumber: user?.admissionNumber ?? '',
+      domain: user?.domain ?? '',
+      year: user?.year ?? '',
+      photo: user?.photo ?? '',
+      resume: user?.resume ?? '',
       ...SOCIAL_PLATFORMS.reduce(
         (acc, { platform }) => {
           acc[platform.toLowerCase()] = '';
@@ -85,33 +87,24 @@ const EditProfilePage = ({ isOpen, onClose }: EditProfileProps) => {
     },
   });
 
-  useEffect(() => {
-    const loadProfile = async () => {
-      try {
-        const userData = await profileService.getUserProfile(userId);
-        const socialLinks = (await profileService.getSocialLinks(userId)) || [];
-
-        if (userData) {
-          setProfileImage(userData.photo || '/DP.jpeg');
-        }
-        const socialLinksData = socialLinks.reduce(
-          (acc: Record<string, string>, link: SocialLink) => ({
-            ...acc,
-            [link.name.toLowerCase()]: link.link,
-          }),
-          {},
-        );
-
-        form.reset({
-          ...userData,
-          ...socialLinksData,
-        });
-      } catch (error) {
-        console.error('Error loading profile:', error);
-      }
-    };
-    loadProfile();
-  }, [userId, form]);
+  // useEffect(() => {
+  //   const loadProfile = async () => {
+  //     try {
+  //       // const userData = await profileService.getUserProfile(userId);
+  //       // const socialLinks = (await profileService.getSocialLinks(userId)) || [];
+  //       const socialLinksData = user?.socialLinks?.reduce(
+  //         (acc: Record<string, string>, link: SocialLink) => ({
+  //           ...acc,
+  //           [link.name.toLowerCase()]: link.link,
+  //         }),
+  //         {},
+  //       );
+  //     } catch (error) {
+  //       console.error('Error loading profile:', error);
+  //     }
+  //   };
+  //   loadProfile();
+  // }, [form]);
 
   const handleImageUpload = (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];

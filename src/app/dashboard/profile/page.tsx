@@ -10,6 +10,7 @@ import { User } from '@/lib/types';
 import { Mail, Phone, GraduationCap, UserPen, ArrowLeft } from 'lucide-react';
 import { SOCIAL_PLATFORMS, reqFields, mockUser } from '@/lib/options';
 import EditProfilePage from './edit-profile/page';
+import useUserStore from '@/stores/userStore';
 
 const SocialLink = ({
   platform,
@@ -40,15 +41,10 @@ const SocialLink = ({
 };
 
 export default function ProfilePage() {
-  const [mounted, setMounted] = useState(false);
-  const [displayUser, setDisplayUser] = useState<User | null>(null);
-  const { user, loading } = useAuth();
+  const user = useUserStore((state) => state.user);
   const [isEditProfileOpen, setIsEditProfileOpen] = useState(false);
 
-  useEffect(() => {
-    setMounted(true);
-    setDisplayUser((user || mockUser) as User);
-  }, [user]);
+  console.log(user);
 
   const calculateProfileCompletion = (user: User | null) => {
     if (!user) return 0;
@@ -57,11 +53,11 @@ export default function ProfilePage() {
     return Math.round((completedFields.length / fields.length) * 100);
   };
 
-  const profileCompletion = calculateProfileCompletion(displayUser);
+  const profileCompletion = calculateProfileCompletion(user);
   const isProfileComplete = profileCompletion === 100;
 
   const findUserLink = (platform: string) => {
-    return displayUser?.socialLinks?.find(
+    return user?.socialLinks?.find(
       (link) => link.platform.toLowerCase() === platform.toLowerCase(),
     );
   };
@@ -70,7 +66,7 @@ export default function ProfilePage() {
     setIsEditProfileOpen(true);
   };
 
-  if (!mounted || loading || !displayUser) {
+  if (!user) {
     return (
       <div className="flex min-h-screen items-center justify-center">
         <p className="text-lg">Loading...</p>
@@ -95,7 +91,7 @@ export default function ProfilePage() {
 
       <div className="mx-auto max-w-[1120px] px-4 pt-4 sm:px-6">
         <div className="grid w-full grid-cols-1 gap-5 sm:grid-cols-1 lg:grid-cols-[300px_1fr]">
-          <Card className="w-full bg-blue p-2 shadow-sm sm:w-full lg:w-[300px]">
+          <Card className="w-full bg-blue p-2 shadow-sm sm:w-full lg:min-w-[300px]">
             <CardContent className="relative p-4">
               <Button
                 variant="ghost"
@@ -106,9 +102,9 @@ export default function ProfilePage() {
               </Button>
               <div className="flex flex-col items-start space-y-3">
                 <div className="rounded-full border-4 border-dashed border-[#635BFF]">
-                  <div className="h-[130px] w-[130px] overflow-hidden rounded-full border-2 border-[#635BFF]">
+                  <div className="h-[130px] min-w-[130px] overflow-hidden rounded-full border-2 border-[#635BFF]">
                     <Image
-                      src={displayUser.photo || '/DP.jpeg'}
+                      src={user.photo || '/DP.jpeg'}
                       alt="Profile"
                       width={130}
                       height={130}
@@ -117,12 +113,14 @@ export default function ProfilePage() {
                   </div>
                 </div>
                 <div>
-                  <div className="flex items-center gap-2">
-                    <h2 className="text-xl font-medium">{displayUser.name}</h2>
+                  <div className="justify-betweem flex items-center gap-2">
+                    <h2 className="text-xl font-medium">{user.name}</h2>
                     <span className="ml-2 rounded-full text-lg text-[#635BFF]">•</span>
-                    <span className="text-sm">{displayUser.year}</span>
+                    <span className="text-max text-nowrap">
+                      {user.year == '1' ? '1st Year' : '2nd Year'}
+                    </span>
                   </div>
-                  <p className="text-sm text-[#635BFF]">Aspiring {displayUser.domain}</p>
+                  <p className="text-sm capitalize text-[#635BFF]">Aspiring {user.domain}</p>
                 </div>
 
                 <div className="w-full pt-2">
@@ -167,15 +165,15 @@ export default function ProfilePage() {
                   <div className="space-y-3">
                     <div className="flex items-center gap-3 text-sm">
                       <Mail size={18} className="text-[#3D3D3D]" />
-                      <span>{displayUser.email}</span>
+                      <span>{user.email}</span>
                     </div>
                     <div className="flex items-center gap-3 text-sm">
                       <Phone size={18} className="text-[#3D3D3D]" />
-                      <span>{displayUser.phone}</span>
+                      <span>{user.phone}</span>
                     </div>
                     <div className="flex items-center gap-3 break-all text-sm">
                       <GraduationCap size={18} className="text-[#3D3D3D]" />
-                      <span>{displayUser.admissionNumber}</span>
+                      <span>{user.admissionNumber}</span>
                     </div>
                   </div>
                 </CardContent>
@@ -185,7 +183,7 @@ export default function ProfilePage() {
                 <CardContent className="p-8">
                   <h3 className="mb-4 text-xl font-medium">Your resume</h3>
                   <div className="rounded-lg border border-[#635BFF] p-3">
-                    {displayUser.resume ? (
+                    {user.resume ? (
                       <Image
                         src="/"
                         alt="Resume"

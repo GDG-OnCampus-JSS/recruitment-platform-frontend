@@ -18,9 +18,9 @@ import { Divider } from '@/components/common/divider';
 import { postApi } from '@/api/api';
 import { apiEndPoints } from '@/api/apiEndpoints';
 import { statusCode } from '@/constants/apiStatus';
-import { useSessionStorage } from '@/hooks/use-session-storage';
-import { useToast } from '@/hooks/use-toast';
 import { Spinner } from '@/components/common/spinner';
+import { handleToastApiResponse } from '@/lib/helpers';
+import useUserStore from '@/stores/userStore';
 
 const loginSchema = z.object({
   email: z.string().email('Please enter a valid email address'),
@@ -28,10 +28,9 @@ const loginSchema = z.object({
 });
 
 export default function LoginPage() {
-  const router = useRouter();
   const [showPassword, setShowPassword] = useState(false);
-  const { setSessionData } = useSessionStorage();
-  const { toast } = useToast();
+  const router = useRouter();
+  const setUser = useUserStore((state) => state.setUser);
 
   const form = useForm<z.infer<typeof loginSchema>>({
     resolver: zodResolver(loginSchema),
@@ -44,33 +43,12 @@ export default function LoginPage() {
   const onSubmit = async (data: z.infer<typeof loginSchema>) => {
     const { status, data: responseData } = await postApi(apiEndPoints.users.login, data);
 
+    handleToastApiResponse(status, responseData);
     if (status === statusCode.Ok200) {
-      console.log('Response:', responseData);
-      setSessionData('user', data);
       router.push('/dashboard');
-    } else {
-      const errorMessage =
-        Array.isArray(responseData?.errors) && responseData.errors.length > 0
-          ? responseData.errors[0]
-          : responseData?.message || 'Something went wrong. Please try again.';
-      toast({
-        variant: 'destructive',
-        title: 'Authenctication Error',
-        description: errorMessage,
-      });
+      setUser(responseData.user);
     }
   };
-
-  // // toast for UI testing, do not push in production
-  // useEffect(() => {
-  //   // Trigger a permanent toast on mount for UI testing
-  //   toast({
-  //     variant: 'destructive',
-  //     title: 'Permanent Toast',
-  //     description: 'This toast is for UI testing and will not auto-dismiss.',
-  //     duration: Infinity,
-  //   });
-  // }, [toast]);
 
   return (
     <LogoGrid>

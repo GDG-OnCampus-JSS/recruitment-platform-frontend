@@ -8,6 +8,7 @@ import { reqFields, mockUser } from '@/lib/options';
 import clip from '@/components/dashboardlayout/clip-board';
 import brain from '@/components/dashboardlayout/brain';
 import meet from '@/components/dashboardlayout/meet';
+import useUserStore from '@/stores/userStore';
 
 export const steps = [
   {
@@ -49,22 +50,13 @@ export const steps = [
 ];
 
 export default function DashboardPage() {
-  const { user, loading } = useAuth();
-  const displayUser = user || mockUser;
+  const user = useUserStore((state) => state.user);
 
   const isProfileComplete = reqFields.every(
     (field) =>
       mockUser[field as keyof typeof mockUser] &&
       mockUser[field as keyof typeof mockUser]?.toString().trim() !== '',
   );
-
-  if (loading) {
-    return (
-      <div className="flex min-h-screen items-center justify-center">
-        <p className="text-lg">Loading...</p>
-      </div>
-    );
-  }
 
   return (
     <div className="min-h-screen lg:min-h-[calc(100vh-212px)]">
@@ -76,7 +68,7 @@ export default function DashboardPage() {
             </div>
             <div className="flex flex-col md:gap-1">
               <h1 className="text-lg font-bold leading-[33.96px] text-[#151515] sm:text-[28px]">
-                Hey! {displayUser.name}
+                Hey! {user?.name}
               </h1>
               {!isProfileComplete && (
                 <div className="flex items-center gap-2">

@@ -1,6 +1,6 @@
 import { Form } from '@/components/ui/form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useEffect } from 'react';
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import * as z from 'zod';
 import FormInput from '@/components/common/form-input';
@@ -9,8 +9,14 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
 import { academicYearOptions, domainOptions } from '@/constants/registration';
-import { checkIfObjectNotEmpty } from '@/lib/helpers';
+import { checkIfObjectNotEmpty, handleToastApiResponse } from '@/lib/helpers';
 import { Spinner } from '@/components/common/spinner';
+import { useSessionStorage } from '@/hooks/use-session-storage';
+import { postApi } from '@/api/api';
+import { apiEndPoints } from '@/api/apiEndpoints';
+import { statusCode } from '@/constants/apiStatus';
+import { useRouter } from 'next/navigation';
+import useUserStore from '@/stores/userStore';
 
 const additionalDetailsSchema = z.object({
   admissionNumber: z
@@ -34,18 +40,16 @@ type AdditionalDetailsFormValues = z.infer<typeof additionalDetailsSchema>;
 interface Props {
   formData: any;
   setFormData: React.Dispatch<React.SetStateAction<any>>;
-  nextStep: () => void;
   prevStep: () => void;
-  isSubmitting?: boolean;
 }
 
-export const AdditionalDetails = ({
-  formData,
-  setFormData,
-  nextStep,
-  prevStep,
-  isSubmitting,
-}: Props) => {
+export const AdditionalDetails = ({ formData, setFormData, prevStep }: Props) => {
+  const { getSessionData } = useSessionStorage();
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const setUser = useUserStore((state) => state.setUser);
+
+  const router = useRouter();
+
   const form = useForm<AdditionalDetailsFormValues>({
     resolver: zodResolver(additionalDetailsSchema),
     defaultValues: checkIfObjectNotEmpty(formData)
@@ -64,9 +68,27 @@ export const AdditionalDetails = ({
         },
   });
 
-  const onSubmit = (values: AdditionalDetailsFormValues) => {
-    setFormData((prev: any) => ({ ...prev, ...values }));
-    nextStep();
+  const onSubmit = async (values: AdditionalDetailsFormValues) => {
+    setIsSubmitting(true);
+
+    const updatedFormData = { ...formData, ...values };
+    setFormData(updatedFormData);
+
+    const finalData = {
+      ...updatedFormData,
+      email: getSessionData('email'),
+      year: updatedFormData.year ? Number(formData.year) : undefined,
+    };
+    const { status, data: responseData } = await postApi(apiEndPoints.users.register, finalData);
+
+    handleToastApiResponse(status, responseData);
+
+    if (status === statusCode.Created201) {
+      setUser(responseData.user);
+      sessionStorage.removeItem('email');
+      router.push('/dashboard');
+    }
+    setIsSubmitting(false);
   };
 
   const onPrevClick = (values: AdditionalDetailsFormValues) => {
@@ -74,11 +96,7 @@ export const AdditionalDetails = ({
     prevStep();
   };
 
-  const { reset, handleSubmit } = form;
-
-  useEffect(() => {
-    reset({ ...formData });
-  }, [formData, reset]);
+  const { handleSubmit } = form;
 
   return (
     <div>

@@ -19,6 +19,8 @@ import { postApi } from '@/api/api';
 import { apiEndPoints } from '@/api/apiEndpoints';
 import { statusCode } from '@/constants/apiStatus';
 import { useToast } from '@/hooks/use-toast';
+import { handleToastApiResponse } from '@/lib/helpers';
+import useUserStore from '@/stores/userStore';
 
 export const Header = () => {
   const router = useRouter();
@@ -29,6 +31,8 @@ export const Header = () => {
   const [isEditProfileOpen, setIsEditProfileOpen] = useState(false);
   const [displayUser, setDisplayUser] = useState<User>(user || mockUser);
   const { toast } = useToast();
+
+  const logoutUser = useUserStore((state) => state.logout);
 
   const isAdminRoute = pathname?.startsWith('/admin');
 
@@ -70,18 +74,11 @@ export const Header = () => {
   const handleLogout = async () => {
     const { status, data: responseData } = await postApi(apiEndPoints.users.logout);
 
+    handleToastApiResponse(status, responseData);
+
     if (status == statusCode.Ok200) {
       router.push('/');
-    } else {
-      const errorMessage =
-        Array.isArray(responseData?.errors) && responseData.errors.length > 0
-          ? responseData.errors[0]
-          : responseData?.message || 'Something went wrong. Please try again.';
-      toast({
-        variant: 'destructive',
-        title: 'Something went wrong!',
-        description: errorMessage,
-      });
+      logoutUser();
     }
   };
 

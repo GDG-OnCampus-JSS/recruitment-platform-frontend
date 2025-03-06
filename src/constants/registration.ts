@@ -4,9 +4,9 @@ export const academicYearOptions = [
 ];
 
 export const domainOptions = [
-  { id: 'app', label: 'App Development', value: 'app', key: 'domain-app' },
-  { id: 'ml', label: 'Machine Learning', value: 'ml', key: 'domain-ml' },
-  { id: 'programming', label: 'Programming', value: 'programming', key: 'domain-prog' },
-  { id: 'design', label: 'UI/UX Design', value: 'design', key: 'domain-design' },
-  { id: 'web', label: 'Web Development', value: 'web', key: 'domain-web' },
+  { id: 'app', label: 'App Development', value: 'app developer', key: 'domain-app' },
+  { id: 'ml', label: 'Machine Learning', value: 'ml engineer', key: 'domain-ml' },
+  { id: 'programming', label: 'Programming', value: 'programmer', key: 'domain-prog' },
+  { id: 'design', label: 'UI/UX Design', value: 'designer', key: 'domain-design' },
+  { id: 'web', label: 'Web Development', value: 'web developer', key: 'domain-web' },
 ];
