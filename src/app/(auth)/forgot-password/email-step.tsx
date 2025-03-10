@@ -1,13 +1,13 @@
 'use client';
 
-import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useForm } from 'react-hook-form';
 import * as z from 'zod';
-import { Form } from '@/components/ui/form';
-import FormInput from '@/components/common/form-input';
-import { Button } from '@/components/ui/button';
 import { postApi } from '@/api/api';
 import { apiEndPoints } from '@/api/apiEndpoints';
+import FormInput from '@/components/common/form-input';
+import { Button } from '@/components/ui/button';
+import { Form } from '@/components/ui/form';
 import { handleToastApiResponse } from '@/lib/helpers';
 
 const emailSchema = z.object({

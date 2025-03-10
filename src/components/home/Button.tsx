@@ -1,9 +1,9 @@
 'use client';
+import { motion } from 'motion/react';
 import Link from 'next/link';
-import { Button as ShadCnButton } from '../ui/button';
 import { ReactNode } from 'react';
 import { cn } from '@/lib/utils';
-import { motion } from 'motion/react';
+import { Button as ShadCnButton } from '../ui/button';
 
 interface ButtonProps {
   children: ReactNode;

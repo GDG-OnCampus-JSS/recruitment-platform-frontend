@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
-import Image from 'next/image';
 import { Bell } from 'lucide-react';
+import Image from 'next/image';
+import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Notification } from '@/lib/types';

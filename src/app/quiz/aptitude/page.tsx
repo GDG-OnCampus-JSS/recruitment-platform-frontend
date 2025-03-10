@@ -1,10 +1,9 @@
 'use client';
 
-import { Bookmark, Circle, TriangleAlert } from 'lucide-react';
-import { useState, useEffect } from 'react';
 import axios from 'axios';
+import { Bookmark, Circle, TriangleAlert } from 'lucide-react';
 import { useRouter, useSearchParams } from 'next/navigation';
-import QuizList from './table';
+import { useState, useEffect } from 'react';
 import {
   Dialog,
   DialogContent,
@@ -14,6 +13,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog';
+import QuizList from './table';
 
 interface Option {
   id: string;

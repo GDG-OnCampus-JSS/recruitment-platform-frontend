@@ -1,9 +1,9 @@
 'use client';
 
+import { AlertCircle } from 'lucide-react';
 import { useFormContext } from 'react-hook-form';
 import { FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { InputOTP, InputOTPGroup, InputOTPSlot } from '@/components/ui/input-otp';
-import { AlertCircle } from 'lucide-react';
 
 interface OTPInputProps {
   name: string;

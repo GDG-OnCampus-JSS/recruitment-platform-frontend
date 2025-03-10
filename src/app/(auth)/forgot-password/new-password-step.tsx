@@ -1,18 +1,18 @@
 'use client';
 
+import { zodResolver } from '@hookform/resolvers/zod';
+import { Icon } from '@iconify/react';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
-import { Form } from '@/components/ui/form';
-import FormInput from '@/components/common/form-input';
-import { Button } from '@/components/ui/button';
-import { Icon } from '@iconify/react';
 import { postApi } from '@/api/api';
 import { apiEndPoints } from '@/api/apiEndpoints';
-import { statusCode } from '@/constants/apiStatus';
 import { AuthCard } from '@/components/common/auth-card';
+import FormInput from '@/components/common/form-input';
 import LogoGrid from '@/components/common/logo-grid';
+import { Button } from '@/components/ui/button';
+import { Form } from '@/components/ui/form';
+import { statusCode } from '@/constants/apiStatus';
 
 const newPasswordSchema = z
   .object({

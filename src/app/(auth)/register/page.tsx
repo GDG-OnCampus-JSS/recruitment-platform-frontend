@@ -1,20 +1,20 @@
 'use client';
 
-import { useState } from 'react';
 import Image from 'next/image';
-import { Button } from '@/components/ui/button';
-import LogoGrid from '@/components/common/logo-grid';
 import Link from 'next/link';
-import { AuthCard } from '@/components/common/auth-card';
-import { EmailStep } from './email-step';
-import { VerificationStep } from './verification-step';
 import { useRouter } from 'next/navigation';
-import { Divider } from '@/components/common/divider';
-import { useSessionStorage } from '@/hooks/use-session-storage';
+import { useState } from 'react';
 import { postApi } from '@/api/api';
 import { apiEndPoints } from '@/api/apiEndpoints';
+import { AuthCard } from '@/components/common/auth-card';
+import { Divider } from '@/components/common/divider';
+import LogoGrid from '@/components/common/logo-grid';
+import { Button } from '@/components/ui/button';
 import { statusCode } from '@/constants/apiStatus';
+import { useSessionStorage } from '@/hooks/use-session-storage';
 import { useToast } from '@/hooks/use-toast';
+import { EmailStep } from './email-step';
+import { VerificationStep } from './verification-step';
 
 export default function RegisterPage() {
   const [method, setMethod] = useState<'email'>('email');

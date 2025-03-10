@@ -1,12 +1,12 @@
 'use client';
 
-import { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import LogoGrid from '@/components/common/logo-grid';
-import { PersonalInformation } from './personal-information';
-import { AdditionalDetails } from './additional-details';
+import { useState } from 'react';
 import { AuthCard } from '@/components/common/auth-card';
+import LogoGrid from '@/components/common/logo-grid';
+import { AdditionalDetails } from './additional-details';
+import { PersonalInformation } from './personal-information';
 
 export default function OnboardingPage() {
   const [step, setStep] = useState(0);

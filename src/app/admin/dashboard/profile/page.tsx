@@ -1,10 +1,4 @@
 'use client';
-import { Card, CardContent } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import Image from 'next/image';
-import { useAuth } from '@/context/authContext';
-import { ReactElement, useState, useEffect } from 'react';
-import { User } from '@/lib/types';
 import {
   Mail,
   Phone,
@@ -17,8 +11,14 @@ import {
   BookmarkCheck,
   Sparkles,
 } from 'lucide-react';
-import { SOCIAL_PLATFORMS, mockUser } from '@/lib/options';
+import Image from 'next/image';
+import { ReactElement, useState, useEffect } from 'react';
 import { ApiRoutes } from '@/api/routes';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent } from '@/components/ui/card';
+import { useAuth } from '@/context/authContext';
+import { SOCIAL_PLATFORMS, mockUser } from '@/lib/options';
+import { User } from '@/lib/types';
 
 const SocialLink = ({
   platform,

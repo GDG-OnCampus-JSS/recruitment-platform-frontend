@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from 'react';
 import { ChevronDown, LogOut, Mail, Phone, UserCog } from 'lucide-react';
 import Image from 'next/image';
-import { Button } from '../ui/button';
-import { useAuth, useAuthStore } from '@/context/authContext';
-import { User } from '@/lib/types';
-import { mockUser } from '@/lib/options';
 import { useRouter } from 'next/navigation';
+import React, { useState, useEffect } from 'react';
+import { useAuth, useAuthStore } from '@/context/authContext';
+import { mockUser } from '@/lib/options';
+import { User } from '@/lib/types';
+import { Button } from '../ui/button';
 
 const ProfileDropdown = ({ onEditProfile }: { onEditProfile: () => void }) => {
   const [isOpen, setIsOpen] = useState(false);

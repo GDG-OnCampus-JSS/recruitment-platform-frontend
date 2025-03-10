@@ -1,21 +1,21 @@
-import { Form } from '@/components/ui/form';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import * as z from 'zod';
-import FormInput from '@/components/common/form-input';
-import OptionsSelect from '@/components/common/options-select';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Button } from '@/components/ui/button';
-import { academicYearOptions, domainOptions } from '@/constants/registration';
-import { checkIfObjectNotEmpty, handleToastApiResponse } from '@/lib/helpers';
-import { Spinner } from '@/components/common/spinner';
-import { useSessionStorage } from '@/hooks/use-session-storage';
 import { postApi } from '@/api/api';
 import { apiEndPoints } from '@/api/apiEndpoints';
+import FormInput from '@/components/common/form-input';
+import OptionsSelect from '@/components/common/options-select';
+import { Spinner } from '@/components/common/spinner';
+import { Button } from '@/components/ui/button';
+import { Form } from '@/components/ui/form';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
 import { statusCode } from '@/constants/apiStatus';
-import { useRouter } from 'next/navigation';
+import { academicYearOptions, domainOptions } from '@/constants/registration';
+import { useSessionStorage } from '@/hooks/use-session-storage';
+import { checkIfObjectNotEmpty, handleToastApiResponse } from '@/lib/helpers';
 import useUserStore from '@/stores/userStore';
 
 const additionalDetailsSchema = z.object({

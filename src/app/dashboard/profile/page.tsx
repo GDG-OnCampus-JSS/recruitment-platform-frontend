@@ -1,17 +1,17 @@
 'use client';
-import { Card, CardContent } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import Link from 'next/link';
-import Image from 'next/image';
-import { useAuth } from '@/context/authContext';
-import { ReactElement, useEffect, useState } from 'react';
-import { useRouter } from 'next/navigation';
-import { User } from '@/lib/types';
 import { Mail, Phone, GraduationCap, UserPen, ArrowLeft } from 'lucide-react';
-import { SOCIAL_PLATFORMS, reqFields, mockUser } from '@/lib/options';
-import EditProfilePage from './edit-profile/page';
-import useUserStore from '@/stores/userStore';
+import Image from 'next/image';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import { ReactElement, useEffect, useState } from 'react';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent } from '@/components/ui/card';
+import { useAuth } from '@/context/authContext';
 import { blobUrl } from '@/lib/helpers';
+import { SOCIAL_PLATFORMS, reqFields, mockUser } from '@/lib/options';
+import { User } from '@/lib/types';
+import useUserStore from '@/stores/userStore';
+import EditProfilePage from './edit-profile/page';
 
 const SocialLink = ({
   platform,

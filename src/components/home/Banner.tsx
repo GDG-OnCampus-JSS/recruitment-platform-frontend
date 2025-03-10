@@ -1,13 +1,13 @@
 'use client';
+import { motion } from 'motion/react';
 import { cn } from '@/lib/utils';
+import Button from './Button';
 import { Click } from './click';
 import { EllipseIcon } from './ellipse-1';
 import { EllipseIcon2 } from './ellipse-2';
+import GradientText from './gradientText';
 import { Star } from './star';
 import { WavyLine } from './wavy-line';
-import { motion } from 'motion/react';
-import GradientText from './gradientText';
-import Button from './Button';
 
 interface BannerProps {
   className?: string;

@@ -1,22 +1,22 @@
 'use client';
 
-import { getApi, postApi } from '@/api/api';
-import { handleToastApiResponse } from '@/lib/helpers';
+import { zodResolver } from '@hookform/resolvers/zod';
 import { Icon } from '@iconify/react';
+import Image from 'next/image';
+import Link from 'next/link';
 import { useParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
-import { Form } from '@/components/ui/form';
-import FormInput from '@/components/common/form-input';
-import { Button } from '@/components/ui/button';
+import { getApi, postApi } from '@/api/api';
 import { apiEndPoints } from '@/api/apiEndpoints';
-import { statusCode } from '@/constants/apiStatus';
 import { AuthCard } from '@/components/common/auth-card';
+import FormInput from '@/components/common/form-input';
 import LogoGrid from '@/components/common/logo-grid';
-import Link from 'next/link';
-import Image from 'next/image';
+import { Button } from '@/components/ui/button';
+import { Form } from '@/components/ui/form';
+import { statusCode } from '@/constants/apiStatus';
+import { handleToastApiResponse } from '@/lib/helpers';
 
 const newPasswordSchema = z
   .object({

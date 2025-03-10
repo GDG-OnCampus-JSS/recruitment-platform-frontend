@@ -1,9 +1,9 @@
 'use client';
 
-import StepCard from '@/components/dashboardlayout/step-card';
-import clip from '@/components/dashboardlayout/clip-board';
 import brain from '@/components/dashboardlayout/brain';
+import clip from '@/components/dashboardlayout/clip-board';
 import meet from '@/components/dashboardlayout/meet';
+import StepCard from '@/components/dashboardlayout/step-card';
 
 export const steps = [
   {

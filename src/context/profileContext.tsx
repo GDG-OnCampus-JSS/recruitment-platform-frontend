@@ -1,5 +1,5 @@
-import { ApiRoutes } from '@/api/routes';
 import { toast } from 'sonner';
+import { ApiRoutes } from '@/api/routes';
 
 export const profileService = {
   async getUserProfile(userId: string) {

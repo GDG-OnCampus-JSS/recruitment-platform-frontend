@@ -2,9 +2,9 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
+import { AuthCard } from '@/components/common/auth-card';
 import LogoGrid from '@/components/common/logo-grid';
 import { EmailStep } from './email-step';
-import { AuthCard } from '@/components/common/auth-card';
 
 export default function ForgotPasswordPage() {
   return (

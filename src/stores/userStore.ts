@@ -1,6 +1,6 @@
-import { User } from '@/lib/types';
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
+import { User } from '@/lib/types';
 
 interface UserState {
   user: User | null;

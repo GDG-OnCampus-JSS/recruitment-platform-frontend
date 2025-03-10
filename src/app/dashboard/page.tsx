@@ -1,14 +1,14 @@
 'use client';
-import Link from 'next/link';
 import { CircleAlert } from 'lucide-react';
-import StepCard from '@/components/dashboardlayout/step-card';
 import Image from 'next/image';
-import { reqFields, mockUser } from '@/lib/options';
-import clip from '@/components/dashboardlayout/clip-board';
+import Link from 'next/link';
 import brain from '@/components/dashboardlayout/brain';
+import clip from '@/components/dashboardlayout/clip-board';
 import meet from '@/components/dashboardlayout/meet';
-import useUserStore from '@/stores/userStore';
+import StepCard from '@/components/dashboardlayout/step-card';
 import { blobUrl } from '@/lib/helpers';
+import { reqFields, mockUser } from '@/lib/options';
+import useUserStore from '@/stores/userStore';
 
 export const steps = [
   {

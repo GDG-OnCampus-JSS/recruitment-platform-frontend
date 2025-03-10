@@ -1,5 +1,5 @@
-import Header from '@/components/dashboardlayout/header';
 import Footer from '@/components/dashboardlayout/footer';
+import Header from '@/components/dashboardlayout/header';
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
   return (

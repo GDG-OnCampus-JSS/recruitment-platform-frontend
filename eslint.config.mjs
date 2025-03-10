@@ -1,4 +1,5 @@
 import { FlatCompat } from '@eslint/eslintrc';
+import eslintPluginImport from 'eslint-plugin-import';
 
 const compat = new FlatCompat({
   baseDirectory: import.meta.dirname,
@@ -15,7 +16,7 @@ const eslintConfig = [
   }),
   {
     plugins: {
-      import: require('eslint-plugin-import'),
+      import: eslintPluginImport,
     },
     rules: {
       'import/order': [
@@ -39,11 +40,14 @@ const eslintConfig = [
             },
           ],
           pathGroupsExcludedImportTypes: ['builtin'],
-          'newlines-between': 'always',
+          'newlines-between': 'never',
           alphabetize: { order: 'asc', caseInsensitive: true },
         },
       ],
     },
+  },
+  {
+    ignores: ['node_modules/', '.next/', 'out/', 'public/'],
   },
 ];
 

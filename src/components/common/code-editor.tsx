@@ -1,7 +1,7 @@
 'use client';
 
-import React from 'react';
 import Editor from '@monaco-editor/react';
+import React from 'react';
 
 interface CodeEditorProps {
   handleOnEditorChange: (value: string) => void;

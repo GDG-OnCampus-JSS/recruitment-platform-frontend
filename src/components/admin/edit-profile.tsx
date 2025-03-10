@@ -1,19 +1,19 @@
 'use client';
-import { useState, useEffect } from 'react';
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
-import { Button } from '@/components/ui/button';
+import { zodResolver } from '@hookform/resolvers/zod';
 import { PencilLine, X } from 'lucide-react';
 import Image from 'next/image';
-import FormInput from '@/components/common/form-input';
+import { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
+import { toast } from 'sonner';
 import * as z from 'zod';
-import { zodResolver } from '@hookform/resolvers/zod';
+import { ApiRoutes } from '@/api/routes';
+import FormInput from '@/components/common/form-input';
+import { Button } from '@/components/ui/button';
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Form } from '@/components/ui/form';
+import { useAuthStore } from '@/context/authContext';
 import { User } from '@/lib/types';
 import PasswordModal from '../dashboardlayout/password-modal';
-import { toast } from 'sonner';
-import { ApiRoutes } from '@/api/routes';
-import { useAuthStore } from '@/context/authContext';
 
 interface EditProfileDialogProps {
   isOpen: boolean;

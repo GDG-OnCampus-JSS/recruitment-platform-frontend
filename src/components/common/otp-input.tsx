@@ -1,10 +1,10 @@
 'use client';
 
+import { AlertCircle } from 'lucide-react';
 import React from 'react';
 import { InputOTP, InputOTPGroup, InputOTPSlot } from '@/components/ui/input-otp';
 import { Label } from '@/components/ui/label';
 import { cn } from '@/lib/utils';
-import { AlertCircle } from 'lucide-react';
 
 interface OTPInputProps {
   onChange: (otp: string) => void;

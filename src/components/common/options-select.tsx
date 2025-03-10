@@ -1,6 +1,15 @@
 'use client';
+import { AlertCircle } from 'lucide-react';
 import React, { memo } from 'react';
 import { useFormContext } from 'react-hook-form';
+import {
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from '@/components/ui/form';
 import {
   Select,
   SelectContent,
@@ -10,16 +19,7 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { type SelectOptions } from '@/lib/types';
-import { AlertCircle } from 'lucide-react';
 import InfoTooltip from './info-tooltip';
-import {
-  FormControl,
-  FormDescription,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from '@/components/ui/form';
 
 interface OptionsSelectProps {
   name: string;

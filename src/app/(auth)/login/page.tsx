@@ -1,24 +1,24 @@
 'use client';
 
-import { useEffect, useState } from 'react';
-import { motion } from 'framer-motion';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { Icon } from '@iconify/react';
+import { motion } from 'framer-motion';
+import Image from 'next/image';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import * as z from 'zod';
-import Image from 'next/image';
-import { useRouter } from 'next/navigation';
-import { Form } from '@/components/ui/form';
-import { Button } from '@/components/ui/button';
-import FormInput from '@/components/common/form-input';
-import LogoGrid from '@/components/common/logo-grid';
-import Link from 'next/link';
-import { Icon } from '@iconify/react';
-import { AuthCard } from '@/components/common/auth-card';
-import { Divider } from '@/components/common/divider';
 import { postApi } from '@/api/api';
 import { apiEndPoints } from '@/api/apiEndpoints';
-import { statusCode } from '@/constants/apiStatus';
+import { AuthCard } from '@/components/common/auth-card';
+import { Divider } from '@/components/common/divider';
+import FormInput from '@/components/common/form-input';
+import LogoGrid from '@/components/common/logo-grid';
 import { Spinner } from '@/components/common/spinner';
+import { Button } from '@/components/ui/button';
+import { Form } from '@/components/ui/form';
+import { statusCode } from '@/constants/apiStatus';
 import { handleToastApiResponse } from '@/lib/helpers';
 import useUserStore from '@/stores/userStore';
 

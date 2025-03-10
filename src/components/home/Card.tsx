@@ -1,9 +1,9 @@
 'use client';
 
-import { cn } from '@/lib/utils';
-import Image from 'next/image';
-import { Rays } from './rays';
 import { motion } from 'motion/react';
+import Image from 'next/image';
+import { cn } from '@/lib/utils';
+import { Rays } from './rays';
 
 interface CardProps {
   title: string;

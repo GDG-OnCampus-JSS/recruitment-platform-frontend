@@ -1,17 +1,17 @@
-import { useEffect, useState } from 'react';
-import * as z from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Form } from '@/components/ui/form';
-import { useForm } from 'react-hook-form';
-import { Button } from '@/components/ui/button';
 import { Pencil } from 'lucide-react';
-import { OTPInput } from '@/components/common/form-otp';
+import { useEffect, useState } from 'react';
+import { useForm } from 'react-hook-form';
+import * as z from 'zod';
 import { postApi } from '@/api/api';
+import { apiEndPoints } from '@/api/apiEndpoints';
+import { OTPInput } from '@/components/common/form-otp';
+import { Spinner } from '@/components/common/spinner';
+import { Button } from '@/components/ui/button';
+import { Form } from '@/components/ui/form';
 import { statusCode } from '@/constants/apiStatus';
 import { useSessionStorage } from '@/hooks/use-session-storage';
-import { apiEndPoints } from '@/api/apiEndpoints';
 import { useToast } from '@/hooks/use-toast';
-import { Spinner } from '@/components/common/spinner';
 
 interface VerificationStepProps {
   data: {

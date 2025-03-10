@@ -1,10 +1,10 @@
 'use client';
-import { create } from 'zustand';
 import { usePathname } from 'next/navigation';
 import { useEffect, useState, useMemo } from 'react';
-import { AuthState } from '@/lib/types';
-import { ApiRoutes } from '@/api/routes';
 import { toast } from 'sonner';
+import { create } from 'zustand';
+import { ApiRoutes } from '@/api/routes';
+import { AuthState } from '@/lib/types';
 
 export const useAuthStore = create<AuthState>((set) => ({
   user: null,

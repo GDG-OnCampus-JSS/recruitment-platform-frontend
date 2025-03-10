@@ -1,11 +1,15 @@
 'use client';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { PencilLine, Upload, X } from 'lucide-react';
+import Image from 'next/image';
 import { useState, ChangeEvent, useRef } from 'react';
 import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
-import { Form } from '@/components/ui/form';
+import { patchApi, postApi, uploadApi } from '@/api/api';
+import { apiEndPoints } from '@/api/apiEndpoints';
 import FormInput from '@/components/common/form-input';
-import Image from 'next/image';
+import OptionsSelect from '@/components/common/options-select';
+import PasswordModal from '@/components/dashboardlayout/password-modal';
 import { Button } from '@/components/ui/button';
 import {
   Dialog,
@@ -14,19 +18,15 @@ import {
   DialogHeader,
   DialogClose,
 } from '@/components/ui/dialog';
-import { EditProfileProps } from '@/lib/types';
-import { SOCIAL_PLATFORMS } from '@/lib/options';
-import PasswordModal from '@/components/dashboardlayout/password-modal';
-import { PencilLine, Upload, X } from 'lucide-react';
-import OptionsSelect from '@/components/common/options-select';
-import { validatePhoneNumber } from '@/utils/phoneValidation';
-import useUserStore from '@/stores/userStore';
-import { academicYearOptions, domainOptions } from '@/constants/registration';
-import { apiEndPoints } from '@/api/apiEndpoints';
-import { blobUrl, extractBlobUrlSegment, handleToastApiResponse } from '@/lib/helpers';
-import { patchApi, postApi, uploadApi } from '@/api/api';
-import { statusCode } from '@/constants/apiStatus';
+import { Form } from '@/components/ui/form';
 import { Progress } from '@/components/ui/progress';
+import { statusCode } from '@/constants/apiStatus';
+import { academicYearOptions, domainOptions } from '@/constants/registration';
+import { blobUrl, extractBlobUrlSegment, handleToastApiResponse } from '@/lib/helpers';
+import { SOCIAL_PLATFORMS } from '@/lib/options';
+import { EditProfileProps } from '@/lib/types';
+import useUserStore from '@/stores/userStore';
+import { validatePhoneNumber } from '@/utils/phoneValidation';
 
 const profileSchema = z.object({
   name: z.string().min(1, 'Full name is required'),

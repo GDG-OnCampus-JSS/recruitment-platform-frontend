@@ -1,8 +1,8 @@
 import { Banner, CTA, Logo } from '@/components/home/Banner';
+import Button from '@/components/home/Button';
 import { Card } from '@/components/home/Card';
 import { JourneyStep } from '@/components/home/JourneySteps';
 import VerticalStepper from '@/components/home/VerticalStepper';
-import Button from '@/components/home/Button';
 import { cardData, journeySteps, stepColors } from '@/constants/homePageConstants';
 
 // Steps of the Vertical Stepper thing

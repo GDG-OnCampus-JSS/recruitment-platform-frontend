@@ -1,10 +1,10 @@
 'use client';
-import Footer from '@/components/dashboardlayout/footer';
-import Header from '@/components/dashboardlayout/header';
-import { Button } from '@/components/ui/button';
 import { ChevronLeft } from 'lucide-react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import Footer from '@/components/dashboardlayout/footer';
+import Header from '@/components/dashboardlayout/header';
+import { Button } from '@/components/ui/button';
 
 export default function Quiz() {
   const router = useRouter();

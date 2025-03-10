@@ -1,6 +1,10 @@
 import { zodResolver } from '@hookform/resolvers/zod';
+import { X } from 'lucide-react';
 import { useForm } from 'react-hook-form';
 import * as z from 'zod';
+import { postApi } from '@/api/api';
+import { apiEndPoints } from '@/api/apiEndpoints';
+import FormInput from '@/components/common/form-input';
 import { Button } from '@/components/ui/button';
 import {
   Dialog,
@@ -9,14 +13,10 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog';
-import FormInput from '@/components/common/form-input';
-import useUserStore from '@/stores/userStore';
-import { postApi } from '@/api/api';
-import { apiEndPoints } from '@/api/apiEndpoints';
-import { handleToastApiResponse } from '@/lib/helpers';
 import { statusCode } from '@/constants/apiStatus';
+import { handleToastApiResponse } from '@/lib/helpers';
+import useUserStore from '@/stores/userStore';
 import { Form } from '../ui/form';
-import { X } from 'lucide-react';
 
 const passwordSchema = z
   .object({

@@ -1,16 +1,16 @@
-import { useEffect } from 'react';
-import * as z from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Form } from '@/components/ui/form';
+import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
-import FormInput from '@/components/common/form-input';
-import { Button } from '@/components/ui/button';
+import * as z from 'zod';
 import { postApi } from '@/api/api';
 import { apiEndPoints } from '@/api/apiEndpoints';
+import FormInput from '@/components/common/form-input';
+import { Spinner } from '@/components/common/spinner';
+import { Button } from '@/components/ui/button';
+import { Form } from '@/components/ui/form';
 import { statusCode } from '@/constants/apiStatus';
 import { useSessionStorage } from '@/hooks/use-session-storage';
 import { useToast } from '@/hooks/use-toast';
-import { Spinner } from '@/components/common/spinner';
 
 const emailSchema = z.object({
   email: z.string().email('Please enter a valid email address'),

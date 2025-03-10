@@ -1,5 +1,5 @@
-import Image from 'next/image';
 import { Linkedin, Instagram, Github, Youtube, X } from 'lucide-react';
+import Image from 'next/image';
 
 export const Footer = () => {
   const SocialIcons = () => (

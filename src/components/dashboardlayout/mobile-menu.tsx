@@ -1,11 +1,11 @@
-import React from 'react';
-import Link from 'next/link';
 import { Hand, X } from 'lucide-react';
+import { motion, AnimatePresence, delay } from 'motion/react';
+import Link from 'next/link';
+import React from 'react';
 import { Button } from '@/components/ui/button';
 import { NavItem } from '@/lib/types';
-import ProfileDropdown from '../admin/profile-dropdown';
 import EditProfileDialog from '../admin/edit-profile';
-import { motion, AnimatePresence, delay } from 'motion/react';
+import ProfileDropdown from '../admin/profile-dropdown';
 
 interface MobileMenuProps {
   isOpen: boolean;

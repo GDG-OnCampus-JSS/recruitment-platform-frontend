@@ -1,13 +1,5 @@
 'use client';
 
-import * as React from 'react';
-import { useDebounce } from '@/hooks/use-debounce';
-import {
-  type ReadonlyURLSearchParams,
-  usePathname,
-  useRouter,
-  useSearchParams,
-} from 'next/navigation';
 import {
   getCoreRowModel,
   getFacetedRowModel,
@@ -22,7 +14,15 @@ import {
   type SortingState,
   type VisibilityState,
 } from '@tanstack/react-table';
+import {
+  type ReadonlyURLSearchParams,
+  usePathname,
+  useRouter,
+  useSearchParams,
+} from 'next/navigation';
+import * as React from 'react';
 import { z } from 'zod';
+import { useDebounce } from '@/hooks/use-debounce';
 import type { DataTableFilterField } from '@/lib/types';
 
 interface UseDataTableProps<TData, TValue> {

@@ -1,13 +1,13 @@
-import { Form } from '@/components/ui/form';
-import { validatePhoneNumber } from '@/utils/phoneValidation';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { Icon } from '@iconify/react';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import * as z from 'zod';
 import FormInput from '@/components/common/form-input';
 import { Button } from '@/components/ui/button';
-import { Icon } from '@iconify/react';
+import { Form } from '@/components/ui/form';
 import { checkIfObjectNotEmpty } from '@/lib/helpers';
+import { validatePhoneNumber } from '@/utils/phoneValidation';
 
 const personalInfoSchema = z
   .object({

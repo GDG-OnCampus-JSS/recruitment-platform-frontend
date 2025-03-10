@@ -1,5 +1,5 @@
-import React from 'react';
 import { Info } from 'lucide-react';
+import React from 'react';
 import { Tooltip, TooltipContent, TooltipTrigger, TooltipProvider } from '@/components/ui/tooltip';
 
 interface Props {

@@ -1,13 +1,13 @@
 'use client';
 
-import CodeEditor from '@/components/common/code-editor';
 import { useEffect, useState } from 'react';
-import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from '@/components/ui/resizable';
-import OptionsSelect from '@/components/common/options-select';
-import { languagesData } from '@/utils/data';
 import { postApi } from '@/api/api';
-import { statusCode } from '@/constants/apiStatus';
+import CodeEditor from '@/components/common/code-editor';
+import OptionsSelect from '@/components/common/options-select';
 import { Button } from '@/components/ui/button';
+import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from '@/components/ui/resizable';
+import { statusCode } from '@/constants/apiStatus';
+import { languagesData } from '@/utils/data';
 
 const EditorPage = () => {
   const [code, setCode] = useState<string>('Select a language to start coding');
