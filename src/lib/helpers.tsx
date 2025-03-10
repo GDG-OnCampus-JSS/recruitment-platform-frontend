@@ -8,6 +8,18 @@ export const checkIfObjectNotEmpty = (obj: any): boolean => {
   return false;
 };
 
+export const blobUrl = (imagePath: string) => {
+  const baseUrl = process.env.NEXT_PUBLIC_BLOB_BASE_URL;
+  const signedUrl = process.env.NEXT_PUBLIC_BLOB_SIGNED_URL;
+  return `${baseUrl}${imagePath}${signedUrl}`;
+};
+
+export const extractBlobUrlSegment = (url: string) => {
+  const parts = url.split('windows.net/');
+  if (parts.length < 2) return null;
+  return parts[1].split('?sv=')[0];
+};
+
 export const handleToastApiResponse = (
   status: number,
   responseData: any,

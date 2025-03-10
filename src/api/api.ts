@@ -1,4 +1,4 @@
-import { type AxiosResponse } from 'axios';
+import { AxiosProgressEvent, type AxiosResponse } from 'axios';
 import axiosInstance from './translator';
 
 export const getApi = async (url: string) => {
@@ -43,7 +43,7 @@ export const getByParamsApi = async (url: string, params: any) => {
   }
 };
 
-export const postApi = async (url: string, request: any = {}, showToaster = true) => {
+export const postApi = async (url: string, request: any = {}) => {
   try {
     const result = await axiosInstance.post(url, request);
     return {
@@ -88,6 +88,34 @@ export const patchApi = async (url: string, request: any) => {
 export const deleteApi = async (url: string) => {
   try {
     const result = await axiosInstance.delete(url);
+    return {
+      status: result.status,
+      data: result.data,
+    };
+  } catch (err: any) {
+    const data = err?.response?.data ? err?.response?.data : 'Failed to connect';
+    const status = err?.response?.status ? err.response.status : 500;
+    return { status, data };
+  }
+};
+
+export const uploadApi = async (
+  url: string,
+  file: File,
+  fileName: string,
+  onUploadProgress: (progressEvent: AxiosProgressEvent) => void,
+) => {
+  try {
+    const formData = new FormData();
+    formData.append(fileName, file);
+
+    const result: AxiosResponse<any> = await axiosInstance.post(url, formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+      onUploadProgress,
+    });
+
     return {
       status: result.status,
       data: result.data,

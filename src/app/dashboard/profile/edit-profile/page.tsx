@@ -1,12 +1,11 @@
 'use client';
-import { useState, useEffect, ChangeEvent } from 'react';
+import { useState, ChangeEvent, useRef } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
 import { Form } from '@/components/ui/form';
 import FormInput from '@/components/common/form-input';
 import Image from 'next/image';
-import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import {
   Dialog,
@@ -15,17 +14,19 @@ import {
   DialogHeader,
   DialogClose,
 } from '@/components/ui/dialog';
-import { useAuthStore } from '@/context/authContext';
-import { SocialLink, EditProfileProps } from '@/lib/types';
-import { yearOptions, domainOptions, SOCIAL_PLATFORMS } from '@/lib/options';
+import { EditProfileProps } from '@/lib/types';
+import { SOCIAL_PLATFORMS } from '@/lib/options';
 import PasswordModal from '@/components/dashboardlayout/password-modal';
-import { profileService } from '@/context/profileContext';
 import { PencilLine, Upload, X } from 'lucide-react';
 import OptionsSelect from '@/components/common/options-select';
 import { validatePhoneNumber } from '@/utils/phoneValidation';
-import { ApiRoutes } from '@/api/routes';
-import { toast } from 'sonner';
 import useUserStore from '@/stores/userStore';
+import { academicYearOptions, domainOptions } from '@/constants/registration';
+import { apiEndPoints } from '@/api/apiEndpoints';
+import { blobUrl, extractBlobUrlSegment, handleToastApiResponse } from '@/lib/helpers';
+import { patchApi, postApi, uploadApi } from '@/api/api';
+import { statusCode } from '@/constants/apiStatus';
+import { Progress } from '@/components/ui/progress';
 
 const profileSchema = z.object({
   name: z.string().min(1, 'Full name is required'),
@@ -54,16 +55,20 @@ const profileSchema = z.object({
 });
 
 const EditProfilePage = ({ isOpen, onClose }: EditProfileProps) => {
-  const router = useRouter();
-
   const user = useUserStore((state) => state.user);
+  const updateUser = useUserStore((state) => state.updateUser);
 
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [isPasswordModalOpen, setIsPasswordModalOpen] = useState(false);
-  const [profileImage, setProfileImage] = useState<string | null>(user?.photo ?? null);
   const [profileImageFile, setProfileImageFile] = useState<File | null>(null);
   const [resumeFile, setResumeFile] = useState<File | null>(null);
   const [activeTab, setActiveTab] = useState<'basic' | 'professional'>('basic');
+  const [openPasswordModal, setOpenPasswordModal] = useState(false);
+
+  const [imageUploadProgress, setImageUploadProgress] = useState(0);
+  const [resumeUploadProgress, setResumeUploadProgress] = useState(0);
+
+  const imageUploadRef = useRef<HTMLInputElement>(null);
+  const resumeUploadRef = useRef<HTMLInputElement>(null);
 
   const form = useForm<z.infer<typeof profileSchema>>({
     resolver: zodResolver(profileSchema),
@@ -74,7 +79,7 @@ const EditProfilePage = ({ isOpen, onClose }: EditProfileProps) => {
       phone: user?.phone ?? '',
       admissionNumber: user?.admissionNumber ?? '',
       domain: user?.domain ?? '',
-      year: user?.year ?? '',
+      year: user?.year?.toString() ?? '',
       photo: user?.photo ?? '',
       resume: user?.resume ?? '',
       ...SOCIAL_PLATFORMS.reduce(
@@ -87,136 +92,77 @@ const EditProfilePage = ({ isOpen, onClose }: EditProfileProps) => {
     },
   });
 
-  // useEffect(() => {
-  //   const loadProfile = async () => {
-  //     try {
-  //       // const userData = await profileService.getUserProfile(userId);
-  //       // const socialLinks = (await profileService.getSocialLinks(userId)) || [];
-  //       const socialLinksData = user?.socialLinks?.reduce(
-  //         (acc: Record<string, string>, link: SocialLink) => ({
-  //           ...acc,
-  //           [link.name.toLowerCase()]: link.link,
-  //         }),
-  //         {},
-  //       );
-  //     } catch (error) {
-  //       console.error('Error loading profile:', error);
-  //     }
-  //   };
-  //   loadProfile();
-  // }, [form]);
-
-  const handleImageUpload = (e: ChangeEvent<HTMLInputElement>) => {
+  const handleImageUpload = async (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
+      const { status, data } = await uploadApi(
+        apiEndPoints.upload.uploadPhoto,
+        file,
+        'photo',
+        (progressEvent) => {
+          const percentCompleted = Math.round(
+            (progressEvent.loaded * 100) / (progressEvent.total || 1),
+          );
+          setImageUploadProgress(percentCompleted);
+        },
+      );
+
+      form.setValue('photo', extractBlobUrlSegment(data.url) || '');
       setProfileImageFile(file);
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setProfileImage(reader.result as string);
-        form.setValue('photo', reader.result as string);
-      };
-      reader.readAsDataURL(file);
+
+      handleToastApiResponse(status, data);
     }
   };
 
-  const handleResumeUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleResumeUpload = async (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
+      const { status, data } = await uploadApi(
+        apiEndPoints.upload.uploadResume,
+        file,
+        'resume',
+        (progressEvent) => {
+          const percentCompleted = Math.round(
+            (progressEvent.loaded * 100) / (progressEvent.total || 1),
+          );
+          setResumeUploadProgress(percentCompleted);
+        },
+      );
+
+      form.setValue('resume', extractBlobUrlSegment(data.url) || '');
       setResumeFile(file);
-      form.setValue('resume', file.name);
+
+      handleToastApiResponse(status, data);
     }
   };
 
   const handleRemoveResume = () => {
     setResumeFile(null);
     form.setValue('resume', '');
-    const fileInput = document.getElementById('resume-upload') as HTMLInputElement;
+    const fileInput = resumeUploadRef.current;
     if (fileInput) {
       fileInput.value = '';
     }
   };
 
-  const handleSavePassword = async (passwords: {
-    oldPassword: string;
-    newPassword: string;
-    confirmPassword: string;
-  }) => {
-    try {
-      if (passwords.newPassword !== passwords.confirmPassword) {
-        toast.error('New password and confirm password do not match');
-        return;
-      }
-      const { user } = useAuthStore.getState();
+  const onSubmit = async (values: z.infer<typeof profileSchema>) => {
+    setIsSubmitting(true);
 
-      const token = user?.token;
-      if (!token) {
-        toast.error('Authentication required');
-        return;
-      }
-      const { status, data } = await ApiRoutes.resetPassword({
-        token,
-        newPassword: passwords.newPassword,
-      });
+    const { status, data } = await patchApi(apiEndPoints.users.updateUserProfile, values);
 
-      if (status === 200) {
-        toast.success('Password updated successfully');
-        setIsPasswordModalOpen(false);
-      } else {
-        toast.error(data?.message || 'Failed to update password');
-      }
-    } catch (error) {
-      console.error('Error updating password:', error);
-      toast.error('An error occurred while updating the password');
-    }
+    if (status === statusCode.Ok200) updateUser(values);
+
+    handleToastApiResponse(status, data);
+
+    if (status === statusCode.Ok200) setProfileImageFile(null);
+
+    setIsSubmitting(false);
+
+    if (status === statusCode.Ok200) onClose();
   };
 
-  async function onSubmit(values: z.infer<typeof profileSchema>) {
-    try {
-      setIsSubmitting(true);
-      const formData = new FormData();
-
-      Object.entries(values).forEach(([key, value]) => {
-        if (value !== undefined && value !== null) {
-          formData.append(key, value);
-        }
-      });
-
-      if (profileImageFile) formData.append('photo', profileImageFile);
-      if (resumeFile) formData.append('resume', resumeFile);
-
-      const response = await profileService.updateProfile(userId, formData);
-      if (!response) {
-        throw new Error('Profile update failed');
-      }
-      const existingSocialLinks: SocialLink[] = await profileService.getSocialLinks(userId);
-
-      for (const { platform } of SOCIAL_PLATFORMS) {
-        const platformLower = platform.toLowerCase();
-        const newLink = values[platformLower as keyof typeof values];
-        const existingLink = existingSocialLinks.find(
-          (link) => link.name.toLowerCase() === platformLower,
-        );
-
-        if (existingLink && newLink) {
-          await profileService.updateSocialLink(existingLink.id, newLink);
-        } else if (!existingLink && newLink) {
-          await profileService.createSocialLink(userId, platform, newLink);
-        } else if (existingLink && !newLink) {
-          await profileService.deleteSocialLink(existingLink.id);
-        }
-      }
-      onClose();
-      router.refresh();
-    } catch (error) {
-      console.error('Error saving changes:', error);
-      toast.error('Failed to update profile');
-    } finally {
-      setIsSubmitting(false);
-    }
-  }
-
   return (
-    <Dialog open={isOpen && !isPasswordModalOpen} onOpenChange={onClose}>
+    <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="max-h-[90vh] w-[400px] min-w-max overflow-y-auto rounded-lg p-10 pb-8 scrollbar-none sm:w-[598px] [&>button]:hidden">
         <DialogHeader className="flex flex-row justify-between">
           <DialogTitle className="text-xl font-normal sm:text-[28px]">Edit Profile</DialogTitle>
@@ -229,23 +175,33 @@ const EditProfilePage = ({ isOpen, onClose }: EditProfileProps) => {
           <div className="relative mb-6">
             <div className="relative h-24 w-24 overflow-hidden rounded-full sm:h-32 sm:w-32">
               <Image
-                src={profileImage}
+                src={
+                  user?.photo
+                    ? blobUrl(user.photo)
+                    : profileImageFile
+                      ? URL.createObjectURL(profileImageFile)
+                      : '/DP.jpeg'
+                }
                 alt="Profile"
-                layout="fill"
-                objectFit="cover"
-                className="sm:h-32 sm:w-32"
+                width={128}
+                height={128}
+                className="object-cover sm:h-32 sm:w-32"
               />
             </div>
-            <label className="absolute bottom-0 right-0 cursor-pointer" htmlFor="photo-upload">
+            <div className="absolute bottom-0 right-0 cursor-pointer">
               <input
                 type="file"
                 id="photo-upload"
                 className="hidden"
                 onChange={handleImageUpload}
+                ref={imageUploadRef}
                 accept="image/*"
               />
-              <PencilLine className="h-6 w-6 rounded-[333px] bg-[#E7E7E7] p-1 sm:h-8 sm:w-8" />
-            </label>
+              <PencilLine
+                className="h-6 w-6 rounded-[333px] bg-[#E7E7E7] p-1 sm:h-8 sm:w-8"
+                onClick={() => imageUploadRef.current?.click()}
+              />
+            </div>
           </div>
 
           <div className="mb-6 w-full overflow-x-auto border-b sm:w-[470px] sm:pl-2">
@@ -300,13 +256,11 @@ const EditProfilePage = ({ isOpen, onClose }: EditProfileProps) => {
                   className="h-[76px] text-base font-normal"
                 />
                 <OptionsSelect
-                  label="Academic year"
                   name="year"
-                  onSelectionChange={(value) => form.setValue('year', value)}
-                  options={yearOptions}
-                  placeholder="Select your year"
+                  label="Academic Year"
+                  placeholder="Select your academic year"
                   isAsterisk
-                  className="text-base font-normal"
+                  options={academicYearOptions}
                 />
                 <FormInput
                   name="admissionNumber"
@@ -318,13 +272,11 @@ const EditProfilePage = ({ isOpen, onClose }: EditProfileProps) => {
             ) : (
               <div className="space-y-3">
                 <OptionsSelect
-                  label="Domain"
                   name="domain"
-                  onSelectionChange={(value) => form.setValue('domain', value)}
-                  options={domainOptions}
+                  label="Domain"
                   placeholder="Select your domain"
                   isAsterisk
-                  className="text-base font-normal"
+                  options={domainOptions}
                 />
 
                 <div className="space-y-3">
@@ -333,7 +285,7 @@ const EditProfilePage = ({ isOpen, onClose }: EditProfileProps) => {
                     <Button
                       type="button"
                       variant="outline"
-                      onClick={() => document.getElementById('resume-upload')?.click()}
+                      onClick={() => resumeUploadRef.current?.click()}
                       className="w-full"
                     >
                       <Upload /> Select file
@@ -343,23 +295,27 @@ const EditProfilePage = ({ isOpen, onClose }: EditProfileProps) => {
                       id="resume-upload"
                       className="hidden"
                       onChange={handleResumeUpload}
+                      ref={resumeUploadRef}
                       accept=".pdf,.doc,.docx"
                     />
                   </div>
                   {resumeFile && (
-                    <div className="flex items-center justify-between rounded-md border border-gray-200 p-2">
-                      <span className="max-w-[200px] truncate text-sm text-gray-600">
-                        {resumeFile.name}
-                      </span>
-                      <Button
-                        type="button"
-                        variant="ghost"
-                        size="sm"
-                        onClick={handleRemoveResume}
-                        className="h-8 w-8 p-0 hover:bg-gray-100"
-                      >
-                        <X className="h-4 w-4 text-gray-500" />
-                      </Button>
+                    <div className="flex flex-col items-center justify-between gap-3 rounded-md border border-gray-200 px-4 py-3">
+                      <div className="flex w-full items-center justify-between">
+                        <span className="max-w-[200px] truncate text-sm text-gray-600">
+                          {resumeFile.name}
+                        </span>
+                        <Button
+                          type="button"
+                          variant="ghost"
+                          size="sm"
+                          onClick={handleRemoveResume}
+                          className="h-8 w-8 p-0 hover:bg-gray-100"
+                        >
+                          <X className="h-4 w-4 text-gray-500" />
+                        </Button>
+                      </div>
+                      <Progress value={resumeUploadProgress} className="h-2 w-full" />
                     </div>
                   )}
                 </div>
@@ -369,7 +325,7 @@ const EditProfilePage = ({ isOpen, onClose }: EditProfileProps) => {
                     key={platform}
                     name={platform.toLowerCase()}
                     label={`${platform} Profile (optional)`}
-                    placeholder="Paste link here"
+                    placeholder="Enter link here"
                     className="text-base font-normal text-[#000000]"
                   />
                 ))}
@@ -387,7 +343,10 @@ const EditProfilePage = ({ isOpen, onClose }: EditProfileProps) => {
               <Button
                 type="button"
                 variant="ghost"
-                onClick={() => setIsPasswordModalOpen(true)}
+                onClick={() => {
+                  setOpenPasswordModal(true);
+                  onClose();
+                }}
                 className="w-full pb-4 text-base font-medium text-[#DB4437]"
               >
                 Change Password
@@ -397,11 +356,9 @@ const EditProfilePage = ({ isOpen, onClose }: EditProfileProps) => {
         </Form>
       </DialogContent>
 
-      <PasswordModal
-        isOpen={isPasswordModalOpen}
-        onOpenChange={setIsPasswordModalOpen}
-        onSave={handleSavePassword}
-      />
+      {openPasswordModal && (
+        <PasswordModal isOpen={openPasswordModal} setIsOpen={setOpenPasswordModal} />
+      )}
     </Dialog>
   );
 };

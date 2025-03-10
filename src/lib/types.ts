@@ -66,11 +66,6 @@ export interface SocialPlatform {
   platform: string;
   icon: ReactElement;
 }
-export interface PasswordModalProps {
-  isOpen: boolean;
-  onOpenChange: (open: boolean) => void;
-  onSave: (passwords: PasswordFormData) => void;
-}
 
 export interface PasswordFormData {
   oldPassword: string;

@@ -11,6 +11,7 @@ import { Mail, Phone, GraduationCap, UserPen, ArrowLeft } from 'lucide-react';
 import { SOCIAL_PLATFORMS, reqFields, mockUser } from '@/lib/options';
 import EditProfilePage from './edit-profile/page';
 import useUserStore from '@/stores/userStore';
+import { blobUrl } from '@/lib/helpers';
 
 const SocialLink = ({
   platform,
@@ -104,7 +105,7 @@ export default function ProfilePage() {
                 <div className="rounded-full border-4 border-dashed border-[#635BFF]">
                   <div className="h-[130px] min-w-[130px] overflow-hidden rounded-full border-2 border-[#635BFF]">
                     <Image
-                      src={user.photo || '/DP.jpeg'}
+                      src={user.photo ? blobUrl(user.photo) : '/DP.jpeg'}
                       alt="Profile"
                       width={130}
                       height={130}
@@ -185,7 +186,7 @@ export default function ProfilePage() {
                   <div className="rounded-lg border border-[#635BFF] p-3">
                     {user.resume ? (
                       <Image
-                        src="/"
+                        src={blobUrl(user.resume)}
                         alt="Resume"
                         width={300}
                         height={100}

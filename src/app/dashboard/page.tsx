@@ -3,12 +3,12 @@ import Link from 'next/link';
 import { CircleAlert } from 'lucide-react';
 import StepCard from '@/components/dashboardlayout/step-card';
 import Image from 'next/image';
-import { useAuth } from '@/context/authContext';
 import { reqFields, mockUser } from '@/lib/options';
 import clip from '@/components/dashboardlayout/clip-board';
 import brain from '@/components/dashboardlayout/brain';
 import meet from '@/components/dashboardlayout/meet';
 import useUserStore from '@/stores/userStore';
+import { blobUrl } from '@/lib/helpers';
 
 export const steps = [
   {
@@ -64,7 +64,13 @@ export default function DashboardPage() {
         <div className="mb-8 flex items-start justify-between">
           <div className="flex items-center gap-6">
             <div className="h-20 w-20 rounded-full">
-              <Image src="/avatar.svg" alt="User" width={80} height={80} />
+              <Image
+                src={user?.photo ? blobUrl(user.photo) : '/avatar.svg'}
+                alt="User"
+                width={80}
+                height={80}
+                className="rounded-full object-cover"
+              />
             </div>
             <div className="flex flex-col md:gap-1">
               <h1 className="text-lg font-bold leading-[33.96px] text-[#151515] sm:text-[28px]">

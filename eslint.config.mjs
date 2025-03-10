@@ -1,7 +1,6 @@
 import { FlatCompat } from '@eslint/eslintrc';
 
 const compat = new FlatCompat({
-  // import.meta.dirname is available after Node.js v20.11.0
   baseDirectory: import.meta.dirname,
 });
 
@@ -14,6 +13,38 @@ const eslintConfig = [
       'react-hooks/exhaustive-deps': 'warn',
     },
   }),
+  {
+    plugins: {
+      import: require('eslint-plugin-import'),
+    },
+    rules: {
+      'import/order': [
+        'error',
+        {
+          groups: [
+            'builtin',
+            'external',
+            'internal',
+            'parent',
+            'sibling',
+            'index',
+            'object',
+            'type',
+          ],
+          pathGroups: [
+            {
+              pattern: '@/**',
+              group: 'internal',
+              position: 'before',
+            },
+          ],
+          pathGroupsExcludedImportTypes: ['builtin'],
+          'newlines-between': 'always',
+          alphabetize: { order: 'asc', caseInsensitive: true },
+        },
+      ],
+    },
+  },
 ];
 
 export default eslintConfig;

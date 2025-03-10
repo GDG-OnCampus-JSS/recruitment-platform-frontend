@@ -9,7 +9,9 @@ export const apiEndPoints = {
     requestPasswordReset: '/users/request-password-reset', //used
     verifyToken: (token: string) => `/users/verify/${token}`, //used
     resetPassword: '/users/reset-password', //used
-    logout: '/users/logout', // ? Not Working
+    logout: '/users/logout', // used
+    resetPasswordWithOldPassword: '/users/reset-password-with-old-password', //used
+    updateUserProfile: '/users/update-profile', //used
     // refreshToken: '/users/refresh-token',
     // getAll: '/users',
     // shortlist: '/users/shortlist',
@@ -17,6 +19,11 @@ export const apiEndPoints = {
     // getById: (id: string) => `/users/${id}`,
     // update: (id: string) => `/users/${id}`,
     // delete: (id: string) => `/users/${id}`,
+  },
+
+  upload: {
+    uploadPhoto: '/upload/photo',
+    uploadResume: '/upload/resume',
   },
 
   oauth: {},
