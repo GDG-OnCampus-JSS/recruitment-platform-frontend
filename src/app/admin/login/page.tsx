@@ -16,11 +16,12 @@ import LogoGrid from '@/components/common/logo-grid';
 import { Button } from '@/components/ui/button';
 import { Form } from '@/components/ui/form';
 import { statusCode } from '@/constants/apiStatus';
-import { useSessionStorage } from '@/hooks/use-session-storage';
+import { handleToastApiResponse } from '@/lib/helpers';
+import useAdminStore from '@/stores/adminStore';
 
 export default function Login() {
   const [showPassword, setShowPassword] = useState<boolean>(false);
-  const { setSessionData } = useSessionStorage();
+  const setAdmin = useAdminStore((state) => state.setAdmin);
   const router = useRouter();
 
   const adminLoginSchema = z.object({
@@ -37,13 +38,12 @@ export default function Login() {
   });
 
   const onSubmit = async (data: z.infer<typeof adminLoginSchema>) => {
-    const { status, data: responseData } = await postApi(apiEndPoints.users.login, data);
+    const { status, data: responseData } = await postApi(apiEndPoints.admin.login, data);
 
-    if (status === statusCode.Ok200) {
-      console.log('Response:', responseData);
-      setSessionData('admin', data);
-      router.push('/admin/dashboard');
-    }
+    handleToastApiResponse(status, responseData);
+
+    if (status === statusCode.Ok200) setAdmin(responseData.admin);
+    if (status === statusCode.Ok200) router.push('/admin/dashboard');
   };
 
   return (

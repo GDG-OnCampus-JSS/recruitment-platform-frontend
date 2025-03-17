@@ -4,11 +4,11 @@ import localFont from 'next/font/local';
 import './globals.css';
 import { Toaster } from '@/components/ui/toaster';
 
-const playfairDisplay = Playfair_Display({
-  subsets: ['latin'],
-  weight: ['400', '500', '600', '700'],
-  style: ['normal', 'italic'],
-});
+// const playfairDisplay = Playfair_Display({
+//   subsets: ['latin'],
+//   weight: ['400', '500', '600', '700'],
+//   style: ['normal', 'italic'],
+// });
 
 const productSans = localFont({
   src: [

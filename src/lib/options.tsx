@@ -1,4 +1,6 @@
-import { Home, LayoutGrid, Globe, Medal, Dribbble, Linkedin, Github, Palette } from 'lucide-react';
+import { Home, LayoutGrid, Globe, Medal, Link } from 'lucide-react';
+import Image from 'next/image';
+import { JSX } from 'react';
 import { DropdownOption, NavItem, SocialPlatform } from './types';
 
 export const options: DropdownOption[] = [
@@ -58,25 +60,40 @@ export const steps = [
   },
 ];
 
-export const yearOptions = [
-  { id: '1', value: '1st year', label: '1st Year' },
-  { id: '2', value: '2nd year', label: '2nd Year' },
-];
-
-export const domainOptions = [
-  { id: '1', value: 'Design', label: 'Design' },
-  { id: '2', value: 'Web Development', label: 'Development' },
-  { id: '3', value: 'AI', label: 'AI' },
-  { id: '4', value: ' Android Development', label: 'Android Development' },
-  { id: '5', value: 'Programming', label: 'Programming' },
-];
-
 export const SOCIAL_PLATFORMS = [
-  { platform: 'Dribbble', icon: <Dribbble className="h-4 w-4" /> },
-  { platform: 'Behance', icon: <Palette className="h-4 w-4" /> },
-  { platform: 'LinkedIn', icon: <Linkedin className="h-4 w-4" /> },
-  { platform: 'GitHub', icon: <Github className="h-4 w-4" /> },
+  { name: 'Portfolio', icon: <Link className="size-5" /> },
+  {
+    name: 'LinkedIn',
+    icon: <Image src="/icons/linkedin.svg" width={20} height={20} alt="Li" className="size-5" />,
+  },
+  {
+    name: 'GitHub',
+    icon: <Image src="/icons/github.svg" width={20} height={20} alt="Gi" className="size-5" />,
+  },
+  {
+    name: 'Dribble',
+    icon: <Image src="/icons/dribble.svg" width={20} height={20} alt="Dr" className="size-5" />,
+  },
+  {
+    name: 'Behance',
+    icon: <Image src="/icons/behance.svg" width={20} height={20} alt="Be" className="size-5" />,
+  },
+  {
+    name: 'Codechef',
+    icon: <Image src="/icons/codechef.svg" width={20} height={20} alt="CC" className="size-5" />,
+  },
+  { name: 'Other', icon: <Globe className="size-5" /> },
 ];
+
+export const socialIconMapping: Record<string, JSX.Element> = {
+  portfolio: <Image src="/icons/link.svg" width={20} height={20} alt="Li" className="size-5" />,
+  linkedin: <Image src="/icons/linkedin.svg" width={20} height={20} alt="Li" className="size-5" />,
+  github: <Image src="/icons/github.svg" width={20} height={20} alt="Gi" className="size-5" />,
+  dribble: <Image src="/icons/dribble.svg" width={20} height={20} alt="Dr" className="size-5" />,
+  behance: <Image src="/icons/behance.svg" width={20} height={20} alt="Be" className="size-5" />,
+  codechef: <Image src="/icons/codechef.svg" width={20} height={20} alt="CC" className="size-5" />,
+  other: <Globe className="size-5" />,
+};
 
 export const mockUser = {
   id: 'dev-123',
