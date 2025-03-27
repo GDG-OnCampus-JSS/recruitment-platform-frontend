@@ -11,7 +11,14 @@ import CodeEditor from '@/components/common/code-editor';
 import { SlideModal } from '@/components/common/slide-modal';
 import { Button } from '@/components/ui/button';
 import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from '@/components/ui/resizable';
-import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
 // Constants and Utils
 import { statusCode } from '@/constants/apiStatus';
 import { problems, Problems } from '@/constants/coding-problems';
@@ -193,7 +200,9 @@ const EditorPage = () => {
             </div>
           </ResizablePanel>
 
-          <ResizableHandle className={isMobile ? 'h-1 bg-transparent my-1' : 'w-1 bg-transparent'} />
+          <ResizableHandle
+            className={isMobile ? 'my-1 h-1 bg-transparent' : 'w-1 bg-transparent'}
+          />
 
           {/* Code Panel */}
           <ResizablePanel defaultSize={isMobile ? 50 : 62}>

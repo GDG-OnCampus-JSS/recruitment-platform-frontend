@@ -147,7 +147,7 @@ export function SlideModal({
               onClick={(e) => e.stopPropagation()}
             >
               {(title || showCloseButton) && (
-                <div className="flex gap-4 items-center justify-between border-b px-6 py-4">
+                <div className="flex items-center justify-between gap-4 border-b px-6 py-4">
                   <div>
                     {title && (
                       <h2 id="slide-modal-title" className="text-lg font-medium">
