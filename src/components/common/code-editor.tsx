@@ -17,12 +17,12 @@ const CodeEditor: React.FC<CodeEditorProps> = ({
   return (
     <Editor
       height={'100vh'}
-      theme="vs-dark"
       language={language}
       value={code}
       options={{
         selectOnLineNumbers: true,
-        fontSize: 16,
+        fontSize: 14,
+        fontFamily: 'JetBrains Mono',
         minimap: { enabled: false },
       }}
       onChange={(value) => handleOnEditorChange(value || '')}
