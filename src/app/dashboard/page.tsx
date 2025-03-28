@@ -61,14 +61,13 @@ export default function DashboardPage() {
   return (
     <div className="min-h-screen lg:px-44">
       <div className="mx-auto min-w-[320px] px-4 pt-20">
-
-      <div className="mb-4 w-full text-center sm:hidden">
+        <div className="mb-4 w-full text-center sm:hidden">
           <h2 className="text-xl font-medium">Your Dashboard</h2>
         </div>
 
         <div className="mb-6 flex w-full flex-col items-center gap-4 sm:mb-8 sm:flex-row sm:justify-between">
-          <div className="flex w-full min-w-[300px] items-center gap-4 sm:gap-6 sm:w-auto sm:min-w-0">
-            <div className="h-16 w-16 sm:h-20 sm:w-20 rounded-full">
+          <div className="flex w-full min-w-[300px] items-center gap-4 sm:w-auto sm:min-w-0 sm:gap-6">
+            <div className="h-16 w-16 rounded-full sm:h-20 sm:w-20">
               <Image
                 src={user?.photo ? blobUrl(user.photo) : '/avatar.svg'}
                 alt="User"
@@ -90,7 +89,7 @@ export default function DashboardPage() {
                     Your profile is not complete!{' '}
                     <Link
                       href="/dashboard/profile"
-                      className="text-xs font-normal leading-5 sm:leading-[24.26px] tracking-[0.02em] text-black underline sm:text-xl"
+                      className="text-xs font-normal leading-5 tracking-[0.02em] text-black underline sm:text-xl sm:leading-[24.26px]"
                     >
                       Complete now
                     </Link>
@@ -101,11 +100,11 @@ export default function DashboardPage() {
           </div>
 
           <div className="hidden w-full text-right sm:block sm:h-6 sm:w-[153px] sm:pt-6">
-            <h2 className="font-medium leading-[24.26px] text-[20px]">Your Dashboard</h2>
+            <h2 className="text-[20px] font-medium leading-[24.26px]">Your Dashboard</h2>
           </div>
         </div>
 
-        <div className="mb-6 grid w-full grid-cols-1 justify-items-center gap-4 sm:gap-5 sm:mb-20 sm:grid-cols-2 md:grid-cols-3">
+        <div className="mb-6 grid w-full grid-cols-1 justify-items-center gap-4 sm:mb-20 sm:grid-cols-2 sm:gap-5 md:grid-cols-3">
           {steps.map((step) => (
             <StepCard key={step.step} {...step} />
           ))}

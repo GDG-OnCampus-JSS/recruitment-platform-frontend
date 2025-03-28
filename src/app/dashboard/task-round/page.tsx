@@ -47,9 +47,9 @@ function Task() {
   };
 
   return (
-    <div className="min-h-screen sm:w-auto space-y-6 lg:p-24 pt-12">
-      <div className=" min-w-[320px]">
-        <div className="mx-auto  w-full  flex items-center justify-between px-6 py-4">
+    <div className="min-h-screen space-y-6 pt-12 sm:w-auto lg:p-24">
+      <div className="min-w-[320px]">
+        <div className="mx-auto flex w-full items-center justify-between px-6 py-4">
           <Link href="/dashboard">
             <Button
               variant="outline"
@@ -58,15 +58,14 @@ function Task() {
               <ArrowLeft /> Back
             </Button>
           </Link>
-          <h1 className=" text-xl font-medium">Tasks</h1>
+          <h1 className="text-xl font-medium">Tasks</h1>
         </div>
       </div>
       <div className="mx-auto space-y-8 p-6">
-      <h2 className="pb-2 text-[28px] font-bold leading-[33.96px] text-[#635BFF]">
-        Do any one of the following
-      </h2>
+        <h2 className="pb-2 text-[28px] font-bold leading-[33.96px] text-[#635BFF]">
+          Do any one of the following
+        </h2>
 
-      
         <div className="space-y-6">
           <h3 className="text-[28px] font-medium leading-[33.96px]">Frontend (Clone)</h3>
 
@@ -102,7 +101,7 @@ function Task() {
           </div>
 
           <div className="flex flex-col gap-4 md:flex-row">
-            <Card className="w-full ">
+            <Card className="w-full">
               <CardHeader>
                 <CardTitle className="text-[20px] font-bold leading-[24.6px] text-[#6B83FF]">
                   Judgement Criteria
@@ -118,7 +117,7 @@ function Task() {
               </CardContent>
             </Card>
 
-            <Card className="w-full ">
+            <Card className="w-full">
               <CardHeader>
                 <CardTitle className="text-[20px] font-bold leading-[24.6px] text-[#6B83FF]">
                   Brownie Points
@@ -191,7 +190,7 @@ function Task() {
             </div>
 
             <div className="flex flex-col gap-4 md:flex-row">
-              <Card className="w-full ">
+              <Card className="w-full">
                 <CardHeader>
                   <CardTitle className="text-[20px] font-bold leading-[24.6px] text-[#6B83FF]">
                     Judgement Criteria
@@ -207,7 +206,7 @@ function Task() {
                 </CardContent>
               </Card>
 
-              <Card className="w-full ">
+              <Card className="w-full">
                 <CardHeader>
                   <CardTitle className="text-[20px] font-bold leading-[24.6px] text-[#6B83FF]">
                     Brownie Points
