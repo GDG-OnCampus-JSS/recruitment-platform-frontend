@@ -46,7 +46,7 @@ export const steps = [
 
 export default function AdminPage() {
   return (
-    <div className="min-h-screen w-full px-4 pb-7 pt-32 sm:px-6 md:px-8 lg:mx-auto lg:min-h-[calc(100vh-212px)] lg:w-[1000px] xl:w-[1120px]">
+    <div className="min-h-screen min-w-[350px] w-full px-4 pb-7 pt-32 sm:px-6 md:px-8 lg:mx-auto lg:min-h-[calc(100vh-212px)] lg:w-[1000px] xl:w-[1120px]">
       <h1 className="pb-10 text-2xl font-normal text-[#3D3D3D] sm:text-3xl lg:text-[28px]">
         Machine Learning Dashboard
       </h1>

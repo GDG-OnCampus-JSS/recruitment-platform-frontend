@@ -50,7 +50,7 @@ const NotificationButton = () => {
       {isOpen && (
         <>
           <div className="fixed inset-0 z-40" onClick={() => setIsOpen(false)} />
-          <Card className="absolute right-0 top-12 z-50 h-[417px] w-[82vw] gap-2 overflow-hidden rounded-[8px] border border-[#DDE3FF] bg-[#FFFFFF] p-4 shadow-lg sm:w-[455px]">
+          <Card className="absolute right-0 top-12 z-50  h-[417px] w-[82vw] gap-2 overflow-hidden rounded-[8px] border border-[#DDE3FF] bg-[#FFFFFF] p-4 shadow-lg sm:w-[455px]">
             <div className="w-full p-3">
               <h3 className="text-sm font-normal text-[#100C2C]">Notification</h3>
             </div>
@@ -59,12 +59,12 @@ const NotificationButton = () => {
                 notifications.map((notification) => (
                   <div
                     key={notification.id}
-                    className={`flex h-[82px] items-start gap-3 p-4 hover:bg-gray-50 ${
+                    className={`flex min-h-[82px]  items-start gap-3 p-4 hover:bg-gray-50 ${
                       !notification.isRead ? 'bg-gray-50' : ''
                     }`}
                     onClick={() => handleNotificationClick(notification.id)}
                   >
-                    <div className="h-8 w-8 flex-shrink-0">
+                    <div className="h-5 w-5 sm:h-8 sm:w-8 flex-shrink-0">
                       <Image
                         src="/logo.svg"
                         alt="GDG Logo"
@@ -73,8 +73,8 @@ const NotificationButton = () => {
                         className="h-full w-full rounded-full object-cover"
                       />
                     </div>
-                    <div className="flex-1">
-                      <p className={`text-sm ${!notification.isRead ? 'font-medium' : ''}`}>
+                    <div className="flex-1 min-w-0">
+                      <p className={`text-xs sm:text:sm break-words ${!notification.isRead ? 'font-medium' : ''}`}>
                         {notification.message}
                       </p>
                     </div>
