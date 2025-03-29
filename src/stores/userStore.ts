@@ -24,7 +24,7 @@ const useUserStore = create<UserState>()(
       logout: () => set({ user: null }),
     }),
     {
-      name: 'user-storage', // Stores user data in localStorage
+      name: 'user-storage',
     },
   ),
 );

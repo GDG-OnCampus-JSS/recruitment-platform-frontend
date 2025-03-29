@@ -73,7 +73,7 @@ export default function DashboardPage() {
                 alt="User"
                 width={80}
                 height={80}
-                className="rounded-full object-cover"
+                className="rounded-full object-contain"
               />
             </div>
             <div className="flex flex-col md:gap-1">

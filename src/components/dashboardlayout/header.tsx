@@ -4,15 +4,11 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter, usePathname } from 'next/navigation';
 import React, { useState, useEffect } from 'react';
-import { toast } from 'sonner';
 import { postApi } from '@/api/api';
 import { apiEndPoints } from '@/api/apiEndpoints';
 import { Button } from '@/components/ui/button';
 import { statusCode } from '@/constants/apiStatus';
-import { useAuthStore } from '@/context/authContext';
-import { profileService } from '@/context/profileContext';
-import { useToast } from '@/hooks/use-toast';
-import { handleToastApiResponse } from '@/lib/helpers';
+import { blobUrl, handleToastApiResponse } from '@/lib/helpers';
 import { options, navItems, mockUser } from '@/lib/options';
 import { User } from '@/lib/types';
 import useUserStore from '@/stores/userStore';
@@ -25,30 +21,15 @@ import NotificationButton from './notification';
 export const Header = () => {
   const router = useRouter();
   const pathname = usePathname();
-  const { user, logout } = useAuthStore();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [selectedOption, setSelectedOption] = useState<string | null>(null);
   const [isEditProfileOpen, setIsEditProfileOpen] = useState(false);
-  const [displayUser, setDisplayUser] = useState<User>(user || mockUser);
-  const { toast } = useToast();
+  const user = useUserStore((state) => state.user);
+  const [displayUser, setDisplayUser] = useState<User>(user || ({} as User));
 
   const logoutUser = useUserStore((state) => state.logout);
 
   const isAdminRoute = pathname?.startsWith('/admin');
-
-  useEffect(() => {
-    if (isEditProfileOpen && user?.id) {
-      fetchUserProfile();
-    }
-  }, [isEditProfileOpen, user?.id]);
-
-  const fetchUserProfile = async () => {
-    if (!user?.id) return;
-    const profileData = await profileService.getUserProfile(user.id);
-    if (profileData) {
-      setDisplayUser(profileData);
-    }
-  };
 
   const handleProfileSubmit = async (values: any): Promise<void> => {
     //   if (!user?.id) return;
@@ -131,11 +112,11 @@ export const Header = () => {
                 className="h-[36px] w-[66px] rounded-[37px] border border-[#DDE3FF] bg-[#FFFFFF]"
               >
                 <Image
-                  src="/avatar.svg"
+                  src={user?.photo ? blobUrl(user.photo) : '/avatar.svg'}
                   alt="User"
                   width={26}
                   height={26}
-                  className="ml-2 rounded-full"
+                  className="ml-2 rounded-full object-contain"
                 />
                 <Dropdown options={options} onSelect={handleDropdownSelect} />
                 {selectedOption && <span className="sr-only">Selected: {selectedOption}</span>}

@@ -2,50 +2,19 @@
 import { Mail, Phone, GraduationCap, UserPen, ArrowLeft } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
-import { ReactElement, useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
-import { useAuth } from '@/context/authContext';
+import FileViewer from '@/components/ui/resumeViewer';
 import { blobUrl } from '@/lib/helpers';
-import { SOCIAL_PLATFORMS, reqFields, mockUser } from '@/lib/options';
+import { reqFields, mockUser, socialIconMapping } from '@/lib/options';
 import { User } from '@/lib/types';
 import useUserStore from '@/stores/userStore';
 import EditProfilePage from './edit-profile/page';
 
-const SocialLink = ({
-  platform,
-  findUserLink,
-}: {
-  platform: { platform: string; icon: ReactElement };
-  findUserLink: (platform: string) => { url: string } | undefined;
-}) => {
-  const userLink = findUserLink(platform.platform);
-
-  return (
-    <div className="flex items-center gap-2 break-all text-sm">
-      {platform.icon}
-      {userLink ? (
-        <a
-          href={userLink.url}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="text-[#635BFF] hover:underline"
-        >
-          {userLink.url}
-        </a>
-      ) : (
-        <span className="text-gray-500">{platform.platform} - Not submitted</span>
-      )}
-    </div>
-  );
-};
-
 export default function ProfilePage() {
   const user = useUserStore((state) => state.user);
   const [isEditProfileOpen, setIsEditProfileOpen] = useState(false);
-
-  console.log(user);
 
   const calculateProfileCompletion = (user: User | null) => {
     if (!user) return 0;
@@ -56,12 +25,6 @@ export default function ProfilePage() {
 
   const profileCompletion = calculateProfileCompletion(user);
   const isProfileComplete = profileCompletion === 100;
-
-  const findUserLink = (platform: string) => {
-    return user?.socialLinks?.find(
-      (link) => link.platform.toLowerCase() === platform.toLowerCase(),
-    );
-  };
 
   const handleOpenEditProfile = () => {
     setIsEditProfileOpen(true);
@@ -160,7 +123,7 @@ export default function ProfilePage() {
 
           <div className="grid w-full grid-rows-[auto_1fr] gap-5 sm:w-full xl:w-[740px]">
             <div className="grid grid-cols-1 gap-5 sm:grid-cols-1 md:grid-cols-2">
-              <Card className="w-full shadow-sm sm:h-[229px]">
+              <Card className="w-full shadow-sm sm:min-h-[229px]">
                 <CardContent className="p-8">
                   <h3 className="mb-4 text-xl font-medium">Basic details</h3>
                   <div className="space-y-3">
@@ -183,15 +146,9 @@ export default function ProfilePage() {
               <Card className="w-full shadow-sm">
                 <CardContent className="p-8">
                   <h3 className="mb-4 text-xl font-medium">Your resume</h3>
-                  <div className="rounded-lg border border-[#635BFF] p-3">
+                  <div className="mx-auto rounded-lg border border-[#635BFF] shadow-md">
                     {user.resume ? (
-                      <Image
-                        src={blobUrl(user.resume)}
-                        alt="Resume"
-                        width={300}
-                        height={100}
-                        className="h-auto w-full"
-                      />
+                      <FileViewer fileUrl={blobUrl(user.resume)} className={''} />
                     ) : (
                       <p className="text-center">No resume uploaded</p>
                     )}
@@ -200,20 +157,26 @@ export default function ProfilePage() {
               </Card>
             </div>
 
-            <Card className="h-[197px] w-full shadow-sm">
+            <Card className="w-full shadow-sm">
               <CardContent className="p-6 md:p-8">
                 <h3 className="mb-4 text-xl font-medium">Submitted links</h3>
-                <div className="grid grid-cols-1 gap-4 sm:grid-cols-1 md:grid-cols-2">
-                  <div className="space-y-3">
-                    {SOCIAL_PLATFORMS.slice(0, 3).map((platform, index) => (
-                      <SocialLink key={index} platform={platform} findUserLink={findUserLink} />
-                    ))}
-                  </div>
-                  <div className="space-y-3">
-                    {SOCIAL_PLATFORMS.slice(3).map((platform, index) => (
-                      <SocialLink key={index} platform={platform} findUserLink={findUserLink} />
-                    ))}
-                  </div>
+                <div className="grid w-full grid-cols-2 justify-between gap-4 max-md:grid-cols-1">
+                  {user?.socialLinks?.map((socialLink) => (
+                    <div
+                      key={socialLink.id}
+                      className="flex w-full items-center justify-between gap-3"
+                    >
+                      <Link
+                        href={socialLink.link}
+                        className="text-md flex items-center gap-2 truncate text-nowrap text-[#407BFF] max-md:text-sm"
+                        target="_blank"
+                        rel="noreferrer"
+                      >
+                        {socialIconMapping[socialLink.name]}
+                        <span className="truncate">{socialLink.link}</span>
+                      </Link>
+                    </div>
+                  ))}
                 </div>
               </CardContent>
             </Card>
