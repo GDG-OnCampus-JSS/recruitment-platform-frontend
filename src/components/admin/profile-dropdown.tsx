@@ -47,7 +47,7 @@ const ProfileDropdown = ({ onEditProfile }: { onEditProfile: () => void }) => {
       </Button>
 
       {isOpen && (
-        <div className="absolute right-0 mt-2 w-[360px] rounded-[8px] bg-[#fff]">
+        <div className="fixed right-4 top-20 z-50 min-w-[300px] rounded-[8px] bg-[#fff] md:absolute md:right-0 md:mt-2 md:w-[360px]">
           <div className="p-4">
             <div className="mb-4 flex w-[304px] items-center gap-4 space-x-3 pr-4">
               <Image

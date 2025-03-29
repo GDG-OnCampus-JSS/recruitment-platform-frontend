@@ -59,11 +59,15 @@ export default function DashboardPage() {
   );
 
   return (
-    <div className="min-h-screen lg:min-h-[calc(100vh-212px)]">
-      <div className="mx-auto px-4 pt-20">
-        <div className="mb-8 flex items-start justify-between">
-          <div className="flex items-center gap-6">
-            <div className="size-20 rounded-full object-contain">
+    <div className="min-h-screen lg:px-44">
+      <div className="mx-auto min-w-[320px] px-4 pt-20">
+        <div className="mb-4 w-full text-center sm:hidden">
+          <h2 className="text-xl font-medium">Your Dashboard</h2>
+        </div>
+
+        <div className="mb-6 flex w-full flex-col items-center gap-4 sm:mb-8 sm:flex-row sm:justify-between">
+          <div className="flex w-full min-w-[300px] items-center gap-4 sm:w-auto sm:min-w-0 sm:gap-6">
+            <div className="h-16 w-16 rounded-full sm:h-20 sm:w-20">
               <Image
                 src={user?.photo ? blobUrl(user.photo) : '/avatar.svg'}
                 alt="User"
@@ -77,7 +81,7 @@ export default function DashboardPage() {
                 Hey! {user?.name}
               </h1>
               {!isProfileComplete && (
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-1 sm:gap-2">
                   <div className="hidden text-[#EB8D8D] sm:block">
                     <CircleAlert size={24} />
                   </div>
@@ -85,7 +89,7 @@ export default function DashboardPage() {
                     Your profile is not complete!{' '}
                     <Link
                       href="/dashboard/profile"
-                      className="font-normal leading-[24.26px] tracking-[0.02em] text-black underline sm:text-xl"
+                      className="text-xs font-normal leading-5 tracking-[0.02em] text-black underline sm:text-xl sm:leading-[24.26px]"
                     >
                       Complete now
                     </Link>
@@ -95,12 +99,12 @@ export default function DashboardPage() {
             </div>
           </div>
 
-          <div className="h-6 sm:w-[153px] sm:pt-6">
-            <h2 className="font-medium leading-[24.26px] sm:text-[20px]">Your Dashboard</h2>
+          <div className="hidden w-full text-right sm:block sm:h-6 sm:w-[153px] sm:pt-6">
+            <h2 className="text-[20px] font-medium leading-[24.26px]">Your Dashboard</h2>
           </div>
         </div>
 
-        <div className="mb-8 grid grid-cols-1 justify-items-center gap-5 sm:mb-20 sm:grid-cols-2 md:grid-cols-3">
+        <div className="mb-6 grid w-full grid-cols-1 justify-items-center gap-4 sm:mb-20 sm:grid-cols-2 sm:gap-5 md:grid-cols-3">
           {steps.map((step) => (
             <StepCard key={step.step} {...step} />
           ))}

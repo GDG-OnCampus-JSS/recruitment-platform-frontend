@@ -151,11 +151,7 @@ export default function EditProfileDialog({
           </Form>
         </DialogContent>
       </Dialog>
-      <PasswordModal
-        isOpen={isPasswordModalOpen}
-        onOpenChange={setIsPasswordModalOpen}
-        onSave={handleSavePassword}
-      />
+      <PasswordModal isOpen={isPasswordModalOpen} setIsOpen={setIsPasswordModalOpen} />
     </div>
   );
 }

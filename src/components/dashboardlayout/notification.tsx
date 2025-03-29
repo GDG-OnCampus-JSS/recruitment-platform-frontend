@@ -59,12 +59,12 @@ const NotificationButton = () => {
                 notifications.map((notification) => (
                   <div
                     key={notification.id}
-                    className={`flex h-[82px] items-start gap-3 p-4 hover:bg-gray-50 ${
+                    className={`flex min-h-[82px] items-start gap-3 p-4 hover:bg-gray-50 ${
                       !notification.isRead ? 'bg-gray-50' : ''
                     }`}
                     onClick={() => handleNotificationClick(notification.id)}
                   >
-                    <div className="h-8 w-8 flex-shrink-0">
+                    <div className="h-5 w-5 flex-shrink-0 sm:h-8 sm:w-8">
                       <Image
                         src="/logo.svg"
                         alt="GDG Logo"
@@ -73,8 +73,10 @@ const NotificationButton = () => {
                         className="h-full w-full rounded-full object-cover"
                       />
                     </div>
-                    <div className="flex-1">
-                      <p className={`text-sm ${!notification.isRead ? 'font-medium' : ''}`}>
+                    <div className="min-w-0 flex-1">
+                      <p
+                        className={`sm:text:sm break-words text-xs ${!notification.isRead ? 'font-medium' : ''}`}
+                      >
                         {notification.message}
                       </p>
                     </div>

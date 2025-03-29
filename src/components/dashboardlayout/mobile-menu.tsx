@@ -47,7 +47,7 @@ const MobileMenu: React.FC<MobileMenuProps> = ({
           transition={{ duration: 0.5 }}
         >
           {isAdminRoute && (
-            <div className="z-60 absolute right-4 top-4">
+            <div className="z-60 absolute right-20 top-4">
               <ProfileDropdown onEditProfile={onEditProfile} />
             </div>
           )}
