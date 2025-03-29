@@ -41,7 +41,7 @@ export const steps = [
     iconColor: '#EA4335',
     buttonBgColor: 'bg-[#EA4335]',
     gradientBg: 'bg-red-gradient',
-    action: '#',
+    action: 'dashboard/all-candidates',
   },
 ];
 
