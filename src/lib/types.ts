@@ -10,6 +10,23 @@ export interface User {
   year?: string;
   photo?: string;
   resume?: string | null;
+  socialLinks?: { id: string; name: string; link: string }[];
+  projectStatus?: boolean;
+  interviewStatus?: boolean;
+  reviewStatus?: boolean;
+}
+
+export interface Admin {
+  id: string;
+  name: string;
+  email: string;
+  token?: string;
+  phone?: string;
+  admissionNumber?: string;
+  domain?: string;
+  year?: string;
+  photo?: string;
+  resume?: string | null;
   socialLinks?: { platform: string; url: string }[];
   projectStatus?: boolean;
   interviewStatus?: boolean;

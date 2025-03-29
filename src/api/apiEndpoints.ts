@@ -12,6 +12,7 @@ export const apiEndPoints = {
     logout: '/users/logout', // used
     resetPasswordWithOldPassword: '/users/reset-password-with-old-password', //used
     updateUserProfile: '/users/update-profile', //used
+    updateSocialLinks: '/social/', //used
     // refreshToken: '/users/refresh-token',
     // getAll: '/users',
     // shortlist: '/users/shortlist',
@@ -19,6 +20,11 @@ export const apiEndPoints = {
     // getById: (id: string) => `/users/${id}`,
     // update: (id: string) => `/users/${id}`,
     // delete: (id: string) => `/users/${id}`,
+  },
+
+  admin: {
+    login: '/admin/auth/login',
+    createAptitude: '/admin/aptitude/create-aptitude',
   },
 
   upload: {

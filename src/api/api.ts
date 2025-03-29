@@ -103,7 +103,7 @@ export const uploadApi = async (
   url: string,
   file: File,
   fileName: string,
-  onUploadProgress: (progressEvent: AxiosProgressEvent) => void,
+  onUploadProgress?: (progressEvent: AxiosProgressEvent) => void,
 ) => {
   try {
     const formData = new FormData();

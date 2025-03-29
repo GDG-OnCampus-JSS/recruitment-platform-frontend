@@ -63,13 +63,13 @@ export default function DashboardPage() {
       <div className="mx-auto px-4 pt-20">
         <div className="mb-8 flex items-start justify-between">
           <div className="flex items-center gap-6">
-            <div className="h-20 w-20 rounded-full">
+            <div className="size-20 rounded-full object-contain">
               <Image
                 src={user?.photo ? blobUrl(user.photo) : '/avatar.svg'}
                 alt="User"
                 width={80}
                 height={80}
-                className="rounded-full object-cover"
+                className="rounded-full object-contain"
               />
             </div>
             <div className="flex flex-col md:gap-1">

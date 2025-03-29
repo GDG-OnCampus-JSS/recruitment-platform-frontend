@@ -42,16 +42,13 @@ const profileSchema = z.object({
   year: z.string().min(1, 'Academic year is required'),
   photo: z.string().optional(),
   resume: z.string().optional(),
-  ...SOCIAL_PLATFORMS.reduce(
-    (acc, { platform }) => {
-      const platformKey = platform.toLowerCase();
-      return {
-        ...acc,
-        [platformKey]: z.string().url('Invalid URL').optional().or(z.literal('')),
-      };
-    },
-    {} as Record<string, any>,
-  ),
+  portfolio: z.string().url('Enter a correct url').or(z.literal('')).optional(),
+  linkedin: z.string().url('Enter a correct url').or(z.literal('')).optional(),
+  github: z.string().url('Enter a correct url').or(z.literal('')).optional(),
+  dribble: z.string().url('Enter a correct url').or(z.literal('')).optional(),
+  behance: z.string().url('Enter a correct url').or(z.literal('')).optional(),
+  codechef: z.string().url('Enter a correct url').or(z.literal('')).optional(),
+  other: z.string().url('Enter a correct url').or(z.literal('')).optional(),
 });
 
 const EditProfilePage = ({ isOpen, onClose }: EditProfileProps) => {
@@ -64,7 +61,6 @@ const EditProfilePage = ({ isOpen, onClose }: EditProfileProps) => {
   const [activeTab, setActiveTab] = useState<'basic' | 'professional'>('basic');
   const [openPasswordModal, setOpenPasswordModal] = useState(false);
 
-  const [imageUploadProgress, setImageUploadProgress] = useState(0);
   const [resumeUploadProgress, setResumeUploadProgress] = useState(0);
 
   const imageUploadRef = useRef<HTMLInputElement>(null);
@@ -82,30 +78,20 @@ const EditProfilePage = ({ isOpen, onClose }: EditProfileProps) => {
       year: user?.year?.toString() ?? '',
       photo: user?.photo ?? '',
       resume: user?.resume ?? '',
-      ...SOCIAL_PLATFORMS.reduce(
-        (acc, { platform }) => {
-          acc[platform.toLowerCase()] = '';
-          return acc;
-        },
-        {} as Record<string, string>,
-      ),
+      portfolio: user?.socialLinks?.find((link) => link.name === 'portfolio')?.link ?? '',
+      linkedin: user?.socialLinks?.find((link) => link.name === 'linkedin')?.link ?? '',
+      github: user?.socialLinks?.find((link) => link.name === 'github')?.link ?? '',
+      dribble: user?.socialLinks?.find((link) => link.name === 'dribble')?.link ?? '',
+      behance: user?.socialLinks?.find((link) => link.name === 'behance')?.link ?? '',
+      codechef: user?.socialLinks?.find((link) => link.name === 'codechef')?.link ?? '',
+      other: user?.socialLinks?.find((link) => link.name === 'other')?.link ?? '',
     },
   });
 
   const handleImageUpload = async (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
-      const { status, data } = await uploadApi(
-        apiEndPoints.upload.uploadPhoto,
-        file,
-        'photo',
-        (progressEvent) => {
-          const percentCompleted = Math.round(
-            (progressEvent.loaded * 100) / (progressEvent.total || 1),
-          );
-          setImageUploadProgress(percentCompleted);
-        },
-      );
+      const { status, data } = await uploadApi(apiEndPoints.upload.uploadPhoto, file, 'photo');
 
       form.setValue('photo', extractBlobUrlSegment(data.url) || '');
       setProfileImageFile(file);
@@ -148,17 +134,54 @@ const EditProfilePage = ({ isOpen, onClose }: EditProfileProps) => {
   const onSubmit = async (values: z.infer<typeof profileSchema>) => {
     setIsSubmitting(true);
 
-    const { status, data } = await patchApi(apiEndPoints.users.updateUserProfile, values);
+    const userUpdationData = {
+      name: values.name,
+      email: values.email,
+      phone: values.phone,
+      admissionNumber: values.admissionNumber,
+      domain: values.domain,
+      year: values.year,
+      photo: values.photo,
+      resume: values.resume,
+    };
 
-    if (status === statusCode.Ok200) updateUser(values);
+    const userSocialLinksUpdationData = [
+      { id: 'portfolio', name: 'portfolio', link: values.portfolio },
+      { id: 'linkedin', name: 'linkedin', link: values.linkedin },
+      { id: 'github', name: 'github', link: values.github },
+      { id: 'dribble', name: 'dribble', link: values.dribble },
+      { id: 'behance', name: 'behance', link: values.behance },
+      { id: 'codechef', name: 'codechef', link: values.codechef },
+      { id: 'other', name: 'other', link: values.other },
+    ].filter((link): link is { id: string; name: string; link: string } => !!link.link);
 
-    handleToastApiResponse(status, data);
+    const { status: userDataStatus, data: userData } = await patchApi(
+      apiEndPoints.users.updateUserProfile,
+      userUpdationData,
+    );
 
-    if (status === statusCode.Ok200) setProfileImageFile(null);
+    const { status: socialLinksStatus, data: socialLinksData } = await postApi(
+      `${apiEndPoints.users.updateSocialLinks}${user?.id}`,
+      { socialLinks: userSocialLinksUpdationData },
+    );
+
+    if (userDataStatus === statusCode.Ok200 && socialLinksStatus === statusCode.Created201) {
+      handleToastApiResponse(userDataStatus, userData, 'Profile updated successfully.');
+      updateUser({ ...user, ...userUpdationData, socialLinks: userSocialLinksUpdationData });
+    } else {
+      if (userDataStatus !== statusCode.Ok200) {
+        handleToastApiResponse(userDataStatus, userData, 'Failed to update profile.');
+      }
+      if (socialLinksStatus !== statusCode.Created201) {
+        handleToastApiResponse(
+          socialLinksStatus,
+          socialLinksData,
+          'Failed to update social links.',
+        );
+      }
+    }
 
     setIsSubmitting(false);
-
-    if (status === statusCode.Ok200) onClose();
   };
 
   return (
@@ -171,7 +194,7 @@ const EditProfilePage = ({ isOpen, onClose }: EditProfileProps) => {
           </DialogClose>
         </DialogHeader>
 
-        <div className="flex flex-col items-center pt-6 sm:px-6">
+        <div className="flex flex-col items-center pt-6">
           <div className="relative mb-6">
             <div className="relative h-24 w-24 overflow-hidden rounded-full sm:h-32 sm:w-32">
               <Image
@@ -204,7 +227,7 @@ const EditProfilePage = ({ isOpen, onClose }: EditProfileProps) => {
             </div>
           </div>
 
-          <div className="mb-6 w-full overflow-x-auto border-b sm:w-[470px] sm:pl-2">
+          <div className="mb-6 w-full overflow-x-auto border-b">
             <div className="flex min-w-max">
               <Button
                 type="button"
@@ -236,7 +259,7 @@ const EditProfilePage = ({ isOpen, onClose }: EditProfileProps) => {
             className="w-full px-4 sm:w-[518px] sm:pl-[10px]"
           >
             {activeTab === 'basic' ? (
-              <div className="space-y-3">
+              <div className="space-y-4">
                 <FormInput
                   name="name"
                   label="Name"
@@ -268,9 +291,6 @@ const EditProfilePage = ({ isOpen, onClose }: EditProfileProps) => {
                   isAsterisk
                   className="h-[79px] text-base font-normal"
                 />
-              </div>
-            ) : (
-              <div className="space-y-3">
                 <OptionsSelect
                   name="domain"
                   label="Domain"
@@ -278,7 +298,9 @@ const EditProfilePage = ({ isOpen, onClose }: EditProfileProps) => {
                   isAsterisk
                   options={domainOptions}
                 />
-
+              </div>
+            ) : (
+              <div className="space-y-3">
                 <div className="space-y-3">
                   <label className="text-base font-medium">Upload Resume (optional)</label>
                   <div className="flex items-center space-x-2">
@@ -296,7 +318,7 @@ const EditProfilePage = ({ isOpen, onClose }: EditProfileProps) => {
                       className="hidden"
                       onChange={handleResumeUpload}
                       ref={resumeUploadRef}
-                      accept=".pdf,.doc,.docx"
+                      accept=".pdf"
                     />
                   </div>
                   {resumeFile && (
@@ -320,15 +342,17 @@ const EditProfilePage = ({ isOpen, onClose }: EditProfileProps) => {
                   )}
                 </div>
 
-                {SOCIAL_PLATFORMS.map(({ platform }) => (
-                  <FormInput
-                    key={platform}
-                    name={platform.toLowerCase()}
-                    label={`${platform} Profile (optional)`}
-                    placeholder="Enter link here"
-                    className="text-base font-normal text-[#000000]"
-                  />
-                ))}
+                <div className="flex flex-col gap-4">
+                  {SOCIAL_PLATFORMS.map(({ name }) => (
+                    <FormInput
+                      key={name}
+                      name={name.toLowerCase()}
+                      label={`${name} Profile (optional)`}
+                      placeholder="Enter link here"
+                      className="text-base font-normal text-[#000000]"
+                    />
+                  ))}
+                </div>
               </div>
             )}
 
