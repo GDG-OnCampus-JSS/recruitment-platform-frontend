@@ -22,8 +22,8 @@ import {
 // Constants and Utils
 import { statusCode } from '@/constants/apiStatus';
 import { problems, Problems } from '@/constants/coding-problems';
+import { languagesData } from '@/constants/languageData';
 import { cn } from '@/lib/utils';
-import { languagesData } from '@/utils/data';
 
 const EditorPage = () => {
   // Modal State

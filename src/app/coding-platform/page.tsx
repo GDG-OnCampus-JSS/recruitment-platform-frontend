@@ -7,7 +7,7 @@ import OptionsSelect from '@/components/common/options-select';
 import { Button } from '@/components/ui/button';
 import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from '@/components/ui/resizable';
 import { statusCode } from '@/constants/apiStatus';
-import { languagesData } from '@/utils/data';
+import { languagesData } from '@/constants/languageData';
 
 const EditorPage = () => {
   const [code, setCode] = useState<string>('Select a language to start coding');
@@ -47,14 +47,23 @@ const EditorPage = () => {
   return (
     <>
       <div className="flex items-center justify-between p-4">
-        <OptionsSelect
+        {/* <OptionsSelect
           value={languageSelected}
+          // name="language"
           onSelectionChange={setLanguageSelected}
           options={languagesData}
           placeholder={'Select Language'}
           valueLabel="id"
           itemLabel="name"
-        />
+        /> */}
+
+        {/* <OptionsSelect
+          name="year"
+          label="Academic Year"
+          placeholder="Select your academic year"
+          isAsterisk
+          options={academicYearOptions}
+        /> */}
         <Button onClick={submitCode} className="bg-blue-500 text-white">
           Submit
         </Button>
