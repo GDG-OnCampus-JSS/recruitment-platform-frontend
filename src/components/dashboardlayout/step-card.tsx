@@ -1,9 +1,8 @@
 'use client';
-import React,{useState,useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { StepCardProps } from '@/lib/types';
-
 
 const StepCard = ({
   step,
@@ -19,34 +18,33 @@ const StepCard = ({
   startTime,
 }: StepCardProps) => {
   const [timeText, setTimeText] = useState('');
-  
-  useEffect(() => {
 
+  useEffect(() => {
     const updateTimeRemaining = () => {
       if (!startTime) {
         setTimeText('');
         return;
       }
-      
+
       const startDate = new Date(startTime);
       const now = new Date();
-      
+
       if (startDate <= now) {
         setTimeText('Available now');
         return;
       }
-      
+
       const diffMs = startDate.getTime() - now.getTime();
       const diffHrs = Math.floor(diffMs / (1000 * 60 * 60));
       const diffMins = Math.floor((diffMs % (1000 * 60 * 60)) / (1000 * 60));
-      
+
       setTimeText(`Starts in ${diffHrs}h ${diffMins}m`);
     };
-    
+
     updateTimeRemaining();
-    
+
     const intervalId = setInterval(updateTimeRemaining, 60000);
-    
+
     return () => clearInterval(intervalId);
   }, [startTime]);
 
@@ -69,16 +67,12 @@ const StepCard = ({
 
           <div className="flex flex-1 flex-col gap-2 xl:w-[328px]">
             <h3 className="text-xl font-medium leading-6 text-[#3B3B3B]">{title}</h3>
-            <p className="text-base leading-5 tracking-wide text-[#858585]">{description}</p> 
+            <p className="text-base leading-5 tracking-wide text-[#858585]">{description}</p>
           </div>
 
-          <div className="flex justify-between items-center">
+          <div className="flex items-center justify-between">
             <div>
-            {startTime && (
-              <div className="text-base font-normal text-[#0C0C0C]">
-                {timeText}
-              </div>
-            )}
+              {startTime && <div className="text-base font-normal text-[#0C0C0C]">{timeText}</div>}
             </div>
             <Button
               variant={buttonVariant}

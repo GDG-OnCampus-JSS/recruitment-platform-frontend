@@ -22,7 +22,7 @@ export const steps = [
     buttonBgColor: 'bg-[#4285F4]',
     gradientBg: 'bg-blue-gradient',
     action: '/dashboard/task-round',
-    startTime: '2025-04-01T08:30:00Z', 
+    startTime: '2025-04-01T08:30:00Z',
   },
   {
     step: 2,
@@ -62,13 +62,13 @@ export default function DashboardPage() {
   );
 
   return (
-    <div className="min-h-screen ">
-      <div className="mx-auto w-full max-w-7xl px-8 pt-20 xl:px-0 ">
-        <div className="mb-4 w-full text-center sm:hidden ">
+    <div className="min-h-screen">
+      <div className="mx-auto w-full max-w-7xl px-8 pt-20 xl:px-0">
+        <div className="mb-4 w-full text-center sm:hidden">
           <h2 className="text-xl font-medium">Your Dashboard</h2>
         </div>
 
-        <div className="mb-6 flex w-full flex-col items-center gap-6 sm:mb-8 xl:mb-12 sm:flex-row sm:justify-between xl:w-[1280px] ">
+        <div className="mb-6 flex w-full flex-col items-center gap-6 sm:mb-8 sm:flex-row sm:justify-between xl:mb-12 xl:w-[1280px]">
           <div className="flex w-full min-w-[300px] items-center gap-4 sm:w-auto sm:min-w-0 sm:gap-6 md:w-[528px]">
             <div className="h-16 w-16 rounded-full sm:h-20 sm:w-20">
               <Image

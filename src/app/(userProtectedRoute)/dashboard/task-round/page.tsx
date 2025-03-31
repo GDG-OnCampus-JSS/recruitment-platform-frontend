@@ -53,7 +53,7 @@ function Task() {
           <Link href="/dashboard">
             <Button
               variant="outline"
-              className="text[#2F3B00] flex items-center gap-2 rounded-3xl border px-4 py-2 text-[16px] font-normal leading-5 xl:h-9 "
+              className="text[#2F3B00] flex items-center gap-2 rounded-3xl border px-4 py-2 text-[16px] font-normal leading-5 xl:h-9"
             >
               <ArrowLeft /> Back
             </Button>
@@ -62,7 +62,7 @@ function Task() {
         </div>
       </div>
       <div className="mx-auto space-y-8 px-6 py-4">
-        <h2 className="pb-2 text-[28px] font-bold xl:h-[34px] leading-[33.96px] text-[#635BFF]">
+        <h2 className="pb-2 text-[28px] font-bold leading-[33.96px] text-[#635BFF] xl:h-[34px]">
           Do any one of the following
         </h2>
 
@@ -102,13 +102,13 @@ function Task() {
 
           <div className="flex flex-col gap-4 md:flex-row">
             <Card className="w-full xl:h-[132px]">
-              <CardHeader className=' xl:py-3'>
+              <CardHeader className="xl:py-3">
                 <CardTitle className="text-[20px] font-medium leading-[24.6px] text-[#6B83FF]">
                   Judgement Criteria
                 </CardTitle>
               </CardHeader>
               <CardContent className="">
-                <ul className="list-disc  pl-4 text-sm text-[#353535]">
+                <ul className="list-disc pl-4 text-sm text-[#353535]">
                   <li>Similarities on your developed page with the existing one</li>
                   <li>Responsiveness of the layout</li>
                   <li>Usage of JavaScript (if familiar) for interactivity</li>
@@ -118,13 +118,13 @@ function Task() {
             </Card>
 
             <Card className="w-full xl:h-[132px]">
-              <CardHeader className=' xl:py-3'>
+              <CardHeader className="xl:py-3">
                 <CardTitle className="text-[20px] font-medium leading-[24.6px] text-[#6B83FF]">
                   Brownie Points
                 </CardTitle>
               </CardHeader>
               <CardContent className="xl:h-[51px] xl:w-[518px]">
-                <ul className="list-disc  pl-4 text-sm text-[#353535]">
+                <ul className="list-disc pl-4 text-sm text-[#353535]">
                   <li>Hosted demo would give some extra points</li>
                   <li>Use of Vue.JS or React.JS</li>
                   <li>You can use UI libraries like Bootstrap, Materialize etc</li>
@@ -134,7 +134,7 @@ function Task() {
           </div>
         </div>
 
-        <div className="flex items-center justify-center xl:py-5 ">
+        <div className="flex items-center justify-center xl:py-5">
           <div className="h-[1px] w-full rotate-180 bg-gradient-line"></div>
 
           <div className="px-8 text-[28px] font-medium text-[#100C2C] xl:h-9">OR</div>
@@ -149,8 +149,8 @@ function Task() {
 
           <div className="space-y-6">
             <div className="flex flex-col gap-4 md:flex-row">
-              <div className="w-full xl:w-[550px] ">
-                <ol className="list-decimal pl-4 text-[16px] font-normal leading-[25.6px] text-[#353535] md:h-[150px] xl:w-[500px] xl:h-[150px]">
+              <div className="w-full xl:w-[550px]">
+                <ol className="list-decimal pl-4 text-[16px] font-normal leading-[25.6px] text-[#353535] md:h-[150px] xl:h-[150px] xl:w-[500px]">
                   <li>You have to implement a simple CRUD operation</li>
                   <li>
                     If you are implementing the authentication (Login & signup APIs) will be marked
@@ -181,7 +181,7 @@ function Task() {
               </div>
             </div>
 
-            <div className="rounded bg-gray-50 p-4 text-[16px] font-normal leading-[25.6px] xl:px-0 xl:h-[50px]">
+            <div className="rounded bg-gray-50 p-4 text-[16px] font-normal leading-[25.6px] xl:h-[50px] xl:px-0">
               <h3 className="mb-2 text-[#6B83FF]">Where to Submit?</h3>
               <p className="text-[#353535]">
                 Create a GitHub Repository and push the code to that repository and submit the link
@@ -190,14 +190,14 @@ function Task() {
             </div>
 
             <div className="flex flex-col gap-4 md:flex-row xl:pt-5">
-              <Card className="w-full xl:h-[132px] ">
-                <CardHeader className=' xl:py-3'>
-                  <CardTitle className="text-[20px] font-medium leading-[24.6px] text-[#6B83FF] ">
+              <Card className="w-full xl:h-[132px]">
+                <CardHeader className="xl:py-3">
+                  <CardTitle className="text-[20px] font-medium leading-[24.6px] text-[#6B83FF]">
                     Judgement Criteria
                   </CardTitle>
                 </CardHeader>
                 <CardContent className="xl:h-[51px] xl:w-[518px]">
-                  <ul className="list-disc  pl-4 text-sm text-[#353535]">
+                  <ul className="list-disc pl-4 text-sm text-[#353535]">
                     <li>Similarities on your developed page with the existing one.</li>
                     <li>Responsiveness of the layout.</li>
                     <li>Usage of JavaScript (if familiar) for interactivity.</li>
@@ -206,14 +206,14 @@ function Task() {
                 </CardContent>
               </Card>
 
-              <Card className="w-full xl:h-[132px] ">
-                <CardHeader className=' xl:py-3'>
-                  <CardTitle className="text-[20px] font-medium leading-[24.6px] text-[#6B83FF] ">
+              <Card className="w-full xl:h-[132px]">
+                <CardHeader className="xl:py-3">
+                  <CardTitle className="text-[20px] font-medium leading-[24.6px] text-[#6B83FF]">
                     Brownie Points
                   </CardTitle>
                 </CardHeader>
-                <CardContent className=" xl:h-[51px] xl:w-[518px]">
-                  <ul className="list-disc  pl-4 text-sm text-[#353535]">
+                <CardContent className="xl:h-[51px] xl:w-[518px]">
+                  <ul className="list-disc pl-4 text-sm text-[#353535]">
                     <li>Hosted demo would give some extra points.</li>
                     <li>Use of VueJS or ReactJS.</li>
                     <li>You can use UI libraries like Bootstrap, Materialize etc.</li>
@@ -222,9 +222,9 @@ function Task() {
               </Card>
             </div>
 
-            <div className="flex flex-col items-center justify-center py-6 xl:pt-10 xl:pb-20 sm:flex-row">
+            <div className="flex flex-col items-center justify-center py-6 sm:flex-row xl:pb-20 xl:pt-10">
               <div className="h-[1px] rotate-180 bg-gradient-line sm:w-[447px]"></div>
-              <div className="text-lg font-medium tracking-[0.56px] text-[#100C2C] sm:text-2xl xl:w-[328px] xl:h-[34px] text-center">
+              <div className="text-center text-lg font-medium tracking-[0.56px] text-[#100C2C] sm:text-2xl xl:h-[34px] xl:w-[328px]">
                 Ready to Submit?
               </div>
               <div className="h-[1px] bg-gradient-line sm:w-[447px]"></div>
@@ -233,9 +233,9 @@ function Task() {
             <Form {...form}>
               <form
                 onSubmit={form.handleSubmit(onSubmit)}
-                className="mx-auto flex w-full max-w-md flex-col items-center space-y-4 px-4 sm:px-0  "
+                className="mx-auto flex w-full max-w-md flex-col items-center space-y-4 px-4 sm:px-0"
               >
-                <div className="h-12 w-full px-0 xl:w-[550px]  ">
+                <div className="h-12 w-full px-0 xl:w-[550px]">
                   <FormInput
                     {...form.register('link')}
                     name="link"
@@ -244,13 +244,13 @@ function Task() {
                     className="w-full"
                   />
                 </div>
-                <div className='pt-5'>
-                <Button
-                  type="submit"
-                  className="w-full rounded-md bg-[#635BFF] px-3 py-2 text-base font-medium text-[#ffffff] sm:w-auto xl:w-[170px] xl:h-[44px]"
-                >
-                  Submit
-                </Button>
+                <div className="pt-5">
+                  <Button
+                    type="submit"
+                    className="w-full rounded-md bg-[#635BFF] px-3 py-2 text-base font-medium text-[#ffffff] sm:w-auto xl:h-[44px] xl:w-[170px]"
+                  >
+                    Submit
+                  </Button>
                 </div>
               </form>
             </Form>
