@@ -78,6 +78,7 @@ export interface StepCardProps {
   buttonBgColor: string;
   gradientBg: string;
   action: string;
+  startTime?: string;
 }
 export interface SocialPlatform {
   platform: string;
