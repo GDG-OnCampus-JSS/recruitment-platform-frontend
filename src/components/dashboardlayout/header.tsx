@@ -66,7 +66,7 @@ export const Header = () => {
   return (
     <header className="fixed left-0 top-0 z-20 w-full border-b bg-white px-8 py-3 md:border-b-0 lg:bg-white/50 lg:backdrop-blur-lg xl:px-[80px]">
       <div className="mx-auto flex w-full max-w-7xl items-center justify-between">
-        <div className="flex items-center">
+        <div className="flex w-[606px] items-center">
           <Link href="/">
             <div className="flex items-center gap-2 md:w-[127px]">
               <Image src="/logo.svg" alt="Logo" width={26} height={26} className="" />
@@ -89,7 +89,7 @@ export const Header = () => {
           </nav>
         </div>
 
-        <div className="flex items-center sm:gap-4">
+        <div className="flex w-[267px] items-center sm:gap-4">
           <div className="hidden lg:block">
             <Button
               variant="outline"

@@ -22,6 +22,7 @@ export const steps = [
     buttonBgColor: 'bg-[#4285F4]',
     gradientBg: 'bg-blue-gradient',
     action: '/dashboard/task-round',
+    startTime: '2025-04-01T08:30:00Z',
   },
   {
     step: 2,
@@ -34,6 +35,7 @@ export const steps = [
     buttonBgColor: 'bg-[#FBBC04]',
     gradientBg: 'bg-yellow-gradient',
     action: '/quiz',
+    startTime: '2025-04-01T08:30:00Z',
   },
   {
     step: 3,
@@ -46,6 +48,7 @@ export const steps = [
     buttonBgColor: 'bg-[#EA4335]',
     gradientBg: 'bg-red-gradient',
     action: '#',
+    startTime: '2025-04-01T08:30:00Z',
   },
 ];
 
@@ -59,14 +62,14 @@ export default function DashboardPage() {
   );
 
   return (
-    <div className="min-h-screen lg:px-44">
-      <div className="mx-auto min-w-[320px] px-4 pt-20">
+    <div className="min-h-screen">
+      <div className="mx-auto w-full max-w-7xl px-8 pt-20 xl:px-0">
         <div className="mb-4 w-full text-center sm:hidden">
           <h2 className="text-xl font-medium">Your Dashboard</h2>
         </div>
 
-        <div className="mb-6 flex w-full flex-col items-center gap-4 sm:mb-8 sm:flex-row sm:justify-between">
-          <div className="flex w-full min-w-[300px] items-center gap-4 sm:w-auto sm:min-w-0 sm:gap-6">
+        <div className="mb-6 flex w-full flex-col items-center gap-6 sm:mb-8 sm:flex-row sm:justify-between xl:mb-12 xl:w-[1280px]">
+          <div className="flex w-full min-w-[300px] items-center gap-4 sm:w-auto sm:min-w-0 sm:gap-6 md:w-[528px]">
             <div className="h-16 w-16 rounded-full sm:h-20 sm:w-20">
               <Image
                 src={user?.photo ? blobUrl(user.photo) : '/avatar.svg'}
@@ -99,12 +102,12 @@ export default function DashboardPage() {
             </div>
           </div>
 
-          <div className="hidden w-full text-right sm:block sm:h-6 sm:w-[153px] sm:pt-6">
+          <div className="hidden w-full text-right sm:block sm:h-6 sm:w-[143px] sm:pt-6">
             <h2 className="text-[20px] font-medium leading-[24.26px]">Your Dashboard</h2>
           </div>
         </div>
 
-        <div className="mb-6 grid w-full grid-cols-1 justify-items-center gap-4 sm:mb-20 sm:grid-cols-2 sm:gap-5 md:grid-cols-3">
+        <div className="mx-auto mb-6 grid w-full max-w-[1280px] grid-cols-1 justify-items-center gap-4 sm:mb-20 sm:grid-cols-2 sm:gap-5 md:grid-cols-3">
           {steps.map((step) => (
             <StepCard key={step.step} {...step} />
           ))}
