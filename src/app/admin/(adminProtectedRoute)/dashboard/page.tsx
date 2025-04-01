@@ -54,7 +54,7 @@ export const steps = [
 export default function AdminPage() {
   const admin = useAdminStore((state) => state.admin);
   return (
-    <div className="min-h-screen w-full px-4 pb-7 pt-32 sm:px-6 md:px-8 lg:mx-auto lg:min-h-[calc(100vh-212px)] lg:w-[1000px] xl:w-[1280px]">
+    <div className="min-h-screen w-full px-4 pb-7 pt-32 sm:px-6 md:px-8 lg:mx-auto  lg:w-[1000px] xl:w-[1120px]">
       <h1 className="pb-10 text-xl font-normal capitalize text-[#3D3D3D] sm:text-3xl lg:text-[28px]">
         Welcome back {admin?.domain?.split(' ')[0]} Lead
       </h1>
