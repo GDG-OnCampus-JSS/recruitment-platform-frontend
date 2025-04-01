@@ -35,6 +35,7 @@ export const handleToastApiResponse = (
       variant: 'success',
       title: 'Success',
       description: responseData?.message || successMessage,
+      duration: 3000,
     });
   } else {
     const errorMessage =
@@ -45,6 +46,7 @@ export const handleToastApiResponse = (
       variant: 'destructive',
       title: 'Error!',
       description: errorMessage,
+      duration: 3000,
     });
   }
 };

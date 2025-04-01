@@ -73,11 +73,12 @@ export interface StepCardProps {
   description: string;
   icon: React.ComponentType;
   buttonText: string;
-  buttonVariant: 'outline' | 'default' | 'destructive';
   iconColor: string;
   buttonBgColor: string;
   gradientBg: string;
   action: string;
+  eventStartDate: Date;
+  eventEndDate: Date;
 }
 export interface SocialPlatform {
   platform: string;

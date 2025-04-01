@@ -1,8 +1,9 @@
 import { Bell } from 'lucide-react';
 import Image from 'next/image';
-import React, { useState, useEffect } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
+import { useDismissOnClick } from '@/hooks/use-dismiss-onclick';
 import { Notification } from '@/lib/types';
 import { getApi, postApi } from '@/api/api';
 import { statusCode } from '@/constants/apiStatus';
@@ -17,6 +18,12 @@ import { User } from '@/lib/types';
 import useUserStore from '@/stores/userStore';
 import { apiEndPoints } from '@/api/apiEndpoints';
 import { useMemo } from 'react';
+import { cn } from '@/lib/utils';
+
+type Props = {
+  mode: 'admin' | 'user';
+  className?: string; 
+};
 
 const notificationSchema = z.object({
   notificationTitle: z.string().nonempty('Please enter a valid title'),
@@ -24,10 +31,9 @@ const notificationSchema = z.object({
   notificationUrl: z.string().optional(),
 });
 
-const NotificationButton = ({ mode }: { mode: 'admin' | 'user' }) => {
+const NotificationButton = ({ mode, className }: Props) => {
   const user = useUserStore((state) => state.user);
   const displayUser = (user || mockUser) as User;
-  
   const [isOpen, setIsOpen] = useState(false);
   const [isAdminOpen, setIsAdminOpen] = useState(false);
   const [notifications, setNotifications] = useState<Notification[]>([]);
@@ -117,8 +123,13 @@ const unreadCount = useMemo(
   };
   
 
+  const notificationModalRef = useRef<HTMLDivElement | null>(null);
+  useDismissOnClick(notificationModalRef, () => setIsOpen(false));
+
   return (
-    <div className="relative">
+
+    <div className={cn('relative', className)}>
+
       {mode === 'admin' ? (
         <Button
           variant="ghost"
@@ -199,7 +210,10 @@ const unreadCount = useMemo(
       {mode === 'user' && isOpen && (
         <>
           <div className="fixed inset-0 z-40" onClick={() => setIsOpen(false)} />
-          <Card className="absolute right-0 top-12 z-50 h-[417px] w-[82vw] gap-2 overflow-hidden rounded-[8px] border border-[#DDE3FF] bg-[#FFFFFF] p-4 shadow-lg sm:w-[455px]">
+          <Card
+            className="absolute right-0 top-12 z-50 h-[417px] w-[82vw] gap-2 overflow-hidden rounded-[8px] border border-[#DDE3FF] bg-[#FFFFFF] p-4 shadow-lg sm:w-[455px]"
+            ref={notificationModalRef}
+          >
             <div className="w-full p-3">
               <h3 className="text-sm font-normal text-[#100C2C]">Notifications</h3>
             </div>
