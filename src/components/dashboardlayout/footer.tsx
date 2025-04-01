@@ -1,6 +1,6 @@
+import { Icon } from '@iconify/react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { Icon } from '@iconify/react';
 import { socials } from '@/lib/options';
 
 export const Footer = () => {
@@ -26,7 +26,7 @@ export const Footer = () => {
               <Link
                 href={social.url}
                 key={social.id}
-                target='_blank'
+                target="_blank"
                 className="transition-colors hover:text-neutral-700"
               >
                 <Icon icon={social.icon} className="size-8" />

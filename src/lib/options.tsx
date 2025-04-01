@@ -43,7 +43,6 @@ export const socials = [
   },
 ];
 
-
 export const steps = [
   {
     step: 1,

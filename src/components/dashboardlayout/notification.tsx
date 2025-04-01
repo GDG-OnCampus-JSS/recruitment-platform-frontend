@@ -3,8 +3,8 @@ import Image from 'next/image';
 import React, { useRef, useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
-import { Notification } from '@/lib/types';
 import { useDismissOnClick } from '@/hooks/use-dismiss-onclick';
+import { Notification } from '@/lib/types';
 import { cn } from '@/lib/utils';
 
 interface Props {

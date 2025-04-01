@@ -1,8 +1,8 @@
-import React, { useRef, useState } from 'react';
-import { ChevronDown, LogOut, Settings } from 'lucide-react';
 import { AnimatePresence, motion } from 'framer-motion';
-import Link from 'next/link';
+import { ChevronDown, LogOut, Settings } from 'lucide-react';
 import Image from 'next/image';
+import Link from 'next/link';
+import React, { useRef, useState } from 'react';
 import { useDismissOnClick } from '@/hooks/use-dismiss-onclick';
 
 interface Props {
