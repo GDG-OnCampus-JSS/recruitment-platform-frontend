@@ -14,38 +14,41 @@ export const steps = [
   {
     step: 1,
     title: 'Task Round',
-    description: 'Show your technical prowess up with your solution.',
+    description: 'Solve and create! Impress us with your solution.',
     icon: clip,
-    buttonText: 'View more',
-    buttonVariant: 'outline' as const,
+    buttonText: 'View Tasks',
     iconColor: '#4285F4',
     buttonBgColor: 'bg-[#4285F4]',
     gradientBg: 'bg-blue-gradient',
     action: '/dashboard/task-round',
+    eventStartDate: new Date('2025-04-13T00:00:00'),
+    eventEndDate: new Date('2025-04-02T03:00:00'),
   },
   {
     step: 2,
     title: 'Aptitude Quiz',
     description: 'A quick 30-min quiz to test your technical aptitude.',
     icon: brain,
-    buttonText: 'Start Quiz',
-    buttonVariant: 'default' as const,
+    buttonText: 'Start Now',
     iconColor: '#FBBC04',
     buttonBgColor: 'bg-[#FBBC04]',
     gradientBg: 'bg-yellow-gradient',
     action: '/quiz',
+    eventStartDate: new Date('2025-04-14T00:00:00'),
+    eventEndDate: new Date('2025-04-02T03:00:00'),
   },
   {
     step: 3,
     title: 'Personal Interview',
     description: 'The final step, a conversation to seal your place.',
     icon: meet,
-    buttonText: 'Schedule now',
-    buttonVariant: 'destructive' as const,
+    buttonText: 'View Timing',
     iconColor: '#EA4335',
     buttonBgColor: 'bg-[#EA4335]',
     gradientBg: 'bg-red-gradient',
     action: '#',
+    eventStartDate: new Date('2025-04-15T00:00:00'),
+    eventEndDate: new Date('2025-04-02T03:00:00'),
   },
 ];
 
@@ -59,49 +62,39 @@ export default function DashboardPage() {
   );
 
   return (
-    <div className="min-h-screen lg:px-44">
-      <div className="mx-auto min-w-[320px] px-4 pt-20">
-        <div className="mb-4 w-full text-center sm:hidden">
-          <h2 className="text-xl font-medium">Your Dashboard</h2>
-        </div>
-
-        <div className="mb-6 flex w-full flex-col items-center gap-4 sm:mb-8 sm:flex-row sm:justify-between">
-          <div className="flex w-full min-w-[300px] items-center gap-4 sm:w-auto sm:min-w-0 sm:gap-6">
-            <div className="h-16 w-16 rounded-full sm:h-20 sm:w-20">
-              <Image
-                src={user?.photo ? blobUrl(user.photo) : '/avatar.svg'}
-                alt="User"
-                width={80}
-                height={80}
-                className="rounded-full object-contain"
-              />
-            </div>
-            <div className="flex flex-col md:gap-1">
-              <h1 className="text-lg font-bold leading-[33.96px] text-[#151515] sm:text-[28px]">
-                Hey! {user?.name}
+    <div className="mt-20 min-h-screen">
+      <div className="mx-auto max-w-6xl px-4 sm:px-8">
+        <div className="mb-14 flex flex-col-reverse gap-4 sm:flex-row sm:items-center sm:justify-between sm:gap-0">
+          <div className="flex items-center gap-4 sm:gap-6">
+            <Image
+              src={user?.photo ? blobUrl(user.photo) : '/avatar.svg'}
+              alt="User"
+              width={80}
+              height={80}
+              className="size-16 rounded-full object-contain sm:size-20"
+            />
+            <div className="">
+              <h1 className="mb-1 text-lg font-medium sm:text-3xl">
+                Hey {user?.name.split(' ')[0]}!
               </h1>
               {!isProfileComplete && (
-                <div className="flex items-center gap-1 sm:gap-2">
-                  <div className="hidden text-[#EB8D8D] sm:block">
-                    <CircleAlert size={24} />
-                  </div>
-                  <p className="items-center text-[14px] font-normal tracking-[0.02em] text-[#EB8D8D] sm:flex sm:gap-2 sm:text-base">
-                    Your profile is not complete!{' '}
+                <div className="flex items-start gap-1 sm:items-center">
+                  <CircleAlert size={20} className="hidden text-red-500 sm:block" />
+                  <h3 className="text-sm text-red-500 sm:text-base">
+                    Your profile is not complete.{' '}
                     <Link
                       href="/dashboard/profile"
-                      className="text-xs font-normal leading-5 tracking-[0.02em] text-black underline sm:text-xl sm:leading-[24.26px]"
+                      className="font-normal tracking-wide text-black underline underline-offset-4"
                     >
-                      Complete now
+                      Complete now!
                     </Link>
-                  </p>
+                  </h3>
                 </div>
               )}
             </div>
           </div>
 
-          <div className="hidden w-full text-right sm:block sm:h-6 sm:w-[153px] sm:pt-6">
-            <h2 className="text-[20px] font-medium leading-[24.26px]">Your Dashboard</h2>
-          </div>
+          <h2 className="text-sm font-medium sm:text-xl">Your Dashboard</h2>
         </div>
 
         <div className="mb-6 grid w-full grid-cols-1 justify-items-center gap-4 sm:mb-20 sm:grid-cols-2 sm:gap-5 md:grid-cols-3">

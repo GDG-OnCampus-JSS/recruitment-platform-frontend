@@ -17,9 +17,32 @@ export const options: DropdownOption[] = [
 export const navItems: NavItem[] = [
   { href: '/', label: 'Home', icon: Home },
   { href: '/dashboard', label: 'Dashboard', icon: LayoutGrid },
-  { href: '/website', label: 'Website', icon: Globe },
+  { href: 'https://www.gdscjss.in/', label: 'Website', icon: Globe },
   { href: '/results', label: 'Results', icon: Medal },
 ];
+
+export const socials = [
+  {
+    id: 1,
+    name: 'Instagram',
+    icon: 'mingcute:instagram-fill',
+    url: 'https://www.instagram.com/gdgoncampus.jss',
+  },
+  {
+    id: 2,
+    name: 'LinkedIn',
+    icon: 'mdi:linkedin',
+    url: 'https://www.linkedin.com/company/dsc-jssaten/',
+  },
+  { id: 3, name: 'Twitter', icon: 'mdi:twitter', url: 'https://x.com/GDSCJSSATEN' },
+  {
+    id: 4,
+    name: 'Website',
+    icon: 'mdi:web',
+    url: 'https://www.gdscjss.in/',
+  },
+];
+
 
 export const steps = [
   {
