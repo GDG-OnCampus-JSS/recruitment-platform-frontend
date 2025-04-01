@@ -2,66 +2,55 @@
 import { ChevronLeft } from 'lucide-react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import Footer from '@/components/dashboardlayout/footer';
-import Header from '@/components/dashboardlayout/header';
 import { Button } from '@/components/ui/button';
 
 export default function Quiz() {
   const router = useRouter();
   return (
-    <div>
-      <Header />
-      <div className="mt-14 h-screen bg-[#fff] p-[20px] lg:h-full">
-        <div className="flex justify-between">
-          <button className="rounded-3xl border px-2 py-1">
-            <Link href="/dashboard" className="flex">
-              <ChevronLeft /> Back
-            </Link>
-          </button>
-          <span className="font-semibold">Aptitude Quiz</span>
-        </div>
-        <div className="mx-auto my-4 grid max-h-[440px] max-w-[650px] gap-[10px] rounded-xl border px-8 py-6 shadow-xl lg:mt-auto lg:py-4">
-          <div className="flex max-h-[22px] justify-between text-[#432AD8]">
-            <div className="">
-              <span className="max-w-[123px] text-[18px]">Selected Year:</span>
-              {/* font-[product sans] */}
-              <span className="border-[1px] border-[#ccc] px-3 py-1 text-[18px]">1st</span>
-            </div>
-            <div className="text-[18px]">
-              <span className="">Selected Domain:</span>
-              <span className="border border-[#ccc] px-3 py-1">Design</span>
-            </div>
-          </div>
-          <div className="h-70 w-140">
-            <h1 className="mb-4 mt-2 text-[26px] font-medium leading-[33.96px] text-[#1E1650]">
-              Guidelines
-            </h1>
-            <ul className="grid list-disc gap-y-[16px] pl-8 text-justify text-[18px] font-normal leading-[24.26px] text-[#1E1650]">
-              <li className="">This is a timed quiz. You will only get 30 mins to complete it.</li>
-              <li className="text-[#EA4335]">
-                You are not allowed to exit full screen mode, if you do, you will be disqualified.
-              </li>
-              <li className="">
-                This quiz contains 20 questions, try your best to attempt them all.
-              </li>
-              <li className="">Click "Save & Next" to save your answer.</li>
-              <li className="">All the very best to you. See you later.</li>
-            </ul>
-          </div>
 
-          <div className="flex max-w-full justify-center">
-            <Button
-              variant="outline"
-              type="button"
-              className="lg:w-100 max-h-11 cursor-pointer rounded-lg border-none bg-[#635BFF] px-32 py-[11px] font-light text-white lg:px-[224px]"
-              onClick={() => router.push(`/quiz/aptitude`)}
-            >
-              Let's Begin
-            </Button>
+    <div className="bg-[#fff] p-5 lg:p-8 lg:h-full">
+      <div className="flex justify-between items-center h-9 mt-7">
+        <Button className="rounded-3xl border px-4 py-1 bg-white text-black">
+          <Link href="/dashboard" className="flex items-center">
+            <ChevronLeft className="mr-1" /> Back
+          </Link>
+        </Button>
+        <span className="font-semibold text-lg lg:text-xl">Aptitude Quiz</span>
+      </div>
+      <div className="mx-auto my-8 max-w-[740px] rounded-xl border px-6 py-8 shadow-xl lg:h-[412px]">
+        <div className="flex flex-col lg:flex-row justify-between text-[#432AD8] mb-4 text-xl">
+          <div className="mb-2 lg:mb-0">
+            <span>Selected Year:</span>
+            <span className="border border-[#ccc] px-3 py-1">1st</span>
+          </div>
+          <div>
+            <span>Selected Domain:</span>
+            <span className="border border-[#ccc] px-3 py-1">Design</span>
           </div>
         </div>
+        <div className="text-[#100c2c] max-w-[646px]">
+          <h1 className="text-xl font-medium">Guidelines</h1>
+          <ul className="mt-2 list-disc text-justify text-[16px] pl-6 grid gap-y-1 lg:h-[157px]">
+            <li>This is a timed quiz. You will only get 30 mins to complete it.</li>
+            <li className="text-[#EA4335]">
+              You are not allowed to exit full screen mode, if you do, you will be disqualified.
+            </li>
+            <li>This quiz contains 20 questions, try your best to attempt them all.</li>
+            <li>Click "Save & Next" to save your answer.</li>
+            <li>All the very best to you. See you later.</li>
+          </ul>
+        </div>
+
+        <Button
+          variant="outline"
+          type="button"
+          className="mt-8 lg:mt-10 w-full max-h-11 cursor-pointer rounded-lg border-none bg-[#635BFF] px-8 py-2 font-light text-white"
+          onClick={() => router.push(`/quiz/aptitude`)}
+        >
+          Let's Begin
+        </Button>
       </div>
-      <Footer />
+      
     </div>
   );
 }
