@@ -22,7 +22,6 @@ export const Header = () => {
   const router = useRouter();
   const pathname = usePathname();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [selectedOption, setSelectedOption] = useState<string | null>(null);
   const [isEditProfileOpen, setIsEditProfileOpen] = useState(false);
   const user = useUserStore((state) => state.user);
   const [displayUser, setDisplayUser] = useState<User>(user || ({} as User));
@@ -43,15 +42,6 @@ export const Header = () => {
     //   }
   };
 
-  const handleDropdownSelect = async (value: string) => {
-    setSelectedOption(value);
-    if (value === 'profile') {
-      router.push('/dashboard/profile');
-    } else if (value === 'logout') {
-      await handleLogout();
-    }
-  };
-
   const handleLogout = async () => {
     const { status, data: responseData } = await postApi(apiEndPoints.users.logout);
 
@@ -64,9 +54,9 @@ export const Header = () => {
   };
 
   return (
-    <header className="fixed left-0 top-0 z-20 w-full border-b bg-white px-8 py-3 md:border-b-0 lg:bg-white/50 lg:backdrop-blur-lg xl:px-[80px]">
-      <div className="mx-auto flex w-full max-w-7xl items-center justify-between">
-        <div className="flex w-[606px] items-center">
+    <header className="fixed left-0 top-0 z-20 w-full border-b bg-white py-3 md:border-b-0 lg:bg-white/50 lg:backdrop-blur-lg">
+      <div className="mx-auto flex w-full max-w-6xl items-center justify-between px-8">
+        <div className="flex items-center">
           <Link href="/">
             <div className="flex items-center gap-2 md:w-[127px]">
               <Image src="/logo.svg" alt="Logo" width={26} height={26} className="" />
@@ -89,7 +79,7 @@ export const Header = () => {
           </nav>
         </div>
 
-        <div className="flex w-[267px] items-center sm:gap-4">
+        <div className="flex items-center">
           <div className="hidden lg:block">
             <Button
               variant="outline"
@@ -101,26 +91,16 @@ export const Header = () => {
             </Button>
           </div>
 
-          <NotificationButton />
+          <NotificationButton className="mx-4" />
 
           <div className="hidden sm:block">
             {isAdminRoute ? (
               <ProfileDropdown onEditProfile={() => setIsEditProfileOpen(true)} />
             ) : (
-              <Button
-                variant="ghost"
-                className="h-[36px] w-[66px] rounded-[37px] border border-[#DDE3FF] bg-[#FFFFFF]"
-              >
-                <Image
-                  src={user?.photo ? blobUrl(user.photo) : '/avatar.svg'}
-                  alt="User"
-                  width={26}
-                  height={26}
-                  className="ml-2 rounded-full object-contain"
-                />
-                <Dropdown options={options} onSelect={handleDropdownSelect} />
-                {selectedOption && <span className="sr-only">Selected: {selectedOption}</span>}
-              </Button>
+              <Dropdown
+                imageSrc={user?.photo ? blobUrl(user.photo) : '/avatar.svg'}
+                onLogout={handleLogout}
+              />
             )}
           </div>
 
