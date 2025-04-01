@@ -106,6 +106,7 @@ export interface SocialLink {
   link: string;
 }
 export type Notification = {
+  title: string;
   id: string;
   message: string;
   isRead: boolean;

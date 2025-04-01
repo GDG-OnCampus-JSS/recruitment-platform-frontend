@@ -1,4 +1,5 @@
 'use client';
+import { useEffect, useState } from 'react';
 import { CircleAlert } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -9,6 +10,7 @@ import StepCard from '@/components/dashboardlayout/step-card';
 import { blobUrl } from '@/lib/helpers';
 import { reqFields, mockUser } from '@/lib/options';
 import useUserStore from '@/stores/userStore';
+import PermissionPopup from '@/components/dashboardlayout/permission-popup';
 
 export const steps = [
   {
@@ -58,8 +60,24 @@ export default function DashboardPage() {
       mockUser[field as keyof typeof mockUser]?.toString().trim() !== '',
   );
 
+  const [showPopup, setShowPopup] = useState(false);
+
+  useEffect(() => {
+    const hasSubscribed = localStorage.getItem('subscribed');
+    
+    if (!hasSubscribed) {
+      setShowPopup(true);
+    }
+  }, []);
+  
+  const handlePopupClose = () => {
+    localStorage.setItem('subscribed', 'true');
+    setShowPopup(false);
+  };
+
   return (
     <div className="min-h-screen lg:px-44">
+      {showPopup && <PermissionPopup onClose={handlePopupClose} />}
       <div className="mx-auto min-w-[320px] px-4 pt-20">
         <div className="mb-4 w-full text-center sm:hidden">
           <h2 className="text-xl font-medium">Your Dashboard</h2>
