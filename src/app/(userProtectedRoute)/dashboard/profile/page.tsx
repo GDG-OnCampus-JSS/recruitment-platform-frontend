@@ -38,9 +38,9 @@ export default function ProfilePage() {
     );
   }
   return (
-    <div className="min-h-screen space-y-6 p-2 pt-12 ">
+    <div className="min-h-screen space-y-6 p-2 pt-12">
       <div className="w-full">
-        <div className="mx-auto flex w-full items-center justify-between px-6 pt-4 xl:py-0 xl:px-8 xl:max-w-6xl xl:h-9 xl:mt-9">
+        <div className="mx-auto flex w-full items-center justify-between px-6 pt-4 xl:mt-9 xl:h-9 xl:max-w-6xl xl:px-8 xl:py-0">
           <Link href="/dashboard">
             <Button
               variant="outline"

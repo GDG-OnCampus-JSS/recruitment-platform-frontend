@@ -170,9 +170,9 @@ export default function ProfilePage() {
   const taskSubmissionLink = userData?.socialLinks?.find((link) => link.platform === 'project');
 
   return (
-    <div className="min-h-screen space-y-6 p-2 pt-12 ">
+    <div className="min-h-screen space-y-6 p-2 pt-12">
       <div className="w-full">
-        <div className="mx-auto flex max-w-[1120px] items-center justify-between px-6 pt-4 xl:py-0 xl:px-8 xl:max-w-6xl xl:h-9 xl:mt-9">
+        <div className="mx-auto flex max-w-[1120px] items-center justify-between px-6 pt-4 xl:mt-9 xl:h-9 xl:max-w-6xl xl:px-8 xl:py-0">
           <h1 className="text-[28px] font-normal text-[#4F4F4F]">Shortlisted User</h1>
           <h1 className="text-xl font-medium"> Total:{shortlistedUsers.length}</h1>
         </div>
@@ -180,7 +180,7 @@ export default function ProfilePage() {
 
       <div className="mx-auto max-w-[1120px] px-4 pt-4 sm:px-6 xl:pt-0">
         <div className="grid w-full grid-cols-1 gap-5 sm:grid-cols-1 lg:grid-cols-[360px_1fr] xl:mt-10">
-          <Card className="w-full bg-blue-gradient p-2 sm:w-full lg:w-[300px] xl:w-[360px] xl:h-[446px]">
+          <Card className="w-full bg-blue-gradient p-2 sm:w-full lg:w-[300px] xl:h-[446px] xl:w-[360px]">
             <CardContent className="relative p-4 xl:mt-8 xl:pt-0">
               <button className="absolute right-4 top-4 rounded-lg border p-1 xl:top-0">
                 <UserPen size={20} />
