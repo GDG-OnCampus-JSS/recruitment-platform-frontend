@@ -97,7 +97,7 @@ export default function DashboardPage() {
           <h2 className="text-sm font-medium sm:text-xl">Your Dashboard</h2>
         </div>
 
-        <div className="mb-6 grid w-full grid-cols-1 justify-items-center gap-4 sm:mb-20 sm:grid-cols-2 sm:gap-5 md:grid-cols-3">
+        <div className="mx-auto mb-6 grid w-full max-w-[1280px] grid-cols-1 justify-items-center gap-4 sm:mb-20 sm:grid-cols-2 sm:gap-5 md:grid-cols-3">
           {steps.map((step) => (
             <StepCard key={step.step} {...step} />
           ))}
