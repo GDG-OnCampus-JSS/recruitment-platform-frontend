@@ -1,14 +1,29 @@
+'use client'
 import { Banner, CTA, Logo } from '@/components/home/Banner';
 import Button from '@/components/home/Button';
 import { Card } from '@/components/home/Card';
 import { JourneyStep } from '@/components/home/JourneySteps';
 import VerticalStepper from '@/components/home/VerticalStepper';
 import { cardData, journeySteps, stepColors } from '@/constants/homePageConstants';
+import { useEffect } from 'react';
 
 // Steps of the Vertical Stepper thing
 const currentStep = 3;
 
 export default function Home() {
+  
+  useEffect(() => {
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker
+        .register('/sw.js')
+        .then((registration) => {
+          console.log('Service Worker Registered:', registration);
+        })
+        .catch((err) => {
+          console.error('Service Worker Registration Failed:', err);
+        });
+    }
+  }, []);
   return (
     <>
       <section className="relative grid min-h-screen place-content-center overflow-x-hidden bg-home-1 bg-cover bg-no-repeat">

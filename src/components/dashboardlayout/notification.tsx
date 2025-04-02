@@ -1,62 +1,213 @@
 import { Bell } from 'lucide-react';
 import Image from 'next/image';
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { useDismissOnClick } from '@/hooks/use-dismiss-onclick';
 import { Notification } from '@/lib/types';
+import { getApi, postApi } from '@/api/api';
+import { statusCode } from '@/constants/apiStatus';
+import { z } from 'zod';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useForm } from 'react-hook-form';
+import FormInput from '@/components/common/form-input';
+import FormTextArea from '@/components/common/form-textarea';
+import { Form } from '@/components/ui/form';
+import { mockUser } from '@/lib/options';
+import { User } from '@/lib/types';
+import useUserStore from '@/stores/userStore';
+import { apiEndPoints } from '@/api/apiEndpoints';
+import { useMemo } from 'react';
 import { cn } from '@/lib/utils';
 
-interface Props {
-  className?: string;
-}
+type Props = {
+  mode: 'admin' | 'user';
+  className?: string; 
+};
 
-const NotificationButton = ({ className }: Props) => {
+const notificationSchema = z.object({
+  notificationTitle: z.string().nonempty('Please enter a valid title'),
+  notificationMessage: z.string().nonempty('Please enter a message'),
+  notificationUrl: z.string().optional(),
+});
+
+const NotificationButton = ({ mode, className }: Props) => {
+  const user = useUserStore((state) => state.user);
+  const displayUser = (user || mockUser) as User;
   const [isOpen, setIsOpen] = useState(false);
-  const [notifications, setNotifications] = useState<Notification[]>([
-    {
-      id: '1',
-      message:
-        'Congratulations! You are shortlisted for interview. Visit dashboard for more information',
-      isRead: false,
-      type: 'recruitment',
-    },
-    {
-      id: '2',
-      message:
-        'Congratulations! You are shortlisted for interview. Visit dashboard for more information',
-      isRead: false,
-      type: 'recruitment',
-    },
-  ]);
+  const [isAdminOpen, setIsAdminOpen] = useState(false);
+  const [notifications, setNotifications] = useState<Notification[]>([]);
 
-  const unreadCount = notifications.filter((n) => !n.isRead).length;
+  const form = useForm<z.infer<typeof notificationSchema>>({
+    resolver: zodResolver(notificationSchema),
+    defaultValues: {
+      notificationTitle: '',
+      notificationMessage: '',
+      notificationUrl: '',
+    },
+  });
 
-  const handleNotificationClick = (notificationId: string) => {
-    setNotifications((prev) =>
-      prev.map((notification) =>
-        notification.id === notificationId ? { ...notification, isRead: true } : notification,
-      ),
-    );
+  const onSubmit = async (data: z.infer<typeof notificationSchema>) => {
+    console.log('Sending payload:', {
+      title: data.notificationTitle,
+      message: data.notificationMessage,
+      url: data.notificationUrl,
+      userId: displayUser.id, 
+    });
+    
+    const { status, data: responseData } = await postApi(apiEndPoints.notification.sendNotifications, {
+      userId: displayUser.id,
+      title: data.notificationTitle,
+      message: data.notificationMessage,
+      url: data.notificationUrl,
+
+    });
+  
+    if (status === statusCode.Ok200) {
+      alert('Notification sent successfully!');
+      setIsAdminOpen(false)
+    } else {
+      console.error('Failed to send notification');
+    }
   };
+  
+  const fetchNotifications = async (userId: string) => {
+    if (mode === 'user' && userId) {
+      const { status, data } = await getApi(
+        apiEndPoints.notification.getNotifications(userId),
+      );
+      
+      if (status === statusCode.Ok200) {
+        setNotifications(data);
+      } else {
+        console.error('Failed to fetch notifications:', data);
+      }
+    }
+  };
+
+  const fetchSubscription = async () => {
+    setIsAdminOpen(!isAdminOpen) 
+    const { status, data } = await getApi(apiEndPoints.notification.getSubscription);
+    console.log('subscriptions: ', data)
+  };
+   useEffect(() => {
+    if (mode === 'user' && displayUser.id) {
+      fetchNotifications(displayUser.id as string);
+    }
+  }, [displayUser.id, mode]);
+  
+
+  // const unreadCount = notifications.filter((n) => !n.isRead).length;
+  
+
+const unreadCount = useMemo(
+  () => notifications.filter((n) => !n.isRead).length,
+  [notifications],
+);
+
+  const handleNotificationClick = async (notificationId: string) => {
+    // const { status } = await putApi(apiEndPoints.notification.markAsRead(notificationId)
+    //   ,
+    // );
+    
+    // if (status === statusCode.Ok200) {
+    //   setNotifications((prev) =>
+    //     prev.map((notification) =>
+    //       notification.id === notificationId ? { ...notification, isRead: true } : notification,
+    //     ),
+    //   );
+    //   setIsOpen(false);
+    // } else {
+    //   console.error('Failed to mark notification as read');
+    // }
+  };
+  
 
   const notificationModalRef = useRef<HTMLDivElement | null>(null);
   useDismissOnClick(notificationModalRef, () => setIsOpen(false));
 
   return (
-    <div className={cn('relative', className)}>
-      <Button
-        variant="ghost"
-        className="relative ml-20 h-[36px] w-[36px] rounded-[37px] border border-[#DDE3FF] bg-[#FFFFFF] p-[8px] sm:ml-0"
-        onClick={() => setIsOpen(!isOpen)}
-      >
-        <Bell className="h-5 w-5 text-[#100C2C]" />
-        {unreadCount && (
-          <span className="absolute right-[1px] top-[1px] h-2 w-2 rounded-full bg-red-500" />
-        )}
-      </Button>
 
-      {isOpen && (
+    <div className={cn('relative', className)}>
+
+      {mode === 'admin' ? (
+        <Button
+          variant="ghost"
+          className="relative ml-20 h-[36px] w-[160px] rounded-[16px] border border-[#DDE3FF] bg-[#FFFFFF] p-[8px] sm:ml-0"
+          onClick={fetchSubscription}
+        >
+          {/* onClick={handleSendNotification} */}
+          <Bell className="h-5 w-5 text-[#100C2C]" />
+          Notify All Users
+        </Button>
+      ) : (
+        <Button
+          variant="ghost"
+          className="relative ml-20 h-[36px] w-[36px] rounded-[37px] border border-[#DDE3FF] bg-[#FFFFFF] p-[8px] sm:ml-0"
+          onClick={() => setIsOpen(!isOpen)}
+        >
+          <Bell className="h-5 w-5 text-[#100C2C]" />
+          {unreadCount > 0 && (
+            <span className="absolute right-1 top-1 h-2 w-2 rounded-full bg-red-500" />
+          )}
+        </Button>
+      )}
+
+      {mode === 'admin' && isAdminOpen && (
+        <>
+          <div className="fixed inset-0 z-40" onClick={() => setIsAdminOpen(false)} />
+          <Card className="absolute right-0 top-12 z-50 h-[417px] w-[82vw] gap-2 overflow-hidden rounded-[8px] border border-[#DDE3FF] bg-[#FFFFFF] p-4 shadow-lg sm:w-[455px]">
+            <div className="w-full p-3">
+              <h1 className="mb-4 text-2xl font-bold">Notify All Users </h1>
+            </div>
+            <div className="max-h-[400px] overflow-y-auto">
+              <Form {...form}>
+                <form
+                  onSubmit={form.handleSubmit(onSubmit)}
+                  className="grid justify-center space-y-4"
+                >
+                  <FormInput
+                    name="notificationTitle"
+                    placeholder="Enter the title"
+                    className="w-[100%]"
+                    isAsterisk
+                  />
+
+                  <FormTextArea
+                    name="notificationMessage"
+                    placeholder="Type Something..."
+                    className="w-[100%] lg:h-[120px]"
+                    isAsterisk
+                  />
+
+                  <FormInput
+                    name="notificationUrl"
+                    placeholder="Enter the url"
+                    className="w-[100%]"
+                  />
+
+                  <div className="flex gap-5">
+                    <Button
+                      type="button"
+                      className="w-40 rounded-md bg-white px-5 py-3 text-base text-red-500" onClick={() => setIsAdminOpen(false)}
+                    >
+                      Cancel
+                    </Button>
+                    <Button
+                      type="submit"
+                      className="w-40 rounded-md bg-[#635BFF] px-5 py-3 text-base text-white"
+                    >
+                      Send
+                    </Button>
+                  </div>
+                </form>
+              </Form>
+            </div>
+          </Card>
+        </>
+      )}
+
+      {mode === 'user' && isOpen && (
         <>
           <div className="fixed inset-0 z-40" onClick={() => setIsOpen(false)} />
           <Card
@@ -64,31 +215,32 @@ const NotificationButton = ({ className }: Props) => {
             ref={notificationModalRef}
           >
             <div className="w-full p-3">
-              <h3 className="text-sm font-normal text-[#100C2C]">Notification</h3>
+              <h3 className="text-sm font-normal text-[#100C2C]">Notifications</h3>
             </div>
             <div className="max-h-[400px] overflow-y-auto">
               {notifications.length > 0 ? (
                 notifications.map((notification) => (
                   <div
                     key={notification.id}
-                    className={`flex min-h-[82px] items-start gap-3 p-4 hover:bg-gray-50 ${
+                    className={`flex h-[82px] items-start gap-3 p-4 hover:bg-gray-50 ${
                       !notification.isRead ? 'bg-gray-50' : ''
                     }`}
                     onClick={() => handleNotificationClick(notification.id)}
                   >
-                    <div className="h-5 w-5 flex-shrink-0 sm:h-8 sm:w-8">
+                    <div className="h-8 w-8 flex-shrink-0">
                       <Image
                         src="/logo.svg"
-                        alt="GDG Logo"
+                        alt="Logo"
                         height={32}
                         width={32}
                         className="h-full w-full rounded-full object-cover"
                       />
                     </div>
-                    <div className="min-w-0 flex-1">
-                      <p
-                        className={`sm:text:sm break-words text-xs ${!notification.isRead ? 'font-medium' : ''}`}
-                      >
+                    <div className="flex-1">
+                      <h1 className={`text-sm ${!notification.isRead ? 'font-medium' : ''}`}>
+                        {notification.title}
+                      </h1>
+                      <p>
                         {notification.message}
                       </p>
                     </div>

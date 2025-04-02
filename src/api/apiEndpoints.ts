@@ -32,7 +32,13 @@ export const apiEndPoints = {
     uploadResume: '/upload/resume',
   },
 
-  oauth: {},
+  oauth: {
+    googleAuth: '/auth/google',
+    googleCallback: '/auth/google/callback',
+    loginSuccess: '/auth/login',
+    logout: '/auth/logout',
+    googleLogoutRedirect: '/auth/google-logout-redirect',
+  },
 
   social: {
     createSocialLink: (userId: string) => `/social/${userId}`,
@@ -73,6 +79,10 @@ export const apiEndPoints = {
     deleteUserAptitudeDetails: (userId: string) => `/users/delete-details/${userId}`,
   },
 
+  userAptitude: {
+    getAptitudes :'/users/aptitudes'
+  },
+
   contest: {
     createContest: '/contest/create-contest',
     getAllContests: '/contest',
@@ -103,4 +113,12 @@ export const apiEndPoints = {
     updateTestCase: (id: string) => `/contest/update-testcase/${id}`,
     deleteTestCase: (id: string) => `/contest/delete-testcase/${id}`,
   },
+
+  notification: {
+    subscribe:`/notification/subscribe`,
+    getNotifications: (userId: string) => `/notification/get/${userId}`,
+    sendNotifications: '/notification/send-notification',
+    getSubscription: '/notification/all'
+   //markAsRead: (notificationId: string) =>`/notification/mark-read/${notificationId}`,
+  }
 };
