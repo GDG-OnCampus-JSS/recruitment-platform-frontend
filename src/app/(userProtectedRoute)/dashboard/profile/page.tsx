@@ -38,9 +38,9 @@ export default function ProfilePage() {
     );
   }
   return (
-    <div className="min-h-screen space-y-6 p-2 pt-12 lg:min-h-[calc(100vh-212px)]">
+    <div className="min-h-screen space-y-6 p-2 pt-12">
       <div className="w-full">
-        <div className="mx-auto flex max-w-[1120px] items-center justify-between px-6 pt-4">
+        <div className="mx-auto flex w-full items-center justify-between px-6 pt-4 xl:mt-9 xl:h-9 xl:max-w-6xl xl:px-8 xl:py-0">
           <Link href="/dashboard">
             <Button
               variant="outline"
@@ -53,13 +53,13 @@ export default function ProfilePage() {
         </div>
       </div>
 
-      <div className="mx-auto max-w-[1120px] px-4 pt-4 sm:px-6">
-        <div className="grid w-full grid-cols-1 gap-5 sm:grid-cols-1 lg:grid-cols-[300px_1fr]">
-          <Card className="w-full bg-blue p-2 shadow-sm sm:w-full lg:min-w-[300px]">
-            <CardContent className="relative p-4">
+      <div className="mx-auto max-w-[1120px] px-4 pt-4 sm:px-6 xl:pt-0">
+        <div className="grid w-full grid-cols-1 gap-5 sm:grid-cols-1 lg:grid-cols-[320px_1fr] xl:mt-10">
+          <Card className="w-full bg-blue p-2 shadow-sm sm:w-full lg:min-w-[300px] xl:h-[446px]">
+            <CardContent className="relative p-4 xl:mt-8 xl:pt-0">
               <Button
                 variant="ghost"
-                className="absolute right-4 top-4 rounded-lg border border-[#432AD880] p-2"
+                className="absolute right-4 top-4 rounded-lg border border-[#432AD880] p-2 xl:top-0"
                 onClick={handleOpenEditProfile}
               >
                 <UserPen size={20} />
@@ -78,8 +78,11 @@ export default function ProfilePage() {
                 </div>
                 <div>
                   <div className="justify-betweem flex items-center gap-2">
-                    <h2 className="text-xl font-medium">{user.name}</h2>
-                    <span className="ml-2 rounded-full text-lg text-[#635BFF]">•</span>
+                    <h2 className="text-xl font-medium xl:mr-4">{user.name}</h2>
+                    <div className="relative flex items-center justify-center xl:mr-2">
+                      <div className="absolute h-4 w-4 rounded-full bg-[#635BFF] opacity-10"></div>
+                      <div className="relative h-[6px] w-[6px] rounded-full bg-[#635BFF]"></div>
+                    </div>
                     <span className="text-max text-nowrap">
                       {user.year == '1' ? '1st Year' : '2nd Year'}
                     </span>
@@ -89,7 +92,7 @@ export default function ProfilePage() {
 
                 <div className="w-full pt-2">
                   <div className="flex justify-center">
-                    <div className="w-[70%] border-b border-[#0000001A]"></div>
+                    <div className="w-[280px] border-b border-[#0000001A]"></div>
                   </div>
                   <div className="flex items-center justify-between py-2">
                     <span className="mb-1 text-sm font-medium">{profileCompletion}%</span>
@@ -102,7 +105,7 @@ export default function ProfilePage() {
                       />
                     </div>
                   </div>
-                  <p className="mb-3 p-2 text-[16px] font-normal leading-[19.41px] text-[#838383]">
+                  <p className="mb-3 p-2 text-[16px] font-normal leading-[19.41px] text-[#838383] lg:p-0">
                     {isProfileComplete
                       ? 'Your profile is complete!'
                       : 'Complete your profile to let recruiters know more about you!'}
@@ -110,7 +113,7 @@ export default function ProfilePage() {
                   {!isProfileComplete && (
                     <Button
                       variant="outline"
-                      className="inline-flex items-center justify-center gap-2 whitespace-nowrap border-[#635BFF] px-4 py-[14px] text-sm text-[#635BFF] transition-colors hover:bg-[#635BFF] hover:text-white"
+                      className="inline-flex items-center justify-center gap-2 whitespace-nowrap border-[#635BFF] px-4 py-[14px] text-sm text-[#635BFF] transition-colors hover:bg-[#635BFF] hover:text-white xl:mt-6"
                       onClick={handleOpenEditProfile}
                     >
                       Complete profile

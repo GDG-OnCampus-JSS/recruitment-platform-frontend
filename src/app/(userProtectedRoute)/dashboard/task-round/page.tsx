@@ -49,7 +49,7 @@ function Task() {
   return (
     <div className="min-h-screen space-y-6 pt-12 sm:w-auto lg:p-[90px]">
       <div className="min-w-[320px]">
-        <div className="mx-auto flex w-full items-center justify-between px-6 py-4 xl:py-0">
+        <div className="mx-auto flex w-full items-center justify-between px-6 py-4 xl:h-9 xl:max-w-6xl xl:px-8 xl:py-0">
           <Link href="/dashboard">
             <Button
               variant="outline"
@@ -61,7 +61,7 @@ function Task() {
           <h1 className="text-xl font-medium">Tasks</h1>
         </div>
       </div>
-      <div className="mx-auto space-y-8 px-6 py-4">
+      <div className="mx-auto space-y-8 px-6 py-4 xl:max-w-6xl xl:px-8">
         <h2 className="pb-2 text-[28px] font-bold leading-[33.96px] text-[#635BFF] xl:h-[34px]">
           Do any one of the following
         </h2>
