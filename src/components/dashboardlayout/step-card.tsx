@@ -33,7 +33,7 @@ const StepCard = ({
   }, []);
 
   // Only apply the event timing logic if event dates are provided
-  const isEventDisabled = hasEvent ? (currentTime < eventStart || currentTime > eventEnd) : false;
+  const isEventDisabled = hasEvent ? currentTime < eventStart || currentTime > eventEnd : false;
 
   return (
     <Card className={cn('rounded-lg border border-main', gradientBg)}>

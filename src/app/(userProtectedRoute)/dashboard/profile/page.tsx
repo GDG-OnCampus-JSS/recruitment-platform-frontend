@@ -2,7 +2,9 @@
 import { Mail, Phone, GraduationCap, UserPen, ArrowLeft } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { useState } from 'react';
+import { Spinner } from '@/components/common/spinner';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import FileViewer from '@/components/ui/resumeViewer';
@@ -11,9 +13,7 @@ import { reqFields, mockUser, socialIconMapping } from '@/lib/options';
 import { User } from '@/lib/types';
 import useUserStore from '@/stores/userStore';
 import EditProfilePage from './edit-profile/page';
-import { useRouter } from 'next/navigation';
 import SocialLinksDisplay from './social-links';
-import { Spinner } from '@/components/common/spinner';
 
 export default function ProfilePage() {
   const router = useRouter();
@@ -37,7 +37,7 @@ export default function ProfilePage() {
   if (!user) {
     return (
       <div className="flex min-h-screen items-center justify-center">
-        <Spinner className='text-indigo-500'/>
+        <Spinner className="text-indigo-500" />
       </div>
     );
   }

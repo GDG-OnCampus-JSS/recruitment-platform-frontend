@@ -9,6 +9,7 @@ import { patchApi, postApi, uploadApi } from '@/api/api';
 import { apiEndPoints } from '@/api/apiEndpoints';
 import FormInput from '@/components/common/form-input';
 import OptionsSelect from '@/components/common/options-select';
+import { Spinner } from '@/components/common/spinner';
 import PasswordModal from '@/components/dashboardlayout/password-modal';
 import { Button } from '@/components/ui/button';
 import {
@@ -27,7 +28,6 @@ import { SOCIAL_PLATFORMS } from '@/lib/options';
 import { EditProfileProps } from '@/lib/types';
 import useUserStore from '@/stores/userStore';
 import { validatePhoneNumber } from '@/utils/phoneValidation';
-import { Spinner } from '@/components/common/spinner';
 
 const profileSchema = z.object({
   name: z.string().min(1, 'Full name is required'),

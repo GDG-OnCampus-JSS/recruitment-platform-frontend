@@ -1,6 +1,6 @@
+import Link from 'next/link';
 import React from 'react';
 import { Card, CardContent } from '@/components/ui/card';
-import Link from 'next/link';
 import { socialIconMapping } from '@/lib/options';
 
 interface SocialLink {
@@ -18,18 +18,18 @@ const SocialLinksDisplay: React.FC<SocialLinksDisplayProps> = ({ socialLinks = [
   const platforms = Object.keys(socialIconMapping);
 
   const linkMap: Record<string, SocialLink> = {};
-  socialLinks.forEach(link => {
+  socialLinks.forEach((link) => {
     linkMap[link.name] = link;
   });
 
   return (
     <Card className={className}>
-      <CardContent className="p-6 md:p-8 text-sm">
+      <CardContent className="p-6 text-sm md:p-8">
         <h3 className="mb-4 text-xl font-medium">Submitted links</h3>
         <div className="grid w-full grid-cols-2 justify-between gap-4 max-md:grid-cols-1">
           {platforms.map((platform) => {
             const socialLink = linkMap[platform];
-            
+
             return (
               <div key={platform} className="flex w-full items-center justify-between gap-3">
                 {socialLink ? (
