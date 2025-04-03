@@ -1,4 +1,4 @@
-'use client'
+'use client';
 import { useEffect } from 'react';
 import { Banner, CTA, Logo } from '@/components/home/Banner';
 import Button from '@/components/home/Button';
@@ -11,7 +11,6 @@ import { cardData, journeySteps, stepColors } from '@/constants/homePageConstant
 const currentStep = 3;
 
 export default function Home() {
-  
   useEffect(() => {
     if ('serviceWorker' in navigator) {
       navigator.serviceWorker

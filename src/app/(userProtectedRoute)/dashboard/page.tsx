@@ -67,12 +67,12 @@ export default function DashboardPage() {
 
   useEffect(() => {
     const hasSubscribed = localStorage.getItem('subscribed');
-    
+
     if (!hasSubscribed) {
       setShowPopup(true);
     }
   }, []);
-  
+
   const handlePopupClose = () => {
     localStorage.setItem('subscribed', 'true');
     setShowPopup(false);

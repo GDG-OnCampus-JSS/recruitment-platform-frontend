@@ -22,7 +22,7 @@ import useUserStore from '@/stores/userStore';
 
 type Props = {
   mode: 'admin' | 'user';
-  className?: string; 
+  className?: string;
 };
 
 const notificationSchema = z.object({
@@ -52,31 +52,31 @@ const NotificationButton = ({ mode, className }: Props) => {
       title: data.notificationTitle,
       message: data.notificationMessage,
       url: data.notificationUrl,
-      userId: displayUser.id, 
-    });
-    
-    const { status, data: responseData } = await postApi(apiEndPoints.notification.sendNotifications, {
       userId: displayUser.id,
-      title: data.notificationTitle,
-      message: data.notificationMessage,
-      url: data.notificationUrl,
-
     });
-  
+
+    const { status, data: responseData } = await postApi(
+      apiEndPoints.notification.sendNotifications,
+      {
+        userId: displayUser.id,
+        title: data.notificationTitle,
+        message: data.notificationMessage,
+        url: data.notificationUrl,
+      },
+    );
+
     if (status === statusCode.Ok200) {
       alert('Notification sent successfully!');
-      setIsAdminOpen(false)
+      setIsAdminOpen(false);
     } else {
       console.error('Failed to send notification');
     }
   };
-  
+
   const fetchNotifications = async (userId: string) => {
     if (mode === 'user' && userId) {
-      const { status, data } = await getApi(
-        apiEndPoints.notification.getNotifications(userId),
-      );
-      
+      const { status, data } = await getApi(apiEndPoints.notification.getNotifications(userId));
+
       if (status === statusCode.Ok200) {
         setNotifications(data);
       } else {
@@ -86,30 +86,24 @@ const NotificationButton = ({ mode, className }: Props) => {
   };
 
   const fetchSubscription = async () => {
-    setIsAdminOpen(!isAdminOpen) 
+    setIsAdminOpen(!isAdminOpen);
     const { status, data } = await getApi(apiEndPoints.notification.getSubscription);
-    console.log('subscriptions: ', data)
+    console.log('subscriptions: ', data);
   };
-   useEffect(() => {
+  useEffect(() => {
     if (mode === 'user' && displayUser.id) {
       fetchNotifications(displayUser.id as string);
     }
   }, [displayUser.id, mode]);
-  
 
   // const unreadCount = notifications.filter((n) => !n.isRead).length;
-  
 
-const unreadCount = useMemo(
-  () => notifications.filter((n) => !n.isRead).length,
-  [notifications],
-);
+  const unreadCount = useMemo(() => notifications.filter((n) => !n.isRead).length, [notifications]);
 
   const handleNotificationClick = async (notificationId: string) => {
     // const { status } = await putApi(apiEndPoints.notification.markAsRead(notificationId)
     //   ,
     // );
-    
     // if (status === statusCode.Ok200) {
     //   setNotifications((prev) =>
     //     prev.map((notification) =>
@@ -121,15 +115,12 @@ const unreadCount = useMemo(
     //   console.error('Failed to mark notification as read');
     // }
   };
-  
 
   const notificationModalRef = useRef<HTMLDivElement | null>(null);
   useDismissOnClick(notificationModalRef, () => setIsOpen(false));
 
   return (
-
     <div className={cn('relative', className)}>
-
       {mode === 'admin' ? (
         <Button
           variant="ghost"
@@ -189,7 +180,8 @@ const unreadCount = useMemo(
                   <div className="flex gap-5">
                     <Button
                       type="button"
-                      className="w-40 rounded-md bg-white px-5 py-3 text-base text-red-500" onClick={() => setIsAdminOpen(false)}
+                      className="w-40 rounded-md bg-white px-5 py-3 text-base text-red-500"
+                      onClick={() => setIsAdminOpen(false)}
                     >
                       Cancel
                     </Button>
@@ -240,9 +232,7 @@ const unreadCount = useMemo(
                       <h1 className={`text-sm ${!notification.isRead ? 'font-medium' : ''}`}>
                         {notification.title}
                       </h1>
-                      <p>
-                        {notification.message}
-                      </p>
+                      <p>{notification.message}</p>
                     </div>
                   </div>
                 ))
