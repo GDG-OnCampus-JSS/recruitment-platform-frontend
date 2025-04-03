@@ -253,4 +253,18 @@ export class ApiRoutes {
   static async deleteTestCase(id: string): Promise<ApiResponse> {
     return await deleteApi(apiEndPoints.testCases.deleteTestCase(id));
   }
+
+  //notifications
+  static async subscribeUser(data: any): Promise<ApiResponse> {
+    return await postApi(apiEndPoints.notification.subscribe, data);
+  }
+
+  static async sendNotifications(data: any): Promise<ApiResponse> {
+    return await postApi(apiEndPoints.notification.sendNotifications, data);
+  }
+
+  static async getNotification(userId: string): Promise<ApiResponse> {
+    return await getApi(apiEndPoints.notification.getNotifications(userId));
+  }
 }
+

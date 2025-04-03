@@ -2,9 +2,11 @@
 import { CircleAlert } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useEffect, useState } from 'react';
 import brain from '@/components/dashboardlayout/brain';
 import clip from '@/components/dashboardlayout/clip-board';
 import meet from '@/components/dashboardlayout/meet';
+import PermissionPopup from '@/components/dashboardlayout/permission-popup';
 import StepCard from '@/components/dashboardlayout/step-card';
 import { blobUrl } from '@/lib/helpers';
 import { reqFields, mockUser } from '@/lib/options';
@@ -61,8 +63,24 @@ export default function DashboardPage() {
       mockUser[field as keyof typeof mockUser]?.toString().trim() !== '',
   );
 
+  const [showPopup, setShowPopup] = useState(false);
+
+  useEffect(() => {
+    const hasSubscribed = localStorage.getItem('subscribed');
+    
+    if (!hasSubscribed) {
+      setShowPopup(true);
+    }
+  }, []);
+  
+  const handlePopupClose = () => {
+    localStorage.setItem('subscribed', 'true');
+    setShowPopup(false);
+  };
+
   return (
     <div className="mt-20 min-h-screen">
+      {showPopup && <PermissionPopup onClose={handlePopupClose} />}
       <div className="mx-auto max-w-6xl px-4 sm:px-8">
         <div className="mb-14 flex flex-col-reverse gap-4 sm:flex-row sm:items-center sm:justify-between sm:gap-0">
           <div className="flex items-center gap-4 sm:gap-6">

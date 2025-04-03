@@ -1,3 +1,5 @@
+'use client'
+import { useEffect } from 'react';
 import { Banner, CTA, Logo } from '@/components/home/Banner';
 import Button from '@/components/home/Button';
 import { Card } from '@/components/home/Card';
@@ -9,6 +11,19 @@ import { cardData, journeySteps, stepColors } from '@/constants/homePageConstant
 const currentStep = 3;
 
 export default function Home() {
+  
+  useEffect(() => {
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker
+        .register('/sw.js')
+        .then((registration) => {
+          console.log('Service Worker Registered:', registration);
+        })
+        .catch((err) => {
+          console.error('Service Worker Registration Failed:', err);
+        });
+    }
+  }, []);
   return (
     <>
       <section className="relative grid min-h-screen place-content-center overflow-x-hidden bg-home-1 bg-cover bg-no-repeat">

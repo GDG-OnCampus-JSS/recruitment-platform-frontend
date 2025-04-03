@@ -18,7 +18,7 @@ import Dropdown from '../common/selectComp';
 import MobileMenu from './mobile-menu';
 import NotificationButton from './notification';
 
-export const Header = () => {
+export const Header = ({ isAdmin }: { isAdmin: boolean }) => {
   const router = useRouter();
   const pathname = usePathname();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -91,7 +91,7 @@ export const Header = () => {
             </Button>
           </div>
 
-          <NotificationButton className="mx-4" />
+          <NotificationButton mode={isAdmin ? 'admin' : 'user'} className="mx-4"/>
 
           <div className="hidden sm:block">
             {isAdminRoute ? (
