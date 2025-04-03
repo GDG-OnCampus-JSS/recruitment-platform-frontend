@@ -80,7 +80,7 @@ export const apiEndPoints = {
   },
 
   userAptitude: {
-    getAptitudes :'/users/aptitudes'
+    getAptitudes: '/users/aptitudes',
   },
 
   contest: {
@@ -115,10 +115,10 @@ export const apiEndPoints = {
   },
 
   notification: {
-    subscribe:`/notification/subscribe`,
+    subscribe: `/notification/subscribe`,
     getNotifications: (userId: string) => `/notification/get/${userId}`,
     sendNotifications: '/notification/send-notification',
-    getSubscription: '/notification/all'
-   //markAsRead: (notificationId: string) =>`/notification/mark-read/${notificationId}`,
-  }
+    getSubscription: '/notification/all',
+    //markAsRead: (notificationId: string) =>`/notification/mark-read/${notificationId}`,
+  },
 };

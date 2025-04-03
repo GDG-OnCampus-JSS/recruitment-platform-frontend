@@ -1,17 +1,16 @@
-'use client'
+'use client';
+import { useEffect } from 'react';
 import { Banner, CTA, Logo } from '@/components/home/Banner';
 import Button from '@/components/home/Button';
 import { Card } from '@/components/home/Card';
 import { JourneyStep } from '@/components/home/JourneySteps';
 import VerticalStepper from '@/components/home/VerticalStepper';
 import { cardData, journeySteps, stepColors } from '@/constants/homePageConstants';
-import { useEffect } from 'react';
 
 // Steps of the Vertical Stepper thing
 const currentStep = 3;
 
 export default function Home() {
-  
   useEffect(() => {
     if ('serviceWorker' in navigator) {
       navigator.serviceWorker

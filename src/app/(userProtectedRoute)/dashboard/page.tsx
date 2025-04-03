@@ -1,16 +1,16 @@
 'use client';
-import { useEffect, useState } from 'react';
 import { CircleAlert } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useEffect, useState } from 'react';
 import brain from '@/components/dashboardlayout/brain';
 import clip from '@/components/dashboardlayout/clip-board';
 import meet from '@/components/dashboardlayout/meet';
+import PermissionPopup from '@/components/dashboardlayout/permission-popup';
 import StepCard from '@/components/dashboardlayout/step-card';
 import { blobUrl } from '@/lib/helpers';
 import { reqFields, mockUser } from '@/lib/options';
 import useUserStore from '@/stores/userStore';
-import PermissionPopup from '@/components/dashboardlayout/permission-popup';
 
 export const steps = [
   {
@@ -67,12 +67,12 @@ export default function DashboardPage() {
 
   useEffect(() => {
     const hasSubscribed = localStorage.getItem('subscribed');
-    
+
     if (!hasSubscribed) {
       setShowPopup(true);
     }
   }, []);
-  
+
   const handlePopupClose = () => {
     localStorage.setItem('subscribed', 'true');
     setShowPopup(false);

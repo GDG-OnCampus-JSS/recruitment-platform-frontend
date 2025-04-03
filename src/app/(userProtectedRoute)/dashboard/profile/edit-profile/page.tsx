@@ -2,13 +2,14 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { PencilLine, Upload, X } from 'lucide-react';
 import Image from 'next/image';
-import { useState, ChangeEvent, useRef } from 'react';
+import { useState, ChangeEvent, useRef, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import * as z from 'zod';
 import { patchApi, postApi, uploadApi } from '@/api/api';
 import { apiEndPoints } from '@/api/apiEndpoints';
 import FormInput from '@/components/common/form-input';
 import OptionsSelect from '@/components/common/options-select';
+import { Spinner } from '@/components/common/spinner';
 import PasswordModal from '@/components/dashboardlayout/password-modal';
 import { Button } from '@/components/ui/button';
 import {
@@ -152,7 +153,7 @@ const EditProfilePage = ({ isOpen, onClose }: EditProfileProps) => {
       { id: 'dribble', name: 'dribble', link: values.dribble },
       { id: 'behance', name: 'behance', link: values.behance },
       { id: 'codechef', name: 'codechef', link: values.codechef },
-      { id: 'other', name: 'other', link: values.other },
+      // { id: 'other', name: 'other', link: values.other },
     ].filter((link): link is { id: string; name: string; link: string } => !!link.link);
 
     const { status: userDataStatus, data: userData } = await patchApi(
@@ -203,7 +204,7 @@ const EditProfilePage = ({ isOpen, onClose }: EditProfileProps) => {
                     ? blobUrl(user.photo)
                     : profileImageFile
                       ? URL.createObjectURL(profileImageFile)
-                      : '/DP.jpeg'
+                      : '/avatar.svg'
                 }
                 alt="Profile"
                 width={128}
@@ -213,6 +214,7 @@ const EditProfilePage = ({ isOpen, onClose }: EditProfileProps) => {
             </div>
             <div className="absolute bottom-0 right-0 cursor-pointer">
               <input
+                title="photo upload"
                 type="file"
                 id="photo-upload"
                 className="hidden"
@@ -313,6 +315,7 @@ const EditProfilePage = ({ isOpen, onClose }: EditProfileProps) => {
                       <Upload /> Select file
                     </Button>
                     <input
+                      title="resume upload"
                       type="file"
                       id="resume-upload"
                       className="hidden"
@@ -360,18 +363,22 @@ const EditProfilePage = ({ isOpen, onClose }: EditProfileProps) => {
               <Button
                 type="submit"
                 disabled={isSubmitting}
-                className="my-2 w-full bg-[#635BFF] text-base font-medium hover:text-white"
+                className="my-2 w-full bg-[#635BFF] text-base font-medium hover:bg-indigo-600"
               >
-                {isSubmitting ? 'Saving...' : 'Save changes'}
+                {isSubmitting ? (
+                  <Spinner className="h-4 w-4 animate-spin text-white" />
+                ) : (
+                  'Save changes'
+                )}
               </Button>
               <Button
                 type="button"
-                variant="ghost"
+                variant="outline"
                 onClick={() => {
                   setOpenPasswordModal(true);
                   onClose();
                 }}
-                className="w-full pb-4 text-base font-medium text-[#DB4437]"
+                className="w-full text-sm font-medium text-[#DB4437]"
               >
                 Change Password
               </Button>

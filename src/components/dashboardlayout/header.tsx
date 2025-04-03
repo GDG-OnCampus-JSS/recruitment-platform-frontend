@@ -91,7 +91,7 @@ export const Header = ({ isAdmin }: { isAdmin: boolean }) => {
             </Button>
           </div>
 
-          <NotificationButton mode={isAdmin ? 'admin' : 'user'} className="mx-4"/>
+          <NotificationButton mode={isAdmin ? 'admin' : 'user'} className="mx-4" />
 
           <div className="hidden sm:block">
             {isAdminRoute ? (

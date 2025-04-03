@@ -111,10 +111,9 @@ export const socialIconMapping: Record<string, JSX.Element> = {
   portfolio: <Image src="/icons/link.svg" width={20} height={20} alt="Li" className="size-5" />,
   linkedin: <Image src="/icons/linkedin.svg" width={20} height={20} alt="Li" className="size-5" />,
   github: <Image src="/icons/github.svg" width={20} height={20} alt="Gi" className="size-5" />,
-  dribble: <Image src="/icons/dribble.svg" width={20} height={20} alt="Dr" className="size-5" />,
+  dribbble: <Image src="/icons/dribble.svg" width={20} height={20} alt="Dr" className="size-5" />,
   behance: <Image src="/icons/behance.svg" width={20} height={20} alt="Be" className="size-5" />,
   codechef: <Image src="/icons/codechef.svg" width={20} height={20} alt="CC" className="size-5" />,
-  other: <Globe className="size-5" />,
 };
 
 export const mockUser = {
