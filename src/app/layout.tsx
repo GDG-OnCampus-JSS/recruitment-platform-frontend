@@ -3,6 +3,7 @@ import { Geist, Geist_Mono, Playfair_Display, JetBrains_Mono } from 'next/font/g
 import localFont from 'next/font/local';
 import './globals.css';
 import { Toaster } from '@/components/ui/toaster';
+import Header from '@/components/common/header-landing';
 
 const jetBrainsMono = JetBrains_Mono({
   weight: '400',
@@ -56,6 +57,7 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${productSans.variable}`}>
       <body className="font-product-sans antialiased">
+        <Header />
         <Toaster />
         {children}
       </body>
