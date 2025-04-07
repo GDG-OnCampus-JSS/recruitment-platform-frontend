@@ -68,12 +68,12 @@ const EventCountdown: React.FC<EventCountdownProps> = ({ eventStart, eventEnd })
   // Format the remaining time.
   const formattedParts = [];
   if (timeLeft.days > 0) {
-    formattedParts.push(`${timeLeft.days} day${timeLeft.days !== 1 ? 's' : ''}`);
+    formattedParts.push(`${timeLeft.days}d`);
   }
   if (timeLeft.hours > 0 || formattedParts.length > 0) {
-    formattedParts.push(`${timeLeft.hours} hr${timeLeft.hours !== 1 ? 's' : ''}`);
+    formattedParts.push(`${timeLeft.hours}h`);
   }
-  formattedParts.push(`${timeLeft.minutes} min${timeLeft.minutes !== 1 ? 's' : ''}`);
+  formattedParts.push(`${timeLeft.minutes}m`);
 
   return (
     <div className="w-full text-center text-sm sm:text-start">

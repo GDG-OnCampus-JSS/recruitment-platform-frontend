@@ -267,4 +267,3 @@ export class ApiRoutes {
     return await getApi(apiEndPoints.notification.getNotifications(userId));
   }
 }
-

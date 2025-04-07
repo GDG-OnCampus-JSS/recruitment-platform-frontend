@@ -28,7 +28,7 @@ interface Question {
 }
 
 const AptitudeQuestionsPage = () => {
-  const router = useRouter();
+  // const router = useRouter();
   const searchParams = useSearchParams();
   const aptitudeId = searchParams.get('aptitudeId');
   const questionId = searchParams.get('questionId');
@@ -71,9 +71,9 @@ const AptitudeQuestionsPage = () => {
     }
   }, [questions, questionId, responses]);
 
-  if (!currentQuestion) {
-    router.push('/error');
-  }
+  // if (!currentQuestion) {
+  //   router.push('/error');
+  // }
 
   // if (!currentQuestion) {
   //   const currQuestion = questionsData.find((q) => q.id === '1');
@@ -110,7 +110,7 @@ const AptitudeQuestionsPage = () => {
     try {
       setIsModalOpen(false);
       await axios.post('/api/submit-responses', { aptitudeId, responses });
-      router.push('/quiz/aptitude/submitted');
+      // router.push('/quiz/aptitude/submitted');
       console.log('Responses submitted successfully!');
     } catch (error) {
       console.log('An error occurred while submitting responses', error);
@@ -144,19 +144,19 @@ const AptitudeQuestionsPage = () => {
     });
   };
 
-  const handlePrevious = () => {
-    const currentIndex = questions.findIndex((q) => q.id === currentQuestion?.id);
-    if (currentIndex - 1 >= 0) {
-      router.push(`/${aptitudeId}?questionId=${questions[currentIndex - 1].id}`);
-    }
-  };
+  // const handlePrevious = () => {
+  //   const currentIndex = questions.findIndex((q) => q.id === currentQuestion?.id);
+  //   if (currentIndex - 1 >= 0) {
+  //     router.push(`/${aptitudeId}?questionId=${questions[currentIndex - 1].id}`);
+  //   }
+  // };
 
-  const handleNext = () => {
-    const currentIndex = questions.findIndex((q) => q.id === currentQuestion?.id);
-    if (currentIndex + 1 < questions.length) {
-      router.push(`/${aptitudeId}?questionId=${questions[currentIndex + 1].id}`);
-    }
-  };
+  // const handleNext = () => {
+  //   const currentIndex = questions.findIndex((q) => q.id === currentQuestion?.id);
+  //   if (currentIndex + 1 < questions.length) {
+  //     router.push(`/${aptitudeId}?questionId=${questions[currentIndex + 1].id}`);
+  //   }
+  // };
 
   const answeredCount = questions.filter((question) => responses[question.id]).length;
   const unansweredCount = questions.filter((question) => !responses[question.id]).length;

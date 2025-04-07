@@ -1,16 +1,16 @@
 'use client';
-import { useEffect, useState } from 'react';
 import { CircleAlert } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useEffect, useState } from 'react';
 import brain from '@/components/dashboardlayout/brain';
 import clip from '@/components/dashboardlayout/clip-board';
 import meet from '@/components/dashboardlayout/meet';
+import PermissionPopup from '@/components/dashboardlayout/permission-popup';
 import StepCard from '@/components/dashboardlayout/step-card';
 import { blobUrl } from '@/lib/helpers';
 import { reqFields, mockUser } from '@/lib/options';
 import useUserStore from '@/stores/userStore';
-import PermissionPopup from '@/components/dashboardlayout/permission-popup';
 
 export const steps = [
   {
@@ -67,12 +67,12 @@ export default function DashboardPage() {
 
   useEffect(() => {
     const hasSubscribed = localStorage.getItem('subscribed');
-    
+
     if (!hasSubscribed) {
       setShowPopup(true);
     }
   }, []);
-  
+
   const handlePopupClose = () => {
     localStorage.setItem('subscribed', 'true');
     setShowPopup(false);
@@ -92,9 +92,9 @@ export default function DashboardPage() {
               className="size-16 rounded-full object-contain sm:size-20"
             />
             <div className="">
-              <h1 className="mb-1 text-lg font-medium sm:text-3xl">
-                Hey {user?.name.split(' ')[0]}!
-              </h1>
+              <h2 className="mb-2 text-lg font-medium tracking-[0.28px] sm:text-[28px]">
+                Hey! {user?.name.split(' ')[0]}
+              </h2>
               {!isProfileComplete && (
                 <div className="flex items-start gap-1 sm:items-center">
                   <CircleAlert size={20} className="hidden text-red-500 sm:block" />
