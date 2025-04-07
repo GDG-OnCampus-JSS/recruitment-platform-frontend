@@ -1,12 +1,12 @@
+import { link } from 'fs';
+import Image from 'next/image';
+import Link from 'next/link';
+import React from 'react';
 import FormInput from '@/components/common/form-input';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Form } from '@/components/ui/form';
 import { mlTasks } from '@/constants/task-round';
-import { link } from 'fs';
-import Image from 'next/image';
-import Link from 'next/link';
-import React from 'react';
 
 interface MLTaskProps {
   year: 1 | 2;
@@ -21,7 +21,7 @@ export const MachineLearningTask = ({ year, onSubmit, form }: MLTaskProps) => {
 
   return (
     <div className="mt-10 space-y-8">
-      <h2 className="text-theme pb-2 text-[28px] font-bold">
+      <h2 className="pb-2 text-[28px] font-bold text-theme">
         Machine Learning Tasks - Year {year}
       </h2>
 
@@ -71,7 +71,7 @@ export const MachineLearningTask = ({ year, onSubmit, form }: MLTaskProps) => {
                     alt={task.title}
                     width={550}
                     height={351}
-                    className="w-full rounded-lg shadow-md mt-4"
+                    className="mt-4 w-full rounded-lg shadow-md"
                   />
                 )}
               </div>
@@ -144,7 +144,7 @@ export const MachineLearningTask = ({ year, onSubmit, form }: MLTaskProps) => {
           </div>
           <Button
             type="submit"
-            className="hover:bg-theme-interactive rounded-md bg-[#635BFF] px-10 py-5 text-base font-medium"
+            className="rounded-md bg-[#635BFF] px-10 py-5 text-base font-medium hover:bg-theme-interactive"
           >
             Submit
           </Button>

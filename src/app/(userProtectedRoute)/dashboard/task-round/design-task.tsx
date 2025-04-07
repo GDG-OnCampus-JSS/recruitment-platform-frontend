@@ -1,10 +1,10 @@
+import Image from 'next/image';
+import Link from 'next/link';
 import FormInput from '@/components/common/form-input';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Form } from '@/components/ui/form';
 import { designTasks } from '@/constants/task-round';
-import Image from 'next/image';
-import Link from 'next/link';
 
 interface DesignTaskProps {
   year: 1 | 2;
@@ -20,7 +20,7 @@ export const DesignTask = ({ year, onSubmit, form }: DesignTaskProps) => {
 
   return (
     <div className="mt-10">
-      <h2 className="text-theme pb-2 text-[28px] font-bold">Design Tasks - Year {year}</h2>
+      <h2 className="pb-2 text-[28px] font-bold text-theme">Design Tasks - Year {year}</h2>
 
       {/* GFX Tasks Section */}
       <div className="mt-8 space-y-20">
@@ -80,7 +80,7 @@ export const DesignTask = ({ year, onSubmit, form }: DesignTaskProps) => {
           </div>
           <Button
             type="submit"
-            className="hover:bg-theme-interactive rounded-md bg-[#635BFF] px-10 py-5 text-base font-medium"
+            className="rounded-md bg-[#635BFF] px-10 py-5 text-base font-medium hover:bg-theme-interactive"
           >
             Submit
           </Button>
