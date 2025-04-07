@@ -1,7 +1,6 @@
 'use client';
 
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Plus } from 'lucide-react';
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
@@ -17,6 +16,7 @@ import { Form } from '@/components/ui/form';
 import { academicYearOptions } from '@/constants/registration';
 import { handleToastApiResponse } from '@/lib/helpers';
 import useAdminStore from '@/stores/adminStore';
+// import {Plus} from 'lucide-react'
 const aptitudeSchema = z.object({
   aptitudeTitle: z.string().nonempty('Please enter a valid title'),
   aptitudeYear: z.string().nonempty('Please select an academic year'),
@@ -68,16 +68,12 @@ const Page = () => {
 
   return (
     <div className="p-6 py-20">
-      <div className="flex flex-col justify-between lg:flex-row">
-        <h1 className="mb-4 text-2xl font-bold">Create Aptitude</h1>
-        <Button
-          type="submit"
-          className="mb-2 rounded-md bg-[#0F9D58] px-5 py-3 text-base text-white"
-        >
-          Add Question <Plus />
-        </Button>
-      </div>
-
+    <div className="flex flex-col lg:flex-row justify-between">
+      <h1 className="mb-4 text-2xl font-bold">Create Aptitude</h1>
+      {/* <Button type="button" className="rounded-md bg-[#0F9D58] px-5 py-3 text-base text-white mb-2">
+        Add Question <Plus />
+      </Button> */}
+    </div>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
           <div className="flex flex-col gap-5 lg:flex-row">
@@ -153,13 +149,13 @@ const Page = () => {
             </div>
           </div>
 
-          {/* Submit Button */}
-          <Button type="submit" className="rounded-md bg-[#635BFF] px-5 py-3 text-base text-white">
-            Submit Quiz
-          </Button>
-        </form>
-      </Form>
-    </div>
+        {/* Submit Button */}
+        <Button type="submit" className="rounded-md bg-[#635BFF] px-5 py-3 text-base text-white" disabled={!form.formState.isValid}>
+          Submit Quiz
+        </Button>
+      </form>
+    </Form>
+  </div>
   );
 };
 
