@@ -167,19 +167,19 @@ export default function ProfilePage() {
   const taskSubmissionLink = userData?.socialLinks?.find((link) => link.id === 'project');
 
   return (
-    <div className="min-h-screen space-y-6 p-2 pt-12 lg:min-h-[calc(100vh-212px)]">
+    <div className="min-h-screen space-y-6 p-2 pt-12">
       <div className="w-full">
-        <div className="mx-auto flex max-w-[1120px] items-center justify-between px-6 pt-4">
+        <div className="mx-auto flex max-w-[1120px] items-center justify-between px-6 pt-4 xl:mt-9 xl:h-9 xl:max-w-6xl xl:px-8 xl:py-0">
           <h1 className="text-[28px] font-normal text-[#4F4F4F]">Shortlisted User</h1>
           <h1 className="text-xl font-medium"> Total: {shortlistedUsers.length}</h1>
         </div>
       </div>
 
-      <div className="mx-auto max-w-[1120px] px-4 pt-4 sm:px-6">
-        <div className="grid w-full grid-cols-1 gap-5 sm:grid-cols-1 lg:grid-cols-[300px_1fr]">
-          <Card className="w-full bg-blue-gradient p-2 sm:w-full lg:w-[300px]">
-            <CardContent className="relative p-4">
-              <button className="absolute right-4 top-4 rounded-lg border p-1">
+      <div className="mx-auto max-w-[1120px] px-4 pt-4 sm:px-6 xl:pt-0">
+        <div className="grid w-full grid-cols-1 gap-5 sm:grid-cols-1 lg:grid-cols-[360px_1fr] xl:mt-10">
+          <Card className="w-full bg-blue-gradient p-2 sm:w-full lg:w-[300px] xl:h-[446px] xl:w-[360px]">
+            <CardContent className="relative p-4 xl:mt-8 xl:pt-0">
+              <button className="absolute right-4 top-4 rounded-lg border p-1 xl:top-0">
                 <UserPen size={20} />
               </button>
 
@@ -211,7 +211,7 @@ export default function ProfilePage() {
 
                 <div className="w-full pt-2">
                   <div className="flex justify-center">
-                    <div className="w-[70%] border-b border-[#0000001A]"></div>
+                    <div className="w-[280px] border-b border-[#0000001A]"></div>
                   </div>
                   <div className="flex items-center justify-between py-2"></div>
 
@@ -283,8 +283,8 @@ export default function ProfilePage() {
               </Card>
             </div>
 
-            <Card className="w-full shadow-sm sm:h-[197px]">
-              <CardContent className="p-6 md:p-8">
+            <Card className="w-full shadow-sm md:h-[197px]">
+              <CardContent className="p-6 md:pb-10">
                 <h3 className="mb-4 text-xl font-medium">Submitted links</h3>
                 <div className="grid grid-cols-1 gap-4 sm:grid-cols-1 md:grid-cols-2">
                   <div className="space-y-3">
@@ -303,7 +303,7 @@ export default function ProfilePage() {
           </div>
         </div>
 
-        <div className="justify-between pl-16 pt-5 sm:flex sm:pl-0">
+        <div className="justify-between pl-16 pt-5 sm:flex sm:pl-0 xl:mt-8">
           <Button
             variant="outline"
             className="m-1 ml-2 w-[195px] bg-[#F2F2F2] p-3"

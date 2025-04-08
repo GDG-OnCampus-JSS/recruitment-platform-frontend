@@ -1,87 +1,151 @@
 'use client';
-
-import axios from 'axios';
-import { Bookmark, TriangleAlert } from 'lucide-react';
-import { useRouter } from 'next/navigation';
-import { useState, useEffect } from 'react';
+import { Bookmark, Circle, TriangleAlert } from 'lucide-react';
+import React, { useEffect, useState } from 'react';
+import { getApi, getByParamsApi, postApi } from '@/api/api';
+import { apiEndPoints } from '@/api/apiEndpoints';
+import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
-import QuizList from './table';
+import { statusCode } from '@/constants/apiStatus';
+import { mockUser } from '@/lib/options';
+import { mockAptitude } from '@/lib/options';
+import { User } from '@/lib/types';
+import useUserStore from '@/stores/userStore';
 
-interface Option {
+type optionType = {
   id: string;
   optionText: string;
   isCorrect: boolean;
-}
+};
 
-interface Question {
-  id: string;
-  questionLongDesc: string;
-  options: Option[];
-}
-
-const AptitudeQuestionsPage = () => {
-  const router = useRouter();
-  // const [searchParams, setSearchParams] = useState(
-  //   () => new URLSearchParams(window.location.search),
-  // );
-  // const aptitudeId = searchParams.get('aptitudeId');
-  // const questionId = searchParams.get('questionId');
-  const [questions, setQuestions] = useState<Question[]>([]);
-  const [currentQuestion, setCurrentQuestion] = useState<Question | null>(null);
-  const [error, setError] = useState<string | null>(null);
-
-  const [selectedOption, setSelectedOption] = useState<string | null>(null);
-
-  const [responses, setResponses] = useState<{ [key: string]: string }>({});
+const AptitudeQuiz = () => {
+  const user = useUserStore((state) => state.user);
+  const displayUser = (user || mockUser) as User;
+  const [activeTab, setActiveTab] = useState(0);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const [reviewedQuestions, setReviewedQuestions] = useState<Set<string>>(new Set());
 
-  const [isMounted, setIsMounted] = useState(false);
+  const aptitudeDomain = 'ML';
+  const aptitudeYear = '1';
+  const params = { aptitudeYear, aptitudeDomain };
 
-  useEffect(() => {
-    setIsMounted(true);
-  }, []);
+  const [allAptitudes, setAllAptitudes] = useState<any[]>([]);
+  const [aptitudeQuestions, setAptitudeQuestions] = useState<any[]>([]);
+  const [error, setError] = useState<string>('');
 
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  // const [allQuestions, setAllQuestions] = useState(mockAptitude.aptitudes[0].aptitudeQuestions);
+  const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
+  const [selectedOptions, setSelectedOptions] = useState<{ [key: string]: string }>({});
 
-  // useEffect(() => {
-  //   // if (!aptitudeId) return;
-  //   const fetchQuestions = async () => {
-  //     // try {
-  //     //   const response = await axios.get(`/api/questions/question-aptitude/${aptitudeId}`);
-  //     //   setQuestions(response.data.data);
-  //     // } catch (error) {
-  //     //   setError('An error occurred while fetching the questions');
-  //     // }
-  //   };
-  //   fetchQuestions();
-  // }, [aptitudeId]);
+  const currentQuestion = aptitudeQuestions[currentQuestionIndex];
 
-  // useEffect(() => {
-  //   // if (questions.length > 0 && questionId) {
-  //   //   const currentQuestion = questions.find((q) => q.id === questionId);
-  //   //   setCurrentQuestion(currentQuestion || null);
-  //   //   setSelectedOption(responses[questionId as string] || null);
-  //   // }
-  // }, [questions, questionId, responses]);
-
-  if (!currentQuestion) {
-    router.push('/error');
-  }
-
-  // if (!currentQuestion) {
-  //   const currQuestion = questions.find((q) => q.id === '1');
-  //   setCurrentQuestion(currQuestion || null);
-  //   setSelectedOption(responses[questionId as string] || null);
-  // }
-
-  //timer
   const [timeLeft, setTimeLeft] = useState(30 * 60);
   const [isTimerFinished, setIsTimerFinished] = useState(false);
 
+  const totalMarked = reviewedQuestions.size;
+  const totalQuestions = aptitudeQuestions.length;
+  const totalAnswered = aptitudeQuestions.filter((question) => selectedOptions[question.id]).length;
+
+  const fetchAptitudeId = async () => {
+    try {
+      console.log(apiEndPoints.userAptitude.getAptitudes);
+      const { status, data } = await getApi(
+        `http://localhost:5000/users/aptitude?aptitudeYear=1&aptitudeDomain=ML`,
+      );
+      // await getByParamsApi(apiEndPoints.userAptitude.getAptitudes, params);
+      //const { status, data } = await ApiRoutes.getAllAptitudes(params);
+      if (status === 200 && data) {
+        setAllAptitudes(data.aptitude || []);
+        setAptitudeQuestions(
+          data.aptitudes.flatMap((aptitude: any) => aptitude.aptitudeQuestions) || [],
+        );
+      } else {
+        setAllAptitudes(mockAptitude.aptitudes);
+        setAptitudeQuestions(
+          mockAptitude.aptitudes.flatMap((aptitude: any) => aptitude.aptitudeQuestions),
+        );
+      }
+    } catch (error: any) {
+      console.error('Error fetching aptitudes:', error);
+      setError('Failed to fetch aptitudes');
+      setAllAptitudes(mockAptitude.aptitudes);
+      setAptitudeQuestions(
+        mockAptitude.aptitudes.flatMap((aptitude: any) => aptitude.aptitudeQuestions),
+      );
+    }
+  };
+
+  const handleOptionSelect = (questionId: string, optionId: string) => {
+    setSelectedOptions((prev) => ({
+      ...prev,
+      [questionId]: optionId,
+    }));
+  };
+
+  const handleMarkForReview = (questionId: string) => {
+    setReviewedQuestions((prev) => {
+      const updated = new Set(prev);
+      updated.has(questionId) ? updated.delete(questionId) : updated.add(questionId);
+      return new Set(updated);
+    });
+  };
+
+  const calculateScore = (questions: any[]) => {
+    let score = 0;
+    questions.forEach((question) => {
+      const selectedOptionId = selectedOptions[question.id];
+      const correctOption = question.options.find((option: any) => option.isCorrect);
+      if (selectedOptionId && correctOption && selectedOptionId === correctOption.id) {
+        score += 1;
+      }
+    });
+    return score;
+  };
+
+  const handleSubmitTest = async () => {
+    setIsModalOpen(false);
+    const score = calculateScore(aptitudeQuestions);
+    console.log(displayUser.id);
+    console.log(score);
+    const { status, data } = await postApi(
+      apiEndPoints.userAptitudeDetails.createUserAptitudeDetails,
+      {
+        userId: displayUser.id,
+        aptitudeScore: score,
+      },
+    );
+
+    if (status === statusCode.Ok200) {
+      console.log('Score sent successfully!');
+      window.open(`/quiz/aptitude/submitted`, '_self');
+    } else {
+      console.error('Failed to send score');
+    }
+  };
+
+  const nextQuestion = () => {
+    if (currentQuestionIndex < aptitudeQuestions.length - 1) {
+      setCurrentQuestionIndex(currentQuestionIndex + 1);
+      setActiveTab(currentQuestionIndex + 1);
+    }
+  };
+
+  const prevQuestion = () => {
+    if (currentQuestionIndex > 0) {
+      setCurrentQuestionIndex(currentQuestionIndex - 1);
+      setActiveTab(currentQuestionIndex - 1);
+    }
+  };
+
+  useEffect(() => {
+    fetchAptitudeId();
+  }, []);
+
+  //timer
   useEffect(() => {
     if (timeLeft === 0) {
       setIsTimerFinished(true);
+      handleSubmitTest();
       return;
     }
     const timerInterval = setInterval(() => {
@@ -96,180 +160,181 @@ const AptitudeQuestionsPage = () => {
     return `${minutes < 10 ? '0' + minutes : minutes}:${seconds < 10 ? '0' + seconds : seconds}`;
   };
 
-  if (error) {
-    return <div>{error}</div>;
-  }
-
-  const handleSubmit = async () => {
-    // try {
-    //   setIsModalOpen(false);
-    //   await axios.post('/api/submit-responses', { aptitudeId, responses });
-    //   // router.push('/quiz/aptitude/submitted');
-    //   console.log('Responses submitted successfully!');
-    // } catch (error) {
-    //   console.log('An error occurred while submitting responses', error);
-    // }
-  };
-
   const openFinishTestDialog = () => {
     if (timeLeft > 0) {
       setIsModalOpen(true);
     } else {
-      handleSubmit();
+      handleSubmitTest();
     }
   };
 
-  const handleOptionChange = (questionId: string, optionId: string) => {
-    setResponses((prevResponses) => ({
-      ...prevResponses,
-      [questionId]: optionId,
-    }));
-  };
-
-  const handleMarkForReview = (questionId: string) => {
-    setReviewedQuestions((prevReviewed) => {
-      const updated = new Set(prevReviewed);
-      if (updated.has(questionId)) {
-        updated.delete(questionId);
-      } else {
-        updated.add(questionId);
-      }
-      return updated;
-    });
-  };
-
-  // const handlePrevious = () => {
-  //   const currentIndex = questions.findIndex((q) => q.id === currentQuestion?.id);
-  //   if (currentIndex - 1 >= 0) {
-  //     router.push(`/${aptitudeId}?questionId=${questions[currentIndex - 1].id}`);
-  //   }
-  // };
-
-  // const handleNext = () => {
-  //   const currentIndex = questions.findIndex((q) => q.id === currentQuestion?.id);
-  //   if (currentIndex + 1 < questions.length) {
-  //     router.push(`/${aptitudeId}?questionId=${questions[currentIndex + 1].id}`);
-  //   }
-  // };
-
-  const answeredCount = questions.filter((question) => responses[question.id]).length;
-  const unansweredCount = questions.filter((question) => !responses[question.id]).length;
-  //total - answeredCount
-  const markedCount = reviewedQuestions.size;
-
   return (
-    <div className="h-screen w-screen bg-slate-50 px-4">
-      <div className="h-screen max-w-[1120px] pt-10 lg:pl-20">
-        <h1 className="decoration-skip-none my-4 text-left font-product-sans text-[20px] font-bold leading-[24.26px] underline-offset-4">
-          Aptitude Quiz
-        </h1>
-        <div className="my-[10px] flex max-h-[44px] max-w-[1120px] items-center justify-between">
-          <span
-            className={`text-[20px]leading-[24.26px] px-1 py-3 font-product-sans font-normal ${timeLeft <= 5 * 60 ? 'text-[#EA4335]' : 'text-[#0F9D58]'}`}
-          >
-            {formatTime(timeLeft)}
-          </span>
-          <span className="flex max-h-[44px] max-w-[113px] rounded-lg border border-[#B0B0B0] bg-white">
-            <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
-              <DialogTrigger asChild>
-                <button className="px-4 py-2" onClick={openFinishTestDialog}>
-                  Finish Test
-                </button>
-              </DialogTrigger>
-              <DialogContent className="grid max-h-[310px] max-w-[425px] items-center rounded-sm align-middle">
-                <div>
-                  <DialogTitle className="my-5 ml-[40%] text-red-500">
-                    <TriangleAlert className="h-[70px] w-[70px]" />
-                  </DialogTitle>
-                  <div>Are you sure you want to finish the quiz before time?</div>
-                </div>
-                <div className="grid gap-4 py-4">
-                  <div className="text-red-500">Remaining time: {formatTime(timeLeft)}</div>
-                </div>
-                <div className="flex justify-between">
-                  <button onClick={handleSubmit}>Yes, Finish</button>
-                  <button
-                    onClick={() => setIsModalOpen(false)}
-                    className="rounded-sm bg-[#635BFF] px-2 py-1 text-white"
-                  >
-                    No, Continue
-                  </button>
-                </div>
-              </DialogContent>
-            </Dialog>
-          </span>
-        </div>
-
-        <div className="grid gap-6 lg:flex">
-          <div className="max-w-[740px]">
-            <div className="max-h-[155px] max-w-[740px] rounded-md bg-white pl-5 pt-6 lg:h-[155px] lg:w-[740px]">
-              <h3 className="text-4 mb-4 font-product-sans font-medium leading-[19.41px] text-[#100C2C]">
-                Question 1
-              </h3>
-              <p className="text-4 font-product-sans font-normal leading-6 text-[3D3D3D]">
-                {currentQuestion?.questionLongDesc || 'Loading'}
-              </p>
-            </div>
-            <ul className="mt-[16px] grid max-w-[740px] grid-cols-2 gap-4 text-[#3D3D3D]">
-              {currentQuestion?.options.map((option) => (
-                <li
-                  key={option.id}
-                  className="max-w-90 flex h-12 items-center gap-2 rounded-md bg-white px-5 py-[14px]"
-                >
-                  <input
-                    type="radio"
-                    id={option.id}
-                    className="h-4 w-4 border-2"
-                    name={`question-${currentQuestion.id}`}
-                    value={option.id}
-                    checked={responses[currentQuestion.id] === option.id}
-                    onChange={() => handleOptionChange(currentQuestion.id, option.id)}
-                  />
-                  <label htmlFor={option.id} className="text-[16px] font-normal leading-[19.41px]">
-                    {option.optionText}
-                  </label>
-                </li>
-              ))}
-            </ul>
-            <div className="top-[475px] mt-20 flex max-w-[740px] justify-between">
-              <button
-                // onClick={handlePrevious}
-                className="h-[44px] w-[110px] rounded-sm bg-[#F1F1F1] text-[16px] font-medium leading-4 text-black"
-                disabled={questions.findIndex((q) => q.id === currentQuestion?.id) === 0}
+    <div className="w-screen py-4 pt-10 lg:h-full">
+      <h1 className="my-4 text-left text-[20px] font-bold">Aptitude Quiz</h1>
+      <div className="my-3 flex max-w-[1120px] flex-col items-center justify-between lg:flex-row">
+        <span
+          className={`px-1 py-3 text-xl font-normal ${timeLeft <= 5 * 60 ? 'text-[#EA4335]' : 'text-[#0F9D58]'}`}
+        >
+          {formatTime(timeLeft)}
+        </span>
+        <span className="flex max-h-11 rounded-lg border border-[#B0B0B0] bg-white">
+          <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
+            <DialogTrigger asChild>
+              <Button
+                className="bg-white px-4 py-2 text-black hover:text-white"
+                onClick={openFinishTestDialog}
               >
-                Previous
-              </button>
-              <div className="ml-2 flex max-h-[44px] max-w-[286px] gap-6">
-                {currentQuestion?.id && (
-                  <button
-                    className={`flex w-[112px] items-center gap-2 rounded-sm border bg-white px-6 py-3 text-[#3D3D3D]`}
-                    onClick={() => handleMarkForReview(currentQuestion.id)}
-                  >
-                    <Bookmark />
-                    <span className="text-[16px] font-medium leading-4">Mark</span>
-                  </button>
-                )}
-
-                <button
-                  className="h-[44px] w-[150px] rounded-sm bg-[#635BFF] py-3 text-[16px] font-medium leading-4 text-white"
-                  // onClick={handleNext}
-                  disabled={
-                    questions.findIndex((q) => q.id === currentQuestion?.id) ===
-                    questions.length - 1
-                  }
-                >
-                  Save and Next
-                </button>
+                Finish Test
+              </Button>
+            </DialogTrigger>
+            <DialogContent
+              className="grid max-h-[310px] max-w-[425px] items-center rounded-sm align-middle"
+              aria-describedby="dialog-description"
+            >
+              <div>
+                <DialogTitle className="my-5 ml-[40%] text-red-500">
+                  <TriangleAlert className="h-[70px] w-[70px]" />
+                </DialogTitle>
+                <div id="dialog-description">
+                  Are you sure you want to finish the quiz before time?
+                </div>
               </div>
+              <div className="grid gap-4 py-4">
+                <div className="text-red-500">Remaining time: {formatTime(timeLeft)}</div>
+              </div>
+              <div className="flex justify-between">
+                <Button
+                  onClick={handleSubmitTest}
+                  className="bg-white text-red-500 hover:text-white"
+                >
+                  Yes, Finish
+                </Button>
+                <Button
+                  onClick={() => setIsModalOpen(false)}
+                  className="rounded-sm bg-[#635BFF] px-2 py-1 text-white"
+                >
+                  No, Continue
+                </Button>
+              </div>
+            </DialogContent>
+          </Dialog>
+        </span>
+      </div>
+
+      <div className="grid gap-6 lg:flex">
+        <div className="max-w-full lg:max-w-[740px]">
+          <div className="max-h-[155px] rounded-md bg-white p-5 lg:h-[155px] lg:w-[740px]">
+            <h3 className="mb-4 text-xl text-[#100C2C]">Question {currentQuestionIndex + 1}</h3>
+            <p className="text-[16px] text-[#3D3D3D]">
+              {currentQuestion?.questionShortDesc || 'Loading'}
+            </p>
+          </div>
+
+          <ul className="mt-4 grid grid-cols-1 gap-4 text-[#3D3D3D] md:grid-cols-2 lg:grid-cols-2">
+            {currentQuestion?.options.map((option: optionType) => (
+              <li
+                key={option.id}
+                className="flex h-12 items-center gap-2 rounded-md bg-white px-5 py-[14px]"
+              >
+                <input
+                  type="radio"
+                  id={option.id}
+                  className="h-4 w-4 border-2"
+                  name={`question-${currentQuestion.id}`}
+                  value={option.id}
+                  checked={selectedOptions[currentQuestion.id] === option.id}
+                  onChange={() => handleOptionSelect(currentQuestion.id, option.id)}
+                />
+                <label htmlFor={option.id} className="text-[16px]">
+                  {option.optionText}
+                </label>
+              </li>
+            ))}
+          </ul>
+
+          <div className="mt-20 flex flex-col justify-between md:flex-row lg:flex-row">
+            <Button
+              onClick={prevQuestion}
+              className="mb-2 h-[44px] w-[110px] rounded-sm bg-[#F1F1F1] text-[16px] font-medium text-black"
+              disabled={currentQuestionIndex === 0}
+            >
+              Previous
+            </Button>
+            <div className="flex max-h-[44px] max-w-[286px] gap-6">
+              {currentQuestion?.id && (
+                <Button
+                  className={`flex w-[112px] items-center gap-2 rounded-sm border py-3 ${reviewedQuestions.has(currentQuestion.id) ? 'bg-[#F3B153] px-2 text-white' : 'bg-white px-6 text-[#3D3D3D]'}`}
+                  onClick={() => handleMarkForReview(currentQuestion.id)}
+                >
+                  <Bookmark
+                    className={`${reviewedQuestions.has(currentQuestion.id) ? 'text-white' : 'text-black'}`}
+                  />
+                  <span className="text-[16px] font-medium leading-4">
+                    {reviewedQuestions.has(currentQuestion.id) ? 'Marked' : 'Mark'}
+                  </span>
+                </Button>
+              )}
+              <Button
+                className="h-[44px] w-[150px] rounded-sm bg-[#635BFF] py-3 text-[16px] font-medium leading-4 text-white"
+                onClick={nextQuestion}
+                disabled={currentQuestionIndex === aptitudeQuestions.length - 1}
+              >
+                Save and Next
+              </Button>
             </div>
           </div>
-          <div className="flex w-full justify-center lg:ml-20">
-            <QuizList
-              answeredCount={answeredCount}
-              unansweredCount={unansweredCount}
-              markedCount={markedCount}
-              questionsCount={questions.length}
-            />
+        </div>
+
+        <div className="flex flex-col justify-center gap-5 p-2 lg:ml-20 lg:w-[360px]">
+          <h1>Aptitude Test</h1>
+          <p className="h-[17px] text-[14px] font-normal leading-4 text-[#6D6D6D]">Attempt all</p>
+          <ul className="mb-[28px] flex h-[17px] w-[325px] list-inside list-none gap-5">
+            <li className="flex h-[17px] w-[100px] items-center text-[#56BA85]">
+              <Circle className="mr-2 h-2 w-2 rounded-full bg-[#56BA85]" />
+              <span className="decoration-skip-ink-none text-[14px] leading-4 tracking-[0.02em] text-[#6D6D6D]">
+                {' '}
+                {totalAnswered} answered
+              </span>
+            </li>
+            <li className="flex h-[17px] w-[94px] items-center text-[#F3B153]">
+              <Circle className="mr-2 h-2 w-2 rounded-full bg-[#F3B153]" />
+              <span className="decoration-skip-ink-none text-[14px] leading-4 tracking-[0.02em] text-[#6D6D6D]">
+                {' '}
+                {totalMarked} marked
+              </span>
+            </li>
+            <li className="flex h-[17px] w-[120px] items-center text-black">
+              <Circle className="mr-2 h-2 w-2" />
+              <span className="text-[14px] leading-4 tracking-[0.02em] text-[#6D6D6D]">
+                {' '}
+                {totalQuestions - totalAnswered} unanswered
+              </span>
+            </li>
+          </ul>
+          <div className="grid grid-cols-3 gap-5 sm:grid-cols-5">
+            {Array.from({ length: totalQuestions }, (_, i) => {
+              const isAnswered = selectedOptions[aptitudeQuestions[i]?.id];
+              const isMarked = reviewedQuestions.has(aptitudeQuestions[i]?.id);
+              return (
+                <div key={i} className="relative">
+                  <Button
+                    type="button"
+                    onClick={() => {
+                      setActiveTab(i);
+                      setCurrentQuestionIndex(i);
+                    }}
+                    className={`size-12 border-[#D2D6D9] text-sm text-white hover:bg-black/5 ${isAnswered && isMarked ? 'rounded-full bg-[#56BA85]' : ''} ${isMarked && !isAnswered ? 'rounded-full bg-[#F3B153]' : ''} ${isAnswered && !isMarked ? 'rounded-full bg-[#56BA85]' : ''} ${!isAnswered && !isMarked ? 'rounded-md border bg-white text-black' : ''} ${activeTab === i ? 'border-[1.5px] border-[#3D3D3D]' : ''} `}
+                  >
+                    {isAnswered && isMarked && (
+                      <div className="absolute bottom-0 right-0 rounded-full border bg-[#F3B153] p-1">
+                        <Bookmark className="h-4 w-4 text-white" />
+                      </div>
+                    )}
+                    {i + 1}
+                  </Button>
+                </div>
+              );
+            })}
           </div>
         </div>
       </div>
@@ -277,4 +342,4 @@ const AptitudeQuestionsPage = () => {
   );
 };
 
-export default AptitudeQuestionsPage;
+export default AptitudeQuiz;

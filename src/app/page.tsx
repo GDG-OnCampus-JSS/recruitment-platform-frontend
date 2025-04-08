@@ -1,5 +1,6 @@
 'use client';
 import { useEffect } from 'react';
+import Footer from '@/components/dashboardlayout/footer';
 import { Banner, CTA, Logo } from '@/components/home/Banner';
 import Button from '@/components/home/Button';
 import { Card } from '@/components/home/Card';
@@ -8,7 +9,7 @@ import VerticalStepper from '@/components/home/VerticalStepper';
 import { cardData, journeySteps, stepColors } from '@/constants/homePageConstants';
 
 // Steps of the Vertical Stepper thing
-const currentStep = 3;
+const currentStep = 1;
 
 export default function Home() {
   useEffect(() => {
@@ -70,7 +71,7 @@ export default function Home() {
             />
           ))}
           <VerticalStepper
-            totalSteps={5}
+            totalSteps={6}
             currentStep={currentStep}
             className="absolute left-10 top-2 md:-top-4 md:left-[20rem]"
             stepColors={stepColors}
@@ -79,7 +80,7 @@ export default function Home() {
       </section>
 
       <section className="my-[3.12rem] md:px-8">
-        <div className="animate-gradient-1 mx-auto grid max-w-[71rem] place-content-center bg-gradient-1 bg-[length:200%_200%] p-10 text-center md:rounded-2xl">
+        <div className="mx-auto grid max-w-[71rem] place-content-center bg-gradient-1 p-10 text-center md:rounded-2xl">
           <h1 className="text-3xl font-medium">Your chance to be a part of extraordinary team!</h1>
           <p className="mt-4 max-w-[56.4rem] text-secondary-foreground">
             Join the recruitment drive at GDG and become part of a dynamic community where you can
@@ -89,6 +90,7 @@ export default function Home() {
           <Button href="/register">Register</Button>
         </div>
       </section>
+      <Footer />
     </>
   );
 }

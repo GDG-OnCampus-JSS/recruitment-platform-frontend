@@ -78,8 +78,8 @@ export interface StepCardProps {
   buttonBgColor: string;
   gradientBg: string;
   action: string;
-  eventStartDate: Date;
-  eventEndDate: Date;
+  eventStartDate?: Date;
+  eventEndDate?: Date;
 }
 export interface SocialPlatform {
   platform: string;

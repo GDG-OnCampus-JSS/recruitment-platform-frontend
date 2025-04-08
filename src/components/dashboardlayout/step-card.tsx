@@ -20,6 +20,7 @@ const StepCard = ({
 }: StepCardProps) => {
   const eventStart = eventStartDate;
   const eventEnd = eventEndDate;
+  const hasEvent = eventStart && eventEnd; // Check if event dates are provided
 
   const [currentTime, setCurrentTime] = useState<Date>(new Date());
 
@@ -31,7 +32,8 @@ const StepCard = ({
     return () => clearInterval(timer);
   }, []);
 
-  const isEventDisabled = currentTime < eventStart || currentTime > eventEnd;
+  // Only apply the event timing logic if event dates are provided
+  const isEventDisabled = hasEvent ? currentTime < eventStart || currentTime > eventEnd : false;
 
   return (
     <Card className={cn('rounded-lg border border-main', gradientBg)}>
@@ -52,7 +54,7 @@ const StepCard = ({
           </div>
 
           <div className="mt-8 flex flex-col items-start gap-1 sm:mt-2 sm:flex-row sm:items-center sm:justify-between">
-            <EventCountdown eventStart={eventStart} eventEnd={eventEnd} />
+            {hasEvent && <EventCountdown eventStart={eventStart} eventEnd={eventEnd} />}
             <Button
               className={cn(
                 'w-full rounded-md text-base font-medium text-white shadow-[inset_-4px_-5px_24.6px_0px_rgba(0,0,0,0.25)] transition hover:scale-x-105 hover:text-white sm:w-auto',

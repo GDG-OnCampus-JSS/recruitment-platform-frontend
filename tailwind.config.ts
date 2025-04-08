@@ -137,6 +137,18 @@ export default {
         btn: {
           primary: 'hsl(var(--btn-primary))',
         },
+        theme: {
+          DEFAULT: 'hsl(var(--theme))',
+          foreground: 'hsl(var(--theme-foreground))',
+        },
+        'theme-light': {
+          DEFAULT: 'hsl(var(--theme-light))',
+          foreground: 'hsl(var(--theme-foreground))',
+        },
+        'theme-interactive': {
+          DEFAULT: 'hsl(var(--theme-interactive))',
+          foreground: 'hsl(var(--theme-foreground))',
+        },
         border: 'hsl(var(--border))',
         input: 'hsl(var(--input))',
         ring: 'hsl(var(--ring))',

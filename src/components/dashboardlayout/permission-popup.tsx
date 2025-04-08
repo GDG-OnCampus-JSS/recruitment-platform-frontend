@@ -51,10 +51,10 @@ const PermissionPopup = ({ onClose }: { onClose: () => void }) => {
     //   console.log('User Subscribed:', displayUser.id, subscription);
     //   console.log(subscription.endpoint);
     //   // const { status, data } = await ApiRoutes.subscribeUser(displayUser.id, subscription);
-    //   // const { status, data } = await ApiRoutes.subscribeUser({
-    //   //   userId: displayUser.id,
-    //   //   subscription,
-    //   // });
+    //   const { status, data } = await ApiRoutes.subscribeUser({
+    //     userId: displayUser.id,
+    //     subscription,
+    //   });
     //   console.log(status);
     //   if (status !== statusCode.Ok200) {
     //     throw new Error(`Failed to store subscription on server: ${data}`);
