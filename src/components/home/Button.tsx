@@ -20,7 +20,7 @@ const Button = ({ children, className, href }: ButtonProps) => {
       whileTap={{ scale: 0.95 }}
       asChild
       className={cn(
-        'mx-auto mt-8 h-11 w-48 border border-domain-card bg-btn-primary hover:bg-indigo-600',
+        'mx-auto mt-8 h-11 w-48 border border-domain-card bg-btn-primary leading-[1em] tracking-[0.02em] hover:bg-indigo-600',
         className,
       )}
     >

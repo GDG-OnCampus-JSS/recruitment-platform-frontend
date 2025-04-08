@@ -1,5 +1,6 @@
 'use client';
 import { useEffect } from 'react';
+import Header from '@/components/common/header-landing';
 import Footer from '@/components/dashboardlayout/footer';
 import { Banner, CTA, Logo } from '@/components/home/Banner';
 import Button from '@/components/home/Button';
@@ -26,7 +27,8 @@ export default function Home() {
   }, []);
   return (
     <>
-      <section className="relative grid min-h-screen place-content-center overflow-x-hidden bg-home-1 bg-cover bg-no-repeat">
+      <Header />
+      <section className="relative grid min-h-screen place-content-center overflow-x-hidden bg-home-1 bg-cover bg-no-repeat leading-[1em]">
         <div className="group absolute h-screen w-screen bg-slate-100/10 backdrop-blur-lg md:backdrop-blur-none"></div>
         <Logo />
         <Banner className="w-fit" />

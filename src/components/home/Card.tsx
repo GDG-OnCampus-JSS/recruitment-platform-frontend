@@ -49,8 +49,8 @@ export const Card = ({
       </div>
 
       <div className="h-[60px] w-[60px]">{logoComponent}</div>
-      <h2 className="mt-4 text-xl font-medium">{title}</h2>
-      <p className={cn('mb-16 mt-2', descriptionClass)}>{description}</p>
+      <h2 className="mt-4 text-xl font-medium leading-[1.43em] tracking-[0.02em]">{title}</h2>
+      <p className={cn('mb-16 mt-2 leading-[1.4em]', descriptionClass)}>{description}</p>
     </motion.div>
   );
 };

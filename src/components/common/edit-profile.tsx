@@ -189,7 +189,9 @@ const EditProfilePage = ({ isOpen, onClose }: EditProfileProps) => {
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="max-h-[90vh] w-[400px] min-w-max overflow-y-auto rounded-lg p-10 pb-8 scrollbar-none sm:w-[598px] [&>button]:hidden">
         <DialogHeader className="flex flex-row justify-between">
-          <DialogTitle className="text-xl font-normal sm:text-[28px]">Edit Profile</DialogTitle>
+          <DialogTitle className="text-xl font-normal leading-[1em] sm:text-[28px]">
+            Edit Profile
+          </DialogTitle>
           <DialogClose onClick={onClose}>
             <X size={24} />
           </DialogClose>

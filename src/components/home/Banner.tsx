@@ -17,7 +17,7 @@ export const Banner = ({ className }: BannerProps) => {
   return (
     <div className={cn('relative', className)}>
       <motion.h1
-        className="text-shadow-display text-center text-[56px] font-bold leading-[6rem] sm:text-[72px]"
+        className="text-shadow-display text-center text-[56px] font-bold leading-[1.1em] tracking-[0.02em] sm:text-[72px]"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1, transition: { duration: 1 } }}
       >
@@ -35,7 +35,7 @@ export const Banner = ({ className }: BannerProps) => {
 export const Logo = () => {
   return (
     <motion.div
-      className="z-10 mx-auto rounded-3xl border border-main bg-white px-5 py-1"
+      className="z-10 mx-auto rounded-3xl border border-main bg-white px-5 py-1 leading-[1em] tracking-[0.02em]"
       initial={{ opacity: 0, translateY: '-50px' }}
       animate={{
         opacity: 1,
@@ -52,7 +52,7 @@ export const CTA = () => {
   return (
     <>
       <motion.p
-        className="z-10 mt-10 text-center text-xl text-secondary-foreground"
+        className="z-10 mt-10 text-center text-xl leading-[1em] tracking-[0.04em] text-secondary-foreground"
         initial={{ opacity: 0, translateY: '50px' }}
         animate={{
           opacity: 1,
@@ -71,8 +71,8 @@ export const CTA = () => {
           transition: { ease: 'easeOut', duration: 0.8, delay: 1.2 },
         }}
       >
-        <Button href="/register" className="z-10">
-          Register
+        <Button href="/register" className="z-10 leading-[1em] tracking-[0.02em]">
+          Register Now
         </Button>
       </motion.div>
     </>

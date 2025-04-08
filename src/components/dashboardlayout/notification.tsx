@@ -14,9 +14,7 @@ import { Card } from '@/components/ui/card';
 import { Form } from '@/components/ui/form';
 import { statusCode } from '@/constants/apiStatus';
 import { useDismissOnClick } from '@/hooks/use-dismiss-onclick';
-import { mockUser } from '@/lib/options';
 import { Notification } from '@/lib/types';
-import { User } from '@/lib/types';
 import { cn } from '@/lib/utils';
 import useUserStore from '@/stores/userStore';
 
@@ -33,7 +31,6 @@ const notificationSchema = z.object({
 
 const NotificationButton = ({ mode, className }: Props) => {
   const user = useUserStore((state) => state.user);
-  const displayUser = (user || mockUser) as User;
   const [isOpen, setIsOpen] = useState(false);
   const [isAdminOpen, setIsAdminOpen] = useState(false);
   const [notifications, setNotifications] = useState<Notification[]>([]);
@@ -52,13 +49,13 @@ const NotificationButton = ({ mode, className }: Props) => {
       title: data.notificationTitle,
       message: data.notificationMessage,
       url: data.notificationUrl,
-      userId: displayUser.id,
+      userId: user?.id,
     });
 
     const { status, data: responseData } = await postApi(
       apiEndPoints.notification.sendNotifications,
       {
-        userId: displayUser.id,
+        userId: user?.id,
         title: data.notificationTitle,
         message: data.notificationMessage,
         url: data.notificationUrl,
@@ -79,8 +76,6 @@ const NotificationButton = ({ mode, className }: Props) => {
 
       if (status === statusCode.Ok200) {
         setNotifications(data);
-      } else {
-        console.error('Failed to fetch notifications:', data);
       }
     }
   };
@@ -91,10 +86,10 @@ const NotificationButton = ({ mode, className }: Props) => {
     console.log('subscriptions: ', data);
   };
   useEffect(() => {
-    if (mode === 'user' && displayUser.id) {
-      fetchNotifications(displayUser.id);
+    if (mode === 'user' && user?.id) {
+      fetchNotifications(user.id);
     }
-  }, [displayUser.id, mode]);
+  }, [user?.id, mode]);
 
   // const unreadCount = notifications.filter((n) => !n.isRead).length;
 

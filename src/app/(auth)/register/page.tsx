@@ -4,7 +4,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
-import { postApi } from '@/api/api';
+import { getApi, postApi } from '@/api/api';
 import { apiEndPoints } from '@/api/apiEndpoints';
 import { AuthCard } from '@/components/common/auth-card';
 import { Divider } from '@/components/common/divider';
@@ -13,6 +13,7 @@ import { Button } from '@/components/ui/button';
 import { statusCode } from '@/constants/apiStatus';
 import { useSessionStorage } from '@/hooks/use-session-storage';
 import { useToast } from '@/hooks/use-toast';
+import useUserStore from '@/stores/userStore';
 import { EmailStep } from './email-step';
 import { VerificationStep } from './verification-step';
 
@@ -23,6 +24,7 @@ export default function RegisterPage() {
   const [initialStep, setInitialStep] = useState<number>(0);
   const router = useRouter();
   const { toast } = useToast();
+  const setUser = useUserStore((state) => state.setUser);
 
   const steps = [{ label: 'Register to Recruitments 25' }, { label: `Verify your email` }];
 
@@ -73,6 +75,14 @@ export default function RegisterPage() {
     }
   };
 
+  const googleAuth = async () => {
+    const { status, data: responseData } = await getApi(apiEndPoints.oauth.loginSuccess);
+    if (status === statusCode.Ok200) {
+      router.push('/dashboard');
+      setUser(responseData.user);
+    }
+  };
+
   return (
     <LogoGrid>
       <AuthCard
@@ -104,7 +114,7 @@ export default function RegisterPage() {
                 variant="outline"
                 type="button"
                 className="h-11 w-full font-light"
-                onClick={() => window.open('/api/auth/google', '_self')}
+                onClick={googleAuth}
               >
                 <Image src="/icons/google.svg" height={20} width={20} alt="Google" />
                 Continue with Google
