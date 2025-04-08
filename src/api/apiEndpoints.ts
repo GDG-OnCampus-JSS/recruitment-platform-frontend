@@ -80,7 +80,7 @@ export const apiEndPoints = {
   },
 
   userAptitude: {
-    getAptitudes: '/users/aptitudes',
+    getAptitudes :'/users/aptitude'
   },
 
   contest: {
