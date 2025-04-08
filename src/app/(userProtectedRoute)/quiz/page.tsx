@@ -3,9 +3,11 @@ import { ChevronLeft } from 'lucide-react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
+import useUserStore from '@/stores/userStore';
 
 export default function Quiz() {
   const router = useRouter();
+  const user = useUserStore((state) => state.user);
   return (
     <div className="bg-[#fff] p-5 lg:h-full lg:p-8">
       <div className="mt-7 flex h-9 items-center justify-between">
@@ -17,18 +19,18 @@ export default function Quiz() {
         <span className="text-lg font-semibold lg:text-xl">Aptitude Quiz</span>
       </div>
       <div className="mx-auto my-8 max-w-[740px] rounded-xl border px-6 py-8 shadow-xl lg:h-[412px]">
-        <div className="mb-4 flex flex-col justify-between text-xl text-[#432AD8] lg:flex-row">
+        <div className="mb-4 flex flex-col justify-between text-xl leading-[1em] tracking-[0.02em] text-[#432AD8] lg:flex-row">
           <div className="mb-2 lg:mb-0">
             <span>Selected Year:</span>
-            <span className="border border-[#ccc] px-3 py-1">1st</span>
+            <span className="border border-[#ccc] px-3 py-1">{user?.year}</span>
           </div>
           <div>
             <span>Selected Domain:</span>
-            <span className="border border-[#ccc] px-3 py-1">Design</span>
+            <span className="border border-[#ccc] px-3 py-1">{user?.domain}</span>
           </div>
         </div>
         <div className="max-w-[646px] text-[#100c2c]">
-          <h1 className="text-xl font-medium">Guidelines</h1>
+          <h1 className="text-xl font-medium leading-[1em] tracking-[0.02em]">Guidelines</h1>
           <ul className="mt-2 grid list-disc gap-y-1 pl-6 text-justify text-[16px] lg:h-[157px]">
             <li>This is a timed quiz. You will only get 30 mins to complete it.</li>
             <li className="text-[#EA4335]">

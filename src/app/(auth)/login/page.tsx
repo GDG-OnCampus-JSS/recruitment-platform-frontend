@@ -40,15 +40,13 @@ export default function LoginPage() {
     },
   });
 
-  const googleAuth = async ()=>{ 
-        const {status, data: responseData}= await getApi(apiEndPoints.oauth.loginSuccess);
-        console.log("your data is", responseData.user)
-        if (status === statusCode.Ok200) {
-          // console.log("done")
-          router.push('/dashboard');
-          setUser(responseData.user);
-        }      
+  const googleAuth = async () => {
+    const { status, data: responseData } = await getApi(apiEndPoints.oauth.loginSuccess);
+    if (status === statusCode.Ok200) {
+      router.push('/dashboard');
+      setUser(responseData.user);
     }
+  };
 
   const onSubmit = async (data: z.infer<typeof loginSchema>) => {
     const { status, data: responseData } = await postApi(apiEndPoints.users.login, data);
@@ -75,7 +73,10 @@ export default function LoginPage() {
           animate="visible"
           className="mb-6 flex items-center justify-between gap-32"
         >
-          <motion.h1 variants={itemVariants} className="text-heading-1 font-medium text-gray-900 tracking-[0.02em] leading-[1em]">
+          <motion.h1
+            variants={itemVariants}
+            className="text-heading-1 font-medium leading-[1em] tracking-[0.02em] text-gray-900"
+          >
             Welcome Back!
           </motion.h1>
           <motion.div variants={itemVariants}>

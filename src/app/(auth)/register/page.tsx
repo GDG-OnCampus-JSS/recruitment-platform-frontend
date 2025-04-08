@@ -13,9 +13,9 @@ import { Button } from '@/components/ui/button';
 import { statusCode } from '@/constants/apiStatus';
 import { useSessionStorage } from '@/hooks/use-session-storage';
 import { useToast } from '@/hooks/use-toast';
+import useUserStore from '@/stores/userStore';
 import { EmailStep } from './email-step';
 import { VerificationStep } from './verification-step';
-import useUserStore from '@/stores/userStore';
 
 export default function RegisterPage() {
   const [method, setMethod] = useState<'email'>('email');
@@ -75,15 +75,13 @@ export default function RegisterPage() {
     }
   };
 
-  const googleAuth = async ()=>{ 
-      const {status, data: responseData}= await getApi(apiEndPoints.oauth.loginSuccess);
-      console.log("your data is", responseData.user)
-      if (status === statusCode.Ok200) {
-        // console.log("done")
-        router.push('/dashboard');
-        setUser(responseData.user);
-      }      
-  }
+  const googleAuth = async () => {
+    const { status, data: responseData } = await getApi(apiEndPoints.oauth.loginSuccess);
+    if (status === statusCode.Ok200) {
+      router.push('/dashboard');
+      setUser(responseData.user);
+    }
+  };
 
   return (
     <LogoGrid>

@@ -101,7 +101,10 @@ export const AdditionalDetails = ({ formData, setFormData, prevStep }: Props) =>
   return (
     <div>
       <Form {...form}>
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 tracking-[0.02em] leading-[1em]">
+        <form
+          onSubmit={handleSubmit(onSubmit)}
+          className="space-y-4 leading-[1em] tracking-[0.02em]"
+        >
           <FormInput
             name="admissionNumber"
             label="Admission Number"

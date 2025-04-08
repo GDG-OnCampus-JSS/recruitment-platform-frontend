@@ -58,7 +58,7 @@ export default function DashboardPage() {
               {!isProfileComplete && (
                 <div className="flex items-start gap-1 sm:items-center">
                   <CircleAlert size={20} className="hidden text-red-500 sm:block" />
-                  <h3 className="text-sm text-red-500 sm:text-base tracking-[0.02em] leading-[1em]">
+                  <h3 className="text-sm leading-[1em] tracking-[0.02em] text-red-500 sm:text-base">
                     Your profile is not complete.{' '}
                     <Link
                       href="/dashboard/profile"

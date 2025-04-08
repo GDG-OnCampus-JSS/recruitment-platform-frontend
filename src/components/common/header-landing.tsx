@@ -1,18 +1,17 @@
 'use client';
-import {Menu } from 'lucide-react';
+import { Menu } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter, usePathname } from 'next/navigation';
 import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
-import {navItems } from '@/lib/options';
-import MobileMenu from "./mobile-menu-header"
+import { navItems } from '@/lib/options';
+import MobileMenu from './mobile-menu-header';
 
 export const Header = () => {
   const router = useRouter();
   const pathname = usePathname();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  
 
   return (
     <header className="fixed left-0 top-0 z-20 w-full border-b bg-white py-3 md:border-b-0 lg:bg-white/50 lg:backdrop-blur-lg">
@@ -57,7 +56,7 @@ export const Header = () => {
           >
             <Menu />
           </Button>
-          
+
           <MobileMenu
             isOpen={isMobileMenuOpen}
             navItems={navItems}
