@@ -1,10 +1,13 @@
+'use client';
+
 import { X } from 'lucide-react';
 import { motion, AnimatePresence, delay } from 'motion/react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import React from 'react';
 import { Button } from '@/components/ui/button';
 import { NavItem } from '@/lib/types';
-import { useRouter } from 'next/navigation';
+
 interface MobileMenuProps {
   isOpen: boolean;
   navItems: NavItem[];
@@ -13,9 +16,8 @@ interface MobileMenuProps {
 }
 
 const MobileMenu: React.FC<MobileMenuProps> = ({ isOpen, navItems, pathname, onCloseMenu }) => {
-  if (!isOpen) return null;
-
   const router = useRouter();
+  if (!isOpen) return null;
   return (
     <AnimatePresence mode="wait">
       {isOpen && (

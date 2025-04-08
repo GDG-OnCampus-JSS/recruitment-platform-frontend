@@ -1,9 +1,9 @@
 'use client';
 import { Mail, Phone, GraduationCap, UserPen, ArrowLeft } from 'lucide-react';
 import Image from 'next/image';
-import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
+import EditProfilePage from '@/components/common/edit-profile';
 import { Spinner } from '@/components/common/spinner';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
@@ -12,7 +12,6 @@ import { blobUrl } from '@/lib/helpers';
 import { reqFields, mockUser, socialIconMapping } from '@/lib/options';
 import { User } from '@/lib/types';
 import useUserStore from '@/stores/userStore';
-import EditProfilePage from './edit-profile/page';
 import SocialLinksDisplay from './social-links';
 
 export default function ProfilePage() {

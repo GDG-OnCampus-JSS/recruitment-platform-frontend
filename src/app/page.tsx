@@ -1,12 +1,12 @@
 'use client';
 import { useEffect } from 'react';
+import Footer from '@/components/dashboardlayout/footer';
 import { Banner, CTA, Logo } from '@/components/home/Banner';
 import Button from '@/components/home/Button';
 import { Card } from '@/components/home/Card';
 import { JourneyStep } from '@/components/home/JourneySteps';
 import VerticalStepper from '@/components/home/VerticalStepper';
 import { cardData, journeySteps, stepColors } from '@/constants/homePageConstants';
-import Footer from '@/components/dashboardlayout/footer';
 
 // Steps of the Vertical Stepper thing
 const currentStep = 1;

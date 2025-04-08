@@ -13,12 +13,11 @@ import {
 } from 'lucide-react';
 import Image from 'next/image';
 import { ReactElement, useState, useEffect } from 'react';
-import { ApiRoutes } from '@/api/routes';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
-import { useAuth } from '@/context/authContext';
 import { SOCIAL_PLATFORMS, mockUser } from '@/lib/options';
 import { User } from '@/lib/types';
+import useAdminStore from '@/stores/adminStore';
 
 const SocialLink = ({
   platform,
@@ -37,7 +36,7 @@ const SocialLink = ({
           href={userLink.url}
           target="_blank"
           rel="noopener noreferrer"
-          className="font-normalhover:underline text-base text-[#407BFF]"
+          className="text-base font-normal text-[#407BFF] hover:underline"
         >
           {userLink.url}
         </a>
@@ -61,9 +60,9 @@ const generateMockUsers = (count: number): User[] => {
       domain: `Domain ${i}`,
       photo: `/DP.jpeg`,
       socialLinks: [
-        { platform: 'github', url: `https://github.com/mockuser${i}` },
-        { platform: 'linkedin', url: `https://linkedin.com/in/mockuser${i}` },
-        { platform: 'project', url: `https://mockproject${i}.com` },
+        { id: 'github', name: 'GitHub', link: `https://github.com/mockuser${i}` },
+        { id: 'linkedin', name: 'LinkedIn', link: `https://linkedin.com/in/mockuser${i}` },
+        { id: 'project', name: 'Project', link: `https://mockproject${i}.com` },
       ],
       resume: i % 2 === 0 ? `/resume${i}.pdf` : null,
       interviewStatus: i % 2 === 0,
@@ -74,8 +73,8 @@ const generateMockUsers = (count: number): User[] => {
 };
 
 export default function ProfilePage() {
-  const { user, loading } = useAuth();
-  const displayUser = (user || mockUser) as User;
+  const admin = useAdminStore((state) => state.admin);
+  const displayUser = (admin || mockUser) as User;
   const [shortlistedUsers, setShortlistedUsers] = useState<User[]>([]);
   const [currentUserIndex, setCurrentUserIndex] = useState(0);
   const [userData, setUserData] = useState<User | null>(null);
@@ -107,8 +106,7 @@ export default function ProfilePage() {
       //   const response = await ApiRoutes.getUserById(userId);
       //   if (response.status === 200) {
       //     setUserData(response.data);
-      //   }else{
-      //
+      //   } else {
       //     setUserData(mockUser);
       //   }
       // };
@@ -118,9 +116,7 @@ export default function ProfilePage() {
   }, [currentUserIndex, shortlistedUsers]);
 
   const findUserLink = (platform: string) => {
-    return userData?.socialLinks?.find(
-      (link) => link.platform.toLowerCase() === platform.toLowerCase(),
-    );
+    return userData?.socialLinks?.find((link) => link.id === platform);
   };
 
   const handlePrevious = () => {
@@ -134,11 +130,12 @@ export default function ProfilePage() {
       setCurrentUserIndex(currentUserIndex + 1);
     }
   };
+
   type UserStatusField = 'interviewStatus' | 'reviewStatus';
   const updateUserStatus = async (field: UserStatusField, value: boolean) => {
     const currentUser = shortlistedUsers[currentUserIndex];
     try {
-      await ApiRoutes.updateUser(currentUser.id, { [field]: value });
+      // await ApiRoutes.updateUser(currentUser.id, { [field]: value });
 
       const updatedUsers = [...shortlistedUsers];
       updatedUsers[currentUserIndex][field] = value;
@@ -156,25 +153,25 @@ export default function ProfilePage() {
     await updateUserStatus('reviewStatus', true);
   };
 
-  if (loading) {
-    return (
-      <div className="flex min-h-screen items-center justify-center">
-        <p className="text-lg">Loading...</p>
-      </div>
-    );
-  }
+  // if (loading) {
+  //   return (
+  //     <div className="flex min-h-screen items-center justify-center">
+  //       <p className="text-lg">Loading...</p>
+  //     </div>
+  //   );
+  // }
   if (!userData) {
     return <div className="mt-24 min-h-[60vh]">No user data found.</div>;
   }
 
-  const taskSubmissionLink = userData?.socialLinks?.find((link) => link.platform === 'project');
+  const taskSubmissionLink = userData?.socialLinks?.find((link) => link.id === 'project');
 
   return (
     <div className="min-h-screen space-y-6 p-2 pt-12">
       <div className="w-full">
         <div className="mx-auto flex max-w-[1120px] items-center justify-between px-6 pt-4 xl:mt-9 xl:h-9 xl:max-w-6xl xl:px-8 xl:py-0">
           <h1 className="text-[28px] font-normal text-[#4F4F4F]">Shortlisted User</h1>
-          <h1 className="text-xl font-medium"> Total:{shortlistedUsers.length}</h1>
+          <h1 className="text-xl font-medium"> Total: {shortlistedUsers.length}</h1>
         </div>
       </div>
 
@@ -222,12 +219,12 @@ export default function ProfilePage() {
                   {taskSubmissionLink ? (
                     <p className="rounded-[8px] border border-[#635BFF] p-2">
                       <a
-                        href={taskSubmissionLink.url}
+                        href={taskSubmissionLink.link}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="text-[#407BFF] hover:underline"
                       >
-                        {taskSubmissionLink.url}
+                        {taskSubmissionLink.link}
                       </a>
                     </p>
                   ) : (
@@ -272,7 +269,7 @@ export default function ProfilePage() {
                   <div className="rounded-lg border border-[#635BFF] bg-gray-50 p-3">
                     {userData.resume ? (
                       <Image
-                        src="/"
+                        src={userData.resume}
                         alt="Resume"
                         width={300}
                         height={100}
@@ -291,14 +288,14 @@ export default function ProfilePage() {
                 <h3 className="mb-4 text-xl font-medium">Submitted links</h3>
                 <div className="grid grid-cols-1 gap-4 sm:grid-cols-1 md:grid-cols-2">
                   <div className="space-y-3">
-                    {SOCIAL_PLATFORMS.slice(0, 3).map((platform, index) => (
+                    {/* {SOCIAL_PLATFORMS.slice(0, 3).map((platform, index) => (
                       <SocialLink key={index} platform={platform} findUserLink={findUserLink} />
-                    ))}
+                    ))} */}
                   </div>
                   <div className="space-y-3">
-                    {SOCIAL_PLATFORMS.slice(3).map((platform, index) => (
+                    {/* {SOCIAL_PLATFORMS.slice(3).map((platform, index) => (
                       <SocialLink key={index} platform={platform} findUserLink={findUserLink} />
-                    ))}
+                    ))} */}
                   </div>
                 </div>
               </CardContent>

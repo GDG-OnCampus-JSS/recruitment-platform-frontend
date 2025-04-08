@@ -2,8 +2,8 @@ import { type Metadata } from 'next';
 import { Geist, Geist_Mono, Playfair_Display, JetBrains_Mono } from 'next/font/google';
 import localFont from 'next/font/local';
 import './globals.css';
-import { Toaster } from '@/components/ui/toaster';
 import Header from '@/components/common/header-landing';
+import { Toaster } from '@/components/ui/toaster';
 
 const jetBrainsMono = JetBrains_Mono({
   weight: '400',

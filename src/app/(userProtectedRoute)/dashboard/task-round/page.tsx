@@ -5,16 +5,16 @@ import { useRouter } from 'next/navigation';
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import * as z from 'zod';
-import { ApiRoutes } from '@/api/routes';
+// import { ApiRoutes } from '@/api/routes';
 import FormInput from '@/components/common/form-input';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Form } from '@/components/ui/form';
 import { statusCode } from '@/constants/apiStatus';
-import { useAuthStore } from '@/context/authContext';
 import { useToast } from '@/hooks/use-toast';
 import { mockUser } from '@/lib/options';
 import { User } from '@/lib/types';
+import useUserStore from '@/stores/userStore';
 import { AndroidTask } from './android-task';
 import { DesignTask } from './design-task';
 import { MachineLearningTask } from './ml-task';
@@ -33,7 +33,7 @@ const taskSchema = z.object({
 function Task() {
   const { toast } = useToast();
   const router = useRouter();
-  const { user } = useAuthStore();
+  const user = useUserStore((state) => state.user);
   const displayUser = user || mockUser;
   const form = useForm<z.infer<typeof taskSchema>>({
     resolver: zodResolver(taskSchema),
@@ -45,30 +45,29 @@ function Task() {
   const year = yearString.includes('1st') ? 1 : yearString.includes('2nd') ? 2 : 1;
 
   const onSubmit = async (data: { link: string }) => {
-    console.log('Submitted URL:', data.link);
-    const socialLinkData = {
-      platform: 'project',
-      url: data.link,
-    };
-
+    // console.log('Submitted URL:', data.link);
+    // const socialLinkData = {
+    //   platform: 'project',
+    //   url: data.link,
+    // };
     //! replace this with the actual api call to submit the task
-    const { status, data: responseData } = await ApiRoutes.createSocialLink(
-      displayUser.id,
-      socialLinkData,
-    );
-    if (status === statusCode.Ok200) {
-      toast({
-        variant: 'success',
-        title: 'Task submitted successfully',
-        description: 'Your task has been submitted successfully.',
-      });
-    } else {
-      toast({
-        variant: 'destructive',
-        title: 'Something went wrong',
-        description: responseData.message,
-      });
-    }
+    // const { status, data: responseData } = await ApiRoutes.createSocialLink(
+    //   displayUser.id,
+    //   socialLinkData,
+    // );
+    // if (status === statusCode.Ok200) {
+    //   toast({
+    //     variant: 'success',
+    //     title: 'Task submitted successfully',
+    //     description: 'Your task has been submitted successfully.',
+    //   });
+    // } else {
+    //   toast({
+    //     variant: 'destructive',
+    //     title: 'Something went wrong',
+    //     description: responseData.message,
+    //   });
+    // }
   };
 
   const renderTaskContent = () => {

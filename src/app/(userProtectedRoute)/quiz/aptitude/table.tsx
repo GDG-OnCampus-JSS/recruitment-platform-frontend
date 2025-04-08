@@ -1,7 +1,7 @@
 'use client';
 import axios from 'axios';
 import { Circle } from 'lucide-react';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import { useState, useEffect } from 'react';
 
 interface Option {
@@ -30,29 +30,29 @@ const QuizList: React.FC<QuizListProps> = ({
   questionsCount,
 }) => {
   const router = useRouter();
-  const searchParams = useSearchParams();
-  const aptitudeId = searchParams.get('aptitudeId');
+  // const searchParams = useSearchParams();
+  // const aptitudeId = searchParams.get('aptitudeId');
   const [questions, setQuestions] = useState<Question[]>([]);
   const [responses, setResponses] = useState<{ [key: string]: string }>({});
   const [reviewedQuestions, setReviewedQuestions] = useState<Set<string>>(new Set());
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    if (!aptitudeId) return;
+  // useEffect(() => {
+  //   if (!aptitudeId) return;
 
-    const fetchQuestions = async () => {
-      try {
-        const response = await axios.get(`/api/questions/question-aptitude/${aptitudeId}`);
-        setQuestions(response.data.data);
-      } catch (error) {
-        console.error('Error fetching questions', error);
-      } finally {
-        setLoading(false);
-      }
-    };
+  //   const fetchQuestions = async () => {
+  //     try {
+  //       const response = await axios.get(`/api/questions/question-aptitude/${aptitudeId}`);
+  //       setQuestions(response.data.data);
+  //     } catch (error) {
+  //       console.error('Error fetching questions', error);
+  //     } finally {
+  //       setLoading(false);
+  //     }
+  //   };
 
-    fetchQuestions();
-  }, [aptitudeId]);
+  //   fetchQuestions();
+  // }, [aptitudeId]);
 
   const getQuestionStatus = (questionId: string) => {
     if (reviewedQuestions.has(questionId)) {
@@ -107,7 +107,7 @@ const QuizList: React.FC<QuizListProps> = ({
               <div
                 key={question.id}
                 className={`flex h-12 w-12 items-center justify-center border text-[14px] leading-4 tracking-[0.02em] text-[#100C2C] ${status === 'not-attempted' ? 'rounded-sm bg-gray-400' : ''} ${status === 'attempted' ? 'rounded-full bg-[#56BA85]' : ''} ${status === 'reviewed' ? 'rounded-full bg-[#F3B153]' : ''}`}
-                onClick={() => router.push(`/quiz/${aptitudeId}?questionId=${question.id}`)}
+                // onClick={() => router.push(`/quiz/${aptitudeId}?questionId=${question.id}`)}
               >
                 {index + 1}
               </div>

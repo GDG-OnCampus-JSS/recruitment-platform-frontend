@@ -1,22 +1,21 @@
 'use client';
+import { Bookmark, Circle, TriangleAlert } from 'lucide-react';
 import React, { useEffect, useState } from 'react';
 import { getApi, getByParamsApi, postApi } from '@/api/api';
 import { apiEndPoints } from '@/api/apiEndpoints';
 import { Button } from '@/components/ui/button';
-import { Bookmark, Circle, TriangleAlert } from 'lucide-react';
+import { Dialog, DialogContent, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
+import { statusCode } from '@/constants/apiStatus';
 import { mockUser } from '@/lib/options';
+import { mockAptitude } from '@/lib/options';
 import { User } from '@/lib/types';
 import useUserStore from '@/stores/userStore';
-import { Dialog, DialogContent, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
-import { ApiRoutes } from '@/api/routes';
-import { statusCode } from '@/constants/apiStatus';
-import { mockAptitude } from '@/lib/options';
 
 type optionType = {
-  id:string;
+  id: string;
   optionText: string;
   isCorrect: boolean;
-}
+};
 
 const AptitudeQuiz = () => {
   const user = useUserStore((state) => state.user);
@@ -121,7 +120,7 @@ const AptitudeQuiz = () => {
       window.open(`/quiz/aptitude/submitted`, '_self');
     } else {
       console.error('Failed to send score');
-    }    
+    }
   };
 
   const nextQuestion = () => {
@@ -142,12 +141,11 @@ const AptitudeQuiz = () => {
     fetchAptitudeId();
   }, []);
 
-
   //timer
   useEffect(() => {
     if (timeLeft === 0) {
       setIsTimerFinished(true);
-      handleSubmitTest()
+      handleSubmitTest();
       return;
     }
     const timerInterval = setInterval(() => {
@@ -171,9 +169,9 @@ const AptitudeQuiz = () => {
   };
 
   return (
-    <div className="w-screen  py-4 pt-10 lg:h-full">
+    <div className="w-screen py-4 pt-10 lg:h-full">
       <h1 className="my-4 text-left text-[20px] font-bold">Aptitude Quiz</h1>
-      <div className="my-3 flex lg:flex-row flex-col max-w-[1120px] items-center justify-between">
+      <div className="my-3 flex max-w-[1120px] flex-col items-center justify-between lg:flex-row">
         <span
           className={`px-1 py-3 text-xl font-normal ${timeLeft <= 5 * 60 ? 'text-[#EA4335]' : 'text-[#0F9D58]'}`}
         >
@@ -182,7 +180,10 @@ const AptitudeQuiz = () => {
         <span className="flex max-h-11 rounded-lg border border-[#B0B0B0] bg-white">
           <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
             <DialogTrigger asChild>
-              <Button className="px-4 py-2 bg-white text-black hover:text-white" onClick={openFinishTestDialog}>
+              <Button
+                className="bg-white px-4 py-2 text-black hover:text-white"
+                onClick={openFinishTestDialog}
+              >
                 Finish Test
               </Button>
             </DialogTrigger>
@@ -202,7 +203,12 @@ const AptitudeQuiz = () => {
                 <div className="text-red-500">Remaining time: {formatTime(timeLeft)}</div>
               </div>
               <div className="flex justify-between">
-                <Button onClick={handleSubmitTest} className='bg-white text-red-500 hover:text-white'>Yes, Finish</Button>
+                <Button
+                  onClick={handleSubmitTest}
+                  className="bg-white text-red-500 hover:text-white"
+                >
+                  Yes, Finish
+                </Button>
                 <Button
                   onClick={() => setIsModalOpen(false)}
                   className="rounded-sm bg-[#635BFF] px-2 py-1 text-white"
@@ -224,7 +230,6 @@ const AptitudeQuiz = () => {
             </p>
           </div>
 
-          
           <ul className="mt-4 grid grid-cols-1 gap-4 text-[#3D3D3D] md:grid-cols-2 lg:grid-cols-2">
             {currentQuestion?.options.map((option: optionType) => (
               <li
@@ -247,7 +252,6 @@ const AptitudeQuiz = () => {
             ))}
           </ul>
 
-          
           <div className="mt-20 flex flex-col justify-between md:flex-row lg:flex-row">
             <Button
               onClick={prevQuestion}
@@ -259,10 +263,12 @@ const AptitudeQuiz = () => {
             <div className="flex max-h-[44px] max-w-[286px] gap-6">
               {currentQuestion?.id && (
                 <Button
-                  className={`flex w-[112px] items-center gap-2 rounded-sm border  py-3  ${reviewedQuestions.has(currentQuestion.id) ? 'bg-[#F3B153] px-2 text-white' : 'bg-white text-[#3D3D3D] px-6'}`}
+                  className={`flex w-[112px] items-center gap-2 rounded-sm border py-3 ${reviewedQuestions.has(currentQuestion.id) ? 'bg-[#F3B153] px-2 text-white' : 'bg-white px-6 text-[#3D3D3D]'}`}
                   onClick={() => handleMarkForReview(currentQuestion.id)}
                 >
-                  <Bookmark className={`${reviewedQuestions.has(currentQuestion.id) ? 'text-white' : 'text-black'}`}/>
+                  <Bookmark
+                    className={`${reviewedQuestions.has(currentQuestion.id) ? 'text-white' : 'text-black'}`}
+                  />
                   <span className="text-[16px] font-medium leading-4">
                     {reviewedQuestions.has(currentQuestion.id) ? 'Marked' : 'Mark'}
                   </span>
@@ -279,8 +285,6 @@ const AptitudeQuiz = () => {
           </div>
         </div>
 
-
-        
         <div className="flex flex-col justify-center gap-5 p-2 lg:ml-20 lg:w-[360px]">
           <h1>Aptitude Test</h1>
           <p className="h-[17px] text-[14px] font-normal leading-4 text-[#6D6D6D]">Attempt all</p>
@@ -319,15 +323,15 @@ const AptitudeQuiz = () => {
                       setActiveTab(i);
                       setCurrentQuestionIndex(i);
                     }}
-                    className={`size-12 border-[#D2D6D9] text-sm text-white hover:bg-black/5 ${isAnswered && isMarked ? 'bg-[#56BA85] rounded-full' : ''} ${isMarked && !isAnswered ? 'bg-[#F3B153] rounded-full' : ''} ${isAnswered && !isMarked ? 'bg-[#56BA85] rounded-full' : ''} ${!isAnswered && !isMarked ? 'border bg-white text-black rounded-md' : ''} ${activeTab === i ? 'border-[1.5px] border-[#3D3D3D]' : ''} `}
+                    className={`size-12 border-[#D2D6D9] text-sm text-white hover:bg-black/5 ${isAnswered && isMarked ? 'rounded-full bg-[#56BA85]' : ''} ${isMarked && !isAnswered ? 'rounded-full bg-[#F3B153]' : ''} ${isAnswered && !isMarked ? 'rounded-full bg-[#56BA85]' : ''} ${!isAnswered && !isMarked ? 'rounded-md border bg-white text-black' : ''} ${activeTab === i ? 'border-[1.5px] border-[#3D3D3D]' : ''} `}
                   >
                     {isAnswered && isMarked && (
-                    <div className="absolute bottom-0 right-0 rounded-full bg-[#F3B153] p-1 border">
-                      <Bookmark className="h-4 w-4 text-white" />
-                    </div>
-                  )}
+                      <div className="absolute bottom-0 right-0 rounded-full border bg-[#F3B153] p-1">
+                        <Bookmark className="h-4 w-4 text-white" />
+                      </div>
+                    )}
                     {i + 1}
-                  </Button>                  
+                  </Button>
                 </div>
               );
             })}

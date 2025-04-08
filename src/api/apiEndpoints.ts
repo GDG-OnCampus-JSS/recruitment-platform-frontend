@@ -1,5 +1,3 @@
-import { verify } from 'crypto';
-
 export const apiEndPoints = {
   users: {
     registerEmail: '/users/send-otp-email', //used
@@ -80,7 +78,7 @@ export const apiEndPoints = {
   },
 
   userAptitude: {
-    getAptitudes :'/users/aptitude'
+    getAptitudes: '/users/aptitude',
   },
 
   contest: {

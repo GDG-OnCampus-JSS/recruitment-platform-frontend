@@ -1,52 +1,20 @@
 'use client';
 
-import brain from '@/components/dashboardlayout/brain';
-import clip from '@/components/dashboardlayout/clip-board';
-import meet from '@/components/dashboardlayout/meet';
+import { useEffect, useState } from 'react';
 import StepCard from '@/components/dashboardlayout/step-card';
+import { adminSteps } from '@/constants/adminSteps';
+import { steps } from '@/constants/dashboard';
+import { StepCardProps } from '@/lib/types';
 import useAdminStore from '@/stores/adminStore';
 
-export const steps = [
-  {
-    step: 1,
-    title: 'Task Round',
-    description: '',
-    icon: clip,
-    buttonText: 'View List',
-    buttonVariant: 'outline' as const,
-    iconColor: '#4285F4',
-    buttonBgColor: 'bg-[#4285F4]',
-    gradientBg: 'bg-blue-gradient',
-    action: '/',
-  },
-  {
-    step: 2,
-    title: 'Create Quiz',
-    description: '',
-    icon: brain,
-    buttonText: 'View Quiz',
-    buttonVariant: 'default' as const,
-    iconColor: '#FBBC04',
-    buttonBgColor: 'bg-[#FBBC04]',
-    gradientBg: 'bg-yellow-gradient',
-    action: 'dashboard/create-quiz',
-  },
-  {
-    step: 3,
-    title: 'All Candidates',
-    description: '',
-    icon: meet,
-    buttonText: 'View List',
-    buttonVariant: 'destructive' as const,
-    iconColor: '#EA4335',
-    buttonBgColor: 'bg-[#EA4335]',
-    gradientBg: 'bg-red-gradient',
-    action: 'dashboard/all-candidates',
-  },
-];
-
 export default function AdminPage() {
+  const [stepsToShow, setStepsToShow] = useState<StepCardProps[]>([]);
   const admin = useAdminStore((state) => state.admin);
+
+  useEffect(() => {
+    setStepsToShow(adminSteps);
+  }, []);
+
   return (
     <div className="mt-20 min-h-screen">
       <div className="mx-auto max-w-6xl px-4 sm:px-8">

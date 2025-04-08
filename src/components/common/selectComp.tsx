@@ -46,7 +46,7 @@ const Dropdown = ({ imageSrc, onLogout }: Props) => {
               <Settings className="text-neutral-400" />
               <div>
                 <h2 className="text-sm font-medium">Profile</h2>
-                <p className="font-sans text-xs text-neutral-400">Edit your profile here</p>
+                <p className="font-sans text-xs text-neutral-400">View & Edit profile</p>
               </div>
             </Link>
             <span className="block h-[0.1px] w-full bg-neutral-200"></span>
@@ -59,7 +59,7 @@ const Dropdown = ({ imageSrc, onLogout }: Props) => {
               <div>
                 <h2 className="text-sm font-medium">Log Out</h2>
                 <p className="font-sans text-xs text-neutral-400 transition-colors group-hover:text-red-400">
-                  Log out and login again
+                  Log out
                 </p>
               </div>
             </button>

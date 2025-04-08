@@ -92,7 +92,7 @@ const NotificationButton = ({ mode, className }: Props) => {
   };
   useEffect(() => {
     if (mode === 'user' && displayUser.id) {
-      fetchNotifications(displayUser.id as string);
+      fetchNotifications(displayUser.id);
     }
   }, [displayUser.id, mode]);
 
