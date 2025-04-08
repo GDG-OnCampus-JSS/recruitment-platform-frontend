@@ -31,6 +31,9 @@
     --gray-extra-light: 225, 100%, 99%, 1;
     --gray-light: 0 0% 82%;
     --gray-medium: 228, 11%, 91%, 1;
+    --theme: 243, 100%, 68%;
+    --theme-light: 230, 100%, 71%;
+    --theme-interactive: 246.99 92% 60%;
 
     --toast-warning: 24 95% 53%;
     --toast-warning-foreground: 24 95% 53%;
