@@ -18,7 +18,7 @@ export default function ForgotPasswordPage() {
       >
         <div className="mb-10 space-y-1">
           <div className="flex items-center justify-between gap-32">
-            <h1 className="text-heading-1 font-medium text-gray-900">Forgot Password</h1>
+            <h1 className="text-heading-1 font-medium text-gray-900 tracking-[0.02em] leading-[1em]">Forgot Password</h1>
             <Link href="/">
               <Image src="/gdg-logo.svg" height={40} width={40} alt="GDG Logo" />
             </Link>

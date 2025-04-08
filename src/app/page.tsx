@@ -7,6 +7,7 @@ import { Card } from '@/components/home/Card';
 import { JourneyStep } from '@/components/home/JourneySteps';
 import VerticalStepper from '@/components/home/VerticalStepper';
 import { cardData, journeySteps, stepColors } from '@/constants/homePageConstants';
+import Header from '@/components/common/header-landing';
 
 // Steps of the Vertical Stepper thing
 const currentStep = 1;
@@ -26,7 +27,8 @@ export default function Home() {
   }, []);
   return (
     <>
-      <section className="relative grid min-h-screen place-content-center overflow-x-hidden bg-home-1 bg-cover bg-no-repeat">
+    <Header />
+      <section className="relative grid min-h-screen place-content-center overflow-x-hidden bg-home-1 bg-cover bg-no-repeat leading-[1em]">
         <div className="group absolute h-screen w-screen bg-slate-100/10 backdrop-blur-lg md:backdrop-blur-none"></div>
         <Logo />
         <Banner className="w-fit" />

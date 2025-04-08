@@ -25,7 +25,7 @@ export default function OnboardingPage() {
       <AuthCard>
         <div className="mb-10 space-y-1">
           <div className="flex items-center justify-between gap-32">
-            <h1 className="text-heading-1 font-medium text-gray-900">
+            <h1 className="text-heading-1 font-medium text-gray-900 tracking-[0.02em] leading-[1em]">
               {step === 0 ? 'Personal Information' : 'Additional Details'}
             </h1>
             <Link href="/">

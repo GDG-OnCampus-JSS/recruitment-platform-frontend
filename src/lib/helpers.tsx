@@ -9,6 +9,8 @@ export const checkIfObjectNotEmpty = (obj: any): boolean => {
 };
 
 export const blobUrl = (imagePath: string) => {
+  const isFullUrl = imagePath.startsWith('http://') || imagePath.startsWith('https://');
+  if (isFullUrl) return imagePath;
   const baseUrl = process.env.NEXT_PUBLIC_BLOB_BASE_URL;
   const signedUrl = process.env.NEXT_PUBLIC_BLOB_SIGNED_URL;
   return `${baseUrl}${imagePath}${signedUrl}`;

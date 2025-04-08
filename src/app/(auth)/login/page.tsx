@@ -9,7 +9,7 @@ import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import * as z from 'zod';
-import { postApi } from '@/api/api';
+import { getApi, postApi } from '@/api/api';
 import { apiEndPoints } from '@/api/apiEndpoints';
 import { AuthCard } from '@/components/common/auth-card';
 import { Divider } from '@/components/common/divider';
@@ -40,6 +40,16 @@ export default function LoginPage() {
     },
   });
 
+  const googleAuth = async ()=>{ 
+        const {status, data: responseData}= await getApi(apiEndPoints.oauth.loginSuccess);
+        console.log("your data is", responseData.user)
+        if (status === statusCode.Ok200) {
+          // console.log("done")
+          router.push('/dashboard');
+          setUser(responseData.user);
+        }      
+    }
+
   const onSubmit = async (data: z.infer<typeof loginSchema>) => {
     const { status, data: responseData } = await postApi(apiEndPoints.users.login, data);
 
@@ -65,7 +75,7 @@ export default function LoginPage() {
           animate="visible"
           className="mb-6 flex items-center justify-between gap-32"
         >
-          <motion.h1 variants={itemVariants} className="text-heading-1 font-medium text-gray-900">
+          <motion.h1 variants={itemVariants} className="text-heading-1 font-medium text-gray-900 tracking-[0.02em] leading-[1em]">
             Welcome Back!
           </motion.h1>
           <motion.div variants={itemVariants}>
@@ -142,7 +152,7 @@ export default function LoginPage() {
                 variant="outline"
                 type="button"
                 className="h-11 w-full font-light"
-                onClick={() => window.open('/api/auth/google', '_self')}
+                onClick={googleAuth}
               >
                 <Image src="/icons/google.svg" height={20} width={20} alt="Google" />
                 Continue with Google

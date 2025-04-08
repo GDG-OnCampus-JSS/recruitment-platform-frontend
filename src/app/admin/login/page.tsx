@@ -56,7 +56,7 @@ export default function Login() {
           animate="visible"
           className="mb-6 flex items-center justify-between gap-32"
         >
-          <motion.h1 variants={itemVariants} className="text-heading-1 font-medium text-gray-900">
+          <motion.h1 variants={itemVariants} className="text-heading-1 font-medium text-gray-900 tracking-[0.02em] leading-[1em]">
             Admin login!
           </motion.h1>
           <motion.div variants={itemVariants}>
