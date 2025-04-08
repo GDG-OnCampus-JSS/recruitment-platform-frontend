@@ -1,18 +1,10 @@
 'use client';
 
 import axios from 'axios';
-import { Bookmark, Circle, TriangleAlert } from 'lucide-react';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { Bookmark, TriangleAlert } from 'lucide-react';
+import { useRouter } from 'next/navigation';
 import { useState, useEffect } from 'react';
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from '@/components/ui/dialog';
+import { Dialog, DialogContent, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import QuizList from './table';
 
 interface Option {
@@ -28,10 +20,12 @@ interface Question {
 }
 
 const AptitudeQuestionsPage = () => {
-  // const router = useRouter();
-  const searchParams = useSearchParams();
-  const aptitudeId = searchParams.get('aptitudeId');
-  const questionId = searchParams.get('questionId');
+  const router = useRouter();
+  // const [searchParams, setSearchParams] = useState(
+  //   () => new URLSearchParams(window.location.search),
+  // );
+  // const aptitudeId = searchParams.get('aptitudeId');
+  // const questionId = searchParams.get('questionId');
   const [questions, setQuestions] = useState<Question[]>([]);
   const [currentQuestion, setCurrentQuestion] = useState<Question | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -50,33 +44,33 @@ const AptitudeQuestionsPage = () => {
 
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  useEffect(() => {
-    if (!aptitudeId) return;
-    const fetchQuestions = async () => {
-      try {
-        const response = await axios.get(`/api/questions/question-aptitude/${aptitudeId}`);
-        setQuestions(response.data.data);
-      } catch (error) {
-        setError('An error occurred while fetching the questions');
-      }
-    };
-    fetchQuestions();
-  }, [aptitudeId]);
+  // useEffect(() => {
+  //   // if (!aptitudeId) return;
+  //   const fetchQuestions = async () => {
+  //     // try {
+  //     //   const response = await axios.get(`/api/questions/question-aptitude/${aptitudeId}`);
+  //     //   setQuestions(response.data.data);
+  //     // } catch (error) {
+  //     //   setError('An error occurred while fetching the questions');
+  //     // }
+  //   };
+  //   fetchQuestions();
+  // }, [aptitudeId]);
 
-  useEffect(() => {
-    if (questions.length > 0 && questionId) {
-      const currentQuestion = questions.find((q) => q.id === questionId);
-      setCurrentQuestion(currentQuestion || null);
-      setSelectedOption(responses[questionId as string] || null);
-    }
-  }, [questions, questionId, responses]);
+  // useEffect(() => {
+  //   // if (questions.length > 0 && questionId) {
+  //   //   const currentQuestion = questions.find((q) => q.id === questionId);
+  //   //   setCurrentQuestion(currentQuestion || null);
+  //   //   setSelectedOption(responses[questionId as string] || null);
+  //   // }
+  // }, [questions, questionId, responses]);
+
+  if (!currentQuestion) {
+    router.push('/error');
+  }
 
   // if (!currentQuestion) {
-  //   router.push('/error');
-  // }
-
-  // if (!currentQuestion) {
-  //   const currQuestion = questionsData.find((q) => q.id === '1');
+  //   const currQuestion = questions.find((q) => q.id === '1');
   //   setCurrentQuestion(currQuestion || null);
   //   setSelectedOption(responses[questionId as string] || null);
   // }
@@ -107,14 +101,14 @@ const AptitudeQuestionsPage = () => {
   }
 
   const handleSubmit = async () => {
-    try {
-      setIsModalOpen(false);
-      await axios.post('/api/submit-responses', { aptitudeId, responses });
-      // router.push('/quiz/aptitude/submitted');
-      console.log('Responses submitted successfully!');
-    } catch (error) {
-      console.log('An error occurred while submitting responses', error);
-    }
+    // try {
+    //   setIsModalOpen(false);
+    //   await axios.post('/api/submit-responses', { aptitudeId, responses });
+    //   // router.push('/quiz/aptitude/submitted');
+    //   console.log('Responses submitted successfully!');
+    // } catch (error) {
+    //   console.log('An error occurred while submitting responses', error);
+    // }
   };
 
   const openFinishTestDialog = () => {
@@ -239,7 +233,7 @@ const AptitudeQuestionsPage = () => {
             </ul>
             <div className="top-[475px] mt-20 flex max-w-[740px] justify-between">
               <button
-                onClick={handlePrevious}
+                // onClick={handlePrevious}
                 className="h-[44px] w-[110px] rounded-sm bg-[#F1F1F1] text-[16px] font-medium leading-4 text-black"
                 disabled={questions.findIndex((q) => q.id === currentQuestion?.id) === 0}
               >
@@ -258,7 +252,7 @@ const AptitudeQuestionsPage = () => {
 
                 <button
                   className="h-[44px] w-[150px] rounded-sm bg-[#635BFF] py-3 text-[16px] font-medium leading-4 text-white"
-                  onClick={handleNext}
+                  // onClick={handleNext}
                   disabled={
                     questions.findIndex((q) => q.id === currentQuestion?.id) ===
                     questions.length - 1

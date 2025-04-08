@@ -1,6 +1,5 @@
 'use client';
 import React, { useState, useEffect } from 'react';
-import { ApiRoutes } from '@/api/routes';
 import { Button } from '@/components/ui/button';
 import { statusCode } from '@/constants/apiStatus';
 import { mockUser } from '@/lib/options';
@@ -37,36 +36,33 @@ const PermissionPopup = ({ onClose }: { onClose: () => void }) => {
   };
 
   const subscribeToNotifications = async () => {
-    try {
-      const registration = await navigator.serviceWorker.ready;
-      const existingSubscription = await registration.pushManager.getSubscription();
-      if (existingSubscription) {
-        console.log('User already subscribed:', existingSubscription);
-        localStorage.setItem('subscribed', 'true');
-        return;
-      }
-      const subscription = await registration.pushManager.subscribe({
-        userVisibleOnly: true,
-        applicationServerKey: process.env.NEXT_PUBLIC_VAPID_PUBLIC_KEY as string,
-      });
-      console.log('User Subscribed:', displayUser.id, subscription);
-      console.log(subscription.endpoint);
-      // const { status, data } = await ApiRoutes.subscribeUser(displayUser.id, subscription);
-      const { status, data } = await ApiRoutes.subscribeUser({
-        userId: displayUser.id,
-        subscription,
-      });
-
-      console.log(status);
-
-      if (status !== statusCode.Ok200) {
-        throw new Error(`Failed to store subscription on server: ${data}`);
-      }
-
-      console.log('Subscription saved successfully on server:', data);
-    } catch (error) {
-      console.error('Error subscribing to notifications:', error);
-    }
+    // try {
+    //   const registration = await navigator.serviceWorker.ready;
+    //   const existingSubscription = await registration.pushManager.getSubscription();
+    //   if (existingSubscription) {
+    //     console.log('User already subscribed:', existingSubscription);
+    //     localStorage.setItem('subscribed', 'true');
+    //     return;
+    //   }
+    //   const subscription = await registration.pushManager.subscribe({
+    //     userVisibleOnly: true,
+    //     applicationServerKey: process.env.NEXT_PUBLIC_VAPID_PUBLIC_KEY as string,
+    //   });
+    //   console.log('User Subscribed:', displayUser.id, subscription);
+    //   console.log(subscription.endpoint);
+    //   // const { status, data } = await ApiRoutes.subscribeUser(displayUser.id, subscription);
+    //   // const { status, data } = await ApiRoutes.subscribeUser({
+    //   //   userId: displayUser.id,
+    //   //   subscription,
+    //   // });
+    //   console.log(status);
+    //   if (status !== statusCode.Ok200) {
+    //     throw new Error(`Failed to store subscription on server: ${data}`);
+    //   }
+    //   console.log('Subscription saved successfully on server:', data);
+    // } catch (error) {
+    //   console.error('Error subscribing to notifications:', error);
+    // }
   };
 
   if (!isVisible) return null;

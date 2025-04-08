@@ -1,17 +1,14 @@
 'use client';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { PencilLine, X } from 'lucide-react';
+import { PencilLine } from 'lucide-react';
 import Image from 'next/image';
 import { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
-import { toast } from 'sonner';
 import * as z from 'zod';
-import { ApiRoutes } from '@/api/routes';
 import FormInput from '@/components/common/form-input';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Form } from '@/components/ui/form';
-import { useAuthStore } from '@/context/authContext';
 import { User } from '@/lib/types';
 import PasswordModal from '../dashboardlayout/password-modal';
 
@@ -59,40 +56,6 @@ export default function EditProfileDialog({
       setProfileImage(userData.photo || '/avatar.jpg');
     }
   }, [userData, form]);
-
-  const handleSavePassword = async (passwords: {
-    oldPassword: string;
-    newPassword: string;
-    confirmPassword: string;
-  }) => {
-    try {
-      if (passwords.newPassword !== passwords.confirmPassword) {
-        toast.error('New password and confirm password do not match');
-        return;
-      }
-      const { user } = useAuthStore.getState();
-
-      const token = user?.token;
-      if (!token) {
-        toast.error('Authentication required');
-        return;
-      }
-      const { status, data } = await ApiRoutes.resetPassword({
-        token,
-        newPassword: passwords.newPassword,
-      });
-
-      if (status === 200) {
-        toast.success('Password updated successfully');
-        setIsPasswordModalOpen(false);
-      } else {
-        toast.error(data?.message || 'Failed to update password');
-      }
-    } catch (error) {
-      console.error('Error updating password:', error);
-      toast.error('An error occurred while updating the password');
-    }
-  };
 
   const handleSubmit = async (values: z.infer<typeof profileSchema>) => {
     await onSubmit(values);

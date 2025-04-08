@@ -6,44 +6,42 @@ import Link from 'next/link';
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import * as z from 'zod';
-import { ApiRoutes } from '@/api/routes';
+// import { ApiRoutes } from '@/api/routes';
 import FormInput from '@/components/common/form-input';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Form } from '@/components/ui/form';
-import { useAuthStore } from '@/context/authContext';
-import { mockUser } from '@/lib/options';
-import { User } from '@/lib/types';
+import useUserStore from '@/stores/userStore';
 
 const taskSchema = z.object({
   link: z.string().url('Invalid URL format'),
 });
 
 function Task() {
-  const { user } = useAuthStore();
-  const displayUser = (user || mockUser) as User;
+  const { user } = useUserStore();
   const form = useForm<z.infer<typeof taskSchema>>({
     resolver: zodResolver(taskSchema),
     defaultValues: { link: '' },
   });
 
   const onSubmit = async (data: { link: string }) => {
-    console.log('Submitted URL:', data.link);
-    const socialLinkData = {
-      platform: 'project',
-      url: data.link,
-    };
+    // console.log('Submitted URL:', data.link);
+    // const socialLinkData = {
+    //   platform: 'project',
+    //   url: data.link,
+    // };
 
-    const response = await ApiRoutes.createSocialLink(displayUser.id, socialLinkData);
-    if (response.status === 200) {
-      await ApiRoutes.updateUser(displayUser.id, {
-        projectStatus: true,
-      });
-      alert('Task link submitted successfully!');
-      form.reset();
-    } else {
-      alert('Failed to submit task link');
-    }
+    // const response = await ApiRoutes.createSocialLink(displayUser.id, socialLinkData);
+    // if (response.status === 200) {
+    //   await ApiRoutes.updateUser(displayUser.id, {
+    //     projectStatus: true,
+    //   });
+    //   alert('Task link submitted successfully!');
+    //   form.reset();
+    // } else {
+    //   alert('Failed to submit task link');
+    // }
+    console.log('Submitted URL:', data.link);
   };
 
   return (

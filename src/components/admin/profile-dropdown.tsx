@@ -2,15 +2,18 @@ import { ChevronDown, LogOut, Mail, Phone, UserCog } from 'lucide-react';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import React, { useState, useEffect } from 'react';
-import { useAuth, useAuthStore } from '@/context/authContext';
+// import { useAuth, useAuthStore } from '@/context/authContext';
 import { mockUser } from '@/lib/options';
 import { User } from '@/lib/types';
+import useUserStore from '@/stores/userStore';
 import { Button } from '../ui/button';
 
 const ProfileDropdown = ({ onEditProfile }: { onEditProfile: () => void }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [displayUser, setDisplayUser] = useState<User | null>(null);
-  const { user, loading, logout } = useAuth();
+  // const { user, loading, logout } = useAuth();
+  const user = useUserStore((state) => state.user);
+  const logout = useUserStore((state) => state.logout);
   const router = useRouter();
 
   useEffect(() => {
@@ -26,7 +29,7 @@ const ProfileDropdown = ({ onEditProfile }: { onEditProfile: () => void }) => {
       console.error('Logout failed:', error);
     }
   };
-  if (loading || !displayUser) {
+  if (!displayUser) {
     return (
       <div className="flex min-h-screen items-center justify-center">
         <p className="text-lg">Loading...</p>
