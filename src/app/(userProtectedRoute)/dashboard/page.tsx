@@ -3,59 +3,22 @@ import { CircleAlert } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
-import brain from '@/components/dashboardlayout/brain';
-import clip from '@/components/dashboardlayout/clip-board';
-import meet from '@/components/dashboardlayout/meet';
 import PermissionPopup from '@/components/dashboardlayout/permission-popup';
 import StepCard from '@/components/dashboardlayout/step-card';
+import { steps } from '@/constants/dashboard';
 import { blobUrl } from '@/lib/helpers';
 import { reqFields, mockUser } from '@/lib/options';
+import { StepCardProps } from '@/lib/types';
 import useUserStore from '@/stores/userStore';
-
-export const steps = [
-  {
-    step: 1,
-    title: 'Task Round',
-    description: 'Solve and create! Impress us with your solution.',
-    icon: clip,
-    buttonText: 'View Tasks',
-    iconColor: '#4285F4',
-    buttonBgColor: 'bg-[#4285F4]',
-    gradientBg: 'bg-blue-gradient',
-    action: '/dashboard/task-round',
-    eventStartDate: new Date('2025-04-13T00:00:00'),
-    eventEndDate: new Date('2025-04-02T03:00:00'),
-  },
-  {
-    step: 2,
-    title: 'Aptitude Quiz',
-    description: 'A quick 30-min quiz to test your technical aptitude.',
-    icon: brain,
-    buttonText: 'Start Now',
-    iconColor: '#FBBC04',
-    buttonBgColor: 'bg-[#FBBC04]',
-    gradientBg: 'bg-yellow-gradient',
-    action: '/quiz',
-    eventStartDate: new Date('2025-04-14T00:00:00'),
-    eventEndDate: new Date('2025-04-02T03:00:00'),
-  },
-  {
-    step: 3,
-    title: 'Personal Interview',
-    description: 'The final step, a conversation to seal your place.',
-    icon: meet,
-    buttonText: 'View Timing',
-    iconColor: '#EA4335',
-    buttonBgColor: 'bg-[#EA4335]',
-    gradientBg: 'bg-red-gradient',
-    action: '#',
-    eventStartDate: new Date('2025-04-15T00:00:00'),
-    eventEndDate: new Date('2025-04-02T03:00:00'),
-  },
-];
 
 export default function DashboardPage() {
   const user = useUserStore((state) => state.user);
+  const [showPopup, setShowPopup] = useState(false);
+  const [stepsToShow, setStepsToShow] = useState<StepCardProps[]>([]);
+
+  useEffect(() => {
+    setStepsToShow(steps);
+  }, [steps]);
 
   const isProfileComplete = reqFields.every(
     (field) =>
@@ -63,11 +26,8 @@ export default function DashboardPage() {
       mockUser[field as keyof typeof mockUser]?.toString().trim() !== '',
   );
 
-  const [showPopup, setShowPopup] = useState(false);
-
   useEffect(() => {
     const hasSubscribed = localStorage.getItem('subscribed');
-
     if (!hasSubscribed) {
       setShowPopup(true);
     }
@@ -91,7 +51,7 @@ export default function DashboardPage() {
               height={80}
               className="size-16 rounded-full object-contain sm:size-20"
             />
-            <div className="">
+            <div>
               <h2 className="mb-2 text-lg font-medium tracking-[0.28px] sm:text-[28px]">
                 Hey! {user?.name.split(' ')[0]}
               </h2>
@@ -116,9 +76,9 @@ export default function DashboardPage() {
         </div>
 
         <div className="mx-auto mb-6 grid w-full max-w-[1280px] grid-cols-1 justify-items-center gap-4 sm:mb-20 sm:grid-cols-2 sm:gap-5 md:grid-cols-3">
-          {steps.map((step) => (
-            <StepCard key={step.step} {...step} />
-          ))}
+          {steps.map((step: StepCardProps, index: number) => {
+            return <StepCard key={index} {...step} />;
+          })}
         </div>
       </div>
     </div>

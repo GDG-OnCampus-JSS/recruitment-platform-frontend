@@ -73,7 +73,6 @@ export interface StepCardProps {
   description: string;
   icon: React.ComponentType;
   buttonText: string;
-  iconColor: string;
   buttonBgColor: string;
   gradientBg: string;
   action: string;

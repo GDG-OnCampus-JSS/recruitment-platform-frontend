@@ -1,0 +1,43 @@
+import brain from '@/components/dashboardlayout/brain';
+import clip from '@/components/dashboardlayout/clip-board';
+import meet from '@/components/dashboardlayout/meet';
+import { StepCardProps } from '@/lib/types';
+
+export const steps: StepCardProps[] = [
+  {
+    step: 1,
+    title: 'Task Round',
+    description: 'Solve and create! Impress us with your solution.',
+    icon: clip,
+    buttonText: 'View Tasks',
+    buttonBgColor: 'bg-[#4285F4]',
+    gradientBg: 'bg-blue-gradient',
+    action: '/dashboard/task-round',
+    eventStartDate: new Date('2025-04-13T00:00:00'),
+    eventEndDate: new Date('2025-04-02T03:00:00'),
+  },
+  {
+    step: 2,
+    title: 'Aptitude Quiz',
+    description: 'A quick 30-min quiz to test your technical aptitude.',
+    icon: brain,
+    buttonText: 'Start Now',
+    buttonBgColor: 'bg-[#FBBC04]',
+    gradientBg: 'bg-yellow-gradient',
+    action: '/quiz',
+    eventStartDate: new Date('2025-04-14T00:00:00'),
+    eventEndDate: new Date('2025-04-02T03:00:00'),
+  },
+  {
+    step: 3,
+    title: 'Personal Interview',
+    description: 'The final step, a conversation to seal your place.',
+    icon: meet,
+    buttonText: 'View Timing',
+    buttonBgColor: 'bg-[#EA4335]',
+    gradientBg: 'bg-red-gradient',
+    action: '#',
+    eventStartDate: new Date('2025-04-15T00:00:00'),
+    eventEndDate: new Date('2025-04-02T03:00:00'),
+  },
+];
