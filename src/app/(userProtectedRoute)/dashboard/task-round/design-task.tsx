@@ -1,22 +1,68 @@
+import { ArrowRightCircle, Mail } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import React from 'react';
+import { UseFormReturn } from 'react-hook-form';
 import FormInput from '@/components/common/form-input';
+import { Spinner } from '@/components/common/spinner';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Form } from '@/components/ui/form';
 import { designTasks } from '@/constants/task-round';
-
 interface DesignTaskProps {
-  year: 1 | 2;
+  year: number;
   onSubmit: (data: { link: string }) => Promise<void>;
-  form: any;
+  form: UseFormReturn<{ link: string }>;
 }
 
-// UI/UX Design Task Component
 export const DesignTask = ({ year, onSubmit, form }: DesignTaskProps) => {
+  const router = useRouter();
   const yearTasks = designTasks.find((task) => task.year === year);
 
-  if (!yearTasks) return <div>No tasks found for this year</div>;
+  if (!yearTasks)
+    return (
+      <div className="flex flex-col items-center justify-center space-y-6 py-12 text-center">
+        <div className="animate-fade-in-up">
+          <h2 className="mb-4 text-3xl font-bold text-gray-900 md:text-4xl">Tasks Unavailable</h2>
+          <p className="mx-auto max-w-xl text-lg text-gray-600 md:text-xl">
+            We're unable to load your tasks at the moment. This could be due to:
+          </p>
+        </div>
+
+        <div className="animate-fade-in-up w-full max-w-md space-y-4 delay-100">
+          <ul className="list-inside list-disc space-y-2 text-left text-gray-700">
+            <li>Session expiration</li>
+            <li>Domain assignment pending</li>
+            <li>Technical difficulties</li>
+          </ul>
+        </div>
+
+        <div className="animate-fade-in-up space-y-6 delay-200">
+          <div className="rounded-lg bg-blue-50/80 p-6 text-center shadow-sm transition-all hover:bg-blue-50">
+            <h3 className="mb-3 text-xl font-semibold text-blue-800">Immediate Solutions</h3>
+            <div className="space-y-2">
+              <Button
+                variant="link"
+                className="text-blue-600 hover:text-blue-700"
+                onClick={() => router.push('/logout')}
+              >
+                <ArrowRightCircle className="mr-2 h-5 w-5" />
+                Re-authenticate Your Session
+              </Button>
+              <p className="text-sm text-blue-600">or</p>
+              <Link
+                href="mailto:coordinator@example.com"
+                className="inline-flex items-center text-blue-600 hover:text-blue-700"
+              >
+                <Mail className="mr-2 h-5 w-5" />
+                Contact Domain Coordinator
+              </Link>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
 
   return (
     <div className="mt-10">
@@ -80,9 +126,10 @@ export const DesignTask = ({ year, onSubmit, form }: DesignTaskProps) => {
           </div>
           <Button
             type="submit"
-            className="rounded-md bg-[#635BFF] px-10 py-5 text-base font-medium hover:bg-theme-interactive"
+            className="w-28 rounded-md bg-[#635BFF] px-10 py-5 text-base font-medium hover:bg-theme-interactive"
+            disabled={form.formState.isSubmitting}
           >
-            Submit
+            {form.formState.isSubmitting ? <Spinner className="text-white" /> : 'Submit'}
           </Button>
         </form>
       </Form>
@@ -90,7 +137,6 @@ export const DesignTask = ({ year, onSubmit, form }: DesignTaskProps) => {
   );
 };
 
-// Reusable Task Section Component
 const TaskSection = ({ task }: { task: any }) => (
   <div className="space-y-14">
     <div className="flex flex-col gap-4 md:flex-row">
