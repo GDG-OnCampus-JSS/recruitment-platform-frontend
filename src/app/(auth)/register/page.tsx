@@ -3,9 +3,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { useState } from 'react';
-import { getApi, postApi } from '@/api/api';
-import { apiEndPoints } from '@/api/apiEndpoints';
+import { useEffect, useState } from 'react';
 import { AuthCard } from '@/components/common/auth-card';
 import { Divider } from '@/components/common/divider';
 import LogoGrid from '@/components/common/logo-grid';
@@ -75,14 +73,6 @@ export default function RegisterPage() {
     }
   };
 
-  const googleAuth = async () => {
-    const { status, data: responseData } = await getApi(apiEndPoints.oauth.loginSuccess);
-    if (status === statusCode.Ok200) {
-      router.push('/dashboard');
-      setUser(responseData.user);
-    }
-  };
-
   return (
     <LogoGrid>
       <AuthCard
@@ -114,7 +104,7 @@ export default function RegisterPage() {
                 variant="outline"
                 type="button"
                 className="h-11 w-full font-light"
-                onClick={googleAuth}
+                onClick={() => window.open('http://localhost:5000/auth/google', '_self')}
               >
                 <Image src="/icons/google.svg" height={20} width={20} alt="Google" />
                 Continue with Google

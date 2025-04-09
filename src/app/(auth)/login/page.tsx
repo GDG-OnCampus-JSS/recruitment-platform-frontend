@@ -40,13 +40,28 @@ export default function LoginPage() {
     },
   });
 
-  const googleAuth = async () => {
-    const { status, data: responseData } = await getApi(apiEndPoints.oauth.loginSuccess);
-    if (status === statusCode.Ok200) {
-      router.push('/dashboard');
-      setUser(responseData.user);
-    }
-  };
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const { status, data } = await getApi('http://localhost:5000/auth/login');
+        const user = data.user;
+        if (user) {
+          setUser({
+            ...data.user,
+            loginMethod: 'google',
+          });
+          router.push('/dashboard');
+        } else {
+          router.push('/login');
+        }
+      } catch (err) {
+        console.error('Error:', err);
+        router.push('/login');
+      }
+    };
+
+    fetchUser();
+  }, [setUser, router]);
 
   const onSubmit = async (data: z.infer<typeof loginSchema>) => {
     const { status, data: responseData } = await postApi(apiEndPoints.users.login, data);
@@ -54,7 +69,7 @@ export default function LoginPage() {
     handleToastApiResponse(status, responseData);
     if (status === statusCode.Ok200) {
       router.push('/dashboard');
-      setUser(responseData.user);
+      setUser({ ...responseData.user, loginMethod: 'jwt' });
     }
   };
 
@@ -153,7 +168,7 @@ export default function LoginPage() {
                 variant="outline"
                 type="button"
                 className="h-11 w-full font-light"
-                onClick={googleAuth}
+                onClick={() => window.open('http://localhost:5000/auth/google', '_self')}
               >
                 <Image src="/icons/google.svg" height={20} width={20} alt="Google" />
                 Continue with Google
