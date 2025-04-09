@@ -9,7 +9,7 @@ export default function Quiz() {
   const router = useRouter();
   const user = useUserStore((state) => state.user);
   return (
-    <div className="bg-[#fff] p-5 lg:h-full lg:p-8 min-h-screen">
+    <div className="min-h-screen bg-[#fff] p-5 lg:h-full lg:p-8">
       <div className="mx-auto max-w-6xl px-4 sm:mt-9 sm:px-8">
         <div className="flex items-center justify-between">
           <Button

@@ -52,7 +52,9 @@ const AptitudeQuiz = () => {
 
   const totalMarked = reviewedQuestions.size;
   const totalQuestions = displayedQuestions.length;
-  const totalAnswered = Object.entries(textAnswers).filter(([_, value]) => value.trim() !== '').length;
+  const totalAnswered = Object.entries(textAnswers).filter(
+    ([_, value]) => value.trim() !== '',
+  ).length;
 
   const formSchema = z.object({
     answers: z.record(z.string().min(1, 'Answer cannot be empty')),
