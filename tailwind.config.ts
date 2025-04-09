@@ -8,6 +8,9 @@ const safelist = [
   'bg-blue-gradient',
   'bg-yellow-gradient',
   'bg-red-gradient',
+  'bg-[#FBBC04]',
+  'bg-[#4285F4]',
+  'bg-[#EA4335]',
   ...colors.flatMap((color) => [
     `bg-${color}`,
     `text-${color}`,

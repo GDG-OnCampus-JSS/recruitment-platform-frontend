@@ -13,12 +13,13 @@ import useUserStore from '@/stores/userStore';
 
 export default function DashboardPage() {
   const user = useUserStore((state) => state.user);
+  const userDomain = user?.domain;
   const [showPopup, setShowPopup] = useState(false);
   const [stepsToShow, setStepsToShow] = useState<StepCardProps[]>([]);
 
   useEffect(() => {
     setStepsToShow(steps);
-  }, [steps]);
+  }, []);
 
   const isProfileComplete = reqFields.every(
     (field) =>
@@ -37,6 +38,18 @@ export default function DashboardPage() {
     localStorage.setItem('subscribed', 'true');
     setShowPopup(false);
   };
+
+  useEffect(() => {
+    let filteredSteps = steps.filter((step) => step.step <= 3);
+
+    if (userDomain === 'programmer') {
+      filteredSteps = filteredSteps.map((step) =>
+        step.step === 2 ? steps.find((s) => s.step === 4)! : step,
+      );
+    }
+
+    setStepsToShow(filteredSteps);
+  }, [userDomain]);
 
   return (
     <div className="mt-20 min-h-screen">

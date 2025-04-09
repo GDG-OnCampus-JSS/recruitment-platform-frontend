@@ -1,6 +1,7 @@
 'use client';
 import { motion } from 'motion/react';
 import { cn } from '@/lib/utils';
+import useUserStore from '@/stores/userStore';
 import Button from './Button';
 import { Click } from './click';
 import { EllipseIcon } from './ellipse-1';
@@ -49,6 +50,7 @@ export const Logo = () => {
 };
 
 export const CTA = () => {
+  const { user } = useUserStore();
   return (
     <>
       <motion.p
@@ -71,9 +73,15 @@ export const CTA = () => {
           transition: { ease: 'easeOut', duration: 0.8, delay: 1.2 },
         }}
       >
-        <Button href="/register" className="z-10">
-          Register Now
-        </Button>
+        {user ? (
+          <Button href="/dashboard" className="z-10">
+            Visit Dashboard
+          </Button>
+        ) : (
+          <Button href="/register" className="z-10">
+            Register Now
+          </Button>
+        )}
       </motion.div>
     </>
   );

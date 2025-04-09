@@ -91,7 +91,7 @@ export const Header = ({ isAdmin }: { isAdmin: boolean }) => {
             <Button
               variant="outline"
               className="flex items-center justify-center gap-1 rounded-[22px] px-3 py-2"
-              onClick={() => router.push('/help')}
+              onClick={() => router.push('https://chat.whatsapp.com/KIzWKEujQqbHgOWKAtYhWj')}
             >
               <Hand size={18} />
               <span className="text-sm font-normal leading-4 text-[#100C2C]">I have a doubt</span>
