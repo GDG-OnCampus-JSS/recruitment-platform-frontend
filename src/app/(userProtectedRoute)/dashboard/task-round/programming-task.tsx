@@ -14,10 +14,10 @@ export const ProgrammingTask = () => {
 
           <div className="mt-8">
             <Link
-              href="/coding-contest" // Replace with your actual contest route
+              href="/dashboard"
               className="inline-block rounded-md bg-[#635BFF] px-8 py-4 text-base font-medium text-white transition hover:bg-[#564FE1]"
             >
-              Visit Coding Contest
+              Back to dashboard
             </Link>
           </div>
 
