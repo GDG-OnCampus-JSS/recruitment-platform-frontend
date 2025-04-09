@@ -9,7 +9,7 @@ export default function Quiz() {
   const router = useRouter();
   const user = useUserStore((state) => state.user);
   return (
-    <div className="bg-[#fff] p-5 lg:h-full lg:p-8">
+    <div className="bg-[#fff] p-5 lg:h-full lg:p-8 min-h-screen">
       <div className="mx-auto max-w-6xl px-4 sm:mt-9 sm:px-8">
         <div className="flex items-center justify-between">
           <Button
@@ -23,14 +23,14 @@ export default function Quiz() {
         </div>
         <div className="mx-auto my-8 max-w-[740px] rounded-xl border px-6 py-8 shadow-xl lg:h-[412px] lg:py-10">
           <div className="mb-5 flex flex-col justify-between text-xl leading-[1em] tracking-[0.02em] text-[#432AD8] lg:flex-row">
-            <div className="mb-2 lg:mb-0">
+            {/* <div className="mb-2 lg:mb-0">
               <span>Selected Year:</span>
               <span className="border border-[#ccc] px-3 py-1">{user?.year}</span>
             </div>
             <div>
               <span>Selected Domain:</span>
               <span className="border border-[#ccc] px-3 py-1">{user?.domain}</span>
-            </div>
+            </div> */}
           </div>
           <div className="max-w-[646px] text-[#100c2c]">
             <h1 className="text-xl font-medium leading-[1em] tracking-[0.02em] lg:mb-5">
