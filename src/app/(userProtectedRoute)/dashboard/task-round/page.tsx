@@ -72,15 +72,15 @@ function Task() {
 
   const renderTaskContent = () => {
     switch (domain) {
-      case 'web development':
+      case 'web developer':
         return <WebDevelopmentTask onSubmit={onSubmit} form={form} year={year} />;
-      case 'design':
+      case 'designer':
         return <DesignTask onSubmit={onSubmit} form={form} year={year} />;
-      case 'machine learning':
+      case 'ml engineer':
         return <MachineLearningTask onSubmit={onSubmit} form={form} year={year} />;
-      case 'android':
+      case 'app developer':
         return <AndroidTask onSubmit={onSubmit} form={form} year={year} />;
-      case 'programming':
+      case 'programmer':
         return <ProgrammingTask />;
       default:
         return <UnsupportedDomain domain={domain} />;

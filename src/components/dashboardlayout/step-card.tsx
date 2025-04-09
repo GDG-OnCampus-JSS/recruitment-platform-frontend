@@ -61,7 +61,7 @@ const StepCard = ({
                 `hover:bg-${buttonBgColor}`,
                 buttonBgColor,
               )}
-              // onClick={() => (window.location.href = action)}
+              onClick={() => (window.location.href = action)}
               disabled={isEventDisabled}
             >
               {buttonText}

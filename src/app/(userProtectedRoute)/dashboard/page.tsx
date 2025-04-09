@@ -76,7 +76,7 @@ export default function DashboardPage() {
         </div>
 
         <div className="mx-auto mb-6 grid w-full max-w-[1280px] grid-cols-1 justify-items-center gap-4 sm:mb-20 sm:grid-cols-2 sm:gap-5 md:grid-cols-3">
-          {steps.map((step: StepCardProps, index: number) => {
+          {stepsToShow.map((step: StepCardProps, index: number) => {
             return <StepCard key={index} {...step} />;
           })}
         </div>
