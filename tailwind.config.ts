@@ -4,16 +4,21 @@ const colors = ['register', 'task', 'aptitude', 'interview', 'result'];
 const opacities = ['10', '20'];
 
 // Generate all possible combinations for safelist
-const safelist = colors.flatMap((color) => [
-  `bg-${color}`,
-  `text-${color}`,
-  `border-${color}`,
-  ...opacities.flatMap((opacity) => [
-    `bg-${color}-${opacity}`,
-    `text-${color}-${opacity}`,
-    `border-${color}-${opacity}`,
+const safelist = [
+  'bg-blue-gradient',
+  'bg-yellow-gradient',
+  'bg-red-gradient',
+  ...colors.flatMap((color) => [
+    `bg-${color}`,
+    `text-${color}`,
+    `border-${color}`,
+    ...opacities.flatMap((opacity) => [
+      `bg-${color}-${opacity}`,
+      `text-${color}-${opacity}`,
+      `border-${color}-${opacity}`,
+    ]),
   ]),
-]);
+];
 
 export default {
   safelist,
