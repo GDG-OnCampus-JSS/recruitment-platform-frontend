@@ -1,20 +1,8 @@
 import { Analytics } from '@vercel/analytics/react';
 import { type Metadata } from 'next';
-import { Geist, Geist_Mono, Playfair_Display, JetBrains_Mono } from 'next/font/google';
 import localFont from 'next/font/local';
 import './globals.css';
 import { Toaster } from '@/components/ui/toaster';
-
-const jetBrainsMono = JetBrains_Mono({
-  weight: '400',
-  subsets: ['latin'],
-});
-
-const playfairDisplay = Playfair_Display({
-  subsets: ['latin'],
-  weight: ['400', '500', '600', '700'],
-  style: ['normal', 'italic'],
-});
 
 const productSans = localFont({
   src: [
@@ -32,16 +20,6 @@ const productSans = localFont({
     },
   ],
   variable: '--font-product-sans',
-});
-
-const geistSans = Geist({
-  variable: '--font-geist-sans',
-  subsets: ['latin'],
-});
-
-const geistMono = Geist_Mono({
-  variable: '--font-geist-mono',
-  subsets: ['latin'],
 });
 
 export const metadata: Metadata = {

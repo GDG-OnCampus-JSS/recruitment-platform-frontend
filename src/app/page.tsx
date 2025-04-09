@@ -1,4 +1,5 @@
 'use client';
+import { Analytics } from '@vercel/analytics/react';
 import { useEffect } from 'react';
 import Header from '@/components/common/header-landing';
 import Footer from '@/components/dashboardlayout/footer';
@@ -8,7 +9,6 @@ import { Card } from '@/components/home/Card';
 import { JourneyStep } from '@/components/home/JourneySteps';
 import VerticalStepper from '@/components/home/VerticalStepper';
 import { cardData, journeySteps, stepColors } from '@/constants/homePageConstants';
-import { Analytics } from '@vercel/analytics/react';
 
 // Steps of the Vertical Stepper thing
 const currentStep = 1;
