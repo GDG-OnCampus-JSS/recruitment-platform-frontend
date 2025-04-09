@@ -28,21 +28,14 @@ const AptitudeQuiz = () => {
   const displayUser = (user || mockUser) as User;
   const [activeTab, setActiveTab] = useState(0);
   const [isModalOpen, setIsModalOpen] = useState(false);
-
   const [reviewedQuestions, setReviewedQuestions] = useState<Set<string>>(new Set());
-
-  const aptitudeDomain = 'ML';
-  const aptitudeYear = '1';
-  const params = { aptitudeYear, aptitudeDomain };
 
   const [allAptitudes, setAllAptitudes] = useState<any[]>([]);
   const [aptitudeQuestions, setAptitudeQuestions] = useState<any[]>([]);
   const [error, setError] = useState<string>('');
   const [displayedQuestions, setDisplayedQuestions] = useState<any[]>([]);
 
-  // const [allQuestions, setAllQuestions] = useState(mockAptitude.aptitudes[0].aptitudeQuestions);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
-  const [selectedOptions, setSelectedOptions] = useState<{ [key: string]: string }>({});
   const [textAnswers, setTextAnswers] = useState<{ [key: string]: string }>({});
 
   const currentQuestion = displayedQuestions[currentQuestionIndex];
@@ -67,48 +60,44 @@ const AptitudeQuiz = () => {
     },
   });
 
-  const selectRandomQuestions = (questions: any[], count: number) => {
-    const shuffled = [...questions].sort(() => 0.5 - Math.random());
-    return shuffled.slice(0, count);
-  };
 
-  const fetchAptitudeId = async () => {
-    try {
-      console.log(apiEndPoints.userAptitude.getAptitudes);
-      const { status, data } = await getApi(
-        `http://localhost:5000/users/aptitude?aptitudeYear=1&aptitudeDomain=ML`,
-      );
-      // await getByParamsApi(apiEndPoints.userAptitude.getAptitudes, params);
-      //const { status, data } = await ApiRoutes.getAllAptitudes(params);
-      let allQuestions: any[] = [];
+  // const fetchAptitudeId = async () => {
+  //   try {
+  //     console.log(apiEndPoints.userAptitude.getAptitudes);
+  //     const { status, data } = await getApi(
+  //       `http://localhost:5000/users/aptitude?aptitudeYear=1&aptitudeDomain=ML`,
+  //     );
+  //     // await getByParamsApi(apiEndPoints.userAptitude.getAptitudes, params);
+  //     //const { status, data } = await ApiRoutes.getAllAptitudes(params);
+  //     let allQuestions: any[] = [];
 
-      if (status === 200 && data) {
-        setAllAptitudes(data.aptitude || []);
-        allQuestions = data.aptitudes.flatMap((aptitude: any) => aptitude.aptitudeQuestions) || [];
-      } else {
-        setAllAptitudes(mockAptitude.aptitudes);
-        allQuestions = mockAptitude.aptitudes.flatMap(
-          (aptitude: any) => aptitude.aptitudeQuestions,
-        );
+  //     if (status === 200 && data) {
+  //       setAllAptitudes(data.aptitude || []);
+  //       allQuestions = data.aptitudes.flatMap((aptitude: any) => aptitude.aptitudeQuestions) || [];
+  //     } else {
+  //       setAllAptitudes(mockAptitude.aptitudes);
+  //       allQuestions = mockAptitude.aptitudes.flatMap(
+  //         (aptitude: any) => aptitude.aptitudeQuestions,
+  //       );
 
-        setAptitudeQuestions(allQuestions);
+  //       setAptitudeQuestions(allQuestions);
 
-        // Select 10 random questions
-        const randomQuestions = selectRandomQuestions(allQuestions, 10);
-        setDisplayedQuestions(randomQuestions);
-      }
-    } catch (error: any) {
-      console.error('Error fetching aptitudes:', error);
-      setError('Failed to fetch aptitudes');
-      const allQuestions = mockAptitude.aptitudes.flatMap(
-        (aptitude: any) => aptitude.aptitudeQuestions,
-      );
-      setAllAptitudes(mockAptitude.aptitudes);
-      setAptitudeQuestions(allQuestions);
-      const randomQuestions = selectRandomQuestions(allQuestions, 10);
-      setDisplayedQuestions(randomQuestions);
-    }
-  };
+  //       // Select 10 random questions
+  //       const randomQuestions = selectRandomQuestions(allQuestions, 10);
+  //       setDisplayedQuestions(randomQuestions);
+  //     }
+  //   } catch (error: any) {
+  //     console.error('Error fetching aptitudes:', error);
+  //     setError('Failed to fetch aptitudes');
+  //     const allQuestions = mockAptitude.aptitudes.flatMap(
+  //       (aptitude: any) => aptitude.aptitudeQuestions,
+  //     );
+  //     setAllAptitudes(mockAptitude.aptitudes);
+  //     setAptitudeQuestions(allQuestions);
+  //     const randomQuestions = selectRandomQuestions(allQuestions, 10);
+  //     setDisplayedQuestions(randomQuestions);
+  //   }
+  // };
 
   // const handleOptionSelect = (questionId: string, optionId: string) => {
   //   setSelectedOptions((prev) => ({
@@ -116,6 +105,14 @@ const AptitudeQuiz = () => {
   //     [questionId]: optionId,
   //   }));
   // };
+
+  const fetchRandomQuestions = async () => {
+    const { status, data } = await getApi(apiEndPoints.question.getRandomQuestions);
+    if (status === statusCode.Ok200 && data?.questions) {
+      setDisplayedQuestions(data.questions);
+    }
+  };
+  
 
   const handleTextAnswerChange = (questionId: string, answer: string) => {
     setTextAnswers((prev) => ({
@@ -157,25 +154,15 @@ const AptitudeQuiz = () => {
 
   const handleSubmitTest = async () => {
     setIsModalOpen(false);
-    const score = calculateScore(displayedQuestions);
-    console.log(displayUser.id);
-    console.log(score);
-    const { status, data } = await postApi(
-      apiEndPoints.userAptitudeDetails.createUserAptitudeDetails,
-      {
+   
+    for (const [questionId, answer] of Object.entries(textAnswers)) {
+      await postApi(apiEndPoints.answer.createAnswer(questionId), {
+        answer,
         userId: displayUser.id,
-        aptitudeScore: score,
-        answers: textAnswers,
-      },
-    );
-
-    if (status === statusCode.Ok200) {
-      console.log('Score sent successfully!');
-      window.open(`/quiz/aptitude/submitted`, '_self');
-    } else {
-      console.error('Failed to send score');
-    }
+      });
   };
+  window.open(`/quiz/aptitude/submitted`, '_self');
+}
 
   useEffect(() => {
     if (currentQuestion) {
@@ -211,7 +198,7 @@ const AptitudeQuiz = () => {
   };
 
   useEffect(() => {
-    fetchAptitudeId();
+    fetchRandomQuestions();
   }, []);
 
   //timer
@@ -299,7 +286,7 @@ const AptitudeQuiz = () => {
           <div className="max-h-[155px] rounded-md bg-white p-5 lg:h-[155px] lg:w-[740px]">
             <h3 className="mb-4 text-xl text-[#100C2C]">Question {currentQuestionIndex + 1}</h3>
             <p className="text-[16px] text-[#3D3D3D]">
-              {currentQuestion?.questionShortDesc || 'Loading'}
+              {currentQuestion?.questionShortDesc || 'Loading...'}
             </p>
           </div>
 
