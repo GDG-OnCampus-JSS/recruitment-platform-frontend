@@ -165,12 +165,7 @@ export const mockAptitude = {
             'Contrast is used to make elements stand out. How does it impact user experience?',
           aptitudeId: 'aptitude1',
           isDeleted: false,
-          options: [
-            { id: 'o1', optionText: 'To blend elements', isCorrect: false },
-            { id: 'o2', optionText: 'To create visual hierarchy', isCorrect: true },
-            { id: 'o3', optionText: 'To remove distractions', isCorrect: false },
-            { id: 'o4', optionText: 'To add more text', isCorrect: false },
-          ],
+          correctAnswer: 'ans1',
         },
         {
           id: 'q2',
@@ -179,39 +174,168 @@ export const mockAptitude = {
             'Digital and print designs use different color models. Which one is standard for print?',
           aptitudeId: 'aptitude1',
           isDeleted: false,
-          options: [
-            { id: 'o5', optionText: 'RGB', isCorrect: false },
-            { id: 'o6', optionText: 'CMYK', isCorrect: true },
-            { id: 'o7', optionText: 'HEX', isCorrect: false },
-            { id: 'o8', optionText: 'HSB', isCorrect: false },
-          ],
+          correctAnswer: 'ans2',
         },
         {
           id: 'q3',
           questionShortDesc: 'What is a wireframe in UI design?',
           questionLongDesc:
             'Wireframes are used in the early stages of UI design. What is their purpose?',
-          aptitudeId: 'aptitude2',
+          aptitudeId: 'aptitude1',
           isDeleted: false,
-          options: [
-            { id: 'o9', optionText: 'A detailed final design', isCorrect: false },
-            { id: 'o10', optionText: 'A basic layout representation', isCorrect: true },
-            { id: 'o11', optionText: 'A color scheme for the UI', isCorrect: false },
-            { id: 'o12', optionText: 'A set of interactive animations', isCorrect: false },
-          ],
+          correctAnswer: 'ans4',
         },
         {
           id: 'q4',
-          questionShortDesc: 'Which of these improves website accessibility?',
-          questionLongDesc: 'Accessibility is crucial for web design. Which practice enhances it?',
-          aptitudeId: 'aptitude2',
+          questionShortDesc: 'Which practices improve website accessibility?',
+          questionLongDesc:
+            'Accessibility is crucial for web design. Describe practices that enhance it.',
+          aptitudeId: 'aptitude1',
           isDeleted: false,
-          options: [
-            { id: 'o13', optionText: 'Using small text sizes', isCorrect: false },
-            { id: 'o14', optionText: 'Providing alternative text for images', isCorrect: true },
-            { id: 'o15', optionText: 'Using only high-contrast colors', isCorrect: false },
-            { id: 'o16', optionText: 'Avoiding keyboard navigation', isCorrect: false },
-          ],
+          correctAnswer: 'ans4',
+        },
+        {
+          id: 'q5',
+          questionShortDesc: 'ques5.',
+          questionLongDesc:
+            'White space (or negative space) is an important design principle. What is its purpose?',
+          aptitudeId: 'aptitude1',
+          isDeleted: false,
+          correctAnswer: 'ans5',
+        },
+        {
+          id: 'q6',
+          questionShortDesc: 'ques6',
+          questionLongDesc:
+            'The rule of thirds is a fundamental principle in visual composition. Explain how it works.',
+          aptitudeId: 'aptitude1',
+          isDeleted: false,
+          correctAnswer: 'ans6',
+        },
+        {
+          id: 'q7',
+          questionShortDesc: 'ques7',
+          questionLongDesc:
+            'Typography includes different font classifications. What distinguishes serif from sans-serif fonts?',
+          aptitudeId: 'aptitude1',
+          isDeleted: false,
+          correctAnswer: 'ans7',
+        },
+        {
+          id: 'q8',
+          questionShortDesc: 'ques8',
+          questionLongDesc: 'Mood boards are used in the design process. What is their function?',
+          aptitudeId: 'aptitude1',
+          isDeleted: false,
+          correctAnswer: '8ans8',
+        },
+        {
+          id: 'q9',
+          questionShortDesc: 'ques9.',
+          questionLongDesc:
+            'Visual hierarchy organizes elements in a design. How does it work and why is it important?',
+          aptitudeId: 'aptitude1',
+          isDeleted: false,
+          correctAnswer: 'ans9',
+        },
+        {
+          id: 'q10',
+          questionShortDesc: 'ques10',
+          questionLongDesc:
+            'Responsive design is essential for modern websites. Explain what it means and why it matters.',
+          aptitudeId: 'aptitude1',
+          isDeleted: false,
+          correctAnswer: 'ans10',
+        },
+        {
+          id: 'q11',
+          questionShortDesc: 'ques11',
+          questionLongDesc:
+            'Gestalt principles explain how humans perceive visual elements. What are these principles and how do they apply to design?',
+          aptitudeId: 'aptitude1',
+          isDeleted: false,
+          correctAnswer: 'ans11',
+        },
+        {
+          id: 'q12',
+          questionShortDesc: 'ques12',
+          questionLongDesc:
+            'Design systems have become increasingly important in product design. What are they and why are they valuable?',
+          aptitudeId: 'aptitude1',
+          isDeleted: false,
+          correctAnswer: 'ans12',
+        },
+        {
+          id: 'q13',
+          questionShortDesc: 'qques13',
+          questionLongDesc:
+            'Affordance is a key concept in user interface design. What does it mean and why is it important?',
+          aptitudeId: 'aptitude1',
+          isDeleted: false,
+          correctAnswer: 'ans13',
+        },
+        {
+          id: 'q14',
+          questionShortDesc: 'ques14',
+          questionLongDesc:
+            'UX and UI are related but distinct aspects of design. Explain the difference between them.',
+          aptitudeId: 'aptitude1',
+          isDeleted: false,
+          correctAnswer: 'ans14',
+        },
+        {
+          id: 'q15',
+          questionShortDesc: 'ques15',
+          questionLongDesc:
+            'Colors can evoke emotions and associations. How does color psychology influence design decisions?',
+          aptitudeId: 'aptitude1',
+          isDeleted: false,
+          correctAnswer: 'ans15',
+        },
+        {
+          id: 'q16',
+          questionShortDesc: 'ques16',
+          questionLongDesc:
+            'User personas are common in UX design. What are they and how do they help the design process?',
+          aptitudeId: 'aptitude1',
+          isDeleted: false,
+          correctAnswer: 'ans16',
+        },
+        {
+          id: 'q17',
+          questionShortDesc: 'ques17',
+          questionLongDesc:
+            'Information architecture structures content in digital products. What does it involve and why is it important?',
+          aptitudeId: 'aptitude1',
+          isDeleted: false,
+          correctAnswer: 'ans17',
+        },
+        {
+          id: 'q18',
+          questionShortDesc: 'ques18',
+          questionLongDesc:
+            'Design tokens are becoming common in modern design systems. Explain what they are and their benefits.',
+          aptitudeId: 'aptitude1',
+          isDeleted: false,
+          correctAnswer: 'ans18',
+        },
+        {
+          id: 'q19',
+          questionShortDesc: 'ques19.',
+          questionLongDesc:
+            'Minimalism is a popular approach in modern design. What are its key principles and benefits?',
+          aptitudeId: 'aptitude1',
+          isDeleted: false,
+          correctAnswer: 'ans19',
+        },
+        {
+          id: 'q20',
+          questionShortDesc: 'ques20',
+          questionLongDesc:
+            'Inclusive design aims to create products usable by as many people as possible. How does accessibility fit into this approach?',
+          aptitudeId: 'aptitude1',
+          isDeleted: false,
+          correctAnswer: 'ans20',
         },
       ],
     },

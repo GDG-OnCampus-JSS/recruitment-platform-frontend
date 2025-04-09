@@ -1,10 +1,16 @@
 'use client';
+import { zodResolver } from '@hookform/resolvers/zod';
 import { Bookmark, Circle, TriangleAlert } from 'lucide-react';
 import React, { useEffect, useState } from 'react';
+import { FormProvider } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
+import * as z from 'zod';
 import { getApi, getByParamsApi, postApi } from '@/api/api';
 import { apiEndPoints } from '@/api/apiEndpoints';
+import FormTextArea from '@/components/common/form-textarea';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
+import { Form } from '@/components/ui/form';
 import { statusCode } from '@/constants/apiStatus';
 import { mockUser } from '@/lib/options';
 import { mockAptitude } from '@/lib/options';
@@ -32,19 +38,37 @@ const AptitudeQuiz = () => {
   const [allAptitudes, setAllAptitudes] = useState<any[]>([]);
   const [aptitudeQuestions, setAptitudeQuestions] = useState<any[]>([]);
   const [error, setError] = useState<string>('');
+  const [displayedQuestions, setDisplayedQuestions] = useState<any[]>([]);
 
   // const [allQuestions, setAllQuestions] = useState(mockAptitude.aptitudes[0].aptitudeQuestions);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [selectedOptions, setSelectedOptions] = useState<{ [key: string]: string }>({});
+  const [textAnswers, setTextAnswers] = useState<{ [key: string]: string }>({});
 
-  const currentQuestion = aptitudeQuestions[currentQuestionIndex];
+  const currentQuestion = displayedQuestions[currentQuestionIndex];
 
   const [timeLeft, setTimeLeft] = useState(30 * 60);
   const [isTimerFinished, setIsTimerFinished] = useState(false);
 
   const totalMarked = reviewedQuestions.size;
-  const totalQuestions = aptitudeQuestions.length;
-  const totalAnswered = aptitudeQuestions.filter((question) => selectedOptions[question.id]).length;
+  const totalQuestions = displayedQuestions.length;
+  const totalAnswered = Object.keys(textAnswers).length;
+
+  const formSchema = z.object({
+    answers: z.record(z.string().min(1, 'Answer cannot be empty')),
+  });
+
+  const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      answers: {},
+    },
+  });
+
+  const selectRandomQuestions = (questions: any[], count: number) => {
+    const shuffled = [...questions].sort(() => 0.5 - Math.random());
+    return shuffled.slice(0, count);
+  };
 
   const fetchAptitudeId = async () => {
     try {
@@ -54,32 +78,58 @@ const AptitudeQuiz = () => {
       );
       // await getByParamsApi(apiEndPoints.userAptitude.getAptitudes, params);
       //const { status, data } = await ApiRoutes.getAllAptitudes(params);
+      let allQuestions: any[] = [];
+
       if (status === 200 && data) {
         setAllAptitudes(data.aptitude || []);
-        setAptitudeQuestions(
-          data.aptitudes.flatMap((aptitude: any) => aptitude.aptitudeQuestions) || [],
-        );
+        allQuestions = data.aptitudes.flatMap((aptitude: any) => aptitude.aptitudeQuestions) || [];
       } else {
         setAllAptitudes(mockAptitude.aptitudes);
-        setAptitudeQuestions(
-          mockAptitude.aptitudes.flatMap((aptitude: any) => aptitude.aptitudeQuestions),
+        allQuestions = mockAptitude.aptitudes.flatMap(
+          (aptitude: any) => aptitude.aptitudeQuestions,
         );
+
+        setAptitudeQuestions(allQuestions);
+
+        // Select 10 random questions
+        const randomQuestions = selectRandomQuestions(allQuestions, 10);
+        setDisplayedQuestions(randomQuestions);
       }
     } catch (error: any) {
       console.error('Error fetching aptitudes:', error);
       setError('Failed to fetch aptitudes');
-      setAllAptitudes(mockAptitude.aptitudes);
-      setAptitudeQuestions(
-        mockAptitude.aptitudes.flatMap((aptitude: any) => aptitude.aptitudeQuestions),
+      const allQuestions = mockAptitude.aptitudes.flatMap(
+        (aptitude: any) => aptitude.aptitudeQuestions,
       );
+      setAllAptitudes(mockAptitude.aptitudes);
+      setAptitudeQuestions(allQuestions);
+      const randomQuestions = selectRandomQuestions(allQuestions, 10);
+      setDisplayedQuestions(randomQuestions);
     }
   };
 
-  const handleOptionSelect = (questionId: string, optionId: string) => {
-    setSelectedOptions((prev) => ({
+  // const handleOptionSelect = (questionId: string, optionId: string) => {
+  //   setSelectedOptions((prev) => ({
+  //     ...prev,
+  //     [questionId]: optionId,
+  //   }));
+  // };
+
+  const handleTextAnswerChange = (questionId: string, answer: string) => {
+    setTextAnswers((prev) => ({
       ...prev,
-      [questionId]: optionId,
+      [questionId]: answer,
     }));
+
+    const currentAnswers = form.getValues('answers');
+    form.setValue(
+      'answers',
+      {
+        ...currentAnswers,
+        [questionId]: answer,
+      },
+      { shouldValidate: true, shouldDirty: true, shouldTouch: true },
+    );
   };
 
   const handleMarkForReview = (questionId: string) => {
@@ -91,20 +141,21 @@ const AptitudeQuiz = () => {
   };
 
   const calculateScore = (questions: any[]) => {
-    let score = 0;
-    questions.forEach((question) => {
-      const selectedOptionId = selectedOptions[question.id];
-      const correctOption = question.options.find((option: any) => option.isCorrect);
-      if (selectedOptionId && correctOption && selectedOptionId === correctOption.id) {
-        score += 1;
-      }
-    });
-    return score;
+    // let score = 0;
+    // questions.forEach((question) => {
+    //   const selectedOptionId = selectedOptions[question.id];
+    //   const correctOption = question.options.find((option: any) => option.isCorrect);
+    //   if (selectedOptionId && correctOption && selectedOptionId === correctOption.id) {
+    //     score += 1;
+    //   }
+    // });
+    // return score;
+    return Object.keys(textAnswers).length;
   };
 
   const handleSubmitTest = async () => {
     setIsModalOpen(false);
-    const score = calculateScore(aptitudeQuestions);
+    const score = calculateScore(displayedQuestions);
     console.log(displayUser.id);
     console.log(score);
     const { status, data } = await postApi(
@@ -112,6 +163,7 @@ const AptitudeQuiz = () => {
       {
         userId: displayUser.id,
         aptitudeScore: score,
+        answers: textAnswers,
       },
     );
 
@@ -123,7 +175,25 @@ const AptitudeQuiz = () => {
     }
   };
 
+  useEffect(() => {
+    if (currentQuestion) {
+      form.setValue(`answers.${currentQuestion.id}`, textAnswers[currentQuestion.id] || '', {
+        shouldValidate: false,
+      });
+    }
+  }, [currentQuestionIndex, currentQuestion, form, textAnswers]);
+
+  const saveCurrentAnswer = () => {
+    if (currentQuestion) {
+      const currentAnswer = form.getValues(`answers.${currentQuestion.id}`);
+
+      handleTextAnswerChange(currentQuestion.id, currentAnswer || '');
+    }
+  };
+
   const nextQuestion = () => {
+    saveCurrentAnswer();
+
     if (currentQuestionIndex < aptitudeQuestions.length - 1) {
       setCurrentQuestionIndex(currentQuestionIndex + 1);
       setActiveTab(currentQuestionIndex + 1);
@@ -131,6 +201,7 @@ const AptitudeQuiz = () => {
   };
 
   const prevQuestion = () => {
+    saveCurrentAnswer();
     if (currentQuestionIndex > 0) {
       setCurrentQuestionIndex(currentQuestionIndex - 1);
       setActiveTab(currentQuestionIndex - 1);
@@ -169,15 +240,15 @@ const AptitudeQuiz = () => {
   };
 
   return (
-    <div className="w-screen py-4 pt-10 lg:h-full">
-      <h1 className="my-4 text-left text-[20px] font-bold">Aptitude Quiz</h1>
+    <div className="mx-auto min-h-screen px-4 py-4 pt-10 xl:container lg:h-full xl:max-w-6xl">
+      <h1 className="my-4 text-left text-[20px] font-bold xl:px-4">Aptitude Quiz</h1>
       <div className="my-3 flex max-w-[1120px] flex-col items-center justify-between lg:flex-row">
         <span
-          className={`px-1 py-3 text-xl font-normal ${timeLeft <= 5 * 60 ? 'text-[#EA4335]' : 'text-[#0F9D58]'}`}
+          className={`px-1 py-3 text-xl font-normal xl:px-4 ${timeLeft <= 5 * 60 ? 'text-[#EA4335]' : 'text-[#0F9D58]'}`}
         >
           {formatTime(timeLeft)}
         </span>
-        <span className="flex max-h-11 rounded-lg border border-[#B0B0B0] bg-white">
+        <span className="flex max-h-11 rounded-lg border border-[#B0B0B0] bg-white xl:mr-5">
           <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
             <DialogTrigger asChild>
               <Button
@@ -222,7 +293,7 @@ const AptitudeQuiz = () => {
       </div>
 
       <div className="grid gap-6 lg:flex">
-        <div className="max-w-full lg:max-w-[740px]">
+        <div className="max-w-full lg:max-w-[640px]">
           <div className="max-h-[155px] rounded-md bg-white p-5 lg:h-[155px] lg:w-[740px]">
             <h3 className="mb-4 text-xl text-[#100C2C]">Question {currentQuestionIndex + 1}</h3>
             <p className="text-[16px] text-[#3D3D3D]">
@@ -230,44 +301,38 @@ const AptitudeQuiz = () => {
             </p>
           </div>
 
-          <ul className="mt-4 grid grid-cols-1 gap-4 text-[#3D3D3D] md:grid-cols-2 lg:grid-cols-2">
-            {currentQuestion?.options.map((option: optionType) => (
-              <li
-                key={option.id}
-                className="flex h-12 items-center gap-2 rounded-md bg-white px-5 py-[14px]"
-              >
-                <input
-                  type="radio"
-                  id={option.id}
-                  className="h-4 w-4 border-2"
-                  name={`question-${currentQuestion.id}`}
-                  value={option.id}
-                  checked={selectedOptions[currentQuestion.id] === option.id}
-                  onChange={() => handleOptionSelect(currentQuestion.id, option.id)}
-                />
-                <label htmlFor={option.id} className="text-[16px]">
-                  {option.optionText}
-                </label>
-              </li>
-            ))}
-          </ul>
+          <div className="mt-4 rounded-md bg-white p-5">
+            <FormProvider {...form}>
+              <Form {...form}>
+                {currentQuestion && (
+                  <FormTextArea
+                    name={`answers.${currentQuestion.id}`}
+                    placeholder="Type your answer here..."
+                    className="min-h-[150px] w-full"
+                    onInputChange={(value) => handleTextAnswerChange(currentQuestion.id, value)}
+                    value={textAnswers[currentQuestion?.id] || ''}
+                  />
+                )}
+              </Form>
+            </FormProvider>
+          </div>
 
-          <div className="mt-20 flex flex-col justify-between md:flex-row lg:flex-row">
+          <div className="mr-3 mt-20 flex flex-col justify-between sm:mr-0 sm:flex-row">
             <Button
               onClick={prevQuestion}
-              className="mb-2 h-[44px] w-[110px] rounded-sm bg-[#F1F1F1] text-[16px] font-medium text-black"
+              className="mb-3 h-[44px] w-full rounded-md bg-[#F1F1F1] text-[16px] font-medium text-black sm:w-[110px] xl:mb-0"
               disabled={currentQuestionIndex === 0}
             >
               Previous
             </Button>
-            <div className="flex max-h-[44px] max-w-[286px] gap-6">
+            <div className="mb-5 flex h-[46px] w-full flex-col gap-3 rounded-md sm:mb-0 sm:max-w-[286px] sm:flex-row sm:gap-6 xl:h-[44px]">
               {currentQuestion?.id && (
                 <Button
-                  className={`flex w-[112px] items-center gap-2 rounded-sm border py-3 ${reviewedQuestions.has(currentQuestion.id) ? 'bg-[#F3B153] px-2 text-white' : 'bg-white px-6 text-[#3D3D3D]'}`}
+                  className={`flex h-full items-center gap-2 rounded-sm sm:w-[112px] ${reviewedQuestions.has(currentQuestion.id) ? 'bg-[#F3B153] px-2 text-white' : 'bg-white px-6 text-[#3D3D3D]'}`}
                   onClick={() => handleMarkForReview(currentQuestion.id)}
                 >
                   <Bookmark
-                    className={`${reviewedQuestions.has(currentQuestion.id) ? 'text-white' : 'text-black'}`}
+                    className={`h-4 w-4 ${reviewedQuestions.has(currentQuestion.id) ? 'text-white' : 'text-black'}`}
                   />
                   <span className="text-[16px] font-medium leading-4">
                     {reviewedQuestions.has(currentQuestion.id) ? 'Marked' : 'Mark'}
@@ -275,9 +340,9 @@ const AptitudeQuiz = () => {
                 </Button>
               )}
               <Button
-                className="h-[44px] w-[150px] rounded-sm bg-[#635BFF] py-3 text-[16px] font-medium leading-4 text-white"
+                className="h-[44px] rounded-md bg-[#635BFF] py-3 text-[16px] font-medium leading-4 text-white sm:w-[150px]"
                 onClick={nextQuestion}
-                disabled={currentQuestionIndex === aptitudeQuestions.length - 1}
+                disabled={currentQuestionIndex === displayedQuestions.length - 1}
               >
                 Save and Next
               </Button>
@@ -285,10 +350,10 @@ const AptitudeQuiz = () => {
           </div>
         </div>
 
-        <div className="flex flex-col justify-center gap-5 p-2 lg:ml-20 lg:w-[360px]">
+        <div className="flex flex-col justify-center gap-5 p-2 lg:ml-20 lg:w-[360px] xl:ml-14 xl:w-[400px]">
           <h1>Aptitude Test</h1>
           <p className="h-[17px] text-[14px] font-normal leading-4 text-[#6D6D6D]">Attempt all</p>
-          <ul className="mb-[28px] flex h-[17px] w-[325px] list-inside list-none gap-5">
+          <ul className="mb-[28px] flex h-[17px] w-[325px] list-inside list-none gap-5 xl:w-[360px]">
             <li className="flex h-[17px] w-[100px] items-center text-[#56BA85]">
               <Circle className="mr-2 h-2 w-2 rounded-full bg-[#56BA85]" />
               <span className="decoration-skip-ink-none text-[14px] leading-4 tracking-[0.02em] text-[#6D6D6D]">
@@ -313,8 +378,8 @@ const AptitudeQuiz = () => {
           </ul>
           <div className="grid grid-cols-3 gap-5 sm:grid-cols-5">
             {Array.from({ length: totalQuestions }, (_, i) => {
-              const isAnswered = selectedOptions[aptitudeQuestions[i]?.id];
-              const isMarked = reviewedQuestions.has(aptitudeQuestions[i]?.id);
+              const isAnswered = textAnswers[displayedQuestions[i]?.id];
+              const isMarked = reviewedQuestions.has(displayedQuestions[i]?.id);
               return (
                 <div key={i} className="relative">
                   <Button
