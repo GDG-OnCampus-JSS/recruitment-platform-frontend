@@ -67,6 +67,7 @@ const generateMockUsers = (count: number): User[] => {
       resume: i % 2 === 0 ? `/resume${i}.pdf` : null,
       interviewStatus: i % 2 === 0,
       reviewStatus: i % 3 === 0,
+      loginMethod: 'jwt',
     });
   }
   return mockUsers;

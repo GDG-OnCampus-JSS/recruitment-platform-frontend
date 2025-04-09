@@ -84,9 +84,8 @@ export const AdditionalDetails = ({ formData, setFormData, prevStep }: Props) =>
     handleToastApiResponse(status, responseData);
 
     if (status === statusCode.Created201) {
-      setUser(responseData.user);
       sessionStorage.removeItem('email');
-      router.push('/dashboard');
+      router.push('/login');
     }
     setIsSubmitting(false);
   };

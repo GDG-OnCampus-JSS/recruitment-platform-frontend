@@ -9,11 +9,13 @@ export interface User {
   domain?: string;
   year?: string;
   photo?: string;
+  googleId?: string | null;
   resume?: string | null;
   socialLinks?: { id: string; name: string; link: string }[];
   projectStatus?: boolean;
   interviewStatus?: boolean;
   reviewStatus?: boolean;
+  loginMethod: 'jwt' | 'google' | null;
 }
 
 export interface Admin {
