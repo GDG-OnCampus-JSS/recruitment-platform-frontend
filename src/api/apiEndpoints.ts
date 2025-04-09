@@ -60,6 +60,12 @@ export const apiEndPoints = {
     getQuestionsByAptitude: (aptitudeId: string) => `/questions/question-aptitude/${aptitudeId}`,
     updateQuestion: (id: string) => `/questions/update-question/${id}`,
     deleteQuestion: (id: string) => `/questions/delete-question/${id}`,
+
+    getRandomQuestions: '/questions/random-question',
+  },
+
+  answer: {
+    createAnswer: (questionId: string) => `/questions/create-ans/${questionId}`, // Add this new section
   },
 
   option: {
