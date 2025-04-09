@@ -19,7 +19,7 @@ export default function Quiz() {
           >
             <ChevronLeft /> Back
           </Button>
-          <h1 className="text-xl font-medium">Tasks</h1>
+          <h1 className="text-xl font-medium">Aptitude Quiz</h1>
         </div>
         <div className="mx-auto my-8 max-w-[740px] rounded-xl border px-6 py-8 shadow-xl lg:h-[412px] lg:py-10">
           <div className="mb-5 flex flex-col justify-between text-xl leading-[1em] tracking-[0.02em] text-[#432AD8] lg:flex-row">
@@ -41,7 +41,7 @@ export default function Quiz() {
               <li className="text-[#EA4335]">
                 You are not allowed to exit full screen mode, if you do, you will be disqualified.
               </li>
-              <li>This quiz contains 20 questions, try your best to attempt them all.</li>
+              <li>This quiz contains 10 questions, try your best to attempt them all.</li>
               <li>Click "Save & Next" to save your answer.</li>
               <li>All the very best to you. See you later.</li>
             </ul>
