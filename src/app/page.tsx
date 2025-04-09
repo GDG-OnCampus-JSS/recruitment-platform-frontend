@@ -9,11 +9,12 @@ import { Card } from '@/components/home/Card';
 import { JourneyStep } from '@/components/home/JourneySteps';
 import VerticalStepper from '@/components/home/VerticalStepper';
 import { cardData, journeySteps, stepColors } from '@/constants/homePageConstants';
+import useUserStore from '@/stores/userStore';
 
-// Steps of the Vertical Stepper thing
 const currentStep = 1;
 
 export default function Home() {
+  const { user } = useUserStore();
   useEffect(() => {
     if ('serviceWorker' in navigator) {
       navigator.serviceWorker
@@ -29,6 +30,7 @@ export default function Home() {
   return (
     <>
       <Header />
+
       <section className="relative grid min-h-screen place-content-center overflow-x-hidden bg-home-1 bg-cover bg-no-repeat leading-[1em]">
         <div className="group absolute h-screen w-screen bg-slate-100/10 backdrop-blur-lg md:backdrop-blur-none"></div>
         <Logo />
@@ -83,14 +85,18 @@ export default function Home() {
       </section>
 
       <section className="my-[3.12rem] md:px-8">
-        <div className="mx-auto grid max-w-[71rem] place-content-center bg-gradient-1 p-10 text-center md:rounded-2xl">
+        <div className="mx-auto grid max-w-[70rem] place-content-center bg-gradient-1 p-10 text-center md:rounded-2xl">
           <h1 className="text-3xl font-medium">Your chance to be a part of extraordinary team!</h1>
           <p className="mt-4 max-w-[56.4rem] text-secondary-foreground">
             Join the recruitment drive at GDG and become part of a dynamic community where you can
             learn, grow, and create. Whether you're a developer, designer, or simply passionate
             about technology, there's a place for you here.
           </p>
-          <Button href="/register">Register</Button>
+          {user ? (
+            <Button href="/dashboard">Dashboard</Button>
+          ) : (
+            <Button href="/register">Register</Button>
+          )}
         </div>
       </section>
       <Footer />

@@ -52,11 +52,11 @@ export const DesignTask = ({ year, onSubmit, form }: DesignTaskProps) => {
               </Button>
               <p className="text-sm text-blue-600">or</p>
               <Link
-                href="mailto:coordinator@example.com"
+                href="https://chat.whatsapp.com/KIzWKEujQqbHgOWKAtYhWj"
                 className="inline-flex items-center text-blue-600 hover:text-blue-700"
               >
                 <Mail className="mr-2 h-5 w-5" />
-                Contact Domain Coordinator
+                Contact team for assistance
               </Link>
             </div>
           </div>
