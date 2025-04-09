@@ -60,7 +60,6 @@ const AptitudeQuiz = () => {
     },
   });
 
-
   // const fetchAptitudeId = async () => {
   //   try {
   //     console.log(apiEndPoints.userAptitude.getAptitudes);
@@ -112,7 +111,6 @@ const AptitudeQuiz = () => {
       setDisplayedQuestions(data.questions);
     }
   };
-  
 
   const handleTextAnswerChange = (questionId: string, answer: string) => {
     setTextAnswers((prev) => ({
@@ -154,15 +152,15 @@ const AptitudeQuiz = () => {
 
   const handleSubmitTest = async () => {
     setIsModalOpen(false);
-   
+
     for (const [questionId, answer] of Object.entries(textAnswers)) {
       await postApi(apiEndPoints.answer.createAnswer(questionId), {
         answer,
         userId: displayUser.id,
       });
+    }
+    window.open(`/quiz/aptitude/submitted`, '_self');
   };
-  window.open(`/quiz/aptitude/submitted`, '_self');
-}
 
   useEffect(() => {
     if (currentQuestion) {
