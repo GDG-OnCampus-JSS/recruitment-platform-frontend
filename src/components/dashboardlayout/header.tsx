@@ -46,18 +46,17 @@ export const Header = ({ isAdmin }: { isAdmin: boolean }) => {
 
   const handleLogout = async () => {
     const loginMethod = user?.loginMethod;
-    console.log('login', loginMethod);
+
     if (loginMethod == 'google') {
-      window.location.href = 'http://localhost:5000/auth/logout';
-    } else if (loginMethod == 'jwt') {
-      const { status, data: responseData } = await postApi(apiEndPoints.users.logout);
+      logoutUser();
+      return;
+    }
 
-      handleToastApiResponse(status, responseData);
-
-      if (status == statusCode.Ok200) {
-        router.push('/');
-        logoutUser();
-      }
+    const { status, data: responseData } = await postApi(apiEndPoints.users.logout);
+    handleToastApiResponse(status, responseData);
+    if (status == statusCode.Ok200) {
+      router.push('/');
+      logoutUser();
     }
   };
 
