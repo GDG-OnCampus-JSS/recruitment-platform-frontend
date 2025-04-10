@@ -82,7 +82,7 @@ export const AdditionalDetails = ({ formData, setFormData, prevStep }: Props) =>
     const finalData = {
       ...updatedFormData,
       email: getSessionData('email'),
-      year: updatedFormData.year ? Number(formData.year) : undefined,
+      year: values.year ? Number(values.year) : undefined,
     };
     const { status, data: responseData } = await postApi(apiEndPoints.users.register, finalData);
 
