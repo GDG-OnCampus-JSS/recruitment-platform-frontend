@@ -105,6 +105,7 @@ export const SOCIAL_PLATFORMS = [
     icon: <Image src="/icons/codechef.svg" width={20} height={20} alt="CC" className="size-5" />,
   },
   { name: 'Other', icon: <Globe className="size-5" /> },
+  { name: 'Any Other', icon: <Globe className="size-5" /> },
 ];
 
 export const socialIconMapping: Record<string, JSX.Element> = {
@@ -114,6 +115,8 @@ export const socialIconMapping: Record<string, JSX.Element> = {
   dribbble: <Image src="/icons/dribble.svg" width={20} height={20} alt="Dr" className="size-5" />,
   behance: <Image src="/icons/behance.svg" width={20} height={20} alt="Be" className="size-5" />,
   codechef: <Image src="/icons/codechef.svg" width={20} height={20} alt="CC" className="size-5" />,
+  other: <Image src="/icons/link.svg" width={20} height={20} alt="Li" className="size-5" />,
+  anyother: <Image src="/icons/link.svg" width={20} height={20} alt="Li" className="size-5" />,
 };
 
 export const mockUser = {

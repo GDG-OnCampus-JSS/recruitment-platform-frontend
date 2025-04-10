@@ -50,6 +50,7 @@ const profileSchema = z.object({
   behance: z.string().url('Enter a correct url').or(z.literal('')).optional(),
   codechef: z.string().url('Enter a correct url').or(z.literal('')).optional(),
   other: z.string().url('Enter a correct url').or(z.literal('')).optional(),
+  anyother: z.string().url('Enter a correct url').or(z.literal('')).optional(),
 });
 
 const EditProfilePage = ({ isOpen, onClose }: EditProfileProps) => {
@@ -86,6 +87,7 @@ const EditProfilePage = ({ isOpen, onClose }: EditProfileProps) => {
       behance: user?.socialLinks?.find((link) => link.name === 'behance')?.link ?? '',
       codechef: user?.socialLinks?.find((link) => link.name === 'codechef')?.link ?? '',
       other: user?.socialLinks?.find((link) => link.name === 'other')?.link ?? '',
+      anyother: user?.socialLinks?.find((link) => link.name === 'other2')?.link ?? '',
     },
   });
 
@@ -154,6 +156,7 @@ const EditProfilePage = ({ isOpen, onClose }: EditProfileProps) => {
       { id: 'behance', name: 'behance', link: values.behance },
       { id: 'codechef', name: 'codechef', link: values.codechef },
       { id: 'other', name: 'other', link: values.other },
+      { id: 'anyother', name: 'anyother', link: values.anyother },
     ].filter((link): link is { id: string; name: string; link: string } => !!link.link);
 
     const { status: userDataStatus, data: userData } = await patchApi(
