@@ -13,12 +13,13 @@ import useUserStore from '@/stores/userStore';
 
 export default function DashboardPage() {
   const user = useUserStore((state) => state.user);
+  const userDomain = user?.domain;
   const [showPopup, setShowPopup] = useState(false);
   const [stepsToShow, setStepsToShow] = useState<StepCardProps[]>([]);
 
   useEffect(() => {
     setStepsToShow(steps);
-  }, [steps]);
+  }, []);
 
   const isProfileComplete = reqFields.every(
     (field) =>
@@ -37,6 +38,18 @@ export default function DashboardPage() {
     localStorage.setItem('subscribed', 'true');
     setShowPopup(false);
   };
+
+  useEffect(() => {
+    let filteredSteps = steps.filter((step) => step.step <= 3);
+
+    if (userDomain === 'programmer') {
+      filteredSteps = filteredSteps.map((step) =>
+        step.step === 2 ? steps.find((s) => s.step === 4)! : step,
+      );
+    }
+
+    setStepsToShow(filteredSteps);
+  }, [userDomain]);
 
   return (
     <div className="mt-20 min-h-screen">
@@ -76,7 +89,7 @@ export default function DashboardPage() {
         </div>
 
         <div className="mx-auto mb-6 grid w-full max-w-[1280px] grid-cols-1 justify-items-center gap-4 sm:mb-20 sm:grid-cols-2 sm:gap-5 md:grid-cols-3">
-          {steps.map((step: StepCardProps, index: number) => {
+          {stepsToShow.map((step: StepCardProps, index: number) => {
             return <StepCard key={index} {...step} />;
           })}
         </div>

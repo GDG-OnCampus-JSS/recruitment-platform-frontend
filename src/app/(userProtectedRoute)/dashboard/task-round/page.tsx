@@ -5,15 +5,12 @@ import { useRouter } from 'next/navigation';
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import * as z from 'zod';
-// import { ApiRoutes } from '@/api/routes';
-import FormInput from '@/components/common/form-input';
+import { putApi } from '@/api/api';
+import { apiEndPoints } from '@/api/apiEndpoints';
+import { Spinner } from '@/components/common/spinner';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Form } from '@/components/ui/form';
 import { statusCode } from '@/constants/apiStatus';
-import { useToast } from '@/hooks/use-toast';
-import { mockUser } from '@/lib/options';
-import { User } from '@/lib/types';
+import { handleToastApiResponse } from '@/lib/helpers';
 import useUserStore from '@/stores/userStore';
 import { AndroidTask } from './android-task';
 import { DesignTask } from './design-task';
@@ -21,69 +18,52 @@ import { MachineLearningTask } from './ml-task';
 import { ProgrammingTask } from './programming-task';
 import { WebDevelopmentTask } from './web-dev-task';
 
-interface Props {
-  onSubmit: (data: { link: string }) => void;
-  form: any;
-}
-
 const taskSchema = z.object({
   link: z.string().url('Invalid URL format'),
 });
 
-function Task() {
-  const { toast } = useToast();
+export default function Task() {
   const router = useRouter();
-  const user = useUserStore((state) => state.user);
-  const displayUser = user || mockUser;
+  const { user } = useUserStore();
   const form = useForm<z.infer<typeof taskSchema>>({
     resolver: zodResolver(taskSchema),
     defaultValues: { link: '' },
   });
 
-  const domain = displayUser?.domain?.toLowerCase() || '';
-  const yearString = displayUser?.year || '';
-  const year = yearString.includes('1st') ? 1 : yearString.includes('2nd') ? 2 : 1;
+  const domain = user?.domain?.toLowerCase();
+  const yearString = user?.year || '';
+  const year = parseInt(yearString, 10);
 
   const onSubmit = async (data: { link: string }) => {
-    // console.log('Submitted URL:', data.link);
-    // const socialLinkData = {
-    //   platform: 'project',
-    //   url: data.link,
-    // };
-    //! replace this with the actual api call to submit the task
-    // const { status, data: responseData } = await ApiRoutes.createSocialLink(
-    //   displayUser.id,
-    //   socialLinkData,
-    // );
-    // if (status === statusCode.Ok200) {
-    //   toast({
-    //     variant: 'success',
-    //     title: 'Task submitted successfully',
-    //     description: 'Your task has been submitted successfully.',
-    //   });
-    // } else {
-    //   toast({
-    //     variant: 'destructive',
-    //     title: 'Something went wrong',
-    //     description: responseData.message,
-    //   });
-    // }
+    const userId = user?.id || '';
+    console.log(data.link);
+
+    const { status, data: responseData } = await putApi(
+      apiEndPoints.upload.submitTaskLink(userId),
+      { taskLink: data.link },
+    );
+
+    if (status === statusCode.Ok200) {
+      form.reset();
+    }
+
+    handleToastApiResponse(status, responseData);
   };
 
   const renderTaskContent = () => {
     switch (domain) {
-      case 'web development':
+      case 'web developer':
         return <WebDevelopmentTask onSubmit={onSubmit} form={form} year={year} />;
-      case 'design':
+      case 'designer':
         return <DesignTask onSubmit={onSubmit} form={form} year={year} />;
-      case 'machine learning':
+      case 'ml engineer':
         return <MachineLearningTask onSubmit={onSubmit} form={form} year={year} />;
-      case 'android':
+      case 'app developer':
         return <AndroidTask onSubmit={onSubmit} form={form} year={year} />;
-      case 'programming':
+      case 'programmer':
         return <ProgrammingTask />;
       default:
-        return <UnsupportedDomain domain={domain} />;
+        return <UnsupportedDomain />;
     }
   };
 
@@ -100,30 +80,16 @@ function Task() {
           </Button>
           <h1 className="text-xl font-medium">Tasks</h1>
         </div>
-        {/* {name} */}
-        {/* {domain} */}
-
         {renderTaskContent()}
       </div>
     </div>
   );
 }
 
-const UnsupportedDomain = ({ domain }: any) => {
+const UnsupportedDomain = () => {
   return (
-    <div className="flex flex-col items-center justify-center py-10 text-center">
-      <h2 className="mb-6 text-2xl font-bold text-gray-800">Domain Task Not Available</h2>
-      <p className="mb-8 max-w-md text-lg text-gray-600">
-        We don't have specific tasks for the "{domain}" domain yet.
-      </p>
-      <div className="rounded-lg bg-blue-50 p-6 text-left">
-        <h3 className="mb-3 text-xl font-medium text-blue-800">Looking for tasks?</h3>
-        <p className="text-blue-600">
-          Please check with your coordinator for tasks relevant to your domain.
-        </p>
-      </div>
+    <div className="flex min-h-screen items-center justify-center">
+      <Spinner className="text-neutral-400" />
     </div>
   );
 };
-
-export default Task;

@@ -28,6 +28,7 @@ export const apiEndPoints = {
   upload: {
     uploadPhoto: '/upload/photo',
     uploadResume: '/upload/resume',
+    submitTaskLink: (id: string) => `/upload/${id}/task-link`, //used
   },
 
   oauth: {

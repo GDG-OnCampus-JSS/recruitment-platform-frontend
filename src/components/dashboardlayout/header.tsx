@@ -4,7 +4,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter, usePathname } from 'next/navigation';
 import React, { useState, useEffect } from 'react';
-import { postApi } from '@/api/api';
+import { getApi, postApi } from '@/api/api';
 import { apiEndPoints } from '@/api/apiEndpoints';
 import { Button } from '@/components/ui/button';
 import { statusCode } from '@/constants/apiStatus';
@@ -26,6 +26,8 @@ export const Header = ({ isAdmin }: { isAdmin: boolean }) => {
   const user = useUserStore((state) => state.user);
   const [displayUser, setDisplayUser] = useState<User>(user || ({} as User));
 
+  const setUser = useUserStore((state) => state.setUser);
+
   const logoutUser = useUserStore((state) => state.logout);
 
   const isAdminRoute = pathname?.startsWith('/admin');
@@ -43,16 +45,21 @@ export const Header = ({ isAdmin }: { isAdmin: boolean }) => {
   };
 
   const handleLogout = async () => {
-    const { status, data: responseData } = await postApi(apiEndPoints.users.logout);
+    const loginMethod = user?.loginMethod;
+    console.log('login', loginMethod);
+    if (loginMethod == 'google') {
+      window.location.href = 'http://localhost:5000/auth/logout';
+    } else if (loginMethod == 'jwt') {
+      const { status, data: responseData } = await postApi(apiEndPoints.users.logout);
 
-    handleToastApiResponse(status, responseData);
+      handleToastApiResponse(status, responseData);
 
-    if (status == statusCode.Ok200) {
-      router.push('/');
-      logoutUser();
+      if (status == statusCode.Ok200) {
+        router.push('/');
+        logoutUser();
+      }
     }
   };
-
   return (
     <header className="fixed left-0 top-0 z-20 w-full border-b bg-white py-3 md:border-b-0 lg:bg-white/50 lg:backdrop-blur-lg">
       <div className="mx-auto flex w-full max-w-6xl items-center justify-between px-8">
@@ -84,7 +91,7 @@ export const Header = ({ isAdmin }: { isAdmin: boolean }) => {
             <Button
               variant="outline"
               className="flex items-center justify-center gap-1 rounded-[22px] px-3 py-2"
-              onClick={() => router.push('/help')}
+              onClick={() => router.push('https://chat.whatsapp.com/KIzWKEujQqbHgOWKAtYhWj')}
             >
               <Hand size={18} />
               <span className="text-sm font-normal leading-4 text-[#100C2C]">I have a doubt</span>
