@@ -1,21 +1,26 @@
 import { zodResolver } from '@hookform/resolvers/zod';
+import { Upload, X } from 'lucide-react';
 import { useRouter } from 'next/navigation';
-import { useState } from 'react';
+import { ChangeEvent, useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import * as z from 'zod';
-import { postApi } from '@/api/api';
+import { postApi, uploadApi } from '@/api/api';
 import { apiEndPoints } from '@/api/apiEndpoints';
 import FormInput from '@/components/common/form-input';
 import OptionsSelect from '@/components/common/options-select';
 import { Spinner } from '@/components/common/spinner';
 import { Button } from '@/components/ui/button';
 import { Form } from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { Progress } from '@/components/ui/progress';
 import { statusCode } from '@/constants/apiStatus';
 import { academicYearOptions, domainOptions } from '@/constants/registration';
 import { useSessionStorage } from '@/hooks/use-session-storage';
-import { checkIfObjectNotEmpty, handleToastApiResponse } from '@/lib/helpers';
+import {
+  checkIfObjectNotEmpty,
+  extractBlobUrlSegment,
+  handleToastApiResponse,
+} from '@/lib/helpers';
 import useUserStore from '@/stores/userStore';
 
 const additionalDetailsSchema = z.object({
@@ -47,6 +52,9 @@ export const AdditionalDetails = ({ formData, setFormData, prevStep }: Props) =>
   const { getSessionData } = useSessionStorage();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const setUser = useUserStore((state) => state.setUser);
+  const resumeUploadRef = useRef<HTMLInputElement>(null);
+  const [resumeFile, setResumeFile] = useState<File | null>(null);
+  const [resumeUploadProgress, setResumeUploadProgress] = useState(0);
 
   const router = useRouter();
 
@@ -85,7 +93,8 @@ export const AdditionalDetails = ({ formData, setFormData, prevStep }: Props) =>
 
     if (status === statusCode.Created201) {
       sessionStorage.removeItem('email');
-      router.push('/login');
+      router.push('/dashboard');
+      setUser(responseData.user);
     }
     setIsSubmitting(false);
   };
@@ -93,6 +102,38 @@ export const AdditionalDetails = ({ formData, setFormData, prevStep }: Props) =>
   const onPrevClick = (values: AdditionalDetailsFormValues) => {
     setFormData((prev: any) => ({ ...prev, ...values }));
     prevStep();
+  };
+
+  const handleResumeUpload = async (e: ChangeEvent<HTMLInputElement>) => {
+    console.log('handleResumeUpload');
+    const file = e.target.files?.[0];
+    if (file) {
+      const { status, data } = await uploadApi(
+        apiEndPoints.upload.uploadResume,
+        file,
+        'resume',
+        (progressEvent) => {
+          const percentCompleted = Math.round(
+            (progressEvent.loaded * 100) / (progressEvent.total || 1),
+          );
+          setResumeUploadProgress(percentCompleted);
+        },
+      );
+
+      form.setValue('resume', extractBlobUrlSegment(data.url) || '');
+      setResumeFile(file);
+
+      handleToastApiResponse(status, data);
+    }
+  };
+
+  const handleRemoveResume = () => {
+    setResumeFile(null);
+    form.setValue('resume', '');
+    const fileInput = resumeUploadRef.current;
+    if (fileInput) {
+      fileInput.value = '';
+    }
   };
 
   const { handleSubmit } = form;
@@ -128,21 +169,44 @@ export const AdditionalDetails = ({ formData, setFormData, prevStep }: Props) =>
           />
 
           <div className="space-y-2">
-            <Label htmlFor="resume">Resume (Optional)</Label>
-            <Input
-              id="resume"
+            <Label>Resume (Optional)</Label>
+            <Button
+              type="button"
+              variant="outline"
+              onClick={() => resumeUploadRef.current?.click()}
+              className="h-12 w-full"
+            >
+              <Upload /> Select file
+            </Button>
+            <input
+              title="resume upload"
               type="file"
-              accept=".pdf,.doc,.docx"
-              className="h-11 cursor-pointer py-3"
-              onChange={(e) => {
-                const file = e.target.files?.[0];
-                if (file) {
-                  setFormData((prev: any) => ({ ...prev, resume: file }));
-                  form.setValue('resume', file);
-                }
-              }}
+              id="resume-upload"
+              className="hidden"
+              onChange={handleResumeUpload}
+              ref={resumeUploadRef}
+              accept=".pdf"
             />
           </div>
+          {resumeFile && (
+            <div className="flex flex-col items-center justify-between gap-3 rounded-md border border-gray-200 px-4 py-3">
+              <div className="flex w-full items-center justify-between">
+                <span className="max-w-[200px] truncate text-sm text-gray-600">
+                  {resumeFile.name}
+                </span>
+                <Button
+                  type="button"
+                  variant="ghost"
+                  size="sm"
+                  onClick={handleRemoveResume}
+                  className="h-8 w-8 p-0 hover:bg-gray-100"
+                >
+                  <X className="h-4 w-4 text-gray-500" />
+                </Button>
+              </div>
+              <Progress value={resumeUploadProgress} className="h-2 w-full" />
+            </div>
+          )}
 
           <div className="space-y-2">
             <Button
