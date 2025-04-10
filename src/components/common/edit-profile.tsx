@@ -153,7 +153,7 @@ const EditProfilePage = ({ isOpen, onClose }: EditProfileProps) => {
       { id: 'dribble', name: 'dribble', link: values.dribble },
       { id: 'behance', name: 'behance', link: values.behance },
       { id: 'codechef', name: 'codechef', link: values.codechef },
-      // { id: 'other', name: 'other', link: values.other },
+      { id: 'other', name: 'other', link: values.other },
     ].filter((link): link is { id: string; name: string; link: string } => !!link.link);
 
     const { status: userDataStatus, data: userData } = await patchApi(
@@ -161,25 +161,25 @@ const EditProfilePage = ({ isOpen, onClose }: EditProfileProps) => {
       userUpdationData,
     );
 
-    const { status: socialLinksStatus, data: socialLinksData } = await postApi(
-      `${apiEndPoints.users.updateSocialLinks}${user?.id}`,
-      { socialLinks: userSocialLinksUpdationData },
-    );
+    handleToastApiResponse(userDataStatus, userData, 'Profile updated successfully.');
+    updateUser({ ...user, ...userUpdationData });
 
-    if (userDataStatus === statusCode.Ok200 && socialLinksStatus === statusCode.Created201) {
-      handleToastApiResponse(userDataStatus, userData, 'Profile updated successfully.');
-      updateUser({ ...user, ...userUpdationData, socialLinks: userSocialLinksUpdationData });
-    } else {
-      if (userDataStatus !== statusCode.Ok200) {
-        handleToastApiResponse(userDataStatus, userData, 'Failed to update profile.');
-      }
-      if (socialLinksStatus !== statusCode.Created201) {
-        handleToastApiResponse(
-          socialLinksStatus,
-          socialLinksData,
-          'Failed to update social links.',
-        );
-      }
+    if (userDataStatus !== statusCode.Ok200) {
+      handleToastApiResponse(userDataStatus, userData, 'Failed to update profile.');
+    }
+
+    if (userSocialLinksUpdationData.length > 0) {
+      const { status: socialLinksStatus, data: socialLinksData } = await postApi(
+        `${apiEndPoints.users.updateSocialLinks}${user?.id}`,
+        { socialLinks: userSocialLinksUpdationData },
+      );
+
+      handleToastApiResponse(
+        socialLinksStatus,
+        socialLinksData,
+        'Social links updated successfully.',
+      );
+      updateUser({ ...user, socialLinks: userSocialLinksUpdationData });
     }
 
     setIsSubmitting(false);
