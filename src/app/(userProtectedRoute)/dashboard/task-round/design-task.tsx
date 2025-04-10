@@ -1,4 +1,4 @@
-import { ArrowRightCircle, Mail } from 'lucide-react';
+import { ArrowRightCircle, ArrowUpRight, Mail } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
@@ -67,12 +67,16 @@ export const DesignTask = ({ year, onSubmit, form }: DesignTaskProps) => {
   return (
     <div className="mt-10">
       <h2 className="pb-2 text-[28px] font-bold text-theme">Design Tasks - Year {year}</h2>
+      <p>Do any one of the categrories.</p>
 
       {/* GFX Tasks Section */}
       <div className="mt-8 space-y-20">
         <div className="space-y-6">
           <div className="flex items-center justify-between">
-            <h3 className="text-nowrap text-[28px] font-medium">GFX Tasks</h3>
+            <div>
+              <h3 className="text-nowrap text-[28px] font-medium">Graphics Design Tasks</h3>
+              <p className="text-sm italic text-neutral-500">Do any one of the following</p>
+            </div>
             <div className="h-[1px] bg-gradient-line sm:w-[981px]"></div>
           </div>
           {yearTasks.gfx.map((task, index) => (
@@ -82,7 +86,10 @@ export const DesignTask = ({ year, onSubmit, form }: DesignTaskProps) => {
         {/* UX Tasks Section */}
         <div className="space-y-6">
           <div className="flex items-center justify-between">
-            <h3 className="text-nowrap text-[28px] font-medium">UX Tasks</h3>
+            <div>
+              <h3 className="text-nowrap text-[28px] font-medium">UX / UX Tasks</h3>
+              <p className="text-sm italic text-neutral-500">Do any one of the following</p>
+            </div>
             <div className="h-[1px] bg-gradient-line sm:w-[981px]"></div>
           </div>
           {yearTasks.ux.map((task, index) => (
@@ -90,15 +97,18 @@ export const DesignTask = ({ year, onSubmit, form }: DesignTaskProps) => {
           ))}
         </div>
         {/* VFX Tasks Section */}
-        <div className="space-y-6">
+
+        {/* <div className="space-y-6">
           <div className="flex items-center justify-between">
-            <h3 className="text-nowrap text-[28px] font-medium">VFX Tasks</h3>
+            <div>
+              <h3 className="text-nowrap text-[28px] font-medium">VFX Tasks</h3>
+            </div>
             <div className="h-[1px] bg-gradient-line sm:w-[981px]"></div>
           </div>
           {yearTasks.vfx.map((task, index) => (
             <TaskSection key={`vfx-${index}`} task={task} />
           ))}
-        </div>
+        </div> */}
       </div>
 
       {/* Submission Section */}
@@ -115,6 +125,17 @@ export const DesignTask = ({ year, onSubmit, form }: DesignTaskProps) => {
           onSubmit={form.handleSubmit(onSubmit)}
           className="mx-auto flex w-full max-w-md flex-col items-center space-y-10 px-4 sm:px-0"
         >
+          <div className="space-y-2 text-center">
+            <h2 className="text-xl font-semibold">Submission Instructions</h2>
+            <p className="text-gray-700">
+              Please upload your task details in a single document. Make sure to include:
+            </p>
+            <ul className="list-inside list-disc text-left text-sm text-gray-600">
+              <li>Figma file or design screenshots (if applicable)</li>
+              <li>Any necessary explanations or justifications</li>
+              <li>Final submission link (hosted file, PDF, etc.)</li>
+            </ul>
+          </div>
           <div className="w-full px-0 xl:w-[550px]">
             <FormInput
               {...form.register('link')}
@@ -139,7 +160,7 @@ export const DesignTask = ({ year, onSubmit, form }: DesignTaskProps) => {
 
 const TaskSection = ({ task }: { task: any }) => (
   <div className="space-y-14">
-    <div className="flex flex-col gap-4 md:flex-row">
+    <div className="flex flex-col gap-4">
       <div className="text-[16px] font-normal leading-[25.6px] text-[#353535]">
         <div className="space-y-2">
           {task.description?.map((paragraph: string, index: number) => {
@@ -173,17 +194,27 @@ const TaskSection = ({ task }: { task: any }) => (
       </div>
 
       {task.imageUrl && (
-        <Image
-          src={task.imageUrl}
-          alt={task.title || 'Task Image'}
-          width={400}
-          height={351}
-          className="w-full rounded-lg shadow-md"
-        />
+        <div className="mx-auto my-10 max-w-xl">
+          <Image
+            src={task.imageUrl}
+            alt={task.title || 'Task Image'}
+            width={400}
+            height={351}
+            className="block w-full rounded-lg shadow-md"
+          />
+          <Link
+            href={task.imageUrl}
+            target="_blank"
+            className="mt-4 flex w-full items-center justify-center gap-1 rounded border border-main py-1 text-sm text-theme transition-colors hover:bg-neutral-50"
+          >
+            Open image in new tab
+            <ArrowUpRight />
+          </Link>
+        </div>
       )}
     </div>
 
-    <div className="flex flex-col gap-4 md:flex-row">
+    {/* <div className="flex flex-col gap-4 md:flex-row">
       <Card className="w-full border-main">
         <CardHeader className="pb-2">
           <CardTitle className="text-[20px] font-medium text-[#6B83FF]">
@@ -212,6 +243,6 @@ const TaskSection = ({ task }: { task: any }) => (
           </ul>
         </CardContent>
       </Card>
-    </div>
+    </div> */}
   </div>
 );
