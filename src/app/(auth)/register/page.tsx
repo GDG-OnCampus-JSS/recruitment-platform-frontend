@@ -105,7 +105,12 @@ export default function RegisterPage() {
                 variant="outline"
                 type="button"
                 className="h-11 w-full font-light"
-                onClick={() => window.open(apiEndPoints.users.googleAuth, '_self')}
+                onClick={() =>
+                  window.open(
+                    `${process.env.NEXT_PUBLIC_API_URL}${apiEndPoints.oauth.googleAuth}`,
+                    '_self',
+                  )
+                }
               >
                 <Image src="/icons/google.svg" height={20} width={20} alt="Google" />
                 Continue with Google

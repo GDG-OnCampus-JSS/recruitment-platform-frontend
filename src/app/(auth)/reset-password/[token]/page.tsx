@@ -5,6 +5,7 @@ import { Icon } from '@iconify/react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import * as z from 'zod';
@@ -31,6 +32,7 @@ const newPasswordSchema = z
 type NewPasswordFormValues = z.infer<typeof newPasswordSchema>;
 
 const ResetPasswordPage = () => {
+  const router = useRouter();
   const token = useParams().token?.toString();
   console.log(token);
   const [showPassword, setShowPassword] = useState(false);
@@ -67,6 +69,10 @@ const ResetPasswordPage = () => {
     );
 
     handleToastApiResponse(status, responseData);
+
+    if (status === statusCode.Ok200) {
+      router.push('/login');
+    }
   };
 
   useEffect(() => {

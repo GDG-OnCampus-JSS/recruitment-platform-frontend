@@ -43,8 +43,10 @@ export default function LoginPage() {
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const { status, data } = await getApi(apiEndPoints.users.googleLoginData);
+        const { status, data } = await getApi(apiEndPoints.oauth.loginSuccess);
+
         const user = data.user;
+
         if (user) {
           setUser({
             ...data.user,
@@ -168,7 +170,12 @@ export default function LoginPage() {
                 variant="outline"
                 type="button"
                 className="h-11 w-full font-light"
-                onClick={() => window.open(`${apiEndPoints.users.googleLoginData}`, '_self')}
+                onClick={() =>
+                  window.open(
+                    `${process.env.NEXT_PUBLIC_API_URL}${apiEndPoints.users.googleAuth}`,
+                    '_self',
+                  )
+                }
               >
                 <Image src="/icons/google.svg" height={20} width={20} alt="Google" />
                 Continue with Google
