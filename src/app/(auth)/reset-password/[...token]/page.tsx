@@ -31,7 +31,8 @@ const newPasswordSchema = z
 type NewPasswordFormValues = z.infer<typeof newPasswordSchema>;
 
 const ResetPasswordPage = () => {
-  const token = useParams().token?.toString();
+  const tokenParam = useParams().token;
+  const token = Array.isArray(tokenParam) ? tokenParam[0] : tokenParam;
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [isTokenValid, setIsTokenValid] = useState(false);

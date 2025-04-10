@@ -54,7 +54,7 @@ export const VerificationStep = ({ data, next, onEdit }: VerificationStepProps) 
     } else {
       toast({
         variant: 'destructive',
-        title: 'Incorrect OTP',
+        title: responseData.message,
       });
     }
   };

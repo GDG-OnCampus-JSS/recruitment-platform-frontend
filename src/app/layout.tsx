@@ -36,10 +36,10 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${productSans.variable}`}>
       <body className="font-product-sans antialiased">
-        <Toaster />
-        {children}
         <Analytics />
         <SpeedInsights />
+        <Toaster />
+        {children}
       </body>
     </html>
   );
