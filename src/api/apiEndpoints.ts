@@ -11,6 +11,8 @@ export const apiEndPoints = {
     resetPasswordWithOldPassword: '/users/reset-password-with-old-password', //used
     updateUserProfile: '/users/update-profile', //used
     updateSocialLinks: '/social/', //used
+    googleAuth: '/auth/google',
+    googleLoginData: '/auth/login',
     // refreshToken: '/users/refresh-token',
     // getAll: '/users',
     // shortlist: '/users/shortlist',
