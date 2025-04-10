@@ -168,7 +168,7 @@ export default function LoginPage() {
                 variant="outline"
                 type="button"
                 className="h-11 w-full font-light"
-                onClick={() => window.open(`${apiEndPoints.users.googleLogin}`, '_self')}
+                onClick={() => window.open(`${apiEndPoints.users.googleLoginData}`, '_self')}
               >
                 <Image src="/icons/google.svg" height={20} width={20} alt="Google" />
                 Continue with Google
