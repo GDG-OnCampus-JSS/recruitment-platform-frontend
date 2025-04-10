@@ -2,30 +2,33 @@
 
 import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
+import { Spinner } from '@/components/common/spinner';
 import useUserStore from '@/stores/userStore';
 
 const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  // const router = useRouter();
-  // const user = useUserStore((state) => state.user);
-  // const [isLoading, setIsLoading] = useState(true);
+  const router = useRouter();
+  const user = useUserStore((state) => state.user);
+  const [isLoading, setIsLoading] = useState(true);
 
   // useEffect(() => {
-  //   if (user === undefined) {
-  //     return; // Still loading user state
+  //   if (!user || user === null) {
+  //     router.push('/login');
   //   }
 
   //   setIsLoading(false);
-
-  //   if (!user) {
-  //     router.push('/login');
-  //   }
   // }, [user, router]);
 
   // if (isLoading) {
-  //   return <div>Loading...</div>; // Show a loader while fetching user state
+  //   return (
+  //     <div className="flex h-screen w-full items-center justify-center">
+  //       <Spinner className="text-theme" />
+  //     </div>
+  //   );
   // }
 
-  return <div>{children}</div>;
+  // if (user) {
+  return <>{children}</>;
+  // }
 };
 
 export default Layout;
