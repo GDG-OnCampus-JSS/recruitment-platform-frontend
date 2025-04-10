@@ -27,7 +27,7 @@ const FileViewer: React.FC<FileViewerProps> = ({ fileUrl, className = '' }) => {
   };
 
   return (
-    <div className={`overflow-hidden rounded-lg ${className}`} style={{ width: 290, height: 150 }}>
+    <div className={`overflow-hidden rounded-lg ${className}`} style={{ width: 260, height: 150 }}>
       {error ? (
         <div className="text-sm text-red-500">{error}</div>
       ) : (

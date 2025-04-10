@@ -60,6 +60,7 @@ export const Header = ({ isAdmin }: { isAdmin: boolean }) => {
       }
     }
   };
+
   return (
     <header className="fixed left-0 top-0 z-20 w-full border-b bg-white py-3 md:border-b-0 lg:bg-white/50 lg:backdrop-blur-lg">
       <div className="mx-auto flex w-full max-w-6xl items-center justify-between px-8">
