@@ -70,16 +70,16 @@ export const WebDevelopmentTask = ({ year, onSubmit, form }: WebDevTaskProps) =>
       <h2 className="pb-2 text-[28px] font-bold text-theme">Web Development Tasks - Year {year}</h2>
 
       {yearTasks.map((task, index) => (
-        <React.Fragment key={task.type}>
-          <div className="space-y-6">
-            <div className="flex items-center justify-between">
+        <React.Fragment key={task.title}>
+          <div className="">
+            <div className="mb-4 flex items-center justify-between">
               <h3 className="text-nowrap text-[28px] font-medium">{task.title}</h3>
               <div className="h-[1px] bg-gradient-line sm:w-[981px]"></div>
             </div>
 
             <div className="space-y-4">
               <div className="gap-4 md:gap-0">
-                <div className="text-[16px] font-normal leading-[25.6px] text-[#353535]">
+                <div className="space-y-4 text-[16px] font-normal leading-[25.6px] text-[#353535]">
                   {task.description?.map((paragraph: string, index: number) => {
                     const isHeading = !paragraph.includes('.') && paragraph.length < 50;
 
@@ -121,15 +121,15 @@ export const WebDevelopmentTask = ({ year, onSubmit, form }: WebDevTaskProps) =>
               </div>
             </div>
 
-            <div className="flex flex-col gap-4 md:flex-row">
+            <div className="mt-14 flex flex-col gap-4 md:flex-row">
               <Card className="w-full border-main">
                 <CardHeader className="pb-2">
                   <CardTitle className="text-[20px] font-medium text-[#6B83FF]">
-                    Judgement Criteria
+                    Tech Stack
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <ul className="list-disc pl-4 text-sm text-[#353535]">
+                  <ul className="list-disc space-y-1 pl-4 text-sm text-[#353535]">
                     {task.criteria.map((criterion, cIndex) => (
                       <li key={cIndex}>{criterion}</li>
                     ))}
@@ -144,7 +144,7 @@ export const WebDevelopmentTask = ({ year, onSubmit, form }: WebDevTaskProps) =>
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <ul className="list-disc pl-4 text-sm text-[#353535]">
+                  <ul className="list-disc space-y-1 pl-4 text-sm text-[#353535]">
                     {task.browniePoints.map((point, bpIndex) => (
                       <li key={bpIndex}>{point}</li>
                     ))}
