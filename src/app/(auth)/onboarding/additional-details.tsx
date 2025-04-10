@@ -34,10 +34,7 @@ const additionalDetailsSchema = z.object({
     })
     .min(1, 'Academic year is required'),
   domain: z.string().min(1, 'Please select a domain'),
-  resume: z
-    .any()
-    .refine((file) => !file || file instanceof File, 'Please upload a file')
-    .optional(),
+  resume: z.string().optional(),
 });
 
 type AdditionalDetailsFormValues = z.infer<typeof additionalDetailsSchema>;
