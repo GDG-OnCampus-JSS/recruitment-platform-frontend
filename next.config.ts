@@ -5,7 +5,7 @@ const nextConfig: NextConfig = {
     remotePatterns: [
       {
         protocol: 'https',
-        hostname: 'recplatformgdgoncampus.blob.core.windows.net',
+        hostname: 'recruitmentplatformgdgjss.s3.ap-south-1.amazonaws.com',
       },
       {
         protocol: 'https',

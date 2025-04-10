@@ -12,14 +12,16 @@ export const blobUrl = (imagePath: string) => {
   const isFullUrl = imagePath.startsWith('http://') || imagePath.startsWith('https://');
   if (isFullUrl) return imagePath;
   const baseUrl = process.env.NEXT_PUBLIC_BLOB_BASE_URL;
-  const signedUrl = process.env.NEXT_PUBLIC_BLOB_SIGNED_URL;
-  return `${baseUrl}${imagePath}${signedUrl}`;
+  return `${baseUrl}${imagePath}`;
 };
 
 export const extractBlobUrlSegment = (url: string) => {
-  const parts = url.split('windows.net/');
-  if (parts.length < 2) return null;
-  return parts[1].split('?sv=')[0];
+  const keyword = 'amazonaws.com/';
+  const index = url.indexOf(keyword);
+
+  if (index === -1) return null;
+
+  return url.substring(index + keyword.length);
 };
 
 export const handleToastApiResponse = (
