@@ -1,16 +1,22 @@
 'use client';
 import { ChevronLeft } from 'lucide-react';
-import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
-import useUserStore from '@/stores/userStore';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card';
 
 export default function Quiz() {
   const router = useRouter();
-  const user = useUserStore((state) => state.user);
+
   return (
-    <div className="min-h-screen bg-[#fff] p-5 lg:h-full lg:p-8">
-      <div className="mx-auto max-w-6xl px-4 sm:mt-9 sm:px-8">
+    <div className="mt-20 min-h-screen">
+      <div className="mx-auto max-w-6xl px-4 sm:px-8">
         <div className="flex items-center justify-between">
           <Button
             variant="outline"
@@ -21,41 +27,38 @@ export default function Quiz() {
           </Button>
           <h1 className="text-xl font-medium">Aptitude Quiz</h1>
         </div>
-        <div className="mx-auto my-8 max-w-[740px] rounded-xl border px-6 py-8 shadow-xl lg:h-[412px] lg:py-10">
-          <div className="mb-5 flex flex-col justify-between text-xl leading-[1em] tracking-[0.02em] text-[#432AD8] lg:flex-row">
-            {/* <div className="mb-2 lg:mb-0">
-              <span>Selected Year:</span>
-              <span className="border border-[#ccc] px-3 py-1">{user?.year}</span>
-            </div>
-            <div>
-              <span>Selected Domain:</span>
-              <span className="border border-[#ccc] px-3 py-1">{user?.domain}</span>
-            </div> */}
-          </div>
-          <div className="max-w-[646px] text-[#100c2c]">
-            <h1 className="text-xl font-medium leading-[1em] tracking-[0.02em] lg:mb-5">
-              Guidelines
-            </h1>
-            <ul className="mt-2 grid list-disc gap-y-1 pl-6 text-justify text-[16px] lg:h-[157px]">
-              <li>This is a timed quiz. You will only get 30 mins to complete it.</li>
-              <li className="text-[#EA4335]">
-                You are not allowed to exit full screen mode, if you do, you will be disqualified.
-              </li>
-              <li>This quiz contains 10 questions, try your best to attempt them all.</li>
-              <li>Click "Save & Next" to save your answer.</li>
-              <li>All the very best to you. See you later.</li>
-            </ul>
-          </div>
 
-          <Button
-            variant="outline"
-            type="button"
-            className="mt-8 max-h-11 w-full cursor-pointer rounded-lg border-none bg-[#635BFF] px-8 py-2 font-light text-white lg:mt-10"
-            onClick={() => router.push(`/quiz/aptitude`)}
-          >
-            Let's Begin
-          </Button>
-        </div>
+        <Card className="mx-auto mt-12 max-w-xl p-2 sm:p-10">
+          <CardHeader>
+            <CardTitle className="text-2xl">Guidelines</CardTitle>
+            <CardDescription>Important Instructions</CardDescription>
+          </CardHeader>
+          <CardContent className="text-[#100c2c]">
+            <ul className="list-disc space-y-1 pl-4">
+              <li>
+                The quiz is available for one day - make sure to complete it within that period.
+              </li>
+              <li>This quiz contains 10 questions - try to attempt them all.</li>
+              <li className="text-[#EA4335]">
+                Copy-pasting or using AI for answers is strictly prohibited; users will be
+                disqualified if caught.
+              </li>
+              <li>Click "Save & Next" to save your answer and proceed to the next question.</li>
+              <li>All the very best to you. See you later!</li>
+            </ul>
+          </CardContent>
+
+          <CardFooter>
+            <Button
+              variant="outline"
+              type="button"
+              className="w-full rounded-lg border-none bg-theme px-8 py-6 font-light text-white hover:bg-theme-interactive hover:text-white lg:mt-10"
+              onClick={() => router.push(`/dashboard/quiz/aptitude`)}
+            >
+              Let's Begin
+            </Button>
+          </CardFooter>
+        </Card>
       </div>
     </div>
   );

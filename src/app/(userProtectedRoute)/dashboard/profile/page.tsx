@@ -21,9 +21,40 @@ export default function ProfilePage() {
 
   const calculateProfileCompletion = (user: User | null) => {
     if (!user) return 0;
-    const fields = reqFields;
-    const completedFields = fields.filter((field) => !!user[field as keyof typeof user]);
-    return Math.round((completedFields.length / fields.length) * 100);
+
+    const requiredFields = [
+      'name',
+      'email',
+      'phone',
+      'admissionNumber',
+      'domain',
+      'year',
+      'photo',
+      'resume',
+      'socialLinks',
+    ];
+
+    let completed = 0;
+
+    requiredFields.forEach((field) => {
+      const value = user[field as keyof User];
+
+      if (field === 'socialLinks') {
+        if (Array.isArray(value) && value.length > 0) {
+          completed++;
+        }
+      } else if (typeof value === 'string') {
+        if (value.trim() !== '') {
+          completed++;
+        }
+      } else {
+        if (value !== null && value !== undefined) {
+          completed++;
+        }
+      }
+    });
+
+    return Math.round((completed / requiredFields.length) * 100);
   };
 
   const profileCompletion = calculateProfileCompletion(user);
