@@ -86,7 +86,7 @@ export default function ProfilePage() {
                           <span className="rounded-full text-lg text-[#635BFF]">•</span>
                         </div>
                         <span className="text-max text-nowrap">
-                          {user.year == '1' ? '1st Year' : '2nd Year'}
+                          {user.year ? (user.year == '1' ? '1st Year' : '2nd Year') : 'Update year'}
                         </span>
                       </div>
                     </div>
@@ -133,11 +133,13 @@ export default function ProfilePage() {
                   </div>
                   <div className="flex items-center gap-3 text-sm">
                     <Phone size={18} className="text-[#3D3D3D]" />
-                    <span>{user.phone}</span>
+                    <span>{user.phone ? user.phone : 'Update phone number'}</span>
                   </div>
                   <div className="flex items-center gap-3 break-all text-sm">
                     <GraduationCap size={18} className="text-[#3D3D3D]" />
-                    <span>{user.admissionNumber}</span>
+                    <span>
+                      {user.admissionNumber ? user.admissionNumber : 'Update admission number'}
+                    </span>
                   </div>
                 </div>
               </CardContent>
