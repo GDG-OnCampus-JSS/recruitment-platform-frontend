@@ -8,7 +8,7 @@ import StepCard from '@/components/dashboardlayout/step-card';
 import { steps } from '@/constants/dashboard';
 import { blobUrl } from '@/lib/helpers';
 import { reqFields, mockUser } from '@/lib/options';
-import { StepCardProps } from '@/lib/types';
+import { StepCardProps, User } from '@/lib/types';
 import useUserStore from '@/stores/userStore';
 
 export default function DashboardPage() {
@@ -21,11 +21,44 @@ export default function DashboardPage() {
     setStepsToShow(steps);
   }, []);
 
-  const isProfileComplete = reqFields.every(
-    (field) =>
-      mockUser[field as keyof typeof mockUser] &&
-      mockUser[field as keyof typeof mockUser]?.toString().trim() !== '',
-  );
+  const isProfileComplete = (user: User | null) => {
+    if (!user) return false;
+
+    const requiredFields = [
+      'name',
+      'email',
+      'phone',
+      'admissionNumber',
+      'domain',
+      'year',
+      'photo',
+      'resume',
+      'socialLinks',
+    ];
+
+    let completed = 0;
+
+    requiredFields.forEach((field) => {
+      const value = user[field as keyof User];
+
+      if (field === 'socialLinks') {
+        if (Array.isArray(value) && value.length > 0) {
+          completed++;
+        }
+      } else if (typeof value === 'string') {
+        if (value.trim() !== '') {
+          completed++;
+        }
+      } else {
+        if (value !== null && value !== undefined) {
+          completed++;
+        }
+      }
+    });
+
+    const result = Math.round((completed / requiredFields.length) * 100);
+    return result === 100 ? true : false;
+  };
 
   useEffect(() => {
     const hasSubscribed = localStorage.getItem('subscribed');
@@ -68,7 +101,7 @@ export default function DashboardPage() {
               <h2 className="mb-2 text-lg font-medium tracking-[0.28px] sm:text-[28px]">
                 Hey! {user?.name.split(' ')[0]}
               </h2>
-              {!isProfileComplete && (
+              {!isProfileComplete(user) && (
                 <div className="flex items-start gap-1 sm:items-center">
                   <CircleAlert size={20} className="hidden text-red-500 sm:block" />
                   <h3 className="text-sm leading-[1em] tracking-[0.02em] text-red-500 sm:text-base">
