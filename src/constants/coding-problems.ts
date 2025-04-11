@@ -12,6 +12,34 @@ export interface Problems {
   example: Example[];
 }
 
+export const firstYearProblems: Problems[] = [
+  {
+    id: 1,
+    title: 'Add Two Numbers',
+    tags: ['easy', 'math', 'arithmetic'],
+    content:
+      'In this introductory problem, you are given two numbers, a and b, and your task is to calculate their sum. This challenge helps you get comfortable with basic arithmetic operations and input/output handling, making it a perfect starting point for beginners.',
+    example: [
+      { id: 1, input: '1 2', output: '3' },
+      { id: 2, input: '8 2', output: '10' },
+    ],
+  },
+];
+
+export const secondYearProblems: Problems[] = [
+  {
+    id: 1,
+    title: 'Add Two Numbers',
+    tags: ['easy', 'math', 'arithmetic'],
+    content:
+      'In this introductory problem, you are given two numbers, a and b, and your task is to calculate their sum. This challenge helps you get comfortable with basic arithmetic operations and input/output handling, making it a perfect starting point for beginners.',
+    example: [
+      { id: 1, input: '1 2', output: '3' },
+      { id: 2, input: '8 2', output: '10' },
+    ],
+  },
+];
+
 export const problems: Problems[] = [
   {
     id: 1,

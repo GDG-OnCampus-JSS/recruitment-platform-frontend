@@ -1,8 +1,16 @@
 'use client';
 
-import { BookCheckIcon, BookIcon, Code2Icon, LogsIcon, PlayIcon, UploadCloud } from 'lucide-react';
+import {
+  BookCheckIcon,
+  BookIcon,
+  Code2Icon,
+  LogsIcon,
+  PlayIcon,
+  Router,
+  UploadCloud,
+} from 'lucide-react';
 import Link from 'next/link';
-import { useParams } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { useMediaQuery } from 'react-responsive';
 // Internal Imports
@@ -21,21 +29,55 @@ import {
 } from '@/components/ui/select';
 // Constants and Utils
 import { statusCode } from '@/constants/apiStatus';
-import { problems, Problems } from '@/constants/coding-problems';
+import {
+  firstYearProblems,
+  secondYearProblems,
+  Problems,
+  problems,
+} from '@/constants/coding-problems';
 import { languagesData } from '@/constants/languageData';
+import { toast } from '@/hooks/use-toast';
 import { cn } from '@/lib/utils';
+import useUsersStore from '@/stores/userStore';
 
 const EditorPage = () => {
-  // Modal State
+  const { id } = useParams() as { id: string };
+  const router = useRouter();
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [userYear, setUserYear] = useState<number | undefined | null>();
+
+  useEffect(() => {
+    const year = useUsersStore.getState().user?.year;
+    setUserYear(Number(year));
+    if (!year) {
+      toast({
+        title: 'Year Not Selected',
+        description: 'Please select your year in edit profile page to continue',
+        variant: 'destructive',
+      });
+      router.push('/dashboard/profile');
+    }
+  }, [router]);
+
+  useEffect(() => {
+    if (parseInt(id) > 4) {
+      toast({
+        title: 'Invalid Problem ID',
+        description: 'Please select a valid problem',
+        variant: 'destructive',
+      });
+      router.push('/coding-platform/problems/1');
+    }
+  }, [id, router]);
 
   // Media query for responsiveness
   const isMobile = useMediaQuery({ query: '(max-width: 768px)' });
-
   // URL Params
-  const { id } = useParams() as { id: string };
   const problemId = Number(id);
-  const problem: Problems | undefined = problems.find((p) => p.id === problemId);
+  const problem: Problems | undefined =
+    Number(userYear) === 1
+      ? firstYearProblems.find((p) => p.id === problemId)
+      : secondYearProblems.find((p) => p.id === problemId);
 
   // Code & Language States
   const [code, setCode] = useState<string>('Select a language to start coding');
