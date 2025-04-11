@@ -23,7 +23,7 @@ export const apiEndPoints = {
   admin: {
     login: '/admin/auth/login',
     createAptitude: '/admin/aptitude/create-aptitude',
-    createQuiz: '/admin/questions/create-question'
+    createQuiz: '/admin/questions/create-question',
   },
 
   upload: {
