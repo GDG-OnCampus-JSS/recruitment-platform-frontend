@@ -107,7 +107,7 @@ const AptitudeQuiz = () => {
     });
 
     if (status == statusCode.Created201) {
-    //   console.log('data');
+      //   console.log('data');
       setIsModalOpen(false);
       router.push('/dashboard/quiz/submitted');
     }
