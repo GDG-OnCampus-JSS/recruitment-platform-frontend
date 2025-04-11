@@ -90,7 +90,7 @@ export const Header = ({ isAdmin }: { isAdmin: boolean }) => {
           </nav>
         </div>
 
-        <div className="flex items-center">
+        <div className="flex items-center gap-2">
           <div className="hidden lg:block">
             <Button
               variant="outline"
@@ -104,7 +104,7 @@ export const Header = ({ isAdmin }: { isAdmin: boolean }) => {
             </Button>
           </div>
 
-          <NotificationButton mode={isAdmin ? 'admin' : 'user'} className="mx-4" />
+          <NotificationButton mode={isAdmin ? 'admin' : 'user'} />
 
           <div className="hidden sm:block">
             {isAdminRoute ? (
@@ -134,7 +134,7 @@ export const Header = ({ isAdmin }: { isAdmin: boolean }) => {
             isOpen={isMobileMenuOpen}
             navItems={navItems}
             pathname={pathname}
-            onHelpClick={() => router.push('/help')}
+            onHelpClick={() => router.push('https://chat.whatsapp.com/KIzWKEujQqbHgOWKAtYhWj')}
             isAdminRoute={isAdminRoute}
             onEditProfile={() => setIsEditProfileOpen(true)}
             isEditProfileOpen={isEditProfileOpen}

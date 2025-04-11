@@ -156,7 +156,7 @@ export const MachineLearningTask = ({ year, onSubmit, form }: MLTaskProps) => {
             </div>
           </div>
 
-          {year === 2 && index < yearTasks.length - 1 && (
+          {index < yearTasks.length - 1 && (
             <div className="flex items-center justify-center xl:py-5">
               <div className="h-[1px] w-full rotate-180 bg-gradient-line"></div>
               <div className="px-8 text-[28px] font-medium text-[#100C2C] xl:h-9">OR</div>
