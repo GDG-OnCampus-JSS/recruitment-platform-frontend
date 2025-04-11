@@ -49,6 +49,7 @@ export const Header = ({ isAdmin }: { isAdmin: boolean }) => {
 
     if (loginMethod == 'google') {
       logoutUser();
+      router.push('/');
       return;
     }
 
