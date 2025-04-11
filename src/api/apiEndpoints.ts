@@ -11,8 +11,6 @@ export const apiEndPoints = {
     resetPasswordWithOldPassword: '/users/reset-password-with-old-password', //used
     updateUserProfile: '/users/update-profile', //used
     updateSocialLinks: '/social/', //used
-    googleAuth: '/auth/google',
-    googleLoginData: '/auth/login',
     // refreshToken: '/users/refresh-token',
     // getAll: '/users',
     // shortlist: '/users/shortlist',
@@ -34,11 +32,8 @@ export const apiEndPoints = {
   },
 
   oauth: {
-    googleAuth: '/auth/google',
-    googleCallback: '/auth/google/callback',
-    loginSuccess: '/auth/login',
-    logout: '/auth/logout',
-    googleLogoutRedirect: '/auth/google-logout-redirect',
+    googleAuth: 'auth/google', //used
+    loginSuccess: '/auth/login', //used
   },
 
   social: {

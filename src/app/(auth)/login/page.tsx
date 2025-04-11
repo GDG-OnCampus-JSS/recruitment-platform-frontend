@@ -172,7 +172,7 @@ export default function LoginPage() {
                 className="h-11 w-full font-light"
                 onClick={() =>
                   window.open(
-                    `${process.env.NEXT_PUBLIC_API_URL}${apiEndPoints.users.googleAuth}`,
+                    `${process.env.NEXT_PUBLIC_API_URL}${apiEndPoints.oauth.googleAuth}`,
                     '_self',
                   )
                 }
