@@ -32,6 +32,8 @@ export default function LoginPage() {
   const router = useRouter();
   const setUser = useUserStore((state) => state.setUser);
 
+  const [setUserDataLoading, setSetUserDataLoading] = useState(false);
+
   const form = useForm<z.infer<typeof loginSchema>>({
     resolver: zodResolver(loginSchema),
     defaultValues: {
@@ -54,7 +56,9 @@ export default function LoginPage() {
     };
 
     if (sessionStorage.getItem('googleLoginTriggered') === 'true') {
+      setSetUserDataLoading(true);
       checkGoogleAuthStatus();
+      setSetUserDataLoading(false);
     }
   }, [router, setUser]);
 
@@ -73,6 +77,14 @@ export default function LoginPage() {
     window.location.href = googleAuthUrl;
     sessionStorage.setItem('googleLoginTriggered', 'true');
   };
+
+  if (setUserDataLoading) {
+    return (
+      <div className="flex h-screen w-full items-center justify-center">
+        <Spinner className="text-theme" />
+      </div>
+    );
+  }
 
   return (
     <LogoGrid>
