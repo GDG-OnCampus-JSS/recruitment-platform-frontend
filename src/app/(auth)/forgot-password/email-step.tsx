@@ -7,17 +7,17 @@ import * as z from 'zod';
 import { postApi } from '@/api/api';
 import { apiEndPoints } from '@/api/apiEndpoints';
 import FormInput from '@/components/common/form-input';
+import { Spinner } from '@/components/common/spinner';
 import { Button } from '@/components/ui/button';
 import { Form } from '@/components/ui/form';
 import { handleToastApiResponse } from '@/lib/helpers';
-import { Spinner } from '@/components/common/spinner';
 
 const emailSchema = z.object({
   email: z.string().email('Please enter a valid email'),
 });
 
 export const EmailStep = () => {
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false); // used for button loading state
   const form = useForm<{ email: string }>({
     resolver: zodResolver(emailSchema),
     defaultValues: {
