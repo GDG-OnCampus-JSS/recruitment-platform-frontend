@@ -45,6 +45,12 @@ export default function RegisterPage() {
     }
   };
 
+  const handleGoogleLogin = () => {
+    const googleAuthUrl = `${process.env.NEXT_PUBLIC_API_URL}${apiEndPoints.oauth.googleAuth}`;
+    window.location.href = googleAuthUrl;
+    sessionStorage.setItem('googleLoginTriggered', 'true');
+  };
+
   const handleEdit = () => {
     const currentData = registrationData;
 
@@ -105,12 +111,7 @@ export default function RegisterPage() {
                 variant="outline"
                 type="button"
                 className="h-11 w-full font-light"
-                onClick={() =>
-                  window.open(
-                    `${process.env.NEXT_PUBLIC_API_URL}${apiEndPoints.oauth.googleAuth}`,
-                    '_self',
-                  )
-                }
+                onClick={handleGoogleLogin}
               >
                 <Image src="/icons/google.svg" height={20} width={20} alt="Google" />
                 Continue with Google
