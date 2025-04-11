@@ -165,7 +165,9 @@ const EditProfilePage = ({ isOpen, onClose }: EditProfileProps) => {
     );
 
     handleToastApiResponse(userDataStatus, userData, 'Profile updated successfully.');
-    updateUser({ ...user, ...userUpdationData });
+
+    const updatedUser = { ...user, ...userUpdationData };
+    updateUser(updatedUser);
 
     if (userDataStatus !== statusCode.Ok200) {
       handleToastApiResponse(userDataStatus, userData, 'Failed to update profile.');
@@ -182,7 +184,9 @@ const EditProfilePage = ({ isOpen, onClose }: EditProfileProps) => {
         socialLinksData,
         'Social links updated successfully.',
       );
-      updateUser({ ...user, socialLinks: userSocialLinksUpdationData });
+
+      const mergedUser = { ...updatedUser, socialLinks: userSocialLinksUpdationData };
+      updateUser(mergedUser);
     }
 
     setIsSubmitting(false);
