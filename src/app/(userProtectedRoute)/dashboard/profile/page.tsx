@@ -90,7 +90,9 @@ export default function ProfilePage() {
                         </span>
                       </div>
                     </div>
-                    <p className="text-sm capitalize text-[#635BFF]">Aspiring {user.domain}</p>
+                    <p className="text-sm capitalize text-[#635BFF]">
+                      Aspiring {user.domain ? 'Aspiring ' + user.domain : 'Update domain'}
+                    </p>
                   </div>
                   <div>
                     <div className="my-2 w-full border-b border-neutral-200"></div>

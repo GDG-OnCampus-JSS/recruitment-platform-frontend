@@ -12,6 +12,7 @@ import {
 import Link from 'next/link';
 import { useParams, useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
+import ReactMarkdown from 'react-markdown';
 import { useMediaQuery } from 'react-responsive';
 // Internal Imports
 import { postApi } from '@/api/api';
@@ -32,8 +33,7 @@ import { statusCode } from '@/constants/apiStatus';
 import {
   firstYearProblems,
   secondYearProblems,
-  Problems,
-  problems,
+  ProblemsInterface,
 } from '@/constants/coding-problems';
 import { languagesData } from '@/constants/languageData';
 import { toast } from '@/hooks/use-toast';
@@ -45,10 +45,16 @@ const EditorPage = () => {
   const router = useRouter();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [userYear, setUserYear] = useState<number | undefined | null>();
+  const [problems, setProblems] = useState<ProblemsInterface[]>([]);
 
   useEffect(() => {
     const year = useUsersStore.getState().user?.year;
     setUserYear(Number(year));
+    if (Number(year) === 1) {
+      setProblems(firstYearProblems);
+    } else if (Number(year) === 2) {
+      setProblems(secondYearProblems);
+    }
     if (!year) {
       toast({
         title: 'Year Not Selected',
@@ -60,7 +66,7 @@ const EditorPage = () => {
   }, [router]);
 
   useEffect(() => {
-    if (parseInt(id) > 4) {
+    if (parseInt(id) > 5) {
       toast({
         title: 'Invalid Problem ID',
         description: 'Please select a valid problem',
@@ -74,7 +80,7 @@ const EditorPage = () => {
   const isMobile = useMediaQuery({ query: '(max-width: 768px)' });
   // URL Params
   const problemId = Number(id);
-  const problem: Problems | undefined =
+  const problem: ProblemsInterface | undefined =
     Number(userYear) === 1
       ? firstYearProblems.find((p) => p.id === problemId)
       : secondYearProblems.find((p) => p.id === problemId);
@@ -206,10 +212,10 @@ const EditorPage = () => {
             <div className="h-full overflow-y-auto p-4 pb-24 sm:p-6">
               {problem ? (
                 <>
-                  <h1 className="mb-2 text-xl font-medium">
-                    {problem.id}. {problem.title}
-                  </h1>
-                  <div className="my-2 flex flex-wrap gap-2">
+                  <div className="my-4 flex flex-wrap items-center gap-2">
+                    <h1 className="text-xl font-medium">
+                      {problem.id}. {problem.title}
+                    </h1>
                     {problem.tags?.map((tag) => (
                       <span
                         key={tag}
@@ -219,18 +225,42 @@ const EditorPage = () => {
                       </span>
                     ))}
                   </div>
-                  <p className="mb-4 text-gray-600">{problem.content}</p>
-                  <div className="mt-10">
+                  {/* <p className="mb-4 text-[18px] text-gray-600">{problem.content}</p> */}
+
+                  <div className="font-sans tracking-tight text-gray-600">
+                    <ReactMarkdown>{problem.content}</ReactMarkdown>
+                  </div>
+
+                  {problem.inputConstraints && (
+                    <div className="mt-5">
+                      <h2 className="font-medium">Input Constraints :</h2>
+                      <div className="text-md font-sans tracking-tight text-gray-600">
+                        <ReactMarkdown>{problem.inputConstraints}</ReactMarkdown>
+                      </div>
+                    </div>
+                  )}
+                  {problem.outputConstraints && (
+                    <div className="mt-5">
+                      <h2 className="font-medium">Output Constraints :</h2>
+                      <div className="text-md font-sans tracking-tight text-gray-600">
+                        <ReactMarkdown>{problem.outputConstraints}</ReactMarkdown>
+                      </div>
+                    </div>
+                  )}
+                  <div className="mt-5">
                     {problem.example.map((ex) => (
                       <div key={ex.id} className="my-4">
                         <h2 className="font-medium">Example: {ex.id}</h2>
                         <div className="my-1 rounded-lg border bg-white p-4">
-                          <p>
-                            <span className="font-medium">Input:</span> {ex.input}
-                          </p>
-                          <p>
-                            <span className="font-medium">Output:</span> {ex.output}
-                          </p>
+                          <span className="font-medium">Input:</span>
+                          <div className="font-sans tracking-tight text-gray-600">
+                            <ReactMarkdown>{ex.input}</ReactMarkdown>
+                          </div>
+
+                          <span className="font-medium">Output:</span>
+                          <div className="font-sans tracking-tight text-gray-600">
+                            <ReactMarkdown>{ex.output}</ReactMarkdown>
+                          </div>
                         </div>
                       </div>
                     ))}

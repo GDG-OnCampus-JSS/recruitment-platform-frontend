@@ -75,6 +75,10 @@ const PasswordModal = ({ isOpen, setIsOpen }: PasswordModalProps) => {
 
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 py-4">
+            <p className="text-xs text-gray-500">
+              If you signed in with Google, use "Forgot Password" to reset—it can't be changed
+              directly.
+            </p>
             <FormInput
               name="oldPassword"
               type="password"
