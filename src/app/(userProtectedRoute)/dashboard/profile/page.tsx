@@ -91,7 +91,7 @@ export default function ProfilePage() {
                       </div>
                     </div>
                     <p className="text-sm capitalize text-[#635BFF]">
-                      Aspiring {user.domain ? 'Aspiring ' + user.domain : 'Update domain'}
+                      {user.domain ? 'Aspiring ' + user.domain : 'Update domain'}
                     </p>
                   </div>
                   <div>

@@ -42,15 +42,24 @@ export const handleToastApiResponse = (
       duration: 3000,
     });
   } else {
-    const errorMessage =
-      Array.isArray(responseData?.errors) && responseData.errors.length > 0
-        ? responseData.errors[0]
-        : responseData?.message || 'Something went wrong. Please try again.';
-    toast({
-      variant: 'destructive',
-      title: 'Error!',
-      description: errorMessage,
-      duration: 3000,
-    });
+    if (status === statusCode.ServerError500) {
+      toast({
+        variant: 'destructive',
+        title: 'Error!',
+        description: responseData?.message || 'Something went wrong. Please try again.',
+        duration: 3000,
+      });
+    } else {
+      const errorMessage =
+        Array.isArray(responseData?.errors) && responseData.errors.length > 0
+          ? responseData.errors[0]
+          : responseData?.message || 'Something went wrong. Please try again.';
+      toast({
+        variant: 'destructive',
+        title: 'Error!',
+        description: errorMessage,
+        duration: 3000,
+      });
+    }
   }
 };
