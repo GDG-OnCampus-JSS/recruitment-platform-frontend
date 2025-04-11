@@ -32,6 +32,8 @@ export default function LoginPage() {
   const router = useRouter();
   const setUser = useUserStore((state) => state.setUser);
 
+  const [setUserDataLoading, setSetUserDataLoading] = useState(false);
+
   const form = useForm<z.infer<typeof loginSchema>>({
     resolver: zodResolver(loginSchema),
     defaultValues: {
@@ -41,29 +43,24 @@ export default function LoginPage() {
   });
 
   useEffect(() => {
-    const fetchUser = async () => {
-      try {
-        const { status, data } = await getApi(apiEndPoints.oauth.loginSuccess);
-
-        const user = data.user;
-
-        if (user) {
-          setUser({
-            ...data.user,
-            loginMethod: 'google',
-          });
-          router.push('/dashboard');
-        } else {
-          router.push('/login');
-        }
-      } catch (err) {
-        console.error('Error:', err);
-        router.push('/login');
+    const checkGoogleAuthStatus = async () => {
+      const { status, data } = await getApi(apiEndPoints.oauth.loginSuccess);
+      if (status === statusCode.Ok200 && data.user) {
+        setUser({
+          ...data.user,
+          loginMethod: 'google',
+        });
+        sessionStorage.removeItem('googleLoginTriggered');
+        router.push('/dashboard');
       }
     };
 
-    fetchUser();
-  }, [setUser, router]);
+    if (sessionStorage.getItem('googleLoginTriggered') === 'true') {
+      setSetUserDataLoading(true);
+      checkGoogleAuthStatus();
+      setSetUserDataLoading(false);
+    }
+  }, [router, setUser]);
 
   const onSubmit = async (data: z.infer<typeof loginSchema>) => {
     const { status, data: responseData } = await postApi(apiEndPoints.users.login, data);
@@ -74,6 +71,20 @@ export default function LoginPage() {
       setUser({ ...responseData.user, loginMethod: 'jwt' });
     }
   };
+
+  const handleGoogleLogin = () => {
+    const googleAuthUrl = `${process.env.NEXT_PUBLIC_API_URL}${apiEndPoints.oauth.googleAuth}`;
+    window.location.href = googleAuthUrl;
+    sessionStorage.setItem('googleLoginTriggered', 'true');
+  };
+
+  if (setUserDataLoading) {
+    return (
+      <div className="flex h-screen w-full items-center justify-center">
+        <Spinner className="text-theme" />
+      </div>
+    );
+  }
 
   return (
     <LogoGrid>
@@ -170,12 +181,7 @@ export default function LoginPage() {
                 variant="outline"
                 type="button"
                 className="h-11 w-full font-light"
-                onClick={() =>
-                  window.open(
-                    `${process.env.NEXT_PUBLIC_API_URL}${apiEndPoints.oauth.googleAuth}`,
-                    '_self',
-                  )
-                }
+                onClick={handleGoogleLogin}
               >
                 <Image src="/icons/google.svg" height={20} width={20} alt="Google" />
                 Continue with Google

@@ -21,7 +21,10 @@ const useUserStore = create<UserState>()(
           user: state.user ? { ...state.user, ...updatedFields } : null,
         })),
 
-      logout: () => set({ user: null }),
+      logout: () => {
+        useUserStore.persist.clearStorage();
+        set({ user: null });
+      },
     }),
     {
       name: 'user-storage',

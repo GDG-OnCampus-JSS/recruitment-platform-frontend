@@ -1,11 +1,13 @@
 'use client';
 
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import * as z from 'zod';
 import { postApi } from '@/api/api';
 import { apiEndPoints } from '@/api/apiEndpoints';
 import FormInput from '@/components/common/form-input';
+import { Spinner } from '@/components/common/spinner';
 import { Button } from '@/components/ui/button';
 import { Form } from '@/components/ui/form';
 import { handleToastApiResponse } from '@/lib/helpers';
@@ -15,6 +17,7 @@ const emailSchema = z.object({
 });
 
 export const EmailStep = () => {
+  const [isLoading, setIsLoading] = useState(false); // used for button loading state
   const form = useForm<{ email: string }>({
     resolver: zodResolver(emailSchema),
     defaultValues: {
@@ -27,12 +30,16 @@ export const EmailStep = () => {
       email: data.email,
     };
 
+    setIsLoading(true);
+
     const { status, data: responseData } = await postApi(
       apiEndPoints.users.requestPasswordReset,
       requestData,
     );
 
     handleToastApiResponse(status, responseData);
+
+    setIsLoading(false);
   };
 
   return (
@@ -41,7 +48,7 @@ export const EmailStep = () => {
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
           <FormInput name="email" label="Email" placeholder="Enter your email" isAsterisk />
           <Button type="submit" className="h-11 w-full bg-btn-primary hover:bg-indigo-600">
-            Continue
+            Continue {isLoading && <Spinner className="text-white" />}
           </Button>
         </form>
       </Form>

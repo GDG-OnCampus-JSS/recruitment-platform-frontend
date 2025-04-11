@@ -13,6 +13,7 @@ import LogoGrid from '@/components/common/logo-grid';
 import { Button } from '@/components/ui/button';
 import { Form } from '@/components/ui/form';
 import { statusCode } from '@/constants/apiStatus';
+import { handleToastApiResponse } from '@/lib/helpers';
 
 const newPasswordSchema = z
   .object({
@@ -45,12 +46,9 @@ export const NewPasswordStep = ({ onSuccess, onBack }: Props) => {
 
   const onSubmit = async (data: NewPasswordFormValues) => {
     onSuccess(data);
-
     const { status, data: responseData } = await postApi(apiEndPoints.users.resetPassword, data);
 
-    if (status === statusCode.Ok200) {
-      console.log('Response:', responseData);
-    }
+    handleToastApiResponse(status, responseData, 'Password reset successfully');
   };
 
   return (
