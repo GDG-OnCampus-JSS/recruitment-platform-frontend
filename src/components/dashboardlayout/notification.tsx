@@ -52,15 +52,11 @@ const NotificationButton = ({ mode, className }: Props) => {
       userId: user?.id,
     });
 
-    const { status, data: responseData } = await postApi(
-      apiEndPoints.notification.sendNotifications,
-      {
-        userId: user?.id,
-        title: data.notificationTitle,
-        message: data.notificationMessage,
-        url: data.notificationUrl,
-      },
-    );
+    const { status, data: responseData } = await postApi(apiEndPoints.admin.sendNotifications, {
+      title: data.notificationTitle,
+      message: data.notificationMessage,
+      url: data.notificationUrl,
+    });
 
     if (status === statusCode.Ok200) {
       alert('Notification sent successfully!');
@@ -70,10 +66,9 @@ const NotificationButton = ({ mode, className }: Props) => {
     }
   };
 
-  const fetchNotifications = async (userId: string) => {
-    if (mode === 'user' && userId) {
-      const { status, data } = await getApi(apiEndPoints.notification.getNotifications(userId));
-
+  const fetchNotifications = async () => {
+    if (mode === 'user') {
+      const { status, data } = await getApi(apiEndPoints.notification.getNotifications);
       if (status === statusCode.Ok200) {
         setNotifications(data);
       }
@@ -87,7 +82,7 @@ const NotificationButton = ({ mode, className }: Props) => {
   };
   useEffect(() => {
     if (mode === 'user' && user?.id) {
-      fetchNotifications(user.id);
+      fetchNotifications();
     }
   }, [user?.id, mode]);
 
