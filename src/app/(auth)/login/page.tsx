@@ -31,7 +31,6 @@ export default function LoginPage() {
   const [showPassword, setShowPassword] = useState(false);
   const router = useRouter();
   const setUser = useUserStore((state) => state.setUser);
-  const [googleLoginButton, setGoogleLoginButton] = useState(false);
 
   const form = useForm<z.infer<typeof loginSchema>>({
     resolver: zodResolver(loginSchema),
@@ -49,14 +48,15 @@ export default function LoginPage() {
           ...data.user,
           loginMethod: 'google',
         });
+        sessionStorage.removeItem('googleLoginTriggered');
         router.push('/dashboard');
       }
     };
 
-    if (googleLoginButton) {
+    if (sessionStorage.getItem('googleLoginTriggered') === 'true') {
       checkGoogleAuthStatus();
     }
-  }, [googleLoginButton, router, setUser]);
+  }, [router, setUser]);
 
   const onSubmit = async (data: z.infer<typeof loginSchema>) => {
     const { status, data: responseData } = await postApi(apiEndPoints.users.login, data);
@@ -71,6 +71,7 @@ export default function LoginPage() {
   const handleGoogleLogin = () => {
     const googleAuthUrl = `${process.env.NEXT_PUBLIC_API_URL}${apiEndPoints.oauth.googleAuth}`;
     window.location.href = googleAuthUrl;
+    sessionStorage.setItem('googleLoginTriggered', 'true');
   };
 
   return (
@@ -168,10 +169,7 @@ export default function LoginPage() {
                 variant="outline"
                 type="button"
                 className="h-11 w-full font-light"
-                onClick={() => {
-                  setGoogleLoginButton(true);
-                  handleGoogleLogin();
-                }}
+                onClick={handleGoogleLogin}
               >
                 <Image src="/icons/google.svg" height={20} width={20} alt="Google" />
                 Continue with Google
