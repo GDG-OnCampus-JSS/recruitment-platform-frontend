@@ -63,7 +63,7 @@ export const apiEndPoints = {
   },
 
   answer: {
-    createAnswer: (questionId: string) => `/questions/create-ans/${questionId}`, // Add this new section
+    createAnswer: `/questions/create-ans`, // Add this new section
   },
 
   option: {

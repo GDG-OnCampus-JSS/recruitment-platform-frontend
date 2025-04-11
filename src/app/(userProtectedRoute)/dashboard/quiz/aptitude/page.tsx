@@ -1,6 +1,7 @@
 'use client';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Bookmark, Circle, TriangleAlert } from 'lucide-react';
+import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
 import { FormProvider } from 'react-hook-form';
 import { useForm } from 'react-hook-form';
@@ -17,31 +18,35 @@ import { mockAptitude } from '@/lib/options';
 import { User } from '@/lib/types';
 import useUserStore from '@/stores/userStore';
 
-type optionType = {
+type Question = {
   id: string;
-  optionText: string;
-  isCorrect: boolean;
+  questionText: string;
+  isDeleted: boolean;
+  year: number;
+  quizTitle: string;
+};
+
+type Answer = {
+  questionId: string;
+  answer: string;
 };
 
 const AptitudeQuiz = () => {
+  const router = useRouter();
   const user = useUserStore((state) => state.user);
   const displayUser = (user || mockUser) as User;
   const [activeTab, setActiveTab] = useState(0);
+  const [textAnswers, setTextAnswers] = useState<{ [key: string]: string }>({});
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [reviewedQuestions, setReviewedQuestions] = useState<Set<string>>(new Set());
-
-  const [allAptitudes, setAllAptitudes] = useState<any[]>([]);
-  const [aptitudeQuestions, setAptitudeQuestions] = useState<any[]>([]);
-  const [error, setError] = useState<string>('');
   const [displayedQuestions, setDisplayedQuestions] = useState<any[]>([]);
 
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
-  const [textAnswers, setTextAnswers] = useState<{ [key: string]: string }>({});
 
   const currentQuestion = displayedQuestions[currentQuestionIndex];
 
-  const [timeLeft, setTimeLeft] = useState(30 * 60);
-  const [isTimerFinished, setIsTimerFinished] = useState(false);
+  // const [timeLeft, setTimeLeft] = useState(30 * 60);
+  // const [isTimerFinished, setIsTimerFinished] = useState(false);
 
   const totalMarked = reviewedQuestions.size;
   const totalQuestions = displayedQuestions.length;
@@ -60,73 +65,52 @@ const AptitudeQuiz = () => {
     },
   });
 
-  // const fetchAptitudeId = async () => {
-  //   try {
-  //     console.log(apiEndPoints.userAptitude.getAptitudes);
-  //     const { status, data } = await getApi(
-  //       `http://localhost:5000/users/aptitude?aptitudeYear=1&aptitudeDomain=ML`,
-  //     );
-  //     // await getByParamsApi(apiEndPoints.userAptitude.getAptitudes, params);
-  //     //const { status, data } = await ApiRoutes.getAllAptitudes(params);
-  //     let allQuestions: any[] = [];
+  const [answers, setAnswers] = useState<Answer[]>([]);
 
-  //     if (status === 200 && data) {
-  //       setAllAptitudes(data.aptitude || []);
-  //       allQuestions = data.aptitudes.flatMap((aptitude: any) => aptitude.aptitudeQuestions) || [];
-  //     } else {
-  //       setAllAptitudes(mockAptitude.aptitudes);
-  //       allQuestions = mockAptitude.aptitudes.flatMap(
-  //         (aptitude: any) => aptitude.aptitudeQuestions,
-  //       );
-
-  //       setAptitudeQuestions(allQuestions);
-
-  //       // Select 10 random questions
-  //       const randomQuestions = selectRandomQuestions(allQuestions, 10);
-  //       setDisplayedQuestions(randomQuestions);
-  //     }
-  //   } catch (error: any) {
-  //     console.error('Error fetching aptitudes:', error);
-  //     setError('Failed to fetch aptitudes');
-  //     const allQuestions = mockAptitude.aptitudes.flatMap(
-  //       (aptitude: any) => aptitude.aptitudeQuestions,
-  //     );
-  //     setAllAptitudes(mockAptitude.aptitudes);
-  //     setAptitudeQuestions(allQuestions);
-  //     const randomQuestions = selectRandomQuestions(allQuestions, 10);
-  //     setDisplayedQuestions(randomQuestions);
-  //   }
-  // };
-
-  // const handleOptionSelect = (questionId: string, optionId: string) => {
-  //   setSelectedOptions((prev) => ({
-  //     ...prev,
-  //     [questionId]: optionId,
-  //   }));
-  // };
-
-  const fetchRandomQuestions = async () => {
+  const fetchQuestions = async () => {
+    // console.log("id", displayUser.id)
     const { status, data } = await getApi(apiEndPoints.question.getRandomQuestions);
-    if (status === statusCode.Ok200 && data?.questions) {
+    // console.log("questions", data.questions)
+    if (status == statusCode.Ok200) {
+      console.log('executed');
       setDisplayedQuestions(data.questions);
     }
   };
 
-  const handleTextAnswerChange = (questionId: string, answer: string) => {
+  useEffect(() => {
+    fetchQuestions();
+  }, []);
+
+  const handleTextAnswerChange = (questionId: string, value: string) => {
     setTextAnswers((prev) => ({
       ...prev,
-      [questionId]: answer,
+      [questionId]: value,
     }));
 
-    const currentAnswers = form.getValues('answers');
-    form.setValue(
-      'answers',
-      {
-        ...currentAnswers,
-        [questionId]: answer,
-      },
-      { shouldValidate: true, shouldDirty: true, shouldTouch: true },
-    );
+    setAnswers((prevAnswers) => {
+      const existing = prevAnswers.find((a) => a.questionId === questionId);
+
+      if (existing) {
+        return prevAnswers.map((a) => (a.questionId === questionId ? { ...a, answer: value } : a));
+      } else {
+        return [...prevAnswers, { questionId, answer: value }];
+      }
+    });
+  };
+
+  const handleSubmitTest = async () => {
+    console.log('answers', answers);
+    // apiEndPoints.answer.createAnswer
+    const { status, data } = await postApi(apiEndPoints.answer.createAnswer, {
+      userId: displayUser.id,
+      answers: answers,
+    });
+
+    if (status == statusCode.Created201) {
+      //   console.log('data');
+      setIsModalOpen(false);
+      router.push('/dashboard/quiz/submitted');
+    }
   };
 
   const handleMarkForReview = (questionId: string) => {
@@ -137,104 +121,55 @@ const AptitudeQuiz = () => {
     });
   };
 
-  const calculateScore = (questions: any[]) => {
-    // let score = 0;
-    // questions.forEach((question) => {
-    //   const selectedOptionId = selectedOptions[question.id];
-    //   const correctOption = question.options.find((option: any) => option.isCorrect);
-    //   if (selectedOptionId && correctOption && selectedOptionId === correctOption.id) {
-    //     score += 1;
-    //   }
-    // });
-    // return score;
-    return Object.keys(textAnswers).length;
-  };
-
-  const handleSubmitTest = async () => {
-    setIsModalOpen(false);
-
-    for (const [questionId, answer] of Object.entries(textAnswers)) {
-      await postApi(apiEndPoints.answer.createAnswer(questionId), {
-        answer,
-        userId: displayUser.id,
-      });
-    }
-    window.open(`/quiz/aptitude/submitted`, '_self');
-  };
-
-  useEffect(() => {
-    if (currentQuestion) {
-      form.setValue(`answers.${currentQuestion.id}`, textAnswers[currentQuestion.id] || '', {
-        shouldValidate: false,
-      });
-    }
-  }, [currentQuestionIndex, currentQuestion, form, textAnswers]);
-
-  const saveCurrentAnswer = () => {
-    if (currentQuestion) {
-      const currentAnswer = form.getValues(`answers.${currentQuestion.id}`);
-
-      handleTextAnswerChange(currentQuestion.id, currentAnswer || '');
-    }
-  };
-
   const nextQuestion = () => {
-    saveCurrentAnswer();
+    // saveCurrentAnswer();
 
-    if (currentQuestionIndex < aptitudeQuestions.length - 1) {
+    if (currentQuestionIndex < displayedQuestions.length - 1) {
       setCurrentQuestionIndex(currentQuestionIndex + 1);
       setActiveTab(currentQuestionIndex + 1);
     }
   };
 
   const prevQuestion = () => {
-    saveCurrentAnswer();
+    // saveCurrentAnswer();
     if (currentQuestionIndex > 0) {
       setCurrentQuestionIndex(currentQuestionIndex - 1);
       setActiveTab(currentQuestionIndex - 1);
     }
   };
 
-  useEffect(() => {
-    fetchRandomQuestions();
-  }, []);
-
   //timer
-  useEffect(() => {
-    if (timeLeft === 0) {
-      setIsTimerFinished(true);
-      handleSubmitTest();
-      return;
-    }
-    const timerInterval = setInterval(() => {
-      setTimeLeft((prevTime) => prevTime - 1);
-    }, 1000);
-    return () => clearInterval(timerInterval);
-  }, [timeLeft]);
+  // useEffect(() => {
+  //   if (timeLeft === 0) {
+  //     setIsTimerFinished(true);
+  //     handleSubmitTest();
+  //     return;
+  //   }
+  //   const timerInterval = setInterval(() => {
+  //     setTimeLeft((prevTime) => prevTime - 1);
+  //   }, 1000);
+  //   return () => clearInterval(timerInterval);
+  // }, [timeLeft]);
 
-  const formatTime = (timeInSeconds: number) => {
-    const minutes = Math.floor(timeInSeconds / 60);
-    const seconds = timeInSeconds % 60;
-    return `${minutes < 10 ? '0' + minutes : minutes}:${seconds < 10 ? '0' + seconds : seconds}`;
-  };
+  // const formatTime = (timeInSeconds: number) => {
+  //   const minutes = Math.floor(timeInSeconds / 60);
+  //   const seconds = timeInSeconds % 60;
+  //   return `${minutes < 10 ? '0' + minutes : minutes}:${seconds < 10 ? '0' + seconds : seconds}`;
+  // };
 
   const openFinishTestDialog = () => {
-    if (timeLeft > 0) {
-      setIsModalOpen(true);
-    } else {
-      handleSubmitTest();
-    }
+    setIsModalOpen(true);
   };
 
   return (
     <div className="mx-auto min-h-screen px-4 py-4 pt-10 xl:container lg:h-full xl:max-w-6xl">
       <h1 className="my-4 text-left text-[20px] font-bold xl:px-4">Aptitude Quiz</h1>
       <div className="my-3 flex max-w-[1120px] flex-col items-center justify-between lg:flex-row">
-        <span
+        {/* <span
           className={`px-1 py-3 text-xl font-normal xl:px-4 ${timeLeft <= 5 * 60 ? 'text-[#EA4335]' : 'text-[#0F9D58]'}`}
         >
           {formatTime(timeLeft)}
-        </span>
+        </span> */}
         <span className="flex max-h-11 rounded-lg border border-[#B0B0B0] bg-white xl:mr-5">
           <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
             <DialogTrigger asChild>
@@ -257,9 +192,7 @@ const AptitudeQuiz = () => {
                   Are you sure you want to finish the quiz before time?
                 </div>
               </div>
-              <div className="grid gap-4 py-4">
-                <div className="text-red-500">Remaining time: {formatTime(timeLeft)}</div>
-              </div>
+              <div className="grid gap-4 py-4"></div>
               <div className="flex justify-between">
                 <Button
                   onClick={handleSubmitTest}
@@ -284,7 +217,7 @@ const AptitudeQuiz = () => {
           <div className="max-h-[155px] rounded-md bg-white p-5 lg:h-[155px] lg:w-[740px]">
             <h3 className="mb-4 text-xl text-[#100C2C]">Question {currentQuestionIndex + 1}</h3>
             <p className="text-[16px] text-[#3D3D3D]">
-              {currentQuestion?.questionShortDesc || 'Loading...'}
+              {currentQuestion?.questionText || 'Loading...'}
             </p>
           </div>
 
