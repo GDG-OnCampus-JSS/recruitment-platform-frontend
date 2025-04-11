@@ -23,6 +23,7 @@ export const apiEndPoints = {
   admin: {
     login: '/admin/auth/login',
     createAptitude: '/admin/aptitude/create-aptitude',
+    createQuiz: '/admin/questions/create-question',
   },
 
   upload: {
@@ -52,7 +53,7 @@ export const apiEndPoints = {
   },
 
   question: {
-    createQuestion: '/questions/create-question',
+    // createQuestion: '/questions/create-question',
     getPaginatedQuestions: '/questions',
     getQuestionById: (id: string) => `/questions/${id}`,
     getQuestionsByAptitude: (aptitudeId: string) => `/questions/question-aptitude/${aptitudeId}`,

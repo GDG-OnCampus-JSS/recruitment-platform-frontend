@@ -18,22 +18,17 @@ import { academicYearOptions } from '@/constants/registration';
 import { handleToastApiResponse } from '@/lib/helpers';
 import useAdminStore from '@/stores/adminStore';
 // import {Plus} from 'lucide-react'
-const aptitudeSchema = z.object({
-  aptitudeTitle: z.string().nonempty('Please enter a valid title'),
-  aptitudeYear: z.string().nonempty('Please select an academic year'),
-  aptitudeDuration: z.string().nonempty('Please enter a valid duration'),
+
+const questionSchema = z.object({
   questions: z
     .array(
       z.object({
-        questionShortDesc: z.string().nonempty('Question cannot be empty'),
-        options: z
-          .array(
-            z.object({
-              optionText: z.string().nonempty('Option cannot be empty'),
-              isCorrect: z.boolean(),
-            }),
-          )
-          .length(4, 'Each question must have exactly 4 options'),
+        quizTitle: z.string().nonempty('Please enter a valid title'),
+        year: z
+          .string()
+          .nonempty('Please enter current year')
+          .min(4, 'Year must be at least 4 characters'),
+        questionText: z.string().nonempty('Question text cannot be empty'),
       }),
     )
     .min(1, 'At least one question is required'),
@@ -43,94 +38,73 @@ const Page = () => {
   const [activeTab, setActiveTab] = useState(0);
   const admin = useAdminStore((state) => state.admin);
 
-  const form = useForm<z.infer<typeof aptitudeSchema>>({
-    resolver: zodResolver(aptitudeSchema),
+  const form = useForm<z.infer<typeof questionSchema>>({
+    resolver: zodResolver(questionSchema),
+    mode: 'onChange',
     defaultValues: {
-      aptitudeTitle: '',
-      aptitudeYear: '1',
-      aptitudeDuration: '',
       questions: Array.from({ length: 20 }, () => ({
-        questionShortDesc: '',
-        options: Array.from({ length: 4 }, () => ({ optionText: '', isCorrect: false })),
+        questionText: '',
+        quizTitle: '',
+        year: '2025',
       })),
     },
   });
 
-  const onSubmit = async (data: z.infer<typeof aptitudeSchema>) => {
-    const { status, data: responseData } = await postApi(apiEndPoints.admin.createAptitude, {
-      ...data,
-      aptitudeYear: Number(data.aptitudeYear),
-      aptitudeDuration: Number(data.aptitudeDuration),
-      aptitudeDomain: admin?.domain,
-    });
+  const onSubmit = async (data: z.infer<typeof questionSchema>) => {
+    // const { status, data: responseData } = await postApi(apiEndPoints.question.createQuestion, {
+    //   ...data,
+    // });
 
+    const transformedData = {
+      ...data,
+      questions: data.questions.map((q) => ({
+        ...q,
+        year: parseInt(q.year, 10), // Convert to number
+      })),
+    };
+
+    const { status, data: responseData } = await postApi(
+      apiEndPoints.admin.createQuiz,
+      transformedData,
+    );
+    console.log('trans', transformedData);
     handleToastApiResponse(status, responseData);
   };
 
   return (
     <div className="p-6 py-20">
       <div className="flex flex-col justify-between lg:flex-row">
-        <h1 className="mb-4 text-2xl font-bold">Create Aptitude</h1>
-        {/* <Button type="button" className="rounded-md bg-[#0F9D58] px-5 py-3 text-base text-white mb-2">
-        Add Question <Plus />
-      </Button> */}
+        <h1 className="mb-4 text-2xl font-bold">Create Quiz</h1>
       </div>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-          <div className="flex flex-col gap-5 lg:flex-row">
-            <FormInput
-              name="aptitudeTitle"
-              placeholder="Enter the aptitude title"
-              className="w-full lg:w-80"
-              isAsterisk
-            />
-            <FormInput
-              name="aptitudeDuration"
-              placeholder="Enter duration"
-              className="w-full"
-              isAsterisk
-            />
-            <OptionsSelect
-              name="aptitudeYear"
-              placeholder="Year"
-              isAsterisk
-              className="flex-1"
-              options={academicYearOptions}
-            />
-          </div>
-
-          <div className="flex-col items-center justify-center gap-5 px-2 py-4 md:flex md:justify-normal lg:flex lg:flex-row lg:justify-normal">
+          <div className="flex flex-col items-center justify-center gap-5 px-2 py-4 md:flex md:justify-normal lg:flex lg:flex-row lg:justify-normal">
             {/* Questions */}
             <div
               key={`active-question-${activeTab}`}
               className="flex max-w-full flex-col gap-8 rounded-md lg:w-[740px]"
             >
+              <FormInput
+                name={`questions.${activeTab}.quizTitle`}
+                placeholder="Enter the Quiz title"
+                className="w-80"
+                isAsterisk
+              />
+              <FormInput
+                name={`questions.${activeTab}.year`}
+                placeholder="Enter the year"
+                className="w-full lg:w-80"
+                isAsterisk
+              />
               <FormTextArea
-                name={`questions.${activeTab}.questionShortDesc`}
+                name={`questions.${activeTab}.questionText`}
                 className="h-40"
                 placeholder="Write the question here"
               />
 
-              <div className="mb-4 grid grid-cols-1 gap-5 sm:grid-cols-2">
-                {Array.from({ length: 4 }, (_, optIndex) => (
-                  <div
-                    key={optIndex}
-                    className="flex max-w-[360px] items-center gap-3 rounded-md border border-[#DDE3FF] bg-white"
-                  >
-                    <div className="pl-5">
-                      <FormCheckbox
-                        name={`questions.${activeTab}.options.${optIndex}.isCorrect`}
-                        containerClassName="p-0 space-x-0 m-0 rounded-full"
-                      />
-                    </div>
-                    <FormInput
-                      name={`questions.${activeTab}.options.${optIndex}.optionText`}
-                      placeholder={`Option ${optIndex + 1}`}
-                      className="rounded-bl-none rounded-tl-none border-none"
-                    />
-                  </div>
-                ))}
-              </div>
+              {/* <div className="mb-4 grid grid-cols-1 gap-5 sm:grid-cols-2">
+              
+              </div> */}
             </div>
             {/* Questions Tabs */}
             <div className="flex w-full flex-col gap-5 p-2 lg:w-[360px]">
