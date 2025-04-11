@@ -93,7 +93,7 @@ export const SOCIAL_PLATFORMS = [
     icon: <Image src="/icons/github.svg" width={20} height={20} alt="Gi" className="size-5" />,
   },
   {
-    name: 'Dribble',
+    name: 'Dribbble',
     icon: <Image src="/icons/dribble.svg" width={20} height={20} alt="Dr" className="size-5" />,
   },
   {
@@ -105,7 +105,7 @@ export const SOCIAL_PLATFORMS = [
     icon: <Image src="/icons/codechef.svg" width={20} height={20} alt="CC" className="size-5" />,
   },
   { name: 'Other', icon: <Globe className="size-5" /> },
-  { name: 'Any Other', icon: <Globe className="size-5" /> },
+  { name: 'AnyOther', icon: <Globe className="size-5" /> },
 ];
 
 export const socialIconMapping: Record<string, JSX.Element> = {
