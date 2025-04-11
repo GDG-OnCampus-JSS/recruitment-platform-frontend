@@ -24,6 +24,7 @@ export const apiEndPoints = {
     login: '/admin/auth/login',
     createAptitude: '/admin/aptitude/create-aptitude',
     createQuiz: '/admin/questions/create-question',
+    sendNotifications: '/admin/notification/send-notification',
   },
 
   upload: {
@@ -119,8 +120,7 @@ export const apiEndPoints = {
 
   notification: {
     subscribe: `/notification/subscribe`,
-    getNotifications: (userId: string) => `/notification/get/${userId}`,
-    sendNotifications: '/notification/send-notification',
+    getNotifications: `/notification/get`,
     getSubscription: '/notification/all',
     //markAsRead: (notificationId: string) =>`/notification/mark-read/${notificationId}`,
   },
