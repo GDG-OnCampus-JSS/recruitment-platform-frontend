@@ -12,7 +12,7 @@ export const steps: StepCardProps[] = [
     buttonText: 'Start Now',
     buttonBgColor: 'bg-[#FBBC04]',
     gradientBg: 'bg-yellow-gradient',
-    action: '/quiz',
+    action: '/dashboard/quiz',
     eventStartDate: new Date('2025-04-14T00:00:00'),
     eventEndDate: new Date('2025-04-02T03:00:00'),
   },
