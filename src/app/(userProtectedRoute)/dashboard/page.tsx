@@ -95,7 +95,7 @@ export default function DashboardPage() {
               alt="User"
               width={80}
               height={80}
-              className="size-16 rounded-full object-contain sm:size-20"
+              className="size-16 rounded-full object-cover sm:size-20"
             />
             <div>
               <h2 className="mb-2 text-lg font-medium tracking-[0.28px] sm:text-[28px]">
