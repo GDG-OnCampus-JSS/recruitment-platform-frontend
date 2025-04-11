@@ -5,6 +5,10 @@
       "destination": "/reset-password/:token*"
     },
     {
+      "source": "/coding-platform/problems/:id",
+      "destination": "/coding-platform/problems/:id"
+    },
+    {
       "source": "/(.*)",
       "destination": "/"
     }
