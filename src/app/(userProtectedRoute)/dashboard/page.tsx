@@ -85,10 +85,12 @@ export default function DashboardPage() {
             </div>
           </div>
 
-          <h2 className="text-sm font-medium sm:text-xl">Your Dashboard</h2>
+          <h2 className="text-sm font-medium text-neutral-500 sm:text-xl lg:text-inherit">
+            Your Dashboard
+          </h2>
         </div>
 
-        <div className="mx-auto mb-6 grid w-full max-w-[1280px] grid-cols-1 justify-items-center gap-4 sm:mb-20 sm:grid-cols-2 sm:gap-5 md:grid-cols-3">
+        <div className="mx-auto mb-32 grid w-full max-w-[1280px] grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-5 md:grid-cols-3">
           {stepsToShow.map((step: StepCardProps, index: number) => {
             return <StepCard key={index} {...step} />;
           })}

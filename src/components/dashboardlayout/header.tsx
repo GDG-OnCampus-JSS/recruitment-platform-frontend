@@ -73,15 +73,18 @@ export const Header = ({ isAdmin }: { isAdmin: boolean }) => {
           <span className="ml-2 hidden h-5 w-[1.5px] bg-neutral-200 lg:inline-block"></span>
           <nav className="ml-2 hidden items-center lg:flex">
             {navItems.map((item) => (
-              <Link href={item.href} key={item.href} className="h-full">
-                <Button
-                  variant="ghost"
-                  className={`gap-2 ${pathname === item.href ? 'text-black' : ''}`}
-                >
-                  <item.icon className="h-4 w-4" />
-                  <span className="text-sm font-normal leading-4">{item.label}</span>
-                </Button>
-              </Link>
+              <Button
+                key={item.label}
+                variant="ghost"
+                className={`gap-2 ${pathname === item.href ? 'text-black' : ''}`}
+                onClick={() => {
+                  router.push(item.href);
+                }}
+                disabled={item.label === 'Results'}
+              >
+                <item.icon className="h-4 w-4" />
+                <span className="text-sm font-normal leading-4">{item.label}</span>
+              </Button>
             ))}
           </nav>
         </div>

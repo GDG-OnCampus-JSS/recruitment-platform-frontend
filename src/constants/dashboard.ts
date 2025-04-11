@@ -7,7 +7,7 @@ export const steps: StepCardProps[] = [
   {
     step: 1,
     title: 'Aptitude Quiz',
-    description: 'A quick 30-min quiz to test your technical aptitude.',
+    description: 'A quick 30-min quiz to test your general aptitude.',
     icon: brain,
     buttonText: 'Start Now',
     buttonBgColor: 'bg-[#FBBC04]',

@@ -20,7 +20,7 @@ const StepCard = ({
 }: StepCardProps) => {
   const eventStart = eventStartDate;
   const eventEnd = eventEndDate;
-  const hasEvent = eventStart && eventEnd; // Check if event dates are provided
+  const hasEvent = eventStart && eventEnd;
 
   const [currentTime, setCurrentTime] = useState<Date>(new Date());
 
@@ -32,7 +32,6 @@ const StepCard = ({
     return () => clearInterval(timer);
   }, []);
 
-  // Only apply the event timing logic if event dates are provided
   const isEventDisabled = hasEvent ? currentTime < eventStart || currentTime > eventEnd : false;
 
   return (
@@ -53,11 +52,11 @@ const StepCard = ({
             <p className="mt-1 leading-5 tracking-wide text-neutral-500/90">{description}</p>
           </div>
 
-          <div className="mt-8 flex flex-col items-start gap-1 sm:mt-2 sm:flex-row sm:items-center sm:justify-between">
+          <div className="mt-8 flex flex-col items-start gap-1 md:mt-2 lg:flex-row lg:items-center">
             {hasEvent && <EventCountdown eventStart={eventStart} eventEnd={eventEnd} />}
             <Button
               className={cn(
-                'w-full rounded-md text-base font-medium text-white shadow-[inset_-4px_-5px_24.6px_0px_rgba(0,0,0,0.25)] transition hover:scale-x-105 hover:text-white sm:w-auto',
+                'w-full rounded-md text-base font-medium text-white shadow-[inset_-4px_-5px_24.6px_0px_rgba(0,0,0,0.25)] transition hover:scale-x-105 hover:text-white lg:w-auto',
                 `hover:bg-${buttonBgColor}`,
                 buttonBgColor,
               )}
