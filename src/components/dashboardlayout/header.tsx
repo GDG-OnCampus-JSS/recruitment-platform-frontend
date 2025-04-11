@@ -55,8 +55,8 @@ export const Header = ({ isAdmin }: { isAdmin: boolean }) => {
     const { status, data: responseData } = await postApi(apiEndPoints.users.logout);
     handleToastApiResponse(status, responseData);
     if (status == statusCode.Ok200) {
-      router.push('/');
       logoutUser();
+      router.push('/');
     }
   };
 

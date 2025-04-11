@@ -42,23 +42,14 @@ export default function LoginPage() {
 
   useEffect(() => {
     const fetchUser = async () => {
-      try {
-        const { status, data } = await getApi(apiEndPoints.oauth.loginSuccess);
-
-        const user = data.user;
-
-        if (user) {
-          setUser({
-            ...data.user,
-            loginMethod: 'google',
-          });
-          router.push('/dashboard');
-        } else {
-          router.push('/login');
-        }
-      } catch (err) {
-        console.error('Error:', err);
-        router.push('/login');
+      const { status, data } = await getApi(apiEndPoints.oauth.loginSuccess);
+      const user = data.user;
+      if (user) {
+        setUser({
+          ...data.user,
+          loginMethod: 'google',
+        });
+        router.push('/dashboard');
       }
     };
 
