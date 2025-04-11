@@ -31,6 +31,7 @@ export default function LoginPage() {
   const [showPassword, setShowPassword] = useState(false);
   const router = useRouter();
   const setUser = useUserStore((state) => state.setUser);
+  const [googleLoginButton, setGoogleLoginButton] = useState(false);
 
   const form = useForm<z.infer<typeof loginSchema>>({
     resolver: zodResolver(loginSchema),
@@ -41,10 +42,9 @@ export default function LoginPage() {
   });
 
   useEffect(() => {
-    const fetchUser = async () => {
+    const checkGoogleAuthStatus = async () => {
       const { status, data } = await getApi(apiEndPoints.oauth.loginSuccess);
-      const user = data.user;
-      if (user) {
+      if (status === statusCode.Ok200 && data.user) {
         setUser({
           ...data.user,
           loginMethod: 'google',
@@ -53,8 +53,10 @@ export default function LoginPage() {
       }
     };
 
-    fetchUser();
-  }, [setUser, router]);
+    if (googleLoginButton) {
+      checkGoogleAuthStatus();
+    }
+  }, [googleLoginButton, router, setUser]);
 
   const onSubmit = async (data: z.infer<typeof loginSchema>) => {
     const { status, data: responseData } = await postApi(apiEndPoints.users.login, data);
@@ -64,6 +66,11 @@ export default function LoginPage() {
       router.push('/dashboard');
       setUser({ ...responseData.user, loginMethod: 'jwt' });
     }
+  };
+
+  const handleGoogleLogin = () => {
+    const googleAuthUrl = `${process.env.NEXT_PUBLIC_API_URL}${apiEndPoints.oauth.googleAuth}`;
+    window.location.href = googleAuthUrl;
   };
 
   return (
@@ -161,12 +168,10 @@ export default function LoginPage() {
                 variant="outline"
                 type="button"
                 className="h-11 w-full font-light"
-                onClick={() =>
-                  window.open(
-                    `${process.env.NEXT_PUBLIC_API_URL}${apiEndPoints.oauth.googleAuth}`,
-                    '_self',
-                  )
-                }
+                onClick={() => {
+                  setGoogleLoginButton(true);
+                  handleGoogleLogin();
+                }}
               >
                 <Image src="/icons/google.svg" height={20} width={20} alt="Google" />
                 Continue with Google
