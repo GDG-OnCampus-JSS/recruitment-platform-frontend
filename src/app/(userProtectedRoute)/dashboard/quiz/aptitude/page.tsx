@@ -28,6 +28,7 @@ const AptitudeQuiz = () => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const router = useRouter();
   const user = useUserStore((state) => state.user);
+  const updateUser = useUserStore((state) => state.updateUser);
   const displayUser = (user || mockUser) as User;
   const [activeTab, setActiveTab] = useState(0);
   const [textAnswers, setTextAnswers] = useState<{ [key: string]: string }>({});
@@ -89,7 +90,7 @@ const AptitudeQuiz = () => {
   };
 
   const handleSubmitTest = async () => {
-    console.log('answers', answers);
+    // console.log('answers', answers);
     const { status, data } = await postApi(apiEndPoints.answer.createAnswer, {
       userId: displayUser.id,
       answers: answers,
@@ -97,6 +98,10 @@ const AptitudeQuiz = () => {
 
     if (status == statusCode.Created201) {
       setIsModalOpen(false);
+      updateUser({
+        ...displayUser,
+        aptitudeStatus: true,
+      });
       router.push('/dashboard/quiz/submitted');
     }
   };

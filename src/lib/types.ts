@@ -16,6 +16,7 @@ export interface User {
   interviewStatus?: boolean;
   reviewStatus?: boolean;
   loginMethod: 'jwt' | 'google' | null;
+  aptitudeStatus?: boolean;
 }
 
 export interface Admin {
