@@ -76,11 +76,13 @@ export default function DashboardPage() {
     let filteredSteps = steps.filter((step) => step.step <= 3);
 
     if (userDomain === 'programmer') {
-      filteredSteps = filteredSteps.map((step) =>
-        step.step === 2 ? steps.find((s) => s.step === 4)! : step,
-      );
+      const contestStep = steps.find((s) => s.step === 4);
+      if (contestStep) {
+        filteredSteps = filteredSteps.map((step) =>
+          step.step === 2 ? { ...contestStep, step: 2 } : step,
+        );
+      }
     }
-
     setStepsToShow(filteredSteps);
   }, [userDomain]);
 
