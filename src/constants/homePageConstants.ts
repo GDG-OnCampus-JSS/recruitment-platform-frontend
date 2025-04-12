@@ -77,7 +77,7 @@ export const journeySteps = [
   {
     id: 3,
     title: 'Task Round',
-    description: 'Submit an allotted project. ',
+    description: 'Submit an allotted project.',
     duration: "14 April '25 - 16 April '25 (12:00 PM)",
     accentColor: 'aptitude',
     iconSrc: '/icons/aptitude.svg',
@@ -85,7 +85,7 @@ export const journeySteps = [
   {
     id: 4,
     title: 'Coding Contest',
-    description: 'Submit an allotted project. ',
+    description: 'Showcase your coding skills.',
     duration: "15 April '25",
     accentColor: 'aptitude',
     iconSrc: '/icons/aptitude.svg',
