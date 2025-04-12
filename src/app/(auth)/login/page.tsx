@@ -19,6 +19,7 @@ import { Spinner } from '@/components/common/spinner';
 import { Button } from '@/components/ui/button';
 import { Form } from '@/components/ui/form';
 import { statusCode } from '@/constants/apiStatus';
+import { isRegistrationDisabled } from '@/constants/registration';
 import { handleToastApiResponse } from '@/lib/helpers';
 import useUserStore from '@/stores/userStore';
 
@@ -165,7 +166,7 @@ export default function LoginPage() {
             <Button
               type="submit"
               className="h-11 w-full border bg-btn-primary tracking-wide hover:bg-indigo-600"
-              disabled={form.formState.isSubmitting}
+              disabled={form.formState.isSubmitting || isRegistrationDisabled}
             >
               {form.formState.isSubmitting ? (
                 <>
@@ -182,6 +183,7 @@ export default function LoginPage() {
                 type="button"
                 className="h-11 w-full font-light"
                 onClick={handleGoogleLogin}
+                disabled={isRegistrationDisabled}
               >
                 <Image src="/icons/google.svg" height={20} width={20} alt="Google" />
                 Continue with Google

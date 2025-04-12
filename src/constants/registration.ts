@@ -1,3 +1,5 @@
+export const isRegistrationDisabled = true;
+
 export const academicYearOptions = [
   { id: '1', label: '1st Year', value: '1', key: 'year-1' },
   { id: '2', label: '2nd Year', value: '2', key: 'year-2' },
