@@ -10,6 +10,7 @@ import { Divider } from '@/components/common/divider';
 import LogoGrid from '@/components/common/logo-grid';
 import { Button } from '@/components/ui/button';
 import { statusCode } from '@/constants/apiStatus';
+import { isRegistrationDisabled } from '@/constants/registration';
 import { useSessionStorage } from '@/hooks/use-session-storage';
 import { useToast } from '@/hooks/use-toast';
 import useUserStore from '@/stores/userStore';
@@ -112,6 +113,7 @@ export default function RegisterPage() {
                 type="button"
                 className="h-11 w-full font-light"
                 onClick={handleGoogleLogin}
+                disabled={isRegistrationDisabled}
               >
                 <Image src="/icons/google.svg" height={20} width={20} alt="Google" />
                 Continue with Google
