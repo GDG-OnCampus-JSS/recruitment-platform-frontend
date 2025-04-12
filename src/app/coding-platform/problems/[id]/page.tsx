@@ -66,7 +66,7 @@ const EditorPage = () => {
   }, [router]);
 
   useEffect(() => {
-    if (parseInt(id) > 5) {
+    if (parseInt(id) > 10) {
       toast({
         title: 'Invalid Problem ID',
         description: 'Please select a valid problem',
@@ -158,7 +158,7 @@ const EditorPage = () => {
                   )}
                 >
                   <h2>
-                    {p.id}. {p.title}
+                    {p.id - 5}. {p.title}
                   </h2>
                   <div className="flex gap-1">
                     {p.tags &&
@@ -214,7 +214,7 @@ const EditorPage = () => {
                 <>
                   <div className="my-4 flex flex-wrap items-center gap-2">
                     <h1 className="text-xl font-medium">
-                      {problem.id}. {problem.title}
+                      {problem.id - 5}. {problem.title}
                     </h1>
                     {problem.tags?.map((tag) => (
                       <span
