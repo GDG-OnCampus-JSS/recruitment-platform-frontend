@@ -1,4 +1,4 @@
-export const isRegistrationDisabled = true;
+export const isRegistrationDisabled = false;
 
 export const academicYearOptions = [
   { id: '1', label: '1st Year', value: '1', key: 'year-1' },
