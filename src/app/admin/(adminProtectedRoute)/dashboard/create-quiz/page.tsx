@@ -11,13 +11,11 @@ import FormTextArea from '@/components/common/form-textarea';
 import { Button } from '@/components/ui/button';
 import { Form } from '@/components/ui/form';
 import { handleToastApiResponse } from '@/lib/helpers';
-import useAdminStore from '@/stores/adminStore';
 
 const questionSchema = z.object({
   questions: z
     .array(
       z.object({
-        quizTitle: z.string().nonempty('Please enter a valid title'),
         year: z
           .string()
           .nonempty('Please enter current year')
@@ -37,7 +35,6 @@ const Page = () => {
     defaultValues: {
       questions: Array.from({ length: 20 }, () => ({
         questionText: '',
-        quizTitle: '',
         year: '2025',
       })),
     },
@@ -48,7 +45,7 @@ const Page = () => {
       ...data,
       questions: data.questions.map((q) => ({
         ...q,
-        year: parseInt(q.year, 10), // Convert to number
+        year: parseInt(q.year, 10),
       })),
     };
 
@@ -56,7 +53,6 @@ const Page = () => {
       apiEndPoints.admin.createQuiz,
       transformedData,
     );
-    console.log('trans', transformedData);
     handleToastApiResponse(status, responseData);
   };
 
@@ -74,12 +70,6 @@ const Page = () => {
                 key={`active-question-${activeTab}`}
                 className="flex max-w-full flex-col gap-8 rounded-md lg:w-[740px]"
               >
-                <FormInput
-                  name={`questions.${activeTab}.quizTitle`}
-                  placeholder="Enter the Quiz title"
-                  className="w-80"
-                  isAsterisk
-                />
                 <FormInput
                   name={`questions.${activeTab}.year`}
                   placeholder="Enter the year"
