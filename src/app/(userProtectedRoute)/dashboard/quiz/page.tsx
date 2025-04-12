@@ -10,9 +10,15 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
+import useUserStore from '@/stores/userStore';
 
 export default function Quiz() {
+  const user = useUserStore((state) => state.user);
   const router = useRouter();
+
+  if (user?.aptitudeStatus) {
+    router.push('/dashboard/quiz/submitted');
+  }
 
   return (
     <div className="mt-20 min-h-screen">
@@ -38,7 +44,7 @@ export default function Quiz() {
               <li>
                 The quiz is available for one day - make sure to complete it within that period.
               </li>
-              <li>This quiz contains 10 questions - try to attempt them all.</li>
+              <li>This quiz contains 10 questions - attempt them all.</li>
               <li className="text-[#EA4335]">
                 Copy-pasting or using AI for answers is strictly prohibited; users will be
                 disqualified if caught.
