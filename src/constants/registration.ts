@@ -1,4 +1,5 @@
 export const isRegistrationDisabled = false;
+export const isGoogleLoginDisabled = true;
 
 export const academicYearOptions = [
   { id: '1', label: '1st Year', value: '1', key: 'year-1' },
