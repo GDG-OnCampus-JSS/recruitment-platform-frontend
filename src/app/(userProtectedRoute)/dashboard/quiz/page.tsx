@@ -10,9 +10,15 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
+import useUserStore from '@/stores/userStore';
 
 export default function Quiz() {
+  const user = useUserStore((state) => state.user);
   const router = useRouter();
+
+  if (user?.aptitudeStatus) {
+    router.push('/dashboard/quiz/submitted');
+  }
 
   return (
     <div className="mt-20 min-h-screen">
