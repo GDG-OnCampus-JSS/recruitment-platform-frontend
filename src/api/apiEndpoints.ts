@@ -38,6 +38,11 @@ export const apiEndPoints = {
     loginSuccess: '/auth/login', //used
   },
 
+  codingPlatform: {
+    submitCode: 'api/contest/submit',
+    runCode: 'api/contest/run',
+  },
+
   social: {
     createSocialLink: (userId: string) => `/social/${userId}`,
     getAllSociallinks: (userId: string) => `/social/${userId}`,

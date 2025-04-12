@@ -16,6 +16,7 @@ import ReactMarkdown from 'react-markdown';
 import { useMediaQuery } from 'react-responsive';
 // Internal Imports
 import { postApi } from '@/api/api';
+import { apiEndPoints } from '@/api/apiEndpoints';
 import CodeEditor from '@/components/common/code-editor';
 import { SlideModal } from '@/components/common/slide-modal';
 import { Button } from '@/components/ui/button';
@@ -37,6 +38,7 @@ import {
 } from '@/constants/coding-problems';
 import { languagesData } from '@/constants/languageData';
 import { toast } from '@/hooks/use-toast';
+import { handleToastApiResponse } from '@/lib/helpers';
 import { cn } from '@/lib/utils';
 import useUsersStore from '@/stores/userStore';
 
@@ -46,6 +48,115 @@ const EditorPage = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [userYear, setUserYear] = useState<number | undefined | null>();
   const [problems, setProblems] = useState<ProblemsInterface[]>([]);
+
+  // Code & Language States
+  const [code, setCode] = useState<string>('Select a language to start coding');
+  const [languageSelected, setLanguageSelected] = useState<string | undefined>();
+  const [selectedValue, setSelectedValue] = useState<string | undefined>();
+  const [output, setOutput] = useState<string>('');
+
+  // Determine the selected language object
+  const selectedLanguage = languageSelected
+    ? languagesData.find((lang) => lang.id === parseInt(languageSelected))
+    : undefined;
+
+  // Media query for responsiveness
+  const isMobile = useMediaQuery({ query: '(max-width: 768px)' });
+  // URL Params
+  const problemId = Number(id);
+  const problem: ProblemsInterface | undefined =
+    Number(userYear) === 1
+      ? firstYearProblems.find((p) => p.id === problemId)
+      : secondYearProblems.find((p) => p.id === problemId);
+
+  // Handle language select change
+  const handleValueChange = (value: string) => {
+    setSelectedValue(value);
+    setLanguageSelected(value);
+  };
+
+  // Editor change handler
+  const handleOnEditorChange = (value: string) => {
+    setCode(value);
+  };
+
+  // Submit code function
+  const submitCode = async () => {
+    // if (selectedLanguage) {
+    //   const { status, data } = await postApi(
+    //     'http://13.233.100.121:2358/submissions/?base64_encoded=false&wait=true',
+    //     {
+    //       source_code: code,
+    //       language_id: selectedLanguage.id,
+    //     },
+    //   );
+    //   if (status === statusCode.Created201) {
+    //     setOutput(data.stdout || data.compile_output || data.message || 'No output');
+    //   }
+    // }
+
+    if (selectedLanguage?.id && userYear) {
+      const { status, data } = await postApi(apiEndPoints.codingPlatform.submitCode, {
+        questionId: id,
+        code: code,
+        languageId: selectedLanguage.id,
+        year: userYear,
+      });
+      handleToastApiResponse(status, data);
+    } else {
+      toast({
+        title: 'Please select a language and year',
+        description: 'Please select a language and year to submit the code',
+        variant: 'destructive',
+      });
+    }
+  };
+
+  const runCode = async () => {
+    // if (selectedLanguage) {
+    //   const { status, data } = await postApi(
+    //     'http://13.233.100.121:2358/submissions/?base64_encoded=false&wait=true',
+    //     {
+    //       source_code: code,
+    //       language_id: selectedLanguage.id,
+    //     },
+    //   );
+    //   if (status === statusCode.Created201) {
+    //     setOutput(data.stdout || data.compile_output || data.message || 'No output');
+    //   }
+    // }
+    // {
+    //   "questionId": "1",
+    //   "code": "string",
+    //   "languageId": 93,
+    //   "year": 1
+    // }
+    // console.log(id, code, selectedLanguage?.id, userYear);
+
+    if (selectedLanguage?.id && userYear) {
+      // console.log(apiEndPoints.codingPlatform.runCode);
+      const { status, data } = await postApi(apiEndPoints.codingPlatform.runCode, {
+        questionId: id,
+        code: code,
+        languageId: selectedLanguage.id,
+        year: userYear,
+      });
+      handleToastApiResponse(status, data);
+    } else {
+      toast({
+        title: 'Please select a language and year',
+        description: 'Please select a language and year to run the code',
+        variant: 'destructive',
+      });
+    }
+  };
+
+  // Set boilerplate code when language changes
+  useEffect(() => {
+    if (selectedLanguage) {
+      setCode(selectedLanguage.boilerPlateCode || 'Select a language to start coding');
+    }
+  }, [selectedLanguage]);
 
   useEffect(() => {
     const year = useUsersStore.getState().user?.year;
@@ -76,60 +187,6 @@ const EditorPage = () => {
     }
   }, [id, router]);
 
-  // Media query for responsiveness
-  const isMobile = useMediaQuery({ query: '(max-width: 768px)' });
-  // URL Params
-  const problemId = Number(id);
-  const problem: ProblemsInterface | undefined =
-    Number(userYear) === 1
-      ? firstYearProblems.find((p) => p.id === problemId)
-      : secondYearProblems.find((p) => p.id === problemId);
-
-  // Code & Language States
-  const [code, setCode] = useState<string>('Select a language to start coding');
-  const [languageSelected, setLanguageSelected] = useState<string | undefined>();
-  const [selectedValue, setSelectedValue] = useState<string | undefined>();
-  const [output, setOutput] = useState<string>('');
-
-  // Determine the selected language object
-  const selectedLanguage = languageSelected
-    ? languagesData.find((lang) => lang.id === parseInt(languageSelected))
-    : undefined;
-
-  // Handle language select change
-  const handleValueChange = (value: string) => {
-    setSelectedValue(value);
-    setLanguageSelected(value);
-  };
-
-  // Set boilerplate code when language changes
-  useEffect(() => {
-    if (selectedLanguage) {
-      setCode(selectedLanguage.boilerPlateCode || 'Select a language to start coding');
-    }
-  }, [selectedLanguage]);
-
-  // Editor change handler
-  const handleOnEditorChange = (value: string) => {
-    setCode(value);
-  };
-
-  // Submit code function
-  const submitCode = async () => {
-    if (selectedLanguage) {
-      const { status, data } = await postApi(
-        'http://13.233.100.121:2358/submissions/?base64_encoded=false&wait=true',
-        {
-          source_code: code,
-          language_id: selectedLanguage.id,
-        },
-      );
-      if (status === statusCode.Created201) {
-        setOutput(data.stdout || data.compile_output || data.message || 'No output');
-      }
-    }
-  };
-
   return (
     <>
       {/* Top Bar */}
@@ -148,7 +205,7 @@ const EditorPage = () => {
             size="md"
           >
             <div className="flex flex-col gap-4">
-              {problems.map((p) => (
+              {problems.map((p, index) => (
                 <Link
                   href={`${p.id}`}
                   key={p.id}
@@ -158,7 +215,7 @@ const EditorPage = () => {
                   )}
                 >
                   <h2>
-                    {p.id - 5}. {p.title}
+                    {index + 1}. {p.title}
                   </h2>
                   <div className="flex gap-1">
                     {p.tags &&
@@ -178,7 +235,7 @@ const EditorPage = () => {
         </div>
 
         <div className="flex gap-2">
-          <Button variant="outline" className="w-full px-8">
+          <Button variant="outline" className="w-full px-8" onClick={runCode}>
             <PlayIcon /> Run
           </Button>
           <Button
@@ -214,7 +271,7 @@ const EditorPage = () => {
                 <>
                   <div className="my-4 flex flex-wrap items-center gap-2">
                     <h1 className="text-xl font-medium">
-                      {problem.id - 5}. {problem.title}
+                      {userYear === 1 ? problem.id : problem.id - 5}. {problem.title}
                     </h1>
                     {problem.tags?.map((tag) => (
                       <span
