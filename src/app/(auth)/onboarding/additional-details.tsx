@@ -24,9 +24,7 @@ import {
 import useUserStore from '@/stores/userStore';
 
 const additionalDetailsSchema = z.object({
-  admissionNumber: z
-    .string()
-    .min(1, 'Admission number is required'),
+  admissionNumber: z.string().min(1, 'Admission number is required'),
   year: z
     .string({
       required_error: 'Please select an academic year',
