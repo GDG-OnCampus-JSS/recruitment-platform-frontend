@@ -7,18 +7,21 @@ import { UseFormReturn } from 'react-hook-form';
 import FormInput from '@/components/common/form-input';
 import { Spinner } from '@/components/common/spinner';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Form } from '@/components/ui/form';
 import { designTasks } from '@/constants/task-round';
+import useUserStore from '@/stores/userStore';
 interface DesignTaskProps {
   year: number;
   onSubmit: (data: { link: string }) => Promise<void>;
   form: UseFormReturn<{ link: string }>;
+  deadline: Date;
 }
 
-export const DesignTask = ({ year, onSubmit, form }: DesignTaskProps) => {
+export const DesignTask = ({ year, onSubmit, form, deadline }: DesignTaskProps) => {
+  const { user } = useUserStore((state) => state);
   const router = useRouter();
   const yearTasks = designTasks.find((task) => task.year === year);
+  const isDeadlinePassed = new Date() > deadline;
 
   if (!yearTasks)
     return (
@@ -67,7 +70,6 @@ export const DesignTask = ({ year, onSubmit, form }: DesignTaskProps) => {
   return (
     <div className="mt-10">
       <h2 className="pb-2 text-[28px] font-bold text-theme">Design Tasks - Year {year}</h2>
-      <p>Do any one of the categrories.</p>
 
       {/* GFX Tasks Section */}
       <div className="mt-8 space-y-20">
@@ -75,7 +77,9 @@ export const DesignTask = ({ year, onSubmit, form }: DesignTaskProps) => {
           <div className="flex items-center justify-between">
             <div>
               <h3 className="text-nowrap text-[28px] font-medium">Graphics Design Tasks</h3>
-              <p className="text-sm italic text-neutral-500">Do any one of the following</p>
+              {user?.year === '1' && (
+                <p className="text-sm italic text-neutral-500">Do any one of the following</p>
+              )}
             </div>
             <div className="h-[1px] bg-gradient-line sm:w-[981px]"></div>
           </div>
@@ -83,12 +87,21 @@ export const DesignTask = ({ year, onSubmit, form }: DesignTaskProps) => {
             <TaskSection key={`gfx-${index}`} task={task} />
           ))}
         </div>
+
+        <div className="flex items-center justify-center py-4">
+          <div className="h-[1px] w-full bg-gray-300" />
+          <span className="px-4 text-sm font-medium text-gray-600">OR</span>
+          <div className="h-[1px] w-full bg-gray-300" />
+        </div>
+
         {/* UX Tasks Section */}
         <div className="space-y-6">
           <div className="flex items-center justify-between">
             <div>
-              <h3 className="text-nowrap text-[28px] font-medium">UX / UX Tasks</h3>
-              <p className="text-sm italic text-neutral-500">Do any one of the following</p>
+              <h3 className="text-nowrap text-[28px] font-medium">UI / UX Tasks</h3>
+              {user?.year === '1' && (
+                <p className="text-sm italic text-neutral-500">Do any one of the following</p>
+              )}
             </div>
             <div className="h-[1px] bg-gradient-line sm:w-[981px]"></div>
           </div>
@@ -148,7 +161,7 @@ export const DesignTask = ({ year, onSubmit, form }: DesignTaskProps) => {
           <Button
             type="submit"
             className="w-28 rounded-md bg-[#635BFF] px-10 py-5 text-base font-medium hover:bg-theme-interactive"
-            disabled={form.formState.isSubmitting}
+            disabled={form.formState.isSubmitting || isDeadlinePassed}
           >
             {form.formState.isSubmitting ? <Spinner className="text-white" /> : 'Submit'}
           </Button>

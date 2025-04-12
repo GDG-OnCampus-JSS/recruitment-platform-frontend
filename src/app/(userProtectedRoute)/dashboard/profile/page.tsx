@@ -99,13 +99,13 @@ export default function ProfilePage() {
                 </Button>
                 <div className="">
                   <div className="w-fit rounded-full border-2 border-dashed border-[#635BFF]">
-                    <div className="h-[130px] w-[130px] overflow-hidden rounded-full border-2 border-[#635BFF]">
+                    <div className="size-32 overflow-hidden rounded-full border-2 border-[#635BFF]">
                       <Image
                         src={user.photo ? blobUrl(user.photo) : '/avatar.svg'}
                         alt="Profile"
                         width={130}
                         height={130}
-                        className="object-cover"
+                        className="h-full w-full"
                       />
                     </div>
                   </div>

@@ -42,7 +42,7 @@ const StepCard = ({
           <div className="mr-4 text-base font-medium text-neutral-900">0{step}</div>
         </div>
 
-        <div className="flex flex-col gap-4 p-4">
+        <div className="flex h-full flex-col justify-between gap-4 p-4">
           <div className="flex h-12 w-12 items-center justify-start">
             <div>{React.createElement(icon)}</div>
           </div>
@@ -52,7 +52,7 @@ const StepCard = ({
             <p className="mt-1 leading-5 tracking-wide text-neutral-500/90">{description}</p>
           </div>
 
-          <div className="mt-8 flex flex-col items-start gap-1 md:mt-2 lg:flex-row lg:items-center">
+          <div className="mt-8 flex flex-col items-start justify-between gap-1 md:mt-2 lg:flex-row lg:items-center">
             {hasEvent && <EventCountdown eventStart={eventStart} eventEnd={eventEnd} />}
             <Button
               className={cn(

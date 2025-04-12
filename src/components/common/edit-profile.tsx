@@ -18,6 +18,7 @@ import {
   DialogTitle,
   DialogHeader,
   DialogClose,
+  DialogFooter,
 } from '@/components/ui/dialog';
 import { Form } from '@/components/ui/form';
 import { Progress } from '@/components/ui/progress';
@@ -134,6 +135,12 @@ const EditProfilePage = ({ isOpen, onClose }: EditProfileProps) => {
     }
   };
 
+  useEffect(() => {
+    if (form.formState.isSubmitted && Object.keys(form.formState.errors).length > 0) {
+      handleToastApiResponse(400, 'Please fill all required fields.');
+    }
+  }, [form.formState.isSubmitted, form.formState.errors]);
+
   const onSubmit = async (values: z.infer<typeof profileSchema>) => {
     setIsSubmitting(true);
 
@@ -192,11 +199,23 @@ const EditProfilePage = ({ isOpen, onClose }: EditProfileProps) => {
     setIsSubmitting(false);
   };
 
+  useEffect(() => {
+    if (!isOpen) {
+      form.reset();
+    }
+  }, [isOpen, form]);
+
+  useEffect(() => {
+    if (form.formState.isSubmitSuccessful) {
+      onClose();
+    }
+  }, [form.formState.isSubmitSuccessful, onClose]);
+
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="max-h-[90vh] w-[400px] min-w-max overflow-y-auto rounded-lg p-10 pb-8 scrollbar-none sm:w-[598px] [&>button]:hidden">
+      <DialogContent className="max-h-[90vh] min-w-max overflow-y-auto rounded-lg p-10 pb-8 scrollbar-none [&>button]:hidden">
         <DialogHeader className="flex flex-row justify-between">
-          <DialogTitle className="text-xl font-normal leading-[1em] sm:text-[28px]">
+          <DialogTitle className="font-normal leading-[1em] sm:text-[20px]">
             Edit Profile
           </DialogTitle>
           <DialogClose onClick={onClose}>
@@ -372,7 +391,7 @@ const EditProfilePage = ({ isOpen, onClose }: EditProfileProps) => {
               <Button
                 type="submit"
                 disabled={isSubmitting}
-                className="my-2 w-full bg-[#635BFF] text-base font-medium hover:bg-indigo-600"
+                className="my-2 w-full bg-[#635BFF] py-5 text-base font-medium hover:bg-indigo-600"
               >
                 {isSubmitting ? (
                   <Spinner className="h-4 w-4 animate-spin text-white" />
@@ -387,7 +406,7 @@ const EditProfilePage = ({ isOpen, onClose }: EditProfileProps) => {
                   setOpenPasswordModal(true);
                   onClose();
                 }}
-                className="w-full text-sm font-medium text-[#DB4437]"
+                className="w-full py-5 text-sm font-medium text-[#DB4437]"
               >
                 Change Password
               </Button>

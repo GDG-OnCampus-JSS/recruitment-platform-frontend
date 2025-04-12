@@ -15,10 +15,12 @@ interface MLTaskProps {
   year: number;
   onSubmit: (data: { link: string }) => void;
   form: UseFormReturn<{ link: string }>;
+  deadline: Date;
 }
 
-export const MachineLearningTask = ({ year, onSubmit, form }: MLTaskProps) => {
+export const MachineLearningTask = ({ year, onSubmit, form, deadline }: MLTaskProps) => {
   const router = useRouter();
+  const isDeadlinePassed = new Date() > deadline;
   const yearTasks = mlTasks.find((task) => task.year === year)?.tasks;
 
   if (!yearTasks)
@@ -156,7 +158,7 @@ export const MachineLearningTask = ({ year, onSubmit, form }: MLTaskProps) => {
             </div>
           </div>
 
-          {year === 2 && index < yearTasks.length - 1 && (
+          {index < yearTasks.length - 1 && (
             <div className="flex items-center justify-center xl:py-5">
               <div className="h-[1px] w-full rotate-180 bg-gradient-line"></div>
               <div className="px-8 text-[28px] font-medium text-[#100C2C] xl:h-9">OR</div>
@@ -191,7 +193,7 @@ export const MachineLearningTask = ({ year, onSubmit, form }: MLTaskProps) => {
           <Button
             type="submit"
             className="w-28 rounded-md bg-[#635BFF] px-10 py-5 text-base font-medium hover:bg-theme-interactive"
-            disabled={form.formState.isSubmitting}
+            disabled={form.formState.isSubmitting || isDeadlinePassed}
           >
             {form.formState.isSubmitting ? <Spinner className="text-white" /> : 'Submit'}
           </Button>

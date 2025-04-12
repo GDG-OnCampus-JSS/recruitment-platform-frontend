@@ -2,7 +2,7 @@ import { ArrowRightCircle, Mail } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { UseFormReturn } from 'react-hook-form';
 import FormInput from '@/components/common/form-input';
 import { Spinner } from '@/components/common/spinner';
@@ -15,10 +15,12 @@ interface AndroidTaskProps {
   year: number;
   onSubmit: (data: { link: string }) => void;
   form: UseFormReturn<{ link: string }>;
+  deadline: Date;
 }
 
-export const AndroidTask = ({ year, onSubmit, form }: AndroidTaskProps) => {
+export const AndroidTask = ({ year, onSubmit, form, deadline }: AndroidTaskProps) => {
   const router = useRouter();
+  const isDeadlinePassed = new Date() > deadline;
   const yearTasks = androidTasks.find((task) => task.year === year)?.tasks;
 
   if (!yearTasks)
@@ -179,7 +181,7 @@ export const AndroidTask = ({ year, onSubmit, form }: AndroidTaskProps) => {
           <Button
             type="submit"
             className="w-28 rounded-md bg-[#635BFF] px-10 py-5 text-base font-medium hover:bg-theme-interactive"
-            disabled={form.formState.isSubmitting}
+            disabled={form.formState.isSubmitting || isDeadlinePassed}
           >
             {form.formState.isSubmitting ? <Spinner className="text-white" /> : 'Submit'}
           </Button>
