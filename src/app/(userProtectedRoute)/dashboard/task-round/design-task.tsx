@@ -14,12 +14,14 @@ interface DesignTaskProps {
   year: number;
   onSubmit: (data: { link: string }) => Promise<void>;
   form: UseFormReturn<{ link: string }>;
+  deadline: Date;
 }
 
-export const DesignTask = ({ year, onSubmit, form }: DesignTaskProps) => {
+export const DesignTask = ({ year, onSubmit, form, deadline }: DesignTaskProps) => {
   const { user } = useUserStore((state) => state);
   const router = useRouter();
   const yearTasks = designTasks.find((task) => task.year === year);
+  const isDeadlinePassed = new Date() > deadline;
 
   if (!yearTasks)
     return (
@@ -159,7 +161,7 @@ export const DesignTask = ({ year, onSubmit, form }: DesignTaskProps) => {
           <Button
             type="submit"
             className="w-28 rounded-md bg-[#635BFF] px-10 py-5 text-base font-medium hover:bg-theme-interactive"
-            disabled={form.formState.isSubmitting}
+            disabled={form.formState.isSubmitting || isDeadlinePassed}
           >
             {form.formState.isSubmitting ? <Spinner className="text-white" /> : 'Submit'}
           </Button>

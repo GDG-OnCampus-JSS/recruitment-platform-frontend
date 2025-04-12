@@ -187,7 +187,7 @@ const AptitudeQuiz = () => {
         </div>
 
         <div className="flex flex-col-reverse gap-5 lg:flex-row">
-          <div>
+          <div className="flex-1">
             <div className="rounded-xl bg-white p-10">
               <h3 className="mb-4 text-lg font-medium text-[#100C2C]">
                 Question {currentQuestionIndex + 1}

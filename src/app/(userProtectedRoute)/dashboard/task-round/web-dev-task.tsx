@@ -15,10 +15,12 @@ interface WebDevTaskProps {
   year: number;
   onSubmit: (data: { link: string }) => void;
   form: UseFormReturn<{ link: string }>;
+  deadline: Date;
 }
 
-export const WebDevelopmentTask = ({ year, onSubmit, form }: WebDevTaskProps) => {
+export const WebDevelopmentTask = ({ year, onSubmit, form, deadline }: WebDevTaskProps) => {
   const router = useRouter();
+  const isDeadlinePassed = new Date() > deadline;
   const yearTasks = webDevTasks.find((task) => task.year === year)?.tasks;
 
   if (!yearTasks)
@@ -190,7 +192,7 @@ export const WebDevelopmentTask = ({ year, onSubmit, form }: WebDevTaskProps) =>
           <Button
             type="submit"
             className="w-28 rounded-md bg-[#635BFF] px-10 py-5 text-base font-medium hover:bg-theme-interactive"
-            disabled={form.formState.isSubmitting}
+            disabled={form.formState.isSubmitting || isDeadlinePassed}
           >
             {form.formState.isSubmitting ? <Spinner className="text-white" /> : 'Submit'}
           </Button>
