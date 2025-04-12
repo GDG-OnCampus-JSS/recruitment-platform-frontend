@@ -25,6 +25,8 @@ const taskSchema = z.object({
 export default function Task() {
   const router = useRouter();
   const { user } = useUserStore();
+  const deadline = new Date('2025-04-16T12:59:59');
+
   const form = useForm<z.infer<typeof taskSchema>>({
     resolver: zodResolver(taskSchema),
     defaultValues: { link: '' },
@@ -53,13 +55,17 @@ export default function Task() {
   const renderTaskContent = () => {
     switch (domain) {
       case 'web developer':
-        return <WebDevelopmentTask onSubmit={onSubmit} form={form} year={year} />;
+        return (
+          <WebDevelopmentTask onSubmit={onSubmit} form={form} year={year} deadline={deadline} />
+        );
       case 'designer':
-        return <DesignTask onSubmit={onSubmit} form={form} year={year} />;
+        return <DesignTask onSubmit={onSubmit} form={form} year={year} deadline={deadline} />;
       case 'ml engineer':
-        return <MachineLearningTask onSubmit={onSubmit} form={form} year={year} />;
+        return (
+          <MachineLearningTask onSubmit={onSubmit} form={form} year={year} deadline={deadline} />
+        );
       case 'app developer':
-        return <AndroidTask onSubmit={onSubmit} form={form} year={year} />;
+        return <AndroidTask onSubmit={onSubmit} form={form} year={year} deadline={deadline} />;
       case 'programmer':
         return <ProgrammingTask />;
       default:

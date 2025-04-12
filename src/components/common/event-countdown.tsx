@@ -62,7 +62,7 @@ const EventCountdown: React.FC<EventCountdownProps> = ({ eventStart, eventEnd })
   } else if (now < eventEnd) {
     prefix = 'Ends in ';
   } else {
-    return <div className="text-sm text-red-400">Event Ended</div>;
+    return <div className="text-sm font-medium text-red-500">Event Ended.</div>;
   }
 
   // Format the remaining time.
