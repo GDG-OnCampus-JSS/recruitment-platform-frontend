@@ -9,6 +9,7 @@ import { Spinner } from '@/components/common/spinner';
 import { Button } from '@/components/ui/button';
 import { Form } from '@/components/ui/form';
 import { statusCode } from '@/constants/apiStatus';
+import { isRegistrationDisabled } from '@/constants/registration';
 import { useSessionStorage } from '@/hooks/use-session-storage';
 import { useToast } from '@/hooks/use-toast';
 
@@ -68,7 +69,7 @@ export const EmailStep = ({ onSuccess, initialValue }: EmailStepProps) => {
         />
         <Button
           type="submit"
-          disabled={form.formState.isSubmitting}
+          disabled={form.formState.isSubmitting || isRegistrationDisabled}
           className="h-11 w-full bg-btn-primary hover:bg-indigo-600"
         >
           {form.formState.isSubmitting ? <Spinner className="text-white" /> : 'Continue'}
