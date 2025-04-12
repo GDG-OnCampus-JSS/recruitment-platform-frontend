@@ -129,7 +129,7 @@ const NotificationButton = ({ mode, className }: Props) => {
         >
           <Bell className="h-5 w-5 text-[#100C2C]" />
           {unreadCount > 0 && (
-            <span className="absolute right-1 top-1 h-2 w-2 rounded-full bg-red-500" />
+            <span className="absolute right-0 top-0 size-2 rounded-full bg-red-500" />
           )}
         </Button>
       )}
@@ -199,30 +199,30 @@ const NotificationButton = ({ mode, className }: Props) => {
             <div className="w-full p-3">
               <h3 className="text-sm font-normal text-[#100C2C]">Notifications</h3>
             </div>
-            <div className="max-h-[400px] overflow-y-auto">
+            <div className="flex max-h-[400px] flex-col gap-3 overflow-y-auto pb-20 pt-5">
               {notifications.length > 0 ? (
                 notifications.map((notification) => (
                   <div
                     key={notification.id}
-                    className={`flex h-[82px] items-start gap-3 p-4 hover:bg-gray-50 ${
+                    className={`flex items-start gap-3 rounded-lg p-4 shadow hover:bg-gray-50 ${
                       !notification.isRead ? 'bg-gray-50' : ''
                     }`}
                     onClick={() => handleNotificationClick(notification.id)}
                   >
-                    <div className="h-8 w-8 flex-shrink-0">
+                    <div className="size-10 flex-shrink-0">
                       <Image
                         src="/logo.svg"
                         alt="Logo"
                         height={32}
                         width={32}
-                        className="h-full w-full rounded-full object-cover"
+                        className="h-full w-full rounded-full object-contain"
                       />
                     </div>
                     <div className="flex-1">
                       <h1 className={`text-sm ${!notification.isRead ? 'font-medium' : ''}`}>
                         {notification.title}
                       </h1>
-                      <p>{notification.message}</p>
+                      <p className="text-sm text-neutral-500">{notification.message}</p>
                     </div>
                   </div>
                 ))

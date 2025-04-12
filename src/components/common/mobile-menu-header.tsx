@@ -35,7 +35,7 @@ const MobileMenu: React.FC<MobileMenuProps> = ({ isOpen, navItems, pathname, onC
           </div>
           <div className="overflow-y-auto pb-20">
             <motion.nav
-              className="space-y-2 px-3 py-4"
+              className="space-y-4 px-3 py-4"
               variants={linkContainerVariants}
               initial="hidden"
               animate="visible"
@@ -43,23 +43,22 @@ const MobileMenu: React.FC<MobileMenuProps> = ({ isOpen, navItems, pathname, onC
               {navItems.map((item) => (
                 <div className="overflow-hidden" key={item.href}>
                   <motion.li variants={linkVariants} className="list-none">
-                    <Link href={item.href}>
-                      <div
-                        onClick={onCloseMenu}
-                        className={`flex items-center rounded-lg px-4 py-5 transition-colors ${
-                          pathname === item.href
-                            ? 'bg-indigo-50 text-indigo-600'
-                            : 'bg-gray-50 text-gray-700 hover:bg-gray-100'
+                    <Button
+                      className={`group flex w-full items-center rounded-lg px-4 py-7 transition-colors hover:bg-theme-interactive ${
+                        pathname === item.href
+                          ? 'bg-indigo-500 text-white'
+                          : 'bg-gray-50 text-gray-700 hover:bg-gray-100'
+                      }`}
+                      onClick={() => router.push(item.href)}
+                      disabled={item.label === 'Results'}
+                    >
+                      <item.icon
+                        className={`mr-3 h-5 w-5 ${
+                          pathname === item.href ? 'text-white' : 'text-gray-400'
                         }`}
-                      >
-                        <item.icon
-                          className={`mr-3 h-5 w-5 ${
-                            pathname === item.href ? 'text-indigo-600' : 'text-gray-400'
-                          }`}
-                        />
-                        <span className="text-sm font-medium">{item.label}</span>
-                      </div>
-                    </Link>
+                      />
+                      <span className="text-sm font-medium">{item.label}</span>
+                    </Button>
                   </motion.li>
                 </div>
               ))}
