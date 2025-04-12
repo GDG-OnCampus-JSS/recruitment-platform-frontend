@@ -26,8 +26,7 @@ import useUserStore from '@/stores/userStore';
 const additionalDetailsSchema = z.object({
   admissionNumber: z
     .string()
-    .min(1, 'Admission number is required')
-    .regex(/^\d{2}[A-Za-z]{2,7}\d{1,3}$/, 'Admission number must follow the pattern XX[AA]XXX'),
+    .min(1, 'Admission number is required'),
   year: z
     .string({
       required_error: 'Please select an academic year',
