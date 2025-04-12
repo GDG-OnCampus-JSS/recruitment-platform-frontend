@@ -1,6 +1,6 @@
-import { Hand, X } from 'lucide-react';
+import { Hand, Router, X } from 'lucide-react';
 import { motion, AnimatePresence, delay } from 'motion/react';
-import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import React from 'react';
 import { Button } from '@/components/ui/button';
 import { NavItem } from '@/lib/types';
@@ -34,6 +34,7 @@ const MobileMenu: React.FC<MobileMenuProps> = ({
   onSubmitProfile,
   onCloseMenu,
 }) => {
+  const router = useRouter();
   if (!isOpen) return null;
 
   return (
@@ -66,21 +67,22 @@ const MobileMenu: React.FC<MobileMenuProps> = ({
               {navItems.map((item) => (
                 <div className="overflow-hidden" key={item.href}>
                   <motion.li variants={linkVariants} className="list-none">
-                    <Link
-                      href={item.href}
-                      className={`flex items-center rounded-lg px-4 py-5 transition-colors ${
+                    <Button
+                      className={`group flex w-full items-center rounded-lg px-4 py-7 transition-colors hover:bg-theme-interactive ${
                         pathname === item.href
-                          ? 'bg-indigo-50 text-indigo-600'
+                          ? 'bg-indigo-500 text-white'
                           : 'bg-gray-50 text-gray-700 hover:bg-gray-100'
                       }`}
+                      onClick={() => router.push(item.href)}
+                      disabled={item.label === 'Results'}
                     >
                       <item.icon
                         className={`mr-3 h-5 w-5 ${
-                          pathname === item.href ? 'text-indigo-600' : 'text-gray-400'
+                          pathname === item.href ? 'text-white' : 'text-gray-400'
                         }`}
                       />
                       <span className="text-sm font-medium">{item.label}</span>
-                    </Link>
+                    </Button>
                   </motion.li>
                 </div>
               ))}
