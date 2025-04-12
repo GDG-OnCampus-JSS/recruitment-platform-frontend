@@ -17,7 +17,7 @@ export interface ProblemsInterface {
 
 export const secondYearProblems: ProblemsInterface[] = [
   {
-    id: 1,
+    id: 6,
     title: 'Matrix Mastery',
     tags: ['Patterns'],
     content: `You are tasked with printing a matrix corresponding to a specific number pattern, given an input number N.`,
@@ -40,7 +40,7 @@ export const secondYearProblems: ProblemsInterface[] = [
     ],
   },
   {
-    id: 2,
+    id: 7,
     title: 'Galaxy Fortune',
     tags: ['Sorting'],
     content: `Galaxy Fortune is a busy Casino known all over the solar system, and they have just started a new card game everyone is excited about. The game uses a pile of n cards, and each card has m numbers written on it. There are n players like miners, travelers from Pluto, or even a cook from the casino and each gets one card.   
@@ -78,7 +78,7 @@ It is guaranteed that the total n x m in all tests does not exceed 3 x 10^5.`,
     ],
   },
   {
-    id: 3,
+    id: 8,
     title: 'Crave the cupcake',
     tags: ['DP'],
     content: `In a busy little town between hills and a river, Yasin and Amir head to the bakery one sunny morning to get cupcakes. The shop has n different kinds of cupcakes, lined up from 1 to n, and they have got plenty of each like they will never run out. Each type i has a flavor score ai, which can be a big positive number if it is yummy, zero if it is just okay, or a negative number if it is yucky.   
@@ -111,7 +111,7 @@ NO
     ],
   },
   {
-    id: 4,
+    id: 9,
     title: 'Get This Party Started',
     tags: ['Arrays'],
     content: `In a fun part of town where people are always laughing, Amit is planning a big party and wants everyone to have a good time. He has n friends, and each one has a certain amount of money the i-th friend has exactly i bucks.      
@@ -147,7 +147,7 @@ It is guaranteed that the sum of n over all test cases does not exceed 2 x 10^5.
     ],
   },
   {
-    id: 5,
+    id: 10,
     title: 'Sunny Lines and Pines',
     tags: ['Traversal'],
     content: `Sunny Sketcher has a bunch of n-1 edges that show how to link up n vertices into a tree shape. He has got a way to sketch it out step-by-step:   
