@@ -15,6 +15,8 @@ export interface User {
   projectStatus?: boolean;
   interviewStatus?: boolean;
   reviewStatus?: boolean;
+  shortlistStatus?: boolean;
+  taskLink?: string | null;
   loginMethod: 'jwt' | 'google' | null;
   aptitudeStatus?: boolean;
 }

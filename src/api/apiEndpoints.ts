@@ -21,11 +21,14 @@ export const apiEndPoints = {
   },
 
   admin: {
-    login: '/admin/auth/login',
+    login: '/admin/auth/login', //used
     createAptitude: '/admin/aptitude/create-aptitude',
-    createQuiz: '/admin/questions/create-question',
+    createQuiz: '/admin/questions/create-question', //used
     sendNotifications: '/admin/notification/send-notification',
-    getCandidatesByDomain: '/admin/users',
+    getCandidatesByDomain: '/admin/users', //used
+    getUserById: '/admin/users/', //used
+    updateUserShortlistStatus: '/admin/users/update-shortlist-status', //used
+    updateUserInterviewStatus: '/admin/users/update-interview-status', //used
   },
 
   upload: {
