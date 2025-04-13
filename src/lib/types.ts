@@ -15,8 +15,11 @@ export interface User {
   projectStatus?: boolean;
   interviewStatus?: boolean;
   reviewStatus?: boolean;
+  shortlistStatus?: boolean;
+  taskLink?: string | null;
   loginMethod: 'jwt' | 'google' | null;
   aptitudeStatus?: boolean;
+  answer?: AptitudeSubmission[];
 }
 
 export interface Admin {
@@ -84,6 +87,19 @@ export interface StepCardProps {
   eventStartDate?: Date;
   eventEndDate?: Date;
 }
+export interface AdminStepCardProps {
+  step: number;
+  title: string;
+  description: string;
+  icon: React.ComponentType;
+  buttonVariant?: 'outline' | 'default' | 'destructive';
+  iconColor?: string;
+  buttonText: string;
+  buttonBgColor: string;
+  gradientBg: string;
+  action: string;
+  disabled?: boolean;
+}
 export interface SocialPlatform {
   platform: string;
   icon: ReactElement;
@@ -142,4 +158,18 @@ export interface DropdownOption {
 export interface EditProfileProps {
   isOpen: boolean;
   onClose: () => void;
+}
+
+export interface AptitudeSubmission {
+  id: string;
+  answer: string;
+  questionId: string;
+  isDeleted: boolean;
+  userId: string;
+  question: {
+    id: string;
+    questionText: string;
+    isDeleted: boolean;
+    year: number;
+  };
 }

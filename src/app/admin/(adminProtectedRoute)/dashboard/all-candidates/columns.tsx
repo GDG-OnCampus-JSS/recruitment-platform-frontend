@@ -10,15 +10,16 @@ import {
   Users,
   Trophy,
 } from 'lucide-react';
+import Link from 'next/link';
 
 export type AllCandidates = {
   id: string;
   name: string;
-  year: string;
-  projectStatus: 'Submitted' | 'Not Submitted';
-  quizResult: number;
-  shortlisted: boolean;
-  interviewStatus: 'Cleared' | 'Not Cleared' | 'Not Attempted';
+  year: number;
+  projectStatus: boolean;
+  aptitudeStatus: boolean;
+  shortlistStatus: boolean;
+  interviewStatus: boolean;
 };
 
 export const columns: ColumnDef<AllCandidates>[] = [
@@ -34,6 +35,19 @@ export const columns: ColumnDef<AllCandidates>[] = [
           Name
           <ChevronsUpDown className="ml-2 h-4 w-4" />
         </h2>
+      );
+    },
+    cell: ({ row }) => {
+      const id = row.original.id;
+      const name = row.getValue('name') as string;
+
+      return (
+        <Link
+          href={`/admin/dashboard/all-candidates/${id}`}
+          className="font-medium text-primary hover:bg-indigo-100"
+        >
+          {name}
+        </Link>
       );
     },
   },
@@ -52,9 +66,8 @@ export const columns: ColumnDef<AllCandidates>[] = [
       );
     },
   },
-
   {
-    accessorKey: 'quizResult',
+    accessorKey: 'aptitudeStatus',
     header: ({ column }) => {
       return (
         <h2
@@ -62,17 +75,22 @@ export const columns: ColumnDef<AllCandidates>[] = [
           className="group flex cursor-pointer items-center gap-1 font-medium text-neutral-800 duration-300 hover:opacity-80"
         >
           <FileQuestion className="mr-1 size-4 stroke-[2]" />
-          Quiz
+          Aptitude Status
           <ChevronsUpDown className="ml-2 h-4 w-4 opacity-0 duration-300 group-hover:opacity-100" />
         </h2>
       );
     },
     cell: ({ row }) => {
       return (
-        <p>
-          {row.getValue('quizResult')}
-          <span className="text-[8px] text-neutral-400"> / 20</span>
-        </p>
+        <div
+          className={`rounded-2xl py-2 text-center text-xs font-medium ${
+            row.getValue('aptitudeStatus')
+              ? 'bg-green-100 text-green-700'
+              : 'bg-red-100 text-red-700'
+          }`}
+        >
+          {row.getValue('aptitudeStatus') ? 'Completed' : 'Pending'}
+        </div>
       );
     },
   },
@@ -90,9 +108,22 @@ export const columns: ColumnDef<AllCandidates>[] = [
         </h2>
       );
     },
+    cell: ({ row }) => {
+      return (
+        <div
+          className={`rounded-2xl py-2 text-center text-xs font-medium ${
+            row.getValue('projectStatus')
+              ? 'bg-green-100 text-green-700'
+              : 'bg-red-100 text-red-700'
+          }`}
+        >
+          {row.getValue('projectStatus') ? 'Submitted' : 'Not Submitted'}
+        </div>
+      );
+    },
   },
   {
-    accessorKey: 'shortlisted',
+    accessorKey: 'shortlistStatus',
     header: ({ column }) => {
       return (
         <h2
@@ -100,9 +131,22 @@ export const columns: ColumnDef<AllCandidates>[] = [
           className="group flex cursor-pointer items-center gap-1 font-medium text-neutral-800 duration-300 hover:opacity-80"
         >
           <Trophy className="size-4 stroke-[2]" />
-          Shorlisted
-          <ChevronsUpDown className="ml-6 h-4 w-4 opacity-0 duration-300 group-hover:opacity-100" />
+          Shortlisted
+          <ChevronsUpDown className="ml-2 h-4 w-4 opacity-0 duration-300 group-hover:opacity-100" />
         </h2>
+      );
+    },
+    cell: ({ row }) => {
+      return (
+        <div
+          className={`rounded-2xl py-2 text-center text-xs font-medium ${
+            row.getValue('shortlistStatus')
+              ? 'bg-green-100 text-green-700'
+              : 'bg-neutral-100 text-neutral-700'
+          }`}
+        >
+          {row.getValue('shortlistStatus') ? 'Shortlisted' : 'Not Shortlisted'}
+        </div>
       );
     },
   },
@@ -116,23 +160,21 @@ export const columns: ColumnDef<AllCandidates>[] = [
         >
           <Users className="size-4 stroke-[2]" />
           Interview
-          <ChevronsUpDown className="h-4 w-4 opacity-0 duration-300 group-hover:opacity-100" />
+          <ChevronsUpDown className="ml-2 h-4 w-4 opacity-0 duration-300 group-hover:opacity-100" />
         </h2>
       );
     },
     cell: ({ row }) => {
       return (
-        <h2
-          className={`-ml-3 w-[7rem] rounded-2xl py-2 text-center text-xs font-medium ${
-            row.getValue('interviewStatus') === 'Cleared'
+        <div
+          className={`rounded-2xl py-2 text-center text-xs font-medium ${
+            row.getValue('interviewStatus')
               ? 'bg-green-100 text-green-700'
-              : row.getValue('interviewStatus') === 'Not Attempted'
-                ? 'bg-neutral-100 text-black'
-                : 'bg-red-400 text-white'
+              : 'bg-neutral-100 text-neutral-700'
           }`}
         >
-          {row.getValue('interviewStatus')}
-        </h2>
+          {row.getValue('interviewStatus') ? 'Completed' : 'Not Attempted'}
+        </div>
       );
     },
   },
