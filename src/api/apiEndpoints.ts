@@ -25,6 +25,7 @@ export const apiEndPoints = {
     createAptitude: '/admin/aptitude/create-aptitude',
     createQuiz: '/admin/questions/create-question',
     sendNotifications: '/admin/notification/send-notification',
+    getCandidatesByDomain: '/admin/users',
   },
 
   upload: {

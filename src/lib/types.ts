@@ -84,6 +84,19 @@ export interface StepCardProps {
   eventStartDate?: Date;
   eventEndDate?: Date;
 }
+export interface AdminStepCardProps {
+  step: number;
+  title: string;
+  description: string;
+  icon: React.ComponentType;
+  buttonVariant?: 'outline' | 'default' | 'destructive';
+  iconColor?: string;
+  buttonText: string;
+  buttonBgColor: string;
+  gradientBg: string;
+  action: string;
+  disabled?: boolean;
+}
 export interface SocialPlatform {
   platform: string;
   icon: ReactElement;

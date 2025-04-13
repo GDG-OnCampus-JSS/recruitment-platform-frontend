@@ -1,7 +1,7 @@
 import brain from '@/components/dashboardlayout/brain';
 import clip from '@/components/dashboardlayout/clip-board';
 import meet from '@/components/dashboardlayout/meet';
-import { StepCardProps } from '@/lib/types';
+import { AdminStepCardProps, StepCardProps } from '@/lib/types';
 
 export const steps: StepCardProps[] = [
   {
@@ -51,5 +51,41 @@ export const steps: StepCardProps[] = [
     action: '/dashboard/task-round',
     eventStartDate: new Date('2025-04-15T12:00:00'),
     eventEndDate: new Date('2025-04-15T16:00:00'),
+  },
+];
+
+export const adminSteps: AdminStepCardProps[] = [
+  {
+    step: 1,
+    title: 'Create Quiz (Knowing You)',
+    description: 'Set up the quiz for candidates.',
+    icon: brain,
+    buttonText: 'Create Quiz',
+    buttonBgColor: 'bg-[#FBBC04]',
+    gradientBg: 'bg-yellow-gradient',
+    action: '/admin/dashboard/create-quiz',
+    disabled: false,
+  },
+  {
+    step: 2,
+    title: 'Upload Task',
+    description: 'Add the challenge tasks here.',
+    icon: clip,
+    buttonText: 'Upload Disabled',
+    buttonBgColor: 'bg-[#4285F4]',
+    gradientBg: 'bg-blue-gradient',
+    action: '/dashboard/task-round',
+    disabled: true,
+  },
+  {
+    step: 3,
+    title: 'All Candidates',
+    description: 'Review all submitted entries.',
+    icon: meet,
+    buttonText: 'View Candidates',
+    buttonBgColor: 'bg-[#EA4335]',
+    gradientBg: 'bg-red-gradient',
+    action: '/admin/dashboard/all-candidates',
+    disabled: false,
   },
 ];

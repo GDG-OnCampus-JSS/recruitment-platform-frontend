@@ -15,10 +15,10 @@ export type AllCandidates = {
   id: string;
   name: string;
   year: string;
-  projectStatus: 'Submitted' | 'Not Submitted';
-  quizResult: number;
-  shortlisted: boolean;
-  interviewStatus: 'Cleared' | 'Not Cleared' | 'Not Attempted';
+  projectStatus: boolean;
+  aptitudeStatus: boolean;
+  shortlistStatus: boolean;
+  interviewStatus: boolean;
 };
 
 export const columns: ColumnDef<AllCandidates>[] = [
@@ -54,7 +54,7 @@ export const columns: ColumnDef<AllCandidates>[] = [
   },
 
   {
-    accessorKey: 'quizResult',
+    accessorKey: 'aptitudeStatus',
     header: ({ column }) => {
       return (
         <h2
@@ -62,7 +62,7 @@ export const columns: ColumnDef<AllCandidates>[] = [
           className="group flex cursor-pointer items-center gap-1 font-medium text-neutral-800 duration-300 hover:opacity-80"
         >
           <FileQuestion className="mr-1 size-4 stroke-[2]" />
-          Quiz
+          Aptitude Status
           <ChevronsUpDown className="ml-2 h-4 w-4 opacity-0 duration-300 group-hover:opacity-100" />
         </h2>
       );
@@ -70,8 +70,7 @@ export const columns: ColumnDef<AllCandidates>[] = [
     cell: ({ row }) => {
       return (
         <p>
-          {row.getValue('quizResult')}
-          <span className="text-[8px] text-neutral-400"> / 20</span>
+          <span className="text-[8px] text-neutral-400">{row.getValue('aptitudeStatus')}</span>
         </p>
       );
     },
