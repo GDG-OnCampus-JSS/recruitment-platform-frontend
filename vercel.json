@@ -9,6 +9,10 @@
       "destination": "/coding-platform/problems/:id"
     },
     {
+      "source": "/admin/dashboard/all-candidates/:id",
+      "destination": "/admin/dashboard/all-candidates/:id"
+    },
+    {
       "source": "/(.*)",
       "destination": "/"
     }
