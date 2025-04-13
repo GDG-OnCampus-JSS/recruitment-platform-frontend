@@ -11,32 +11,36 @@ export default function DemoPage() {
   const [meta, setMeta] = useState({ page: 1, total: 0, pages: 0 });
   const admin = useAdminStore((state) => state.admin);
 
-  const userDomain = () => {
-    switch (admin?.domain) {
-      case 'web developer':
-        return 'web developer';
-      case 'android developer':
-        return 'android developer';
-      case 'machine learning':
-        return 'machine learning';
-      case 'programmer':
-        return 'programmer';
-      case 'desinger':
-        return 'designer';
-      default:
-        return '';
-    }
-  };
+  const adminDomain = admin?.domain ? admin.domain : 'web developer';
+  const limit = 1000;
+  const [page, setPage] = useState(1);
+
+  //take domain from admin storage and hit the api
+
+  // const userDomain = () => {
+  //   switch (admin?.domain) {
+  //     case 'web developer':
+  //       return 'web developer';
+  //     case 'android developer':
+  //       return 'android developer';
+  //     case 'machine learning':
+  //       return 'machine learning';
+  //     case 'programmer':
+  //       return 'programmer';
+  //     case 'desinger':
+  //       return 'designer';
+  //     default:
+  //       return '';
+  //   }
+  // };
 
   useEffect(() => {
     const fetchData = async () => {
-      const queryParams = new URLSearchParams({
-        domain: 'web developer',
-      }).toString();
-
-      const url = `${apiEndPoints.admin.getCandidatesByDomain}?${queryParams}`;
-
-      const response = await getByParamsApi(url, {});
+      const url = `${apiEndPoints.admin.getCandidatesByDomain(adminDomain)}`;
+      const response = await getByParamsApi(url, {
+        limit,
+        page,
+      });
       if (response.status === 200) {
         setData(response.data.data);
         setMeta(response.data.meta);

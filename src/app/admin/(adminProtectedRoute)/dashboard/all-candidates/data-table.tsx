@@ -92,9 +92,9 @@ export function DataTable<TData, TValue>({
             <DropdownMenuContent align="start" className="rounded-xl">
               <DropdownMenuCheckboxItem
                 className="py-3"
-                checked={table.getColumn('shortlisted')?.getFilterValue() === true}
+                checked={table.getColumn('shortlistStatus')?.getFilterValue() === true}
                 onCheckedChange={(value) =>
-                  table.getColumn('shortlisted')?.setFilterValue(value ? true : undefined)
+                  table.getColumn('shortlistStatus')?.setFilterValue(value ? true : undefined)
                 }
               >
                 Shortlisted
