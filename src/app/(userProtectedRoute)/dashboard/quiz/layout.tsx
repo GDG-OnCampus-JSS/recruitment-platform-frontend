@@ -3,9 +3,10 @@ import Link from 'next/link';
 import { AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardFooter, CardHeader } from '@/components/ui/card';
+import { steps } from '@/constants/dashboard';
 import type { ReactNode } from 'react';
 
-const DEADLINE = new Date('2025-04-14T00:00:00');
+const DEADLINE = steps[1].eventEndDate!;
 
 export const metadata = {
   title: 'Quiz | GDG',
