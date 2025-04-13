@@ -19,6 +19,7 @@ export interface User {
   taskLink?: string | null;
   loginMethod: 'jwt' | 'google' | null;
   aptitudeStatus?: boolean;
+  answer?: AptitudeSubmission[];
 }
 
 export interface Admin {
@@ -157,4 +158,18 @@ export interface DropdownOption {
 export interface EditProfileProps {
   isOpen: boolean;
   onClose: () => void;
+}
+
+export interface AptitudeSubmission {
+  id: string;
+  answer: string;
+  questionId: string;
+  isDeleted: boolean;
+  userId: string;
+  question: {
+    id: string;
+    questionText: string;
+    isDeleted: boolean;
+    year: number;
+  };
 }

@@ -11,6 +11,7 @@ import {
   UserCheck,
   UserPen,
   Users,
+  ArrowUpRight,
 } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -26,20 +27,29 @@ import FileViewer from '@/components/ui/resumeViewer';
 import { statusCode } from '@/constants/apiStatus';
 import { blobUrl, handleToastApiResponse } from '@/lib/helpers';
 import { User } from '@/lib/types';
+import AptitudeSubmissions from './aptitude-submissions';
 
 export default function CandidateProfile() {
   const router = useRouter();
   const params = useParams();
   const id = params?.id as string;
-
   const [user, setUser] = useState<User | null>(null);
+  const [isOpen, setIsOpen] = useState(false);
+
+  const closeDialog = () => {
+    setIsOpen(false);
+  };
+
+  const openDialog = () => {
+    setIsOpen(true);
+  };
+
+  const [toggleShortListStatusLoading, setToggleShortListStatusLoading] = useState(false);
+  const [toggleInterviewStatusLoading, setToggleInterviewStatusLoading] = useState(false);
 
   const fetchUsers = async () => {
     if (!id) return;
     const { status, data: responseData } = await getByIdApi(apiEndPoints.admin.getUserById, id);
-
-    console.log('responseData', responseData['Fetched user']);
-
     const user = responseData['Fetched user'] as User;
     setUser(user);
 
@@ -53,6 +63,7 @@ export default function CandidateProfile() {
   }, []);
 
   const toggleShortlistStatus = async () => {
+    setToggleShortListStatusLoading(true);
     const payload = {
       userId: user?.id,
       shortlisted: user?.shortlistStatus ? 'false' : 'true',
@@ -67,9 +78,11 @@ export default function CandidateProfile() {
       setUser({ ...user, shortlistStatus: !user.shortlistStatus });
       handleToastApiResponse(status, responseData);
     }
+    setToggleShortListStatusLoading(false);
   };
 
   const toggleInterviewStatus = async () => {
+    setToggleInterviewStatusLoading(true);
     const payload = {
       userId: user?.id,
       interviewed: user?.interviewStatus ? 'false' : 'true',
@@ -84,6 +97,7 @@ export default function CandidateProfile() {
       setUser({ ...user, interviewStatus: !user.interviewStatus });
       handleToastApiResponse(status, responseData);
     }
+    setToggleInterviewStatusLoading(false);
   };
 
   if (!user) {
@@ -158,7 +172,11 @@ export default function CandidateProfile() {
                     <div className="mt-4 font-sans">
                       <div className="flex gap-2">
                         {/* Aptitude Quiz Status */}
-                        <div className="flex-1 rounded-lg border border-main bg-white p-3 shadow-sm">
+                        {/* <AptitudeSubmissions aptitudeSubmissions={user.answer || []} /> */}
+                        <div
+                          className="flex-1 cursor-pointer rounded-lg border border-main bg-white p-3 shadow-sm hover:opacity-80"
+                          onClick={() => user.aptitudeStatus && openDialog()}
+                        >
                           <div className="flex items-center gap-2">
                             <div className="min-w-0 flex-1">
                               <p className="text-xs font-medium text-gray-700">Aptitude Quiz</p>
@@ -255,9 +273,20 @@ export default function CandidateProfile() {
                 <h3 className="mb-4 text-xl font-medium">Your resume</h3>
                 <div className="mx-auto rounded-lg border border-[#635BFF]">
                   {user?.resume ? (
-                    <FileViewer fileUrl={blobUrl(user.resume)} className={''} />
+                    <div className="flex flex-col">
+                      <FileViewer fileUrl={blobUrl(user.resume)} className={''} />
+                      <Link
+                        href={blobUrl(user.resume)}
+                        target="_blank"
+                        className="mt-4 flex flex-1 cursor-pointer items-center rounded-lg rounded-t-none bg-black/5 px-4 py-2 text-center text-sm font-medium tracking-widest text-black hover:bg-success hover:text-white hover:shadow-green-200"
+                      >
+                        View <ArrowUpRight className="ml-2 size-4" />
+                      </Link>
+                    </div>
                   ) : (
-                    <p className="py-8 text-center text-muted-foreground">No resume uploaded</p>
+                    <p className="rounded-t-none py-8 text-center text-muted-foreground">
+                      No resume uploaded
+                    </p>
                   )}
                 </div>
               </CardContent>
@@ -273,6 +302,7 @@ export default function CandidateProfile() {
         {/* buttons */}
         <div className="mt-4 flex items-center justify-end gap-3">
           <Button
+            disabled={toggleInterviewStatusLoading}
             variant={user.interviewStatus ? 'destructive' : 'default'}
             size="sm"
             className={`relative p-5 transition-all duration-200 ease-in-out ${
@@ -284,12 +314,14 @@ export default function CandidateProfile() {
           >
             <div className="flex items-center gap-2">
               <UserCheck className="h-4 w-4" />
-              <span className="text-sm font-medium">
+              <span className="flex gap-2 text-sm font-medium">
                 {user.interviewStatus ? 'Not Ready for HR' : 'Ready for HR'}
+                {toggleInterviewStatusLoading && <Spinner className="h-4 w-4 text-white" />}
               </span>
             </div>
           </Button>
           <Button
+            disabled={toggleShortListStatusLoading}
             variant={user.shortlistStatus ? 'destructive' : 'secondary'}
             size="sm"
             className={`relative p-5 transition-all duration-200 ease-in-out ${
@@ -303,11 +335,21 @@ export default function CandidateProfile() {
               <Star className={`h-4 w-4 ${user.shortlistStatus ? 'fill-current' : ''}`} />
               <span className="text-sm font-medium">
                 {user.shortlistStatus ? 'Remove Shortlist' : 'Shortlist'}
+                {toggleShortListStatusLoading && <Spinner className="h-4 w-4" />}
               </span>
             </div>
           </Button>
         </div>
       </div>
+
+      {/* Aptitude Submissions Dialog - Properly positioned outside of nested components */}
+      {user?.aptitudeStatus && (
+        <AptitudeSubmissions
+          isOpen={isOpen}
+          closeDialog={closeDialog}
+          aptitudeSubmissions={user.answer || []}
+        />
+      )}
     </div>
   );
 }

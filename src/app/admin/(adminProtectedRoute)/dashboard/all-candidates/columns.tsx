@@ -10,6 +10,7 @@ import {
   Users,
   Trophy,
 } from 'lucide-react';
+import Link from 'next/link';
 
 export type AllCandidates = {
   id: string;
@@ -34,6 +35,19 @@ export const columns: ColumnDef<AllCandidates>[] = [
           Name
           <ChevronsUpDown className="ml-2 h-4 w-4" />
         </h2>
+      );
+    },
+    cell: ({ row }) => {
+      const id = row.original.id;
+      const name = row.getValue('name') as string;
+
+      return (
+        <Link
+          href={`/admin/dashboard/all-candidates/${id}`}
+          className="font-medium text-primary hover:bg-indigo-100"
+        >
+          {name}
+        </Link>
       );
     },
   },
