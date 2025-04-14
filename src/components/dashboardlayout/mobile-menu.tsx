@@ -1,9 +1,10 @@
-import { Hand, Router, X } from 'lucide-react';
+import { Hand, LogOutIcon, Router, X } from 'lucide-react';
 import { motion, AnimatePresence, delay } from 'motion/react';
 import { useRouter } from 'next/navigation';
 import React from 'react';
 import { Button } from '@/components/ui/button';
 import { NavItem } from '@/lib/types';
+import useUserStore from '@/stores/userStore';
 import EditProfileDialog from '../admin/edit-profile';
 import ProfileDropdown from '../admin/profile-dropdown';
 
@@ -19,6 +20,7 @@ interface MobileMenuProps {
   userData: any;
   onSubmitProfile: (values: any) => Promise<void>;
   onCloseMenu: () => void;
+  onLogout: () => void;
 }
 
 const MobileMenu: React.FC<MobileMenuProps> = ({
@@ -33,8 +35,11 @@ const MobileMenu: React.FC<MobileMenuProps> = ({
   userData,
   onSubmitProfile,
   onCloseMenu,
+  onLogout,
 }) => {
   const router = useRouter();
+  const user = useUserStore((state) => state.user);
+
   if (!isOpen) return null;
 
   return (
@@ -96,6 +101,16 @@ const MobileMenu: React.FC<MobileMenuProps> = ({
               }}
               className="absolute bottom-0 left-0 right-0 border-gray-100 bg-white p-4"
             >
+              {user && (
+                <Button
+                  variant="outline"
+                  className="mb-4 w-full rounded-full py-6 text-sm"
+                  onClick={onLogout}
+                >
+                  <LogOutIcon />
+                  Logout
+                </Button>
+              )}
               <Button
                 variant="outline"
                 onClick={onHelpClick}

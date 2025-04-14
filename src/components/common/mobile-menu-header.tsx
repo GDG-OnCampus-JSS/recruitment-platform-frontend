@@ -1,23 +1,32 @@
 'use client';
 
-import { X } from 'lucide-react';
+import { LogInIcon, LogOutIcon, X } from 'lucide-react';
 import { motion, AnimatePresence, delay } from 'motion/react';
-import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import React from 'react';
 import { Button } from '@/components/ui/button';
 import { NavItem } from '@/lib/types';
+import useUserStore from '@/stores/userStore';
 
 interface MobileMenuProps {
   isOpen: boolean;
   navItems: NavItem[];
   pathname: string;
   onCloseMenu: () => void;
+  onLogout: () => void;
 }
 
-const MobileMenu: React.FC<MobileMenuProps> = ({ isOpen, navItems, pathname, onCloseMenu }) => {
+const MobileMenu: React.FC<MobileMenuProps> = ({
+  isOpen,
+  navItems,
+  pathname,
+  onCloseMenu,
+  onLogout,
+}) => {
+  const user = useUserStore((state) => state.user);
   const router = useRouter();
   if (!isOpen) return null;
+
   return (
     <AnimatePresence mode="wait">
       {isOpen && (
@@ -72,13 +81,25 @@ const MobileMenu: React.FC<MobileMenuProps> = ({ isOpen, navItems, pathname, onC
               }}
               className="absolute bottom-0 left-0 right-0 border-gray-100 bg-white p-4"
             >
-              <Button
-                variant="outline"
-                onClick={() => router.push('/login')}
-                className="flex w-full items-center justify-center gap-2 rounded-full border-2 border-black bg-neutral-100 py-6 text-sm font-medium"
-              >
-                Login
-              </Button>
+              {user ? (
+                <Button
+                  variant="outline"
+                  onClick={onLogout}
+                  className="flex w-full items-center justify-center gap-2 rounded-full border-2 border-black bg-neutral-100 py-6 text-sm font-medium"
+                >
+                  <LogOutIcon />
+                  Logout
+                </Button>
+              ) : (
+                <Button
+                  variant="outline"
+                  onClick={() => router.push('/login')}
+                  className="flex w-full items-center justify-center gap-2 rounded-full border-2 border-black bg-neutral-100 py-6 text-sm font-medium"
+                >
+                  <LogInIcon />
+                  Login
+                </Button>
+              )}
             </motion.div>
           </div>
         </motion.div>
