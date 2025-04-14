@@ -3,13 +3,13 @@ import { Hand, Menu } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter, usePathname } from 'next/navigation';
-import React, { useState, useEffect } from 'react';
-import { getApi, postApi } from '@/api/api';
+import React, { useState } from 'react';
+import { postApi } from '@/api/api';
 import { apiEndPoints } from '@/api/apiEndpoints';
 import { Button } from '@/components/ui/button';
 import { statusCode } from '@/constants/apiStatus';
 import { blobUrl, handleToastApiResponse } from '@/lib/helpers';
-import { options, navItems, mockUser } from '@/lib/options';
+import { navItems } from '@/lib/options';
 import { User } from '@/lib/types';
 import useUserStore from '@/stores/userStore';
 import EditProfileDialog from '../admin/edit-profile';
@@ -26,7 +26,7 @@ export const Header = ({ isAdmin }: { isAdmin: boolean }) => {
   const user = useUserStore((state) => state.user);
   const [displayUser, setDisplayUser] = useState<User>(user || ({} as User));
 
-  const setUser = useUserStore((state) => state.setUser);
+  // const setUser = useUserStore((state) => state.setUser);
 
   const logoutUser = useUserStore((state) => state.logout);
 
@@ -57,6 +57,7 @@ export const Header = ({ isAdmin }: { isAdmin: boolean }) => {
     handleToastApiResponse(status, responseData);
     if (status == statusCode.Ok200) {
       logoutUser();
+      setIsMobileMenuOpen(false);
       router.push('/');
     }
   };
@@ -72,12 +73,14 @@ export const Header = ({ isAdmin }: { isAdmin: boolean }) => {
             </div>
           </Link>
           <span className="ml-2 hidden h-5 w-[1.5px] bg-neutral-200 lg:inline-block"></span>
-          <nav className="ml-2 hidden items-center lg:flex">
+          <nav className="ml-2 hidden items-center gap-2 lg:flex">
             {navItems.map((item) => (
               <Button
                 key={item.label}
                 variant="ghost"
-                className={`gap-2 ${pathname === item.href ? 'text-black' : ''}`}
+                className={
+                  pathname === item.href ? 'border-none bg-indigo-200/80 hover:bg-indigo-200' : ''
+                }
                 onClick={() => {
                   router.push(item.href);
                 }}
@@ -140,6 +143,7 @@ export const Header = ({ isAdmin }: { isAdmin: boolean }) => {
             isEditProfileOpen={isEditProfileOpen}
             onCloseEditProfile={() => setIsEditProfileOpen(false)}
             userData={displayUser}
+            onLogout={handleLogout}
             onSubmitProfile={handleProfileSubmit}
             onCloseMenu={() => setIsMobileMenuOpen(false)}
           />

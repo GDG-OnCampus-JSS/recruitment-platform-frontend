@@ -32,6 +32,7 @@ export const Header = () => {
     const { status, data: responseData } = await postApi(apiEndPoints.users.logout);
     handleToastApiResponse(status, responseData);
     if (status == statusCode.Ok200) {
+      setIsMobileMenuOpen(false);
       router.push('/');
       logoutUser();
     }
@@ -48,14 +49,18 @@ export const Header = () => {
             </div>
           </Link>
           <span className="ml-2 hidden h-5 w-[1.5px] bg-neutral-200 lg:inline-block"></span>
-          <nav className="ml-2 hidden items-center lg:flex">
+          <nav className="ml-2 hidden items-center gap-2 lg:flex">
             {navItems.map((item) => (
               <Button
                 key={item.label}
                 variant="ghost"
-                className={`gap-2 ${pathname === item.href ? 'text-black' : ''}`}
+                className={
+                  pathname === item.href ? 'border-none bg-indigo-200/80 hover:bg-indigo-200' : ''
+                }
+                onClick={() => {
+                  router.push(item.href);
+                }}
                 disabled={item.label === 'Results'}
-                onClick={() => router.push(item.href)}
               >
                 <item.icon className="h-4 w-4" />
                 <span className="text-sm font-normal leading-4">{item.label}</span>
@@ -93,6 +98,7 @@ export const Header = () => {
             isOpen={isMobileMenuOpen}
             navItems={navItems}
             pathname={pathname}
+            onLogout={handleLogout}
             onCloseMenu={() => setIsMobileMenuOpen(false)}
           />
         </div>
