@@ -49,8 +49,8 @@ export const steps: StepCardProps[] = [
     buttonBgColor: 'bg-[#4285F4]',
     gradientBg: 'bg-blue-gradient',
     action: '/dashboard/task-round',
-    eventStartDate: new Date('2025-04-15T12:00:00'),
-    eventEndDate: new Date('2025-04-15T16:00:00'),
+    eventStartDate: new Date('2025-04-15T14:00:00'),
+    eventEndDate: new Date('2025-04-15T15:30:00'),
   },
 ];
 
