@@ -11,7 +11,7 @@ import VerticalStepper from '@/components/home/VerticalStepper';
 import { cardData, journeySteps, stepColors } from '@/constants/homePageConstants';
 import useUserStore from '@/stores/userStore';
 
-const currentStep = 3;
+const currentStep = 4;
 
 export default function Home() {
   const { user } = useUserStore();
