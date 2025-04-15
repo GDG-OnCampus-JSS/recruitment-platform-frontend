@@ -54,6 +54,8 @@ const EditorPage = () => {
   const [runResult, setRunResult] = useState<any>(null);
   const [userYear, setUserYear] = useState<number | undefined | null>();
   const [problems, setProblems] = useState<ProblemsInterface[]>([]);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isRunning, setIsRunning] = useState(false);
 
   // Code & Language States
   const [code, setCode] = useState<string>('Select a language to start coding');
@@ -90,14 +92,13 @@ const EditorPage = () => {
   const submitCode = async () => {
     if (selectedLanguage?.id && userYear) {
       try {
+        setIsSubmitting(true);
         const { status, data } = await postApi(apiEndPoints.codingPlatform.submitCode, {
           questionId: id,
           code: code,
           languageId: selectedLanguage.id,
           year: userYear,
         });
-
-        // console.log('Submit API Response:', { status, data });
 
         if (status === statusCode.Created201 || status === statusCode.Ok200) {
           // Format the data to match the expected structure
@@ -115,10 +116,10 @@ const EditorPage = () => {
 
           setSubmissionResult(formattedResult);
           setIsResultDialogOpen(true);
-          // console.log('Dialog should open now:', {
-          //   isResultDialogOpen: true,
-          //   submissionResult: formattedResult,
-          // });
+
+          // Simplified output showing only tests passed
+          const resultSummary = `Tests Passed: ${formattedResult.data.passedTestCount}/${formattedResult.data.totalTests}`;
+          setOutput(resultSummary);
         } else {
           handleToastApiResponse(status, data);
         }
@@ -129,6 +130,8 @@ const EditorPage = () => {
           description: 'An error occurred while submitting your code.',
           variant: 'destructive',
         });
+      } finally {
+        setIsSubmitting(false);
       }
     } else {
       toast({
@@ -142,6 +145,7 @@ const EditorPage = () => {
   const runCode = async () => {
     if (selectedLanguage?.id && userYear) {
       try {
+        setIsRunning(true);
         const { status, data } = await postApi(apiEndPoints.codingPlatform.runCode, {
           questionId: id,
           code: code,
@@ -149,16 +153,14 @@ const EditorPage = () => {
           year: userYear,
         });
 
-        // console.log('Run API Response:', { status, data });
-
         if (status === statusCode.Created201 || status === statusCode.Ok200) {
           // Set the run result directly as it has a different structure
           setRunResult(data.data);
           setIsRunResultDialogOpen(true);
-          // console.log('Run Dialog should open now:', {
-          //   isRunResultDialogOpen: true,
-          //   runResult: data.data,
-          // });
+
+          // Simplified output for run results
+          const runOutput = `Status: ${data.data.status.description}`;
+          setOutput(runOutput);
         } else {
           handleToastApiResponse(status, data);
         }
@@ -169,6 +171,8 @@ const EditorPage = () => {
           description: 'An error occurred while running your code.',
           variant: 'destructive',
         });
+      } finally {
+        setIsRunning(false);
       }
     } else {
       toast({
@@ -278,14 +282,33 @@ const EditorPage = () => {
         </div>
 
         <div className="flex gap-2">
-          <Button variant="outline" className="w-full px-8" onClick={runCode}>
-            <PlayIcon /> Run
+          <Button variant="outline" className="w-full px-8" onClick={runCode} disabled={isRunning}>
+            {isRunning ? (
+              <div className="flex items-center">
+                <div className="h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent"></div>
+                <span className="ml-2">Running...</span>
+              </div>
+            ) : (
+              <>
+                <PlayIcon /> Run
+              </>
+            )}
           </Button>
           <Button
             className="w-full bg-success px-8 transition hover:bg-green-600"
             onClick={submitCode}
+            disabled={isSubmitting}
           >
-            <UploadCloud /> Submit
+            {isSubmitting ? (
+              <div className="flex items-center">
+                <div className="h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent"></div>
+                <span className="ml-2">Submitting...</span>
+              </div>
+            ) : (
+              <>
+                <UploadCloud /> Submit
+              </>
+            )}
           </Button>
         </div>
 
