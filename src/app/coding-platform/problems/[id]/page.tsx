@@ -18,7 +18,9 @@ import { useMediaQuery } from 'react-responsive';
 import { postApi } from '@/api/api';
 import { apiEndPoints } from '@/api/apiEndpoints';
 import CodeEditor from '@/components/common/code-editor';
+import { RunResultDialog } from '@/components/common/run-result-dialog';
 import { SlideModal } from '@/components/common/slide-modal';
+import { SubmissionResultDialog } from '@/components/common/submission-result-dialog';
 import { Button } from '@/components/ui/button';
 import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from '@/components/ui/resizable';
 import {
@@ -46,6 +48,10 @@ const EditorPage = () => {
   const { id } = useParams() as { id: string };
   const router = useRouter();
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isResultDialogOpen, setIsResultDialogOpen] = useState(false);
+  const [isRunResultDialogOpen, setIsRunResultDialogOpen] = useState(false);
+  const [submissionResult, setSubmissionResult] = useState<any>(null);
+  const [runResult, setRunResult] = useState<any>(null);
   const [userYear, setUserYear] = useState<number | undefined | null>();
   const [problems, setProblems] = useState<ProblemsInterface[]>([]);
 
@@ -82,27 +88,48 @@ const EditorPage = () => {
 
   // Submit code function
   const submitCode = async () => {
-    // if (selectedLanguage) {
-    //   const { status, data } = await postApi(
-    //     'http://13.233.100.121:2358/submissions/?base64_encoded=false&wait=true',
-    //     {
-    //       source_code: code,
-    //       language_id: selectedLanguage.id,
-    //     },
-    //   );
-    //   if (status === statusCode.Created201) {
-    //     setOutput(data.stdout || data.compile_output || data.message || 'No output');
-    //   }
-    // }
-
     if (selectedLanguage?.id && userYear) {
-      const { status, data } = await postApi(apiEndPoints.codingPlatform.submitCode, {
-        questionId: id,
-        code: code,
-        languageId: selectedLanguage.id,
-        year: userYear,
-      });
-      handleToastApiResponse(status, data);
+      try {
+        const { status, data } = await postApi(apiEndPoints.codingPlatform.submitCode, {
+          questionId: id,
+          code: code,
+          languageId: selectedLanguage.id,
+          year: userYear,
+        });
+
+        // console.log('Submit API Response:', { status, data });
+
+        if (status === statusCode.Created201 || status === statusCode.Ok200) {
+          // Format the data to match the expected structure
+          const formattedResult = {
+            success: true,
+            message: 'Submission successful',
+            data: {
+              allTestsPassed: data.data.allTestsPassed || false,
+              passedTestCount: data.data.passedTestCount || 0,
+              totalTests: data.data.totalTests || 0,
+              testResults: data.data.testResults || [],
+              timeElapsed: data.data.timeElapsed || 0,
+            },
+          };
+
+          setSubmissionResult(formattedResult);
+          setIsResultDialogOpen(true);
+          // console.log('Dialog should open now:', {
+          //   isResultDialogOpen: true,
+          //   submissionResult: formattedResult,
+          // });
+        } else {
+          handleToastApiResponse(status, data);
+        }
+      } catch (error) {
+        console.error('Error submitting code:', error);
+        toast({
+          title: 'Error',
+          description: 'An error occurred while submitting your code.',
+          variant: 'destructive',
+        });
+      }
     } else {
       toast({
         title: 'Please select a language and year',
@@ -113,35 +140,36 @@ const EditorPage = () => {
   };
 
   const runCode = async () => {
-    // if (selectedLanguage) {
-    //   const { status, data } = await postApi(
-    //     'http://13.233.100.121:2358/submissions/?base64_encoded=false&wait=true',
-    //     {
-    //       source_code: code,
-    //       language_id: selectedLanguage.id,
-    //     },
-    //   );
-    //   if (status === statusCode.Created201) {
-    //     setOutput(data.stdout || data.compile_output || data.message || 'No output');
-    //   }
-    // }
-    // {
-    //   "questionId": "1",
-    //   "code": "string",
-    //   "languageId": 93,
-    //   "year": 1
-    // }
-    // console.log(id, code, selectedLanguage?.id, userYear);
-
     if (selectedLanguage?.id && userYear) {
-      // console.log(apiEndPoints.codingPlatform.runCode);
-      const { status, data } = await postApi(apiEndPoints.codingPlatform.runCode, {
-        questionId: id,
-        code: code,
-        languageId: selectedLanguage.id,
-        year: userYear,
-      });
-      handleToastApiResponse(status, data);
+      try {
+        const { status, data } = await postApi(apiEndPoints.codingPlatform.runCode, {
+          questionId: id,
+          code: code,
+          languageId: selectedLanguage.id,
+          year: userYear,
+        });
+
+        // console.log('Run API Response:', { status, data });
+
+        if (status === statusCode.Created201 || status === statusCode.Ok200) {
+          // Set the run result directly as it has a different structure
+          setRunResult(data.data);
+          setIsRunResultDialogOpen(true);
+          // console.log('Run Dialog should open now:', {
+          //   isRunResultDialogOpen: true,
+          //   runResult: data.data,
+          // });
+        } else {
+          handleToastApiResponse(status, data);
+        }
+      } catch (error) {
+        console.error('Error running code:', error);
+        toast({
+          title: 'Error',
+          description: 'An error occurred while running your code.',
+          variant: 'destructive',
+        });
+      }
     } else {
       toast({
         title: 'Please select a language and year',
@@ -186,6 +214,21 @@ const EditorPage = () => {
       router.push('/coding-platform/problems/1');
     }
   }, [id, router]);
+
+  const handleFinish = () => {
+    const currentProblemIndex = problems.findIndex((p) => p.id === problemId);
+    if (currentProblemIndex < problems.length - 1) {
+      // Navigate to the next problem
+      router.push(`/coding-platform/problems/${problems[currentProblemIndex + 1].id}`);
+    } else {
+      // Show completion message
+      toast({
+        title: 'Congratulations!',
+        description: 'You have completed all the problems in this section.',
+        variant: 'success',
+      });
+    }
+  };
 
   return (
     <>
@@ -246,7 +289,7 @@ const EditorPage = () => {
           </Button>
         </div>
 
-        <Button onClick={submitCode} variant="outline" className="px-8">
+        <Button onClick={handleFinish} variant="outline" className="px-8">
           Finish
         </Button>
       </div>
@@ -382,6 +425,20 @@ const EditorPage = () => {
           </ResizablePanel>
         </ResizablePanelGroup>
       </div>
+
+      {/* Submission Result Dialog */}
+      <SubmissionResultDialog
+        isOpen={isResultDialogOpen}
+        onClose={() => setIsResultDialogOpen(false)}
+        result={submissionResult}
+      />
+
+      {/* Run Result Dialog */}
+      <RunResultDialog
+        isOpen={isRunResultDialogOpen}
+        onClose={() => setIsRunResultDialogOpen(false)}
+        result={runResult}
+      />
     </>
   );
 };

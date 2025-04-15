@@ -45,12 +45,12 @@ const NotificationButton = ({ mode, className }: Props) => {
   });
 
   const onSubmit = async (data: z.infer<typeof notificationSchema>) => {
-    console.log('Sending payload:', {
-      title: data.notificationTitle,
-      message: data.notificationMessage,
-      url: data.notificationUrl,
-      userId: user?.id,
-    });
+    // console.log('Sending payload:', {
+    //   title: data.notificationTitle,
+    //   message: data.notificationMessage,
+    //   url: data.notificationUrl,
+    //   userId: user?.id,
+    // });
 
     const { status, data: responseData } = await postApi(apiEndPoints.admin.sendNotifications, {
       title: data.notificationTitle,
@@ -78,7 +78,7 @@ const NotificationButton = ({ mode, className }: Props) => {
   const fetchSubscription = async () => {
     setIsAdminOpen(!isAdminOpen);
     const { status, data } = await getApi(apiEndPoints.notification.getSubscription);
-    console.log('subscriptions: ', data);
+    // console.log('subscriptions: ', data);
   };
   useEffect(() => {
     if (mode === 'user' && user?.id) {
