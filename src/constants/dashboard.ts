@@ -26,7 +26,7 @@ export const steps: StepCardProps[] = [
     gradientBg: 'bg-blue-gradient',
     action: '/dashboard/task-round',
     eventStartDate: new Date('2025-04-14T00:00:00'),
-    eventEndDate: new Date('2025-04-16T12:59:00'),
+    eventEndDate: new Date('2025-04-16T15:30:00'),
   },
   {
     step: 3,
