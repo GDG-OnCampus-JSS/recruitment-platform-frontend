@@ -25,7 +25,7 @@ const productSans = localFont({
 
 export const metadata: Metadata = {
   title: 'GDG | JSSATEN',
-  description: 'Register to GDG onCampus JSSATEN Recruitments 2025!',
+  description: 'Register to GDG onCampus JSSATEN Recruitments 2026!',
 };
 
 export default function RootLayout({

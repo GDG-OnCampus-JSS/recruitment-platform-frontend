@@ -2,6 +2,8 @@
 import { motion } from 'motion/react';
 import { cn } from '@/lib/utils';
 import useUserStore from '@/stores/userStore';
+import CoolButton from '../common/primary-button';
+import PrimaryButton from '../common/primary-button';
 import Button from './Button';
 import { Click } from './click';
 import { EllipseIcon } from './ellipse-1';
@@ -22,7 +24,7 @@ export const Banner = ({ className }: BannerProps) => {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1, transition: { duration: 1 } }}
       >
-        Recruitments <br /> 2025
+        Recruitments <br /> 2026
       </motion.h1>
       <Star className="absolute -top-5 right-7 sm:-top-6 sm:right-3" />
       <EllipseIcon2 className="absolute -right-5 -top-2 -rotate-6 sm:-right-8 sm:rotate-0" />
@@ -36,7 +38,7 @@ export const Banner = ({ className }: BannerProps) => {
 export const Logo = () => {
   return (
     <motion.div
-      className="z-10 mx-auto rounded-3xl border border-main bg-white px-5 py-1"
+      className="z-10 mx-auto w-fit rounded-3xl border border-main bg-white px-5 py-1"
       initial={{ opacity: 0, translateY: '-50px' }}
       animate={{
         opacity: 1,
@@ -74,13 +76,13 @@ export const CTA = () => {
         }}
       >
         {user ? (
-          <Button href="/dashboard" className="z-10">
+          <PrimaryButton href="/dashboard" className="z-10 mt-4">
             Visit Dashboard
-          </Button>
+          </PrimaryButton>
         ) : (
-          <Button href="/register" className="z-10">
+          <PrimaryButton href="/register" className="z-10 mt-4">
             Register Now
-          </Button>
+          </PrimaryButton>
         )}
       </motion.div>
     </>

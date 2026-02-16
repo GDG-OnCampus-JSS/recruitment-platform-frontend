@@ -20,10 +20,10 @@ const Dropdown = ({ imageSrc, onLogout }: Props) => {
     <div className="relative" ref={profileModalRef}>
       <button
         title="Profile"
-        className="flex items-center gap-2 rounded-full border px-2 py-[6px] duration-500 hover:bg-neutral-200"
+        className="flex items-center gap-2 rounded-full border border-neutral-200/50 bg-white/20 px-3 py-2 shadow-inner backdrop-blur-lg duration-500"
         onClick={() => setIsOpen(!isOpen)}
       >
-        <Image src={imageSrc} alt="" height={26} width={26} className="size-6 rounded-full" />
+        <Image src={imageSrc} alt="" height={40} width={40} className="size-8 rounded-full" />
         <motion.div animate={{ rotate: isOpen ? 180 : 0 }} transition={{ duration: 0.2 }}>
           <ChevronDown size={16} />
         </motion.div>

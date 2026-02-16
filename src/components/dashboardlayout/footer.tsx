@@ -19,7 +19,7 @@ export const Footer = () => {
         <div className="flex flex-col-reverse items-center text-gray-500 sm:flex-row sm:justify-between">
           <p className="flex items-center text-sm font-normal sm:text-base">
             <span className="mr-1 mt-2 text-2xl sm:text-3xl">&copy; </span>
-            <span>2025 GDG JSSATEN</span>
+            <span>2026 GDG JSSATEN</span>
           </p>
           <div className="flex justify-center gap-3 sm:justify-start lg:justify-end">
             {socials.map((social) => (
