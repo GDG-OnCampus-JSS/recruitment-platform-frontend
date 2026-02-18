@@ -46,7 +46,7 @@ export const Logo = () => {
         transition: { ease: 'easeOut', duration: 0.8, delay: 1 },
       }}
     >
-      <GradientText>Google Developer Groups</GradientText>
+      <GradientText className='cursor-text'>Google Developer Groups</GradientText>
     </motion.div>
   );
 };
