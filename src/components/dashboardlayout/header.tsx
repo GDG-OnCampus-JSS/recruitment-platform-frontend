@@ -184,18 +184,13 @@ export const Header = ({ isAdmin }: { isAdmin: boolean }) => {
             </Button>
           </div>
 
-          <NotificationButton mode={isAdmin ? 'admin' : 'user'} className='mx-2'/>
+          <NotificationButton mode={isAdmin ? 'admin' : 'user'} className="mx-2" />
 
           <div className="hidden sm:block">
             {isAdminRoute ? (
               <ProfileDropdown onEditProfile={() => setIsEditProfileOpen(true)} />
             ) : (
-              user && (
-                <Dropdown
-                  user={user}
-                  onLogout={handleLogout}
-                />
-              )
+              user && <Dropdown user={user} onLogout={handleLogout} />
             )}
           </div>
 

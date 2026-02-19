@@ -109,7 +109,11 @@ export default function DashboardPage() {
               height={80}
               className="size-16 rounded-full object-cover sm:size-20"
             /> */}
-            <GeneratedAvatar seed={user.id} variant={userAvatarVariant} className='size-20 border'/>
+            <GeneratedAvatar
+              seed={user.id}
+              variant={userAvatarVariant}
+              className="size-20 border"
+            />
             <div>
               <h2 className="mb-2 text-lg font-medium tracking-[0.28px] sm:text-[28px]">
                 Hey! {user?.name.split(' ')[0]}

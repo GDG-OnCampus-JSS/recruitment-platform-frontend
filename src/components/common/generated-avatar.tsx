@@ -10,7 +10,12 @@ interface GeneratedAvatarProps {
   options?: Partial<Options>;
 }
 
-export default function GeneratedAvatar({ seed, className, variant, options }: GeneratedAvatarProps) {
+export default function GeneratedAvatar({
+  seed,
+  className,
+  variant,
+  options,
+}: GeneratedAvatarProps) {
   const baseOptions = { seed, ...options };
   let avatar;
 

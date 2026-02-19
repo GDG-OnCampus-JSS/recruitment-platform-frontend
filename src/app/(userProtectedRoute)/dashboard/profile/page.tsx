@@ -113,7 +113,7 @@ export default function ProfilePage() {
                         seed={user.id}
                         variant={userAvatarVariant}
                         className="size-32"
-                        options={{scale: 80}}
+                        options={{ scale: 80 }}
                       />
                     </div>
                   </div>
