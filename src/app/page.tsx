@@ -43,10 +43,7 @@ export default function Home() {
     <>
       <Header />
       {/* <SmoothScroll> */}
-      <section
-        // style={{ opacity }}
-        className="will-change-opacity sticky top-0 grid h-full min-h-screen w-full place-content-center overflow-hidden bg-[url('/home/bg-1.png')] bg-cover bg-no-repeat leading-[1em] contain-strict"
-      >
+      <section className="will-change-opacity sticky top-0 grid h-full min-h-screen w-full place-content-center overflow-hidden bg-[url('/home/bg-1.png')] bg-cover bg-no-repeat leading-[1em] contain-strict">
         <div className="group absolute h-screen w-screen bg-slate-100/10 backdrop-blur-lg md:backdrop-blur-none"></div>
         <motion.div style={{ opacity }} className="relative z-10">
           <motion.div style={{ scale }}>
