@@ -1,13 +1,15 @@
 'use client';
 import { CircleAlert } from 'lucide-react';
-import Image from 'next/image';
+// import Image from 'next/image';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
+import GeneratedAvatar from '@/components/common/generated-avatar';
+import { Spinner } from '@/components/common/spinner';
 import PermissionPopup from '@/components/dashboardlayout/permission-popup';
 import StepCard from '@/components/dashboardlayout/step-card';
 import { steps } from '@/constants/dashboard';
-import { blobUrl } from '@/lib/helpers';
-import { reqFields, mockUser } from '@/lib/options';
+import { userAvatarVariant } from '@/constants/registration';
+// import { blobUrl } from '@/lib/helpers';
 import { StepCardProps, User } from '@/lib/types';
 import useUserStore from '@/stores/userStore';
 
@@ -86,19 +88,28 @@ export default function DashboardPage() {
     setStepsToShow(filteredSteps);
   }, [userDomain]);
 
+  if (!user) {
+    return (
+      <div className="flex min-h-screen items-center justify-center">
+        <Spinner className="text-indigo-500" />
+      </div>
+    );
+  }
+
   return (
     <div className="mt-20 min-h-screen">
       {showPopup && <PermissionPopup onClose={handlePopupClose} />}
-      <div className="mx-auto max-w-6xl px-4 sm:px-8">
+      <div className="mx-auto max-w-6xl px-4">
         <div className="mb-14 flex flex-col-reverse gap-4 sm:flex-row sm:items-center sm:justify-between sm:gap-0">
           <div className="flex items-center gap-4 sm:gap-6">
-            <Image
+            {/* <Image
               src={user?.photo ? blobUrl(user.photo) : '/avatar.svg'}
               alt="User"
               width={80}
               height={80}
               className="size-16 rounded-full object-cover sm:size-20"
-            />
+            /> */}
+            <GeneratedAvatar seed={user.id} variant={userAvatarVariant} className='size-20 border'/>
             <div>
               <h2 className="mb-2 text-lg font-medium tracking-[0.28px] sm:text-[28px]">
                 Hey! {user?.name.split(' ')[0]}

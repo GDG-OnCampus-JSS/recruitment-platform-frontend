@@ -10,7 +10,7 @@ import { postApi } from '@/api/api';
 import { apiEndPoints } from '@/api/apiEndpoints';
 import { Button } from '@/components/ui/button';
 import { statusCode } from '@/constants/apiStatus';
-import { blobUrl, handleToastApiResponse } from '@/lib/helpers';
+import { handleToastApiResponse } from '@/lib/helpers';
 import { navItems } from '@/lib/options';
 import { cn } from '@/lib/utils';
 import useUserStore from '@/stores/userStore';
@@ -159,8 +159,9 @@ export const Header = () => {
           <div className="hidden lg:block">
             {user ? (
               <Dropdown
-                imageSrc={user?.photo ? blobUrl(user.photo) : '/avatar.svg'}
+                // imageSrc={user?.photo ? blobUrl(user.photo) : '/avatar.svg'}
                 onLogout={handleLogout}
+                user={user}
               />
             ) : (
               // <AnimatedButton

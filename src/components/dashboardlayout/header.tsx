@@ -9,7 +9,7 @@ import { postApi } from '@/api/api';
 import { apiEndPoints } from '@/api/apiEndpoints';
 import { Button } from '@/components/ui/button';
 import { statusCode } from '@/constants/apiStatus';
-import { blobUrl, handleToastApiResponse } from '@/lib/helpers';
+import { handleToastApiResponse } from '@/lib/helpers';
 import { navItems } from '@/lib/options';
 import { User } from '@/lib/types';
 import { cn } from '@/lib/utils';
@@ -170,7 +170,7 @@ export const Header = ({ isAdmin }: { isAdmin: boolean }) => {
           </motion.button>
         </motion.div>
 
-        <div className="flex items-center gap-2">
+        <div className="flex items-center">
           <div className="hidden lg:block">
             <Button
               variant="outline"
@@ -184,16 +184,18 @@ export const Header = ({ isAdmin }: { isAdmin: boolean }) => {
             </Button>
           </div>
 
-          <NotificationButton mode={isAdmin ? 'admin' : 'user'} />
+          <NotificationButton mode={isAdmin ? 'admin' : 'user'} className='mx-2'/>
 
           <div className="hidden sm:block">
             {isAdminRoute ? (
               <ProfileDropdown onEditProfile={() => setIsEditProfileOpen(true)} />
             ) : (
-              <Dropdown
-                imageSrc={user?.photo ? blobUrl(user.photo) : '/avatar.svg'}
-                onLogout={handleLogout}
-              />
+              user && (
+                <Dropdown
+                  user={user}
+                  onLogout={handleLogout}
+                />
+              )
             )}
           </div>
 

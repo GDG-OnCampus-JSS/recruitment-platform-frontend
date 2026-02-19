@@ -18,17 +18,17 @@ import {
   DialogTitle,
   DialogHeader,
   DialogClose,
-  DialogFooter,
 } from '@/components/ui/dialog';
 import { Form } from '@/components/ui/form';
 import { Progress } from '@/components/ui/progress';
 import { statusCode } from '@/constants/apiStatus';
-import { academicYearOptions, domainOptions } from '@/constants/registration';
+import { academicYearOptions, domainOptions, userAvatarVariant } from '@/constants/registration';
 import { blobUrl, extractBlobUrlSegment, handleToastApiResponse } from '@/lib/helpers';
 import { SOCIAL_PLATFORMS } from '@/lib/options';
 import { EditProfileProps } from '@/lib/types';
 import useUserStore from '@/stores/userStore';
 import { validatePhoneNumber } from '@/utils/phoneValidation';
+import GeneratedAvatar from './generated-avatar';
 
 const profileSchema = z.object({
   name: z.string().min(1, 'Full name is required'),
@@ -211,6 +211,8 @@ const EditProfilePage = ({ isOpen, onClose }: EditProfileProps) => {
     }
   }, [form.formState.isSubmitSuccessful, onClose]);
 
+  if (!user) return null;
+
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="max-h-[90vh] min-w-max overflow-y-auto rounded-lg p-10 pb-8 scrollbar-none [&>button]:hidden">
@@ -226,7 +228,7 @@ const EditProfilePage = ({ isOpen, onClose }: EditProfileProps) => {
         <div className="flex flex-col items-center pt-6">
           <div className="relative mb-6">
             <div className="relative h-24 w-24 overflow-hidden rounded-full sm:h-32 sm:w-32">
-              <Image
+              {/* <Image
                 src={
                   user?.photo
                     ? blobUrl(user.photo)
@@ -238,9 +240,10 @@ const EditProfilePage = ({ isOpen, onClose }: EditProfileProps) => {
                 width={128}
                 height={128}
                 className="object-cover sm:h-32 sm:w-32"
-              />
+              /> */}
+              <GeneratedAvatar seed={user.id} variant={userAvatarVariant} className="size-32" />
             </div>
-            <div className="absolute bottom-0 right-0 cursor-pointer">
+            {/* <div className="absolute bottom-0 right-0 cursor-pointer">
               <input
                 title="photo upload"
                 type="file"
@@ -254,7 +257,7 @@ const EditProfilePage = ({ isOpen, onClose }: EditProfileProps) => {
                 className="h-6 w-6 rounded-[333px] bg-[#E7E7E7] p-1 sm:h-8 sm:w-8"
                 onClick={() => imageUploadRef.current?.click()}
               />
-            </div>
+            </div> */}
           </div>
 
           <div className="mb-6 w-full overflow-x-auto border-b">

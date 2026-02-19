@@ -1,16 +1,19 @@
 import { AnimatePresence, motion } from 'framer-motion';
 import { ChevronDown, LogOut, Settings } from 'lucide-react';
-import Image from 'next/image';
+// import Image from 'next/image';
 import Link from 'next/link';
 import React, { useRef, useState } from 'react';
+import { userAvatarVariant } from '@/constants/registration';
 import { useDismissOnClick } from '@/hooks/use-dismiss-onclick';
+import { User } from '@/lib/types';
+import GeneratedAvatar from './generated-avatar';
 
 interface Props {
-  imageSrc: string;
+  user: User;
   onLogout?: () => void;
 }
 
-const Dropdown = ({ imageSrc, onLogout }: Props) => {
+const Dropdown = ({ user, onLogout }: Props) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const profileModalRef = useRef<HTMLDivElement | null>(null);
@@ -23,7 +26,8 @@ const Dropdown = ({ imageSrc, onLogout }: Props) => {
         className="flex items-center gap-2 rounded-full border border-neutral-200/50 bg-white/20 px-3 py-2 shadow-inner backdrop-blur-lg duration-500"
         onClick={() => setIsOpen(!isOpen)}
       >
-        <Image src={imageSrc} alt="" height={40} width={40} className="size-8 rounded-full" />
+        {/* <Image src={imageSrc} alt="" height={40} width={40} className="size-8 rounded-full" /> */}
+        <GeneratedAvatar seed={user.id} variant={userAvatarVariant} className="size-8 border" />
         <motion.div animate={{ rotate: isOpen ? 180 : 0 }} transition={{ duration: 0.2 }}>
           <ChevronDown size={16} />
         </motion.div>
