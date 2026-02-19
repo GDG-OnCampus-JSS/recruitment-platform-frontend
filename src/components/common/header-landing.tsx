@@ -1,6 +1,6 @@
 'use client';
 
-import { Menu, ChevronRight, ChevronLeft } from 'lucide-react';
+import { Menu, ChevronRight, ChevronLeft, HandIcon } from 'lucide-react';
 import { motion } from 'motion/react';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -8,6 +8,7 @@ import { useRouter, usePathname } from 'next/navigation';
 import React, { useState, useEffect } from 'react';
 import { postApi } from '@/api/api';
 import { apiEndPoints } from '@/api/apiEndpoints';
+import { ZephyrPopup } from '@/components/home/zephyr-popup';
 import { Button } from '@/components/ui/button';
 import { statusCode } from '@/constants/apiStatus';
 import { handleToastApiResponse } from '@/lib/helpers';
@@ -23,6 +24,7 @@ export const Header = () => {
   const router = useRouter();
   const pathname = usePathname();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [showZephyr, setShowZephyr] = useState(false);
   const { user } = useUserStore();
   const logoutUser = useUserStore((state) => state.logout);
 
@@ -156,6 +158,14 @@ export const Header = () => {
         </motion.div>
 
         <div className="flex items-center">
+          <Button
+            variant="ghost"
+            className="mr-2 rounded-2xl border border-neutral-200/50 bg-transparent px-4 py-6 shadow-inner backdrop-blur-lg"
+            onClick={() => setShowZephyr(true)}
+          >
+            <HandIcon />I have a doubt
+          </Button>
+          <ZephyrPopup open={showZephyr} onOpenChange={setShowZephyr} />
           <div className="hidden lg:block">
             {user ? (
               <Dropdown
