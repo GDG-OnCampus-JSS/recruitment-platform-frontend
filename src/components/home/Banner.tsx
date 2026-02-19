@@ -2,9 +2,7 @@
 import { motion } from 'motion/react';
 import { cn } from '@/lib/utils';
 import useUserStore from '@/stores/userStore';
-import CoolButton from '../common/primary-button';
 import PrimaryButton from '../common/primary-button';
-import Button from './Button';
 import { Click } from './click';
 import { EllipseIcon } from './ellipse-1';
 import { EllipseIcon2 } from './ellipse-2';
@@ -46,7 +44,7 @@ export const Logo = () => {
         transition: { ease: 'easeOut', duration: 0.8, delay: 1 },
       }}
     >
-      <GradientText className='cursor-text'>Google Developer Groups</GradientText>
+      <GradientText className="cursor-text">Google Developer Groups</GradientText>
     </motion.div>
   );
 };

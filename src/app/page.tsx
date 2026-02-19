@@ -43,19 +43,22 @@ export default function Home() {
     <>
       <Header />
       {/* <SmoothScroll> */}
-      <motion.section
-        style={{ opacity }}
-        className="will-change-opacity sticky top-0 grid h-full min-h-screen w-full place-content-center overflow-hidden bg-cover bg-no-repeat leading-[1em] contain-strict md:bg-[url('/home/bg-1.png')]"
+      <section
+        // style={{ opacity }}
+        className="will-change-opacity sticky top-0 grid h-full min-h-screen w-full place-content-center overflow-hidden bg-[url('/home/bg-1.png')] bg-cover bg-no-repeat leading-[1em] contain-strict"
       >
-        <motion.div style={{ scale }}>
-          <div className="group absolute h-screen w-screen bg-slate-100/10 will-change-transform"></div>
-          <Logo />
-          <Banner className="w-fit" />
-          <CTA />
+        <div className="group absolute h-screen w-screen bg-slate-100/10 backdrop-blur-lg md:backdrop-blur-none"></div>
+        <motion.div style={{ opacity }} className="relative z-10">
+          <motion.div style={{ scale }}>
+            <div className="group absolute h-screen w-screen bg-slate-100/10 will-change-transform"></div>
+            <Logo />
+            <Banner className="w-fit" />
+            <CTA />
+          </motion.div>
         </motion.div>
-      </motion.section>
+      </section>
 
-      <section className="relative mb-28 grid min-h-screen place-content-center rounded-t-[3rem] border-t-8 bg-white pt-10 xl:mb-0">
+      <section className="relative grid min-h-screen place-content-center rounded-t-[3rem] border-t-8 bg-white pb-28 pt-10 xl:mb-0">
         <h1 className="mb-12 text-center text-4xl">
           Our <span className="font-playfair font-medium italic">domains</span>
         </h1>
