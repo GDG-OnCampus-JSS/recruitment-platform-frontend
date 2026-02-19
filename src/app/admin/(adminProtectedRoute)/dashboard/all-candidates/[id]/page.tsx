@@ -16,7 +16,7 @@ import {
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter, useParams } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { getByIdApi, putApi } from '@/api/api';
 import { apiEndPoints } from '@/api/apiEndpoints';
 import SocialLinksDisplay from '@/app/(userProtectedRoute)/dashboard/profile/social-links';
@@ -47,7 +47,7 @@ export default function CandidateProfile() {
   const [toggleShortListStatusLoading, setToggleShortListStatusLoading] = useState(false);
   const [toggleInterviewStatusLoading, setToggleInterviewStatusLoading] = useState(false);
 
-  const fetchUsers = async () => {
+  const fetchUsers = useCallback(async () => {
     if (!id) return;
     const { status, data: responseData } = await getByIdApi(apiEndPoints.admin.getUserById, id);
     const user = responseData['Fetched user'] as User;
@@ -56,11 +56,11 @@ export default function CandidateProfile() {
     if (status !== statusCode.Ok200) {
       handleToastApiResponse(status, responseData);
     }
-  };
+  }, [id]);
 
   useEffect(() => {
     fetchUsers();
-  }, []);
+  }, [fetchUsers]);
 
   const toggleShortlistStatus = async () => {
     setToggleShortListStatusLoading(true);

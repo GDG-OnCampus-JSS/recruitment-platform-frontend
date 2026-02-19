@@ -1,15 +1,17 @@
 'use client';
 import { Mail, Phone, GraduationCap, UserPen, ArrowLeft } from 'lucide-react';
-import Image from 'next/image';
+// import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import EditProfilePage from '@/components/common/edit-profile';
+import GeneratedAvatar from '@/components/common/generated-avatar';
 import { Spinner } from '@/components/common/spinner';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import FileViewer from '@/components/ui/resumeViewer';
+import { userAvatarVariant } from '@/constants/registration';
 import { blobUrl } from '@/lib/helpers';
-import { reqFields, mockUser, socialIconMapping } from '@/lib/options';
+// import { reqFields, mockUser, socialIconMapping } from '@/lib/options';
 import { User } from '@/lib/types';
 import useUserStore from '@/stores/userStore';
 import SocialLinksDisplay from './social-links';
@@ -73,7 +75,7 @@ export default function ProfilePage() {
   }
   return (
     <div className="mb-20 mt-20 min-h-screen sm:mb-0">
-      <div className="mx-auto max-w-6xl px-4 sm:px-8">
+      <div className="mx-auto max-w-6xl px-4 sm:px-4">
         <div className="mx-auto mt-4 flex items-center justify-between">
           <Button
             variant="outline"
@@ -100,12 +102,18 @@ export default function ProfilePage() {
                 <div className="">
                   <div className="w-fit rounded-full border-2 border-dashed border-[#635BFF]">
                     <div className="size-32 overflow-hidden rounded-full border-2 border-[#635BFF]">
-                      <Image
+                      {/* <Image
                         src={user.photo ? blobUrl(user.photo) : '/avatar.svg'}
                         alt="Profile"
                         width={130}
                         height={130}
                         className="h-full w-full"
+                      /> */}
+                      <GeneratedAvatar
+                        seed={user.id}
+                        variant={userAvatarVariant}
+                        className="size-32"
+                        options={{ scale: 80 }}
                       />
                     </div>
                   </div>

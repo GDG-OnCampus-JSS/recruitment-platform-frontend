@@ -1,7 +1,7 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Bell } from 'lucide-react';
 import Image from 'next/image';
-import React, { useRef, useState, useEffect } from 'react';
+import React, { useCallback, useRef, useState, useEffect } from 'react';
 import { useMemo } from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
@@ -66,14 +66,14 @@ const NotificationButton = ({ mode, className }: Props) => {
     }
   };
 
-  const fetchNotifications = async () => {
+  const fetchNotifications = useCallback(async () => {
     if (mode === 'user') {
       const { status, data } = await getApi(apiEndPoints.notification.getNotifications);
       if (status === statusCode.Ok200) {
         setNotifications(data);
       }
     }
-  };
+  }, [mode]);
 
   const fetchSubscription = async () => {
     setIsAdminOpen(!isAdminOpen);
@@ -84,7 +84,7 @@ const NotificationButton = ({ mode, className }: Props) => {
     if (mode === 'user' && user?.id) {
       fetchNotifications();
     }
-  }, [user?.id, mode]);
+  }, [user?.id, mode, fetchNotifications]);
 
   // const unreadCount = notifications.filter((n) => !n.isRead).length;
 
@@ -124,7 +124,7 @@ const NotificationButton = ({ mode, className }: Props) => {
       ) : (
         <Button
           variant="ghost"
-          className="relative ml-20 h-[36px] w-[36px] rounded-[37px] border border-[#DDE3FF] bg-[#FFFFFF] p-[8px] sm:ml-0"
+          className="relative ml-20 h-[36px] w-[36px] rounded-[37px] border border-[#DDE3FF] bg-transparent p-[8px] shadow-inner backdrop-blur-lg sm:ml-0"
           onClick={() => setIsOpen(!isOpen)}
         >
           <Bell className="h-5 w-5 text-[#100C2C]" />
