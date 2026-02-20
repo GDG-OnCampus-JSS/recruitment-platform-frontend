@@ -10,6 +10,7 @@ interface PrimaryButtonProps {
   className?: string;
   containerClassName?: string;
   type?: 'button' | 'submit';
+  disabled?: boolean;
 }
 
 const PrimaryButton: React.FC<PrimaryButtonProps> = ({
@@ -19,6 +20,7 @@ const PrimaryButton: React.FC<PrimaryButtonProps> = ({
   className,
   containerClassName,
   type = 'button',
+  disabled,
 }) => {
   const content = (
     <>
@@ -41,18 +43,24 @@ const PrimaryButton: React.FC<PrimaryButtonProps> = ({
     </>
   );
 
-  const wrapperClass = cn('relative inline-block cursor-pointer', containerClassName);
+  const wrapperClass = cn('relative inline-block', containerClassName);
 
   if (href) {
     return (
-      <Link href={href} className={wrapperClass}>
+      <Link
+        href={href}
+        className={cn(
+          wrapperClass,
+          disabled && 'pointer-events-none cursor-not-allowed opacity-50',
+        )}
+      >
         {content}
       </Link>
     );
   }
 
   return (
-    <button type={type} onClick={onClick} className={wrapperClass}>
+    <button type={type} onClick={onClick} className={wrapperClass} disabled={disabled}>
       {content}
     </button>
   );

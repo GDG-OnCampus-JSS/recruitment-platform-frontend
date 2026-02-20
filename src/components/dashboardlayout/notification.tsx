@@ -124,7 +124,7 @@ const NotificationButton = ({ mode, className }: Props) => {
       ) : (
         <Button
           variant="ghost"
-          className="relative ml-20 h-[36px] w-[36px] rounded-[37px] border border-[#DDE3FF] bg-transparent p-[8px] shadow-inner backdrop-blur-lg sm:ml-0"
+          className="relative ml-20 size-12 rounded-[37px] border border-[#DDE3FF] bg-transparent p-[8px] shadow-inner backdrop-blur-lg sm:ml-0"
           onClick={() => setIsOpen(!isOpen)}
         >
           <Bell className="h-5 w-5 text-[#100C2C]" />
@@ -193,7 +193,7 @@ const NotificationButton = ({ mode, className }: Props) => {
         <>
           <div className="fixed inset-0 z-40" onClick={() => setIsOpen(false)} />
           <Card
-            className="absolute right-0 top-12 z-50 h-[417px] w-[82vw] gap-2 overflow-hidden rounded-[8px] border border-[#DDE3FF] bg-[#FFFFFF] p-4 shadow-lg sm:w-[455px]"
+            className="absolute right-0 top-14 z-50 h-[417px] w-[82vw] gap-2 overflow-hidden rounded-[8px] border border-[#DDE3FF] bg-[#FFFFFF] p-4 shadow-lg sm:w-[455px]"
             ref={notificationModalRef}
           >
             <div className="w-full p-3">

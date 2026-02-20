@@ -1,5 +1,6 @@
 'use client';
 import { motion } from 'motion/react';
+import { isRegistrationDisabled } from '@/constants/registration';
 import { cn } from '@/lib/utils';
 import useUserStore from '@/stores/userStore';
 import PrimaryButton from '../common/primary-button';
@@ -78,7 +79,7 @@ export const CTA = () => {
             Visit Dashboard
           </PrimaryButton>
         ) : (
-          <PrimaryButton href="/register" className="z-10 mt-4">
+          <PrimaryButton href="/register" className="z-10 mt-4" disabled={isRegistrationDisabled}>
             Register Now
           </PrimaryButton>
         )}

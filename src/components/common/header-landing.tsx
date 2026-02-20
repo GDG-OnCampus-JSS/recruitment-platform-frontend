@@ -85,7 +85,7 @@ export const Header = () => {
         <motion.div
           layout
           transition={{ duration: 0.4, ease: [0.33, 1, 0.68, 1] }}
-          className="flex items-center rounded-3xl border border-neutral-200/50 bg-white/30 px-4 py-3 shadow-inner backdrop-blur-lg"
+          className="flex items-center rounded-2xl border border-neutral-200/50 bg-white/30 px-4 py-[10px] shadow-inner backdrop-blur-lg"
         >
           <Link href="/" className="z-10 flex-shrink-0">
             <div className="flex items-center gap-2">
