@@ -4,11 +4,11 @@ import { useEffect, useState } from 'react';
 import { getByParamsApi } from '@/api/api';
 import { apiEndPoints } from '@/api/apiEndpoints';
 import axiosInstance from '@/api/translator';
+import { Button } from '@/components/ui/button';
+import { handleToastApiResponse } from '@/lib/helpers';
 import useAdminStore from '@/stores/adminStore';
 import { AllCandidates, columns } from './columns';
 import { DataTable } from './data-table';
-import { Button } from '@/components/ui/button';
-import { handleToastApiResponse } from '@/lib/helpers';
 
 export default function DemoPage() {
   const [data, setData] = useState<AllCandidates[]>([]);
