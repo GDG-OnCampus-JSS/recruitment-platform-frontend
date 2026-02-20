@@ -114,7 +114,7 @@ const NotificationButton = ({ mode, className }: Props) => {
       {mode === 'admin' ? (
         <Button
           variant="ghost"
-          className="relative ml-20 h-[36px] w-[160px] rounded-[16px] border border-[#DDE3FF] bg-[#FFFFFF] p-[8px] sm:ml-0"
+          className="relative ml-20 w-[160px] rounded-[16px] border border-[#DDE3FF] bg-[#FFFFFF] py-5 sm:ml-0"
           onClick={fetchSubscription}
         >
           {/* onClick={handleSendNotification} */}
@@ -129,7 +129,7 @@ const NotificationButton = ({ mode, className }: Props) => {
         >
           <Bell className="h-5 w-5 text-[#100C2C]" />
           {unreadCount > 0 && (
-            <span className="absolute right-0 top-0 size-2 rounded-full bg-red-500" />
+            <span className="absolute right-0 top-1 size-3 rounded-full bg-red-500" />
           )}
         </Button>
       )}

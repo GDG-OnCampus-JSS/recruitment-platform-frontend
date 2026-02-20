@@ -16,7 +16,7 @@ export default function AdminPage() {
 
   return (
     <div className="mt-20 min-h-screen">
-      <div className="mx-auto max-w-6xl px-4 sm:px-8">
+      <div className="mx-auto max-w-6xl px-4">
         <div className="pb-10">
           <h1 className="text-xl font-normal capitalize text-[#3D3D3D] sm:text-3xl lg:text-[28px]">
             Welcome back {admin?.domain?.split(' ')[0]} Lead

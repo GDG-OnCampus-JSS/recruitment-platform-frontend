@@ -22,6 +22,7 @@ export const apiEndPoints = {
 
   admin: {
     login: '/admin/auth/login', //used
+    logout: '/admin/auth/logout', //used
     createAptitude: '/admin/aptitude/create-aptitude',
     createQuiz: '/admin/questions/create-question', //used
     sendNotifications: '/admin/notification/send-notification',
@@ -29,6 +30,7 @@ export const apiEndPoints = {
     getUserById: '/admin/users/', //used
     updateUserShortlistStatus: '/admin/users/update-shortlist-status', //used
     updateUserInterviewStatus: '/admin/users/update-interview-status', //used
+    exportUsers: '/admin/excel/export', //used
   },
 
   upload: {
