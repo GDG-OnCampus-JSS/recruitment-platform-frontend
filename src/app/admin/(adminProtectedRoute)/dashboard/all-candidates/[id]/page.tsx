@@ -1,16 +1,12 @@
 'use client';
 import {
   ArrowLeft,
-  Bookmark,
-  ClipboardCheck,
   GraduationCap,
   LinkIcon,
   Mail,
   Phone,
   Star,
   UserCheck,
-  UserPen,
-  Users,
   ArrowUpRight,
 } from 'lucide-react';
 import Image from 'next/image';
@@ -20,11 +16,13 @@ import { useCallback, useEffect, useState } from 'react';
 import { getByIdApi, putApi } from '@/api/api';
 import { apiEndPoints } from '@/api/apiEndpoints';
 import SocialLinksDisplay from '@/app/(userProtectedRoute)/dashboard/profile/social-links';
+import GeneratedAvatar from '@/components/common/generated-avatar';
 import { Spinner } from '@/components/common/spinner';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import FileViewer from '@/components/ui/resumeViewer';
 import { statusCode } from '@/constants/apiStatus';
+import { userAvatarVariant } from '@/constants/registration';
 import { blobUrl, handleToastApiResponse } from '@/lib/helpers';
 import { User } from '@/lib/types';
 import AptitudeSubmissions from './aptitude-submissions';
@@ -76,7 +74,7 @@ export default function CandidateProfile() {
 
     if (status === statusCode.Ok200 && user) {
       setUser({ ...user, shortlistStatus: !user.shortlistStatus });
-      handleToastApiResponse(status, responseData);
+      // handleToastApiResponse(status, responseData);
     }
     setToggleShortListStatusLoading(false);
   };
@@ -95,7 +93,7 @@ export default function CandidateProfile() {
 
     if (status === statusCode.Ok200 && user) {
       setUser({ ...user, interviewStatus: !user.interviewStatus });
-      handleToastApiResponse(status, responseData);
+      // handleToastApiResponse(status, responseData);
     }
     setToggleInterviewStatusLoading(false);
   };
@@ -110,11 +108,11 @@ export default function CandidateProfile() {
 
   return (
     <div className="mb-20 mt-20 min-h-screen sm:mb-0">
-      <div className="mx-auto max-w-6xl px-4 sm:px-8">
+      <div className="mx-auto max-w-6xl px-4">
         <div className="mx-auto mt-4 flex items-center justify-between">
           <Button
             variant="outline"
-            className="group flex gap-1 rounded-3xl border border-main px-4 py-2 font-normal tracking-wide"
+            className="group flex gap-1 rounded-2xl border border-main px-4 py-6 font-normal tracking-wide"
             onClick={() => router.back()}
           >
             <ArrowLeft className="transition-transform duration-500 group-hover:-translate-x-1" />{' '}
@@ -130,11 +128,16 @@ export default function CandidateProfile() {
                 <div className="">
                   <div className="w-fit rounded-full border-2 border-dashed border-[#635BFF]">
                     <div className="size-32 overflow-hidden rounded-full border-2 border-[#635BFF]">
-                      <Image
+                      {/* <Image
                         src={user?.photo ? blobUrl(user?.photo) : '/avatar.svg'}
                         alt="Profile"
                         width={130}
                         height={130}
+                        className="h-full w-full"
+                      /> */}
+                      <GeneratedAvatar
+                        seed={user.id}
+                        variant={userAvatarVariant}
                         className="h-full w-full"
                       />
                     </div>
@@ -333,7 +336,7 @@ export default function CandidateProfile() {
           >
             <div className="flex items-center gap-2">
               <Star className={`h-4 w-4 ${user.shortlistStatus ? 'fill-current' : ''}`} />
-              <span className="text-sm font-medium">
+              <span className="flex items-center gap-2 text-sm font-medium">
                 {user.shortlistStatus ? 'Remove Shortlist' : 'Shortlist'}
                 {toggleShortListStatusLoading && <Spinner className="h-4 w-4" />}
               </span>
