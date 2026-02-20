@@ -6,7 +6,7 @@ import { Card, CardContent, CardFooter, CardHeader } from '@/components/ui/card'
 import { steps } from '@/constants/dashboard';
 import type { ReactNode } from 'react';
 
-const DEADLINE = steps[1].eventEndDate!;
+const DEADLINE = steps[0].eventEndDate!;
 
 export const metadata = {
   title: 'Quiz | GDG',
