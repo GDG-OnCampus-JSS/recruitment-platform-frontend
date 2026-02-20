@@ -1,4 +1,4 @@
-export const isRegistrationDisabled = false;
+export const isRegistrationDisabled = true;
 export const isGoogleLoginDisabled = true;
 export const userAvatarVariant = 'botttsNeutral' as const;
 
