@@ -7,6 +7,8 @@ import axiosInstance from '@/api/translator';
 import useAdminStore from '@/stores/adminStore';
 import { AllCandidates, columns } from './columns';
 import { DataTable } from './data-table';
+import { Button } from '@/components/ui/button';
+import { handleToastApiResponse } from '@/lib/helpers';
 
 export default function DemoPage() {
   const [data, setData] = useState<AllCandidates[]>([]);
@@ -74,6 +76,7 @@ export default function DemoPage() {
       window.URL.revokeObjectURL(url);
     } catch (error) {
       console.error('Error exporting users:', error);
+      handleToastApiResponse(500, error);
     } finally {
       setIsExporting(false);
     }
@@ -83,13 +86,13 @@ export default function DemoPage() {
     <div className="mt-20 flex min-h-screen items-baseline justify-center bg-white">
       <div className="w-full max-w-6xl">
         <div className="mb-4 flex justify-end">
-          <button
+          <Button
             onClick={handleExport}
             disabled={isExporting}
-            className="rounded-md bg-white px-4 py-2 text-sm font-medium text-black underline underline-offset-4 transition-colors disabled:cursor-not-allowed disabled:opacity-50"
+            className="rounded-md bg-white px-4 py-2 text-sm font-medium text-black underline underline-offset-4 shadow-none transition-colors hover:bg-transparent"
           >
             {isExporting ? 'Exporting...' : 'Download All Users'}
-          </button>
+          </Button>
         </div>
         <DataTable columns={columns} data={data} className="max-w-6xl" isLoading={isLoading} />
       </div>
