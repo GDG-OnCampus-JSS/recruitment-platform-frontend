@@ -13,8 +13,8 @@ export const steps: StepCardProps[] = [
     buttonBgColor: 'bg-[#FBBC04]',
     gradientBg: 'bg-yellow-gradient',
     action: '/dashboard/quiz',
-    eventStartDate: new Date('2026-02-16T00:00:00'),
-    eventEndDate: new Date('2026-02-17T00:00:00'),
+    eventStartDate: new Date('2026-02-20T00:00:00'),
+    eventEndDate: new Date('2026-02-21T00:00:00'),
   },
   {
     step: 2,
@@ -25,7 +25,7 @@ export const steps: StepCardProps[] = [
     buttonBgColor: 'bg-[#4285F4]',
     gradientBg: 'bg-blue-gradient',
     action: '/dashboard/task-round',
-    eventStartDate: new Date('2026-02-17T00:00:00'),
+    eventStartDate: new Date('2026-02-12T00:00:00'),
     eventEndDate: new Date('2026-02-18T15:30:00'),
   },
   {
