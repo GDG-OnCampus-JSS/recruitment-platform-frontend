@@ -145,7 +145,7 @@ export const mlTasks = [
           'Submission:',
           'Jupyter Notebook (.ipynb) or Python script (.py) along with a README describing your data insights and modeling approach.',
         ],
-        link:'https://www.kaggle.com/datasets/valakhorasani/mobile-device-usage-and-user-behavior-dataset/data',
+        link: 'https://www.kaggle.com/datasets/valakhorasani/mobile-device-usage-and-user-behavior-dataset/data',
         criteria: [
           'Data cleaning and manipulation effectiveness',
           'Quality and depth of exploratory data analysis',
@@ -619,7 +619,6 @@ export const webDevTasks = [
           'Constraints',
           'Only public GitHub API.',
           'No copy-paste UI templates.',
-
         ],
         link: '',
         criteria: [
@@ -628,7 +627,7 @@ export const webDevTasks = [
           'UI / UX- Spacing, readability, visual clarity',
           'State Logic- loading/error/empty',
           'Code quality- structure & naming',
-          
+
           'Modern frontend framework like React.js or Vue.js. (optional)',
           'UI framework like Tailwind CSS, Bootstrap, or Material UI (optional)',
         ],
@@ -638,7 +637,6 @@ export const webDevTasks = [
           'Infinite scroll or pagination',
           'Save last searched profile in LocalStorage',
           'Display contribution graph (static mock allowed)',
-          
         ],
         imageUrl: '',
       },
@@ -656,7 +654,6 @@ export const webDevTasks = [
           '2) Task Management',
           'Create a task under a specific category.',
           'Each task should have:',
-
 
           'title.',
           'description.',
@@ -696,7 +693,7 @@ export const webDevTasks = [
           'Split the code into folders (like controllers, routers, etc.) to keep the code modular.',
           'Proper use of middleware.',
           'Basic documentation in README (setup steps and API usage).',
-          'Postman collection included.'
+          'Postman collection included.',
         ],
       },
     ],
