@@ -99,18 +99,18 @@ export const AndroidTask = ({ year, onSubmit, form, deadline }: AndroidTaskProps
                   </div>
                 </div>
                 {task.link && (
-                    <div className="my-4 flex items-center gap-2">
-                      <p className="font-medium">Reference: </p>
-                      <Link
-                        href={task.link}
-                        className="break-words text-[#6B83FF] underline underline-offset-4"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        {new URL(task.link).origin}
-                      </Link>
-                    </div>
-                  )}
+                  <div className="my-4 flex items-center gap-2">
+                    <p className="font-medium">Reference: </p>
+                    <Link
+                      href={task.link}
+                      className="break-words text-[#6B83FF] underline underline-offset-4"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      {new URL(task.link).origin}
+                    </Link>
+                  </div>
+                )}
 
                 {task.imageUrl && (
                   <Image

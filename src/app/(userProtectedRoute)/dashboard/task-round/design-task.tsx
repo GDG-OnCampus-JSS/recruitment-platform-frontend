@@ -7,10 +7,10 @@ import { UseFormReturn } from 'react-hook-form';
 import FormInput from '@/components/common/form-input';
 import { Spinner } from '@/components/common/spinner';
 import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Form } from '@/components/ui/form';
 import { designTasks } from '@/constants/task-round';
 import useUserStore from '@/stores/userStore';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 interface DesignTaskProps {
   year: number;
   onSubmit: (data: { link: string }) => Promise<void>;
@@ -186,21 +186,21 @@ const TaskSection = ({ task }: { task: any }) => (
       <div className="text-[16px] font-normal leading-[25.6px] text-[#353535]">
         <div className="space-y-2">
           {task.description?.map((paragraph: string, index: number) => {
-            const isHeading = (!paragraph.includes('.') && !paragraph.includes('?')) && paragraph.length < 80;
+            const isHeading =
+              !paragraph.includes('.') && !paragraph.includes('?') && paragraph.length < 80;
             const isTaskHeading = paragraph.includes('Task 1') && paragraph.length < 60;
             const isTaskHeading2 = paragraph.includes('Task 2') && paragraph.length < 60;
             // Heuristic - since designs have 2 tasks under same domain type so i have to add spacing between end of task 1 and start of task 2
-            
-            return isTaskHeading ? (
-              <div key={index} className="font-semibold text-xl text-[#100C2C]">
-                {paragraph}
-              </div>
 
-            ):isTaskHeading2 ? (
-              <div key={index} className="font-semibold text-xl pt-10 text-[#100C2C]">
+            return isTaskHeading ? (
+              <div key={index} className="text-xl font-semibold text-[#100C2C]">
                 {paragraph}
               </div>
-            ):  isHeading ? (
+            ) : isTaskHeading2 ? (
+              <div key={index} className="pt-10 text-xl font-semibold text-[#100C2C]">
+                {paragraph}
+              </div>
+            ) : isHeading ? (
               <div key={index} className="font-semibold text-[#100C2C]">
                 {paragraph}
               </div>
