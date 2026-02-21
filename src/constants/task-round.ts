@@ -236,7 +236,7 @@ export const mlTasks = [
           'Depth of reflection on hyperparameter tuning',
         ],
         browniePoints: [
-          'TTraining on slippery mode (is_slippery=True) with reward comparison against random policy',
+          'Training on slippery mode (is_slippery=True) with reward comparison against random policy',
         ],
         imageUrl: '',
       },

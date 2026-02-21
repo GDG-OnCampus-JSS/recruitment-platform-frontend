@@ -71,8 +71,10 @@ export const DesignTask = ({ year, onSubmit, form, deadline }: DesignTaskProps) 
   return (
     <div className="mt-10">
       <h2 className="pb-2 text-[28px] font-bold text-theme">Design Tasks - Year {year}</h2>
-      <h2 className="pb-2 text-[15px] italic ">You need to complete tasks from ANY one of the following 3 categories (GFX , UI/UX , Motion Graphics).</h2>
-
+      <h2 className="pb-2 text-[15px] italic">
+        You need to complete tasks from ANY one of the following 3 categories (GFX , UI/UX , Motion
+        Graphics).
+      </h2>
 
       {/* GFX Tasks Section */}
       <div className="mt-8 space-y-20">
