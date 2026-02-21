@@ -33,7 +33,6 @@ export default function DashboardPage() {
       'admissionNumber',
       'domain',
       'year',
-      'photo',
       'resume',
       'socialLinks',
     ];
