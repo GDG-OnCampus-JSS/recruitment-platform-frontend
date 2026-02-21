@@ -14,12 +14,11 @@ interface ZephyrPopupProps {
 }
 
 export function ZephyrPopup({ open, onOpenChange }: ZephyrPopupProps) {
-  const isOpen = open;
 
   const close = useCallback(() => onOpenChange(false), [onOpenChange]);
 
   useEffect(() => {
-    if (!isOpen) return;
+    if (!open) return;
 
     const handleEscape = (e: KeyboardEvent) => {
       if (e.key === 'Escape') close();
@@ -27,7 +26,7 @@ export function ZephyrPopup({ open, onOpenChange }: ZephyrPopupProps) {
 
     window.addEventListener('keydown', handleEscape);
     return () => window.removeEventListener('keydown', handleEscape);
-  }, [isOpen, close]);
+  }, [open, close]);
 
   const handleOpenChatbot = () => {
     window.open(CHATBOT_URL, '_blank');
@@ -39,7 +38,7 @@ export function ZephyrPopup({ open, onOpenChange }: ZephyrPopupProps) {
 
   // prevent scrolling when popup is open
   useEffect(() => {
-    if (isOpen) {
+    if (open) {
       document.body.style.overflow = 'hidden';
     } else {
       document.body.style.overflow = 'unset';
@@ -48,11 +47,11 @@ export function ZephyrPopup({ open, onOpenChange }: ZephyrPopupProps) {
     return () => {
       document.body.style.overflow = 'unset';
     };
-  }, [isOpen]);
+  }, [open]);
 
   return (
     <AnimatePresence>
-      {isOpen && (
+      {open && (
         <>
           <motion.div
             initial={{ opacity: 0 }}
