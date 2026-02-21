@@ -188,15 +188,14 @@ export const mlTasks = [
         ],
         link: '',
         criteria: [
-          'System functionality and stability',
+          'Accuracy of information storage and retrieval from the graph',
 
-          'Accuracy and relevance of generated responses',
-          'Integration and optional API/frontend implementation (if applicable)',
+          'Relevance of context pulled during a query',
+          'Cleanliness and logical structure of the final graph',
         ],
         browniePoints: [
-          'Extra credit for LangChain integration',
-          'Performance optimization improvements',
-          'Advanced query handling',
+          'Working Streamlit or Gradio demo',
+          'Live graph visualisation during conversation',
         ],
         imageUrl: '',
       },
@@ -232,16 +231,12 @@ export const mlTasks = [
         ],
         link: 'https://gymnasium.farama.org/environments/toy_text/frozen_lake/#frozen-lake',
         criteria: [
-          'Quality of data preprocessing and cleaning',
-          'Model accuracy and reliability',
-          'Effectiveness of evaluation metrics and visualizations',
-          'Overall code quality and clarity',
+          'Correctness and clarity of training loop with justified hyperparameters',
+          'Agent performance vs random policy',
+          'Depth of reflection on hyperparameter tuning',
         ],
         browniePoints: [
-          'Bonus for incorporating advanced NLP techniques',
-          'Real-time processing enhancements',
-          'Deployment readiness of the demo',
-          'Training the agent on slippery mode (is_slippery=True) and showing rewards vs random policy.',
+          'Training on slippery mode (is_slippery=True) with reward comparison against random policy',
         ],
         imageUrl: '',
       },
@@ -637,6 +632,7 @@ export const webDevTasks = [
           'Infinite scroll or pagination',
           'Save last searched profile in LocalStorage',
           'Display contribution graph (static mock allowed)',
+          'Basic documentation in README (setup steps, folder structure, tech-stack etc).'
         ],
         imageUrl: '',
       },
@@ -717,6 +713,9 @@ export const webDevTasks = [
           'Analyzes the job description for required skills, experiences, tools, and keywords.',
           'Compares with the resume.',
           'Suggests edits and rewrites content to better align with the job using Gemini or any other LLM model.',
+          'README File (Mandatory)',
+          'Include Project overview, Tech stack.',
+          'Setup instructions (step-by-step), All endpoints must be documented.',
         ],
         criteria: [
           'Backend: Node.js / Python',
@@ -727,6 +726,7 @@ export const webDevTasks = [
           'Storage: AWS S3 / Firebase for file handling (adding storage to the project is optional)',
           'DB: PostgreSQL / MongoDB (adding database to the project is optional)',
           'Auth: no authentication required',
+        
         ],
         browniePoints: [
           'Match Score: Showing users a percentage-based similarity score between the resume and job description.',
@@ -753,6 +753,12 @@ export const webDevTasks = [
           'Optional short journal entry (max 140 characters).',
           '- User Authentication is required',
           'JWT or OAuth.',
+          'README File (Mandatory)',
+          'Include Project overview, Tech stack.',
+          'Setup instructions (step-by-step), All endpoints must be documented.',
+          'Postman collection included.',
+
+
         ],
         browniePoints: [
           'Mood Visualization',
@@ -770,6 +776,7 @@ export const webDevTasks = [
           'Styling: Tailwind CSS / ShadCN or any other library',
           'Calender UI: Do your own research',
           'Charts library: Do your own research (optional feature)',
+
         ],
         link: '',
         imageUrl: '',
