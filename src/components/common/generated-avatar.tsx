@@ -2,6 +2,7 @@ import { avataaarsNeutral, botttsNeutral, bigEarsNeutral, funEmoji } from '@dice
 import { createAvatar, Options } from '@dicebear/core';
 import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
 import { cn } from '@/lib/utils';
+import { useMemo } from 'react';
 
 interface GeneratedAvatarProps {
   seed: string;
@@ -17,6 +18,7 @@ export default function GeneratedAvatar({
   options,
 }: GeneratedAvatarProps) {
   const baseOptions = { ...options, seed };
+  const avatarDataUri = useMemo(() => {
   let avatar;
 
   if (variant === 'avataaarsNeutral') {
@@ -29,9 +31,12 @@ export default function GeneratedAvatar({
     avatar = createAvatar(funEmoji, baseOptions);
   }
 
+  return avatar.toDataUri();
+}, [seed, variant, options]);
+
   return (
     <Avatar className={cn(className)}>
-      <AvatarImage src={avatar.toDataUri()} alt="Avatar" />
+      <AvatarImage src={avatarDataUri} alt="Avatar" />
       <AvatarFallback>{seed.charAt(0).toUpperCase()}</AvatarFallback>
     </Avatar>
   );
