@@ -16,7 +16,7 @@ export default function GeneratedAvatar({
   variant,
   options,
 }: GeneratedAvatarProps) {
-  const baseOptions = { seed, ...options };
+  const baseOptions = { ...options, seed };
   let avatar;
 
   if (variant === 'avataaarsNeutral') {
