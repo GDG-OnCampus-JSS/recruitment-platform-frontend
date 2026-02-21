@@ -1,3 +1,4 @@
+'use client';
 import { avataaarsNeutral, botttsNeutral, bigEarsNeutral, funEmoji } from '@dicebear/collection';
 import { createAvatar, Options } from '@dicebear/core';
 import { useMemo } from 'react';
