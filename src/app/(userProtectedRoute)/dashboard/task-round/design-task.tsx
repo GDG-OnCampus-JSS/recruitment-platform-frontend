@@ -71,6 +71,8 @@ export const DesignTask = ({ year, onSubmit, form, deadline }: DesignTaskProps) 
   return (
     <div className="mt-10">
       <h2 className="pb-2 text-[28px] font-bold text-theme">Design Tasks - Year {year}</h2>
+      <h2 className="pb-2 text-[15px] italic ">You need to complete tasks from ANY one of the following 3 categories (GFX , UI/UX , Motion Graphics).</h2>
+
 
       {/* GFX Tasks Section */}
       <div className="mt-8 space-y-20">
@@ -79,7 +81,7 @@ export const DesignTask = ({ year, onSubmit, form, deadline }: DesignTaskProps) 
             <div>
               <h3 className="text-nowrap text-[28px] font-medium">Graphics Design Tasks</h3>
               {user?.year === '1' && (
-                <p className="text-sm italic text-neutral-500">Both are compulsory</p>
+                <p className="text-sm italic text-neutral-500">Both tasks are compulsory</p>
               )}
             </div>
             <div className="h-[1px] bg-gradient-line sm:w-[981px]"></div>
