@@ -26,7 +26,7 @@ export default function RegisterPage() {
   const { toast } = useToast();
   const setUser = useUserStore((state) => state.setUser);
 
-  const steps = [{ label: 'Register to Recruitments 25' }, { label: `Verify your email` }];
+  const steps = [{ label: 'Register to Recruitments 26' }, { label: `Verify your email` }];
 
   const handleNextStep = async (data?: { email?: string }) => {
     if (data) {
@@ -93,7 +93,7 @@ export default function RegisterPage() {
         {/* Title */}
         <div className="mb-6 flex items-center justify-between gap-4">
           <h1 className="text-heading-1 font-medium text-gray-900">
-            {isVerifying ? `Verify your email` : "Register to Recruitments'25"}
+            {isVerifying ? `Verify your email` : "Register to Recruitments'26"}
           </h1>
           <div>
             <Link href="/">
