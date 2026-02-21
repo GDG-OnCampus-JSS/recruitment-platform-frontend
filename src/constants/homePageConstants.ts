@@ -78,7 +78,7 @@ export const journeySteps = [
     id: 3,
     title: 'Task Round',
     description: 'Submit an allotted project.',
-    duration: "22 Feb '26 - 23 Feb '26 (12:00 PM)",
+    duration: "22 Feb '26 - 23 Feb '26 (11:59 PM)",
     accentColor: 'aptitude',
     iconSrc: '/icons/aptitude.svg',
   },

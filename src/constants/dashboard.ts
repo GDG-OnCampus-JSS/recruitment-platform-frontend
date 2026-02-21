@@ -14,7 +14,7 @@ export const steps: StepCardProps[] = [
     gradientBg: 'bg-yellow-gradient',
     action: '/dashboard/quiz',
     eventStartDate: new Date('2026-02-21T00:00:00'),
-    eventEndDate: new Date('2026-02-21T23:59:59'),
+    eventEndDate: new Date('2026-02-23T23:59:59'),
   },
   {
     step: 2,

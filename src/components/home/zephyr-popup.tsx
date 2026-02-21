@@ -14,7 +14,6 @@ interface ZephyrPopupProps {
 }
 
 export function ZephyrPopup({ open, onOpenChange }: ZephyrPopupProps) {
-
   const close = useCallback(() => onOpenChange(false), [onOpenChange]);
 
   useEffect(() => {

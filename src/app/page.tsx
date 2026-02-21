@@ -13,7 +13,7 @@ import { cardData, journeySteps, stepColors } from '@/constants/homePageConstant
 import { isRegistrationDisabled } from '@/constants/registration';
 import useUserStore from '@/stores/userStore';
 
-const currentStep = 2;
+const currentStep = 3;
 
 export default function Home() {
   const { user } = useUserStore();

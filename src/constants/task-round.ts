@@ -632,7 +632,7 @@ export const webDevTasks = [
           'Infinite scroll or pagination',
           'Save last searched profile in LocalStorage',
           'Display contribution graph (static mock allowed)',
-          'Basic documentation in README (setup steps, folder structure, tech-stack etc).'
+          'Basic documentation in README (setup steps, folder structure, tech-stack etc).',
         ],
         imageUrl: '',
       },
@@ -726,7 +726,6 @@ export const webDevTasks = [
           'Storage: AWS S3 / Firebase for file handling (adding storage to the project is optional)',
           'DB: PostgreSQL / MongoDB (adding database to the project is optional)',
           'Auth: no authentication required',
-        
         ],
         browniePoints: [
           'Match Score: Showing users a percentage-based similarity score between the resume and job description.',
@@ -757,8 +756,6 @@ export const webDevTasks = [
           'Include Project overview, Tech stack.',
           'Setup instructions (step-by-step), All endpoints must be documented.',
           'Postman collection included.',
-
-
         ],
         browniePoints: [
           'Mood Visualization',
@@ -776,7 +773,6 @@ export const webDevTasks = [
           'Styling: Tailwind CSS / ShadCN or any other library',
           'Calender UI: Do your own research',
           'Charts library: Do your own research (optional feature)',
-
         ],
         link: '',
         imageUrl: '',
