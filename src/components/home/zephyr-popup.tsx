@@ -5,8 +5,8 @@ import { ExternalLink, SparklesIcon, X } from 'lucide-react';
 import Image from 'next/image';
 import { useCallback, useEffect } from 'react';
 
-const CHATBOT_URL = 'https://chatbot.example.com';
-const GDG_INTERACTS_URL = 'https://gdginteracts.com';
+const CHATBOT_URL = 'https://zephyr.gdgjss.in/';
+const GDG_INTERACTS_URL = 'https://chat.whatsapp.com/JwOaPp7hezG8g2EUV1NHVc?mode=gi_t';
 
 interface ZephyrPopupProps {
   open: boolean;

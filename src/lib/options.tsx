@@ -1,7 +1,7 @@
 import { Home, LayoutGrid, Globe, Medal, Link } from 'lucide-react';
 import Image from 'next/image';
 import { JSX } from 'react';
-import { DropdownOption, NavItem, SocialPlatform } from './types';
+import { DropdownOption, NavItem } from './types';
 
 export const options: DropdownOption[] = [
   {
@@ -17,7 +17,7 @@ export const options: DropdownOption[] = [
 export const navItems: NavItem[] = [
   { href: '/', label: 'Home', icon: Home },
   { href: '/dashboard', label: 'Dashboard', icon: LayoutGrid },
-  { href: 'https://www.gdscjss.in/', label: 'Website', icon: Globe },
+  { href: 'https://www.gdgjss.in/', label: 'Website', icon: Globe },
   { href: '', label: 'Results', icon: Medal },
 ];
 
@@ -39,7 +39,7 @@ export const socials = [
     id: 4,
     name: 'Website',
     icon: 'mdi:web',
-    url: 'https://www.gdscjss.in/',
+    url: 'https://www.gdgjss.in/',
   },
 ];
 

@@ -1,5 +1,5 @@
 'use client';
-import { Hand, Menu, ChevronRight, ChevronLeft } from 'lucide-react';
+import { Menu, ChevronRight, ChevronLeft, HandIcon } from 'lucide-react';
 import { motion } from 'motion/react';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -17,6 +17,7 @@ import useUserStore from '@/stores/userStore';
 import EditProfileDialog from '../admin/edit-profile';
 import ProfileDropdown from '../admin/profile-dropdown';
 import Dropdown from '../common/selectComp';
+import { ZephyrPopup } from '../home/zephyr-popup';
 import MobileMenu from './mobile-menu';
 import NotificationButton from './notification';
 
@@ -28,6 +29,7 @@ export const Header = ({ isAdmin }: { isAdmin: boolean }) => {
   const [isEditProfileOpen, setIsEditProfileOpen] = useState(false);
   const user = useUserStore((state) => state.user);
   const [displayUser, setDisplayUser] = useState<User>(user || ({} as User));
+  const [showZephyr, setShowZephyr] = useState(false);
 
   const logoutUser = useUserStore((state) => state.logout);
 
@@ -103,7 +105,7 @@ export const Header = ({ isAdmin }: { isAdmin: boolean }) => {
         <motion.div
           layout
           transition={{ duration: 0.4, ease: [0.33, 1, 0.68, 1] }}
-          className="flex items-center rounded-3xl border border-neutral-200/50 bg-white/30 px-4 py-3 shadow-inner backdrop-blur-lg"
+          className="flex items-center rounded-2xl border border-neutral-200/50 bg-white/30 px-4 py-[10px] shadow-inner backdrop-blur-lg"
         >
           <Link href="/" className="z-10 flex-shrink-0">
             <div className="flex items-center gap-2">
@@ -173,15 +175,13 @@ export const Header = ({ isAdmin }: { isAdmin: boolean }) => {
         <div className="flex items-center">
           <div className="hidden lg:block">
             <Button
-              variant="outline"
-              className="flex items-center justify-center gap-1 rounded-[22px] border border-neutral-200/50 bg-white/30 px-3 py-2 shadow-inner backdrop-blur-lg"
-              onClick={() =>
-                window.open('https://chat.whatsapp.com/KIzWKEujQqbHgOWKAtYhWj', '_blank')
-              }
+              variant="ghost"
+              className="mr-2 rounded-2xl border border-neutral-200/50 bg-transparent px-4 py-6 shadow-inner backdrop-blur-lg"
+              onClick={() => setShowZephyr(true)}
             >
-              <Hand size={18} />
-              <span className="text-sm font-normal leading-4 text-[#100C2C]">I have a doubt</span>
+              <HandIcon />I have a doubt
             </Button>
+            <ZephyrPopup open={showZephyr} onOpenChange={setShowZephyr} />
           </div>
 
           <NotificationButton mode={isAdmin ? 'admin' : 'user'} className="mx-2" />

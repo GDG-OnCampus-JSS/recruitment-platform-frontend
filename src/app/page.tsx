@@ -10,9 +10,10 @@ import { Card } from '@/components/home/Card';
 import { JourneyStep } from '@/components/home/JourneySteps';
 import VerticalStepper from '@/components/home/VerticalStepper';
 import { cardData, journeySteps, stepColors } from '@/constants/homePageConstants';
+import { isRegistrationDisabled } from '@/constants/registration';
 import useUserStore from '@/stores/userStore';
 
-const currentStep = 4;
+const currentStep = 2;
 
 export default function Home() {
   const { user } = useUserStore();
@@ -116,7 +117,11 @@ export default function Home() {
               Dashboard
             </PrimaryButton>
           ) : (
-            <PrimaryButton href="/register" className="mx-auto mt-4 w-fit">
+            <PrimaryButton
+              href="/register"
+              className="mx-auto mt-4 w-fit"
+              disabled={isRegistrationDisabled}
+            >
               Register
             </PrimaryButton>
           )}
