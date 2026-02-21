@@ -7,6 +7,7 @@ import { UseFormReturn } from 'react-hook-form';
 import FormInput from '@/components/common/form-input';
 import { Spinner } from '@/components/common/spinner';
 import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Form } from '@/components/ui/form';
 import { designTasks } from '@/constants/task-round';
 import useUserStore from '@/stores/userStore';
@@ -78,7 +79,7 @@ export const DesignTask = ({ year, onSubmit, form, deadline }: DesignTaskProps) 
             <div>
               <h3 className="text-nowrap text-[28px] font-medium">Graphics Design Tasks</h3>
               {user?.year === '1' && (
-                <p className="text-sm italic text-neutral-500">Do any one of the following</p>
+                <p className="text-sm italic text-neutral-500">Both are compulsory</p>
               )}
             </div>
             <div className="h-[1px] bg-gradient-line sm:w-[981px]"></div>
@@ -109,19 +110,24 @@ export const DesignTask = ({ year, onSubmit, form, deadline }: DesignTaskProps) 
             <TaskSection key={`ux-${index}`} task={task} />
           ))}
         </div>
+        <div className="flex items-center justify-center py-4">
+          <div className="h-[1px] w-full bg-gray-300" />
+          <span className="px-4 text-sm font-medium text-gray-600">OR</span>
+          <div className="h-[1px] w-full bg-gray-300" />
+        </div>
         {/* VFX Tasks Section */}
 
-        {/* <div className="space-y-6">
+        <div className="space-y-6">
           <div className="flex items-center justify-between">
             <div>
-              <h3 className="text-nowrap text-[28px] font-medium">VFX Tasks</h3>
+              <h3 className="text-nowrap text-[28px] font-medium">Motion Graphics</h3>
             </div>
             <div className="h-[1px] bg-gradient-line sm:w-[981px]"></div>
           </div>
           {yearTasks.vfx.map((task, index) => (
             <TaskSection key={`vfx-${index}`} task={task} />
           ))}
-        </div> */}
+        </div>
       </div>
 
       {/* Submission Section */}
@@ -177,9 +183,21 @@ const TaskSection = ({ task }: { task: any }) => (
       <div className="text-[16px] font-normal leading-[25.6px] text-[#353535]">
         <div className="space-y-2">
           {task.description?.map((paragraph: string, index: number) => {
-            const isHeading = !paragraph.includes('.') && paragraph.length < 50;
+            const isHeading =
+              !paragraph.includes('.') && !paragraph.includes('?') && paragraph.length < 80;
+            const isTaskHeading = paragraph.includes('Task 1') && paragraph.length < 60;
+            const isTaskHeading2 = paragraph.includes('Task 2') && paragraph.length < 60;
+            // Heuristic - since designs have 2 tasks under same domain type so i have to add spacing between end of task 1 and start of task 2
 
-            return isHeading ? (
+            return isTaskHeading ? (
+              <div key={index} className="text-xl font-semibold text-[#100C2C]">
+                {paragraph}
+              </div>
+            ) : isTaskHeading2 ? (
+              <div key={index} className="pt-10 text-xl font-semibold text-[#100C2C]">
+                {paragraph}
+              </div>
+            ) : isHeading ? (
               <div key={index} className="font-semibold text-[#100C2C]">
                 {paragraph}
               </div>
@@ -227,7 +245,7 @@ const TaskSection = ({ task }: { task: any }) => (
       )}
     </div>
 
-    {/* <div className="flex flex-col gap-4 md:flex-row">
+    <div className="flex flex-col gap-4 md:flex-row">
       <Card className="w-full border-main">
         <CardHeader className="pb-2">
           <CardTitle className="text-[20px] font-medium text-[#6B83FF]">
@@ -256,6 +274,6 @@ const TaskSection = ({ task }: { task: any }) => (
           </ul>
         </CardContent>
       </Card>
-    </div> */}
+    </div>
   </div>
 );
