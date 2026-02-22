@@ -33,7 +33,8 @@ export function RunResultDialog({ isOpen, onClose, result }: RunResultProps) {
     // console.log('Run Dialog useEffect triggered:', { isOpen, result });
 
     if (result) {
-      if (result.passed) {
+      const isSuccess = result.passed || result.status?.description === 'Accepted';
+      if (isSuccess) {
         toast({
           title: 'Success!',
           description: 'Code executed successfully.',
@@ -54,7 +55,7 @@ export function RunResultDialog({ isOpen, onClose, result }: RunResultProps) {
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
-            {result?.passed ? (
+            {result?.passed || result?.status?.description === 'Accepted' ? (
               <>
                 <CheckCircle className="h-5 w-5 text-green-500" />
                 <span>Code Executed Successfully</span>
@@ -70,7 +71,13 @@ export function RunResultDialog({ isOpen, onClose, result }: RunResultProps) {
         <div className="space-y-4">
           <div className="flex justify-between">
             <span className="font-medium">Status:</span>
-            <span className={result?.passed ? 'text-green-500' : 'text-red-500'}>
+            <span
+              className={
+                result?.passed || result?.status?.description === 'Accepted'
+                  ? 'text-green-500'
+                  : 'text-red-500'
+              }
+            >
               {result?.status?.description || 'Unknown'}
             </span>
           </div>

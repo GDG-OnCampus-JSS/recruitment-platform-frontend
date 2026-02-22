@@ -14,172 +14,224 @@ export interface ProblemsInterface {
   outputConstraints?: string;
   timeLimit?: number;
 }
-
 export const secondYearProblems: ProblemsInterface[] = [
   {
     id: 6,
-    title: "Nick's Noldbach Problem",
-    tags: ['Easy'],
-    content: `Nick is interested in prime numbers. Once he read about Goldbach problem. It states that every even integer greater than 2 can be expressed as the sum of two primes. That got Nick's attention and he decided to invent a problem of his own and call it Noldbach problem. Since Nick is interested only in prime numbers, Noldbach problem states that at least k prime numbers from 2 to n inclusively can be expressed as the sum of three integer numbers: two neighboring prime numbers and 1. For example, 19 = 7 + 11 + 1, or 13 = 5 + 7 + 1.      
-    Two prime numbers are called neighboring if there are no other prime numbers between them.       
-    You are to help Nick, and find out if he is right or wrong.   
-    `,
-    inputConstraints: `The first line of the input contains two integers n (2 ≤ n ≤ 10^7) and k (0 ≤ k ≤ 1000).
-Each test case begins with two numbers: n and k (where 2 <= n <= 2 x 10^5, 1 <= k <= 2 x n and n is even). The next line contains n integers x1,x2,...,xn (where 1 <= xi <= n).
-The sum of n across all test cases will not exceed 2 x 10^5.`,
-    outputConstraints: `Output YES if at least k prime numbers from 2 to n inclusively can be expressed as it was described above. Otherwise output NO.`,
-    timeLimit: 1,
+    title: 'Master Designer',
+    content: `Welcome to the Master Designer challenge! Your task is to write a program that prints a series of connected diamonds of increasing and then decreasing sizes, based on an integer input N .
+For a given integer N , the pattern consists of a sequence of diamonds.
+\n The sequence of the maximum width of each diamond grows up to N and then shrinks back down to 2.
+\n For example, if N = 4 , the sequence of diamond sizes will be: 2, 3, 4, 3, 2 .
+\n The Overlap Rule: Adjacent diamonds in the series share their connecting point.
+\n The bottom tip of one diamond (which is a single * ) serves as the top tip of the very next diamond.
+\n All stars in a row are separated by a single space, and the entire pattern must be properly aligned to the center relative to the largest diamond of size N .`,
+    inputConstraints: `A single integer, N , representing the maximum diamond size in the series.\nConstraints: 1 <= N <= 50`,
+    outputConstraints: `Print the ASCII pattern using asterisks ( * ) and spaces.\n(Ensure there are no invisible trailing spaces after the right-most asterisk on each line).`,
     example: [
       {
         id: 1,
-        input: `27 2`,
-        output: `YES`,
+        input: `3`,
+        output: `
+              *
+             * *        
+              *
+             * *
+            * * *
+             * *
+              *
+             * *
+              *
+        
+        `,
       },
     ],
   },
   {
     id: 7,
-    title: 'Galaxy Fortune',
-    tags: ['Easy'],
-    content: `Galaxy Fortune is a busy Casino known all over the solar system, and they have just started a new card game everyone is excited about. The game uses a pile of n cards, and each card has m numbers written on it. There are n players like miners, travelers from Pluto, or even a cook from the casino and each gets one card.   
-    Here is how it goes: every player faces off against every other player, one-on-one, and each pair plays just once. If there are four players say, a miner, a traveler, a mechanic, and a cook that is six games: miner vs. traveler, miner vs. mechanic, miner vs. cook, traveler vs. mechanic, traveler vs. cook, and mechanic vs. cook. Out there, they are tossing in bets under the casino bright lights.   
-    Each game has a winner, what matters is how many chips are paid out to the winner. When two players face off, if one player card shows numbers a1, a2, ..., am and the other shows b1, b2, ..., bm, the winner collects |a1 - b1| + |a2 - b2| + ... + |am - bm| chips from the pot. Here, |x| simply means the absolute value of x.   
-    The casino boss, needs to know how many chips the pot should hold. That is the total sum of all the chips winners grab from every game. With lots of cards and players you are picked to figure out that number so the game keeps going without any problem.   
-    `,
-    inputConstraints: `Each test consists of several test cases. The first line contains one integer t (1 <= t <= 1000) the number of test cases. The description of the test cases follows.
-The first line of each test case contains two integers n and m (1 <= n x m <= 3 x 10^5) the number of cards in the deck and the count of numbers on the one card.
-Each of the following n lines of the test case set contains m integers ci,j(1 <= ci , j <= 10^6) a description of the i-th card.
-It is guaranteed that the total n x m in all tests does not exceed 3 x 10^5.`,
-    outputConstraints: `For each test case, print one number the total amount of winnings from all games.`,
-    timeLimit: 1,
+    title: 'Beta Test Selection – JSS Tech Club',
+    content: `The JSS College Tech Club is organizing a Hackathon. There are N students standing in a queue, each with a Skill Rating Sᵢ .
+The club wants to select the longest continuous group of students to form a special “Beta Test” team.
+
+To ensure fairness and proper coordination, the team must satisfy the following rules:
+Budget Rule: Each student requires a licensed software kit equal in cost to their Skill Rating.
+However, the student with the highest Skill Rating in the selected group gets their kit for free.
+The remaining total cost must not exceed the given budget B .
+Year Synergy Rule: The first and last student in the selected group must belong to the same batch.
+Two students are considered to be in the same batch if their Skill Ratings leave the same remainder when divided by 3.
+Minimum Size Rule: The selected group must contain at least 2 students.
+
+The Challenge-Determine the maximum possible size of a continuous group that satisfies all the rules.
+If no valid group exists, output 0.
+
+Explanation for Example 1: One possible valid group has length 4 where the total cost after removing the highest Skill Rating does not exceed the budget, and the first and last students belong to the same batch (same remainder when divided by 3).`,
+    inputConstraints: `The first line contains two integers N and B , representing the number of students and the available budget.
+The second line contains N integers S₁, S₂, …, Sₙ , representing the Skill Ratings of the students.
+Constraints: 
+\n 1 ≤ N ≤ 2 × 10⁵
+\n 0 ≤ B ≤ 10¹⁸
+\n 0 ≤ Sᵢ ≤ 10⁹
+\n Time limit is set such that an O(N) or O(N log N) solution is required.`,
+    outputConstraints: `Print a single integer representing the maximum possible size of a valid group.
+If no valid group exists, print 0.`,
     example: [
       {
         id: 1,
-        input: `3
-3 5   
-1 4 2 8 5   
-7 9 2 1 4   
-3 8 5 3 1   
-1 4   
-4 15 1 10   
-4 3   
-1 2 3   
-3 2 1   
-1 2 1   
-4 2 7   
-`,
-        output: `50   
-0   
-31   
-`,
+        input: `10 100
+        \n20 30 10 50 40 60 20 30 10 80`,
+        output: `5`,
       },
     ],
   },
   {
     id: 8,
-    title: 'Crave the cupcake',
-    tags: ['Medium'],
-    content: `In a busy little town between hills and a river, Yasin and Amir head to the bakery one sunny morning to get cupcakes. The shop has n different kinds of cupcakes, lined up from 1 to n, and they have got plenty of each like they will never run out. Each type i has a flavor score ai, which can be a big positive number if it is yummy, zero if it is just okay, or a negative number if it is yucky.   
-    Yasin loves trying everything, so he grabs one of each kind, no skipping. Amir is pickier he picks a chunk of cupcakes from l to r (where 1 <= l <= r <= n), but he will not take all of them from 1 to n because that is copying Yasin. He takes one of each from his chosen stretch.   
-    After, they sit by the river, add up their flavor scores, and compare. Yasin wants his total to beat Amir every time, no matter what chunk Amir picks. For example, if there is three types with scores [7,4,-1], Yasin gets all three for 7+4-1=10. Amir might pick [7] for 7, [4] for 4, [-1] for -1, [7,4] for 11, or [4,-1] for 3. Since Amir can get 11, and 10 is not bigger, Yasin is not happy.   
-    Your job is to see if Yasin total will always be bigger than Amir, no matter what Amir chooses.`,
-    inputConstraints: `The tale begins with a number t (where 1 <= t <= 10^4), counting how many testcases you will judge.   
-     Each testcase consists of:   
-     1. First, a number n (where 2 <= n <= 10^5), the count of cupcake types on display.   
-     2. Then, n numbers a1,a2,...,an (where -10^9 <= ai <= 10^9), the flavor scores for each type, from first to last.   
-     Across all trips, the total n will not climb past 10^5, keeping the bakery shelves in check.`,
-    outputConstraints: `For each trip, say "YES" if Yasin full haul of cupcakes will always taste better by a clear margin than any stretch Amir picks. If not, say "NO."`,
-    timeLimit: 1,
+    title: 'Unity Parade – JSS Cultural Fest',
+    content: `The Annual Cultural Fest at JSS College is about to begin.
+The highlight of the opening ceremony is the “Unity Parade,” where N student representatives from different branches must stand in a single straight line.
+Each student has a Vibe Score Vᵢ and belongs to a Branch Bᵢ To ensure the parade is successful, the Student Council has imposed the following rules:
+
+Monotony Rule: No more than two students from the same branch may stand consecutively.
+In other words, three consecutive students from the same branch are not allowed.
+Rivalry Constraint: You are given P pairs of students who refuse to stand next to each other.
+Any lineup where such a pair stands adjacent is invalid.
+Harmony Calculation: The Harmony of a lineup is calculated as follows.
+Start with a Harmony of 0. For every pair of adjacent students:
+If both students belong to the same branch, add the product of their Vibe Scores.
+If they belong to different branches, add the absolute difference of their Vibe Scores.
+The total Harmony is the sum of these contributions.
+
+The Challenge
+Determine the maximum possible Harmony among all valid parade lineups using all N students.
+If no valid lineup exists, output -1.
+
+Explanation for Example 1: Students 1 and 2 cannot stand next to each other.
+The valid arrangements are 1 3 2 and 2 3 1 .
+In both cases, the total Harmony is 2, which is the maximum possible.`,
+    inputConstraints: `The first line contains two integers N and P , representing the number of students and the number of rivalry pairs.
+The second line contains N integers V₁, V₂, …, Vₙ , representing the Vibe Scores.
+The third line contains N integers B₁, B₂, …, Bₙ , representing the Branch IDs.
+The next P lines each contain two integers u and v , indicating that student u and student v cannot stand next to each other.
+Constraints:
+\n 1 ≤ N ≤ 12
+\n 0 ≤ P ≤ N(N−1)/2
+\n 1 ≤ Vᵢ ≤ 100
+\n 1 ≤ Bᵢ ≤ N
+\n Time limit is set such that an O(N!) backtracking solution with pruning is expected.`,
+    outputConstraints: `Print a single integer representing the maximum possible Harmony. If no valid lineup exists, print -1.`,
     example: [
       {
         id: 1,
-        input: `3   
-4   
-1 2 3 4   
-3   
-7 4 -1   
-3   
-5 -5 5   
-`,
-        output: `YES   
-NO   
-NO   
-`,
+        input: `4 1
+\n 10 20 30 40
+\n 1 1 2 2
+\n 1 4`,
+        output: `1420`,
       },
     ],
   },
   {
     id: 9,
-    title: 'Get This Party Started',
-    tags: ['Hard'],
-    content: `In a fun part of town where people are always laughing, Amit is planning a big party and wants everyone to have a good time. He has n friends, and each one has a certain amount of money the i-th friend has exactly i bucks.      
-    Here is the tricky part: his i-th friend will only come and stay happy if the party fits them just right. They are okay as long as there are not more than ai people with more money than their i bucks and not more than bi people with less money. If too many are richer or poorer, they will not stick around.    
-    Amit wants a full house he is not into tiny parties. Imagine him checking his phone, figuring out who can join to keep everyone happy. How many friends can he invite so they all leave smiling?   `,
-    inputConstraints: `The first line contains a single integer t(1 <= t <= 10^4) the number of test cases. The description of the test cases follows.
-The first line of each test case contains a single integer n (1 <= n <= 2 x 10^5) the number of Keshi friends.
-The i-th of the following n lines contains two integers ai and bi (0 <= ai,bi < n).
-It is guaranteed that the sum of n over all test cases does not exceed 2 x 10^5.`,
-    outputConstraints: `For each test case print the maximum number of people Amit can invite.`,
-    timeLimit: 1,
+    title: 'The Campus Connectivity Project – JSS Infrastructure',
+    content: `The JSS College administration is upgrading the campus network by installing high-speed optical fiber.
+The campus is structured as a Tree, where N buildings are connected by N-1 fiber cables.
+Each building j has a Network Importance Value I_j .
+
+To prevent a total network collapse, the administration has decided to create "Safe Zones."
+A Safe Zone is a subset of buildings that are connected to each other (they must form a connected subgraph/subtree).
+
+The Student Council wants to maximize the efficiency of this upgrade, but they must follow these specific constraints:
+The Budget Rule: The total Importance Value of the buildings in the Safe Zone must be exactly K .
+The Proximity Constraint: To minimize signal loss, the Safe Zone must contain the building with the highest Importance Value on campus.
+(If multiple buildings share the same maximum value, the Safe Zone must contain at least one of them).
+The Structural Rule: The selected buildings must be contiguous (connected) within the tree structure.
+
+The Challenge
+Determine the minimum number of buildings required to form a valid Safe Zone that satisfies all the rules.
+If it is impossible to form a Safe Zone with a total importance of exactly K , output -1.`,
+    inputConstraints: `The first line contains two integers N and K , representing the number of buildings and the required total Importance Value.
+The second line contains N integers I_1, I_2,....., I_N , representing the Importance Value of each building.
+The next N-1 lines each contain two integers u and v , indicating a fiber cable connection between building u and building v .
+Constraints:
+
+1 <=N<= 500
+
+1 <= K <= 10^5
+
+1 <= I_i <= 1000
+
+1 <= u, v <= N
+`,
+
+    outputConstraints: `Print a single integer representing the minimum number of buildings in a valid Safe Zone.
+If no such zone exists, print -1.`,
     example: [
       {
         id: 1,
-        input: `3   
-3   
-3   
-1 2   
-2 1   
-1 1   
-2   
-0 0   
-0 1   
-2   
-1 0      
-0 1   
-`,
-        output: `2   
-1   
-2   
-`,
+        input: `5 10
+        \n 3 5 2 7 1
+        \n 1 2
+        \n 1 3
+        \n 2 4
+        \n 2 5`,
+        output: `-1`,
       },
     ],
   },
   {
     id: 10,
-    title: 'Sunny Lines and Pines',
-    tags: ['Hard'],
-    content: `Sunny Sketcher has a bunch of n-1 edges that show how to link up n vertices into a tree shape. He has got a way to sketch it out step-by-step:   
-    1. Start: He draws vertex 1 all by itself, then moves on.   
-    2. Next Bit: He looks at each edge one by one. If an edge ties a vertex he has already drawn, to one he has not, he adds the new vertex and draws the edge. When he has checked all the edges, he moves forward.   
-    3. Check Time: If every vertex is on his paper, he is done. If not, he goes back to the "Next Bit."   
-    The "readings" are how many times he has to do that "Next Bit" part. Figure out how many times (readings) Sunny Sketcher needs to go through it to finish his tree picture.`,
+    title: 'The Adaptive Hardware Scheduler (AHS)',
+    content: `You are designing a firmware scheduler for a next-generation parallel processor.
+The processor must execute a set of N tasks, labeled 0 to N-1.
+Each task i is assigned to a specific Hardware Port P_i.
+To successfully execute all tasks in the minimum number of clock cycles, your scheduler must obey three strict hardware constraints:
+\n Logical Dependency: A task v can only start if all its prerequisite tasks u (where a directed edge u \\to v exists) were completed in a previous cycle.
+\n Port Mutex: Each hardware port can handle only one task per cycle. If two tasks share the same Port ID, they must be executed in different cycles.
+\n System Capacity: The processor has a global limit C.
+No more than C total tasks can be executed in any single cycle, regardless of port availability.
+\n Every task takes exactly one clock cycle to complete.
+Your goal is to determine the absolute minimum number of cycles required to finish all tasks.
 
-    inputConstraints: `Each test contains multiple test cases. The first line of input contains a single integer t(1 <= t <= 10^4) the number of test cases. The description of test cases follows.
-The first line of each test case contains a single integer n (2 <= n <= 2 x 10^5) the number of vertices of the tree.
-The following n-1 lines of each test case contain two integers ui and vi (1 <= ui,vi <= n, ui != vi) indicating that (ui,vi) is the i-th edge in the list. It is guaranteed that the given edges form a tree.
-It is guaranteed that the sum of n over all test cases does not exceed 2 x 10^5.`,
-    outputConstraints: `For each puzzle, give the number of times Sunny Sketcher has to do the "Next Bit" part to get all the vertices drawn.`,
-    timeLimit: 1,
+Example Walkthrough Explanation (The "Greedy Trap"):
+\n Tasks: 6 total (0, 1, 2, 3, 4, 5).
+\n Ports: Task 0 & 3 use Port 0; Task 1 & 4 use Port 1;
+\n Task 2 & 5 use Port 2.
+\n Capacity (C): Only 2 tasks can run per cycle.
+\n Dependencies: 0 -> 3 -> 4 -> 5 (A long chain of 4 tasks).
+\n Analysis:
+At t=0, tasks 0, 1, and 2 are all "Ready" (in-degree 0).
+Wrong Choice: If you pick {1, 2} for Cycle 1, you satisfy the capacity (C=2) and ports.
+However, Task 0 is delayed. The chain 0 -> 3 -> 4 -> 5 still needs 4 cycles.
+Total cycles = 1 + 4 = 5.
+Optimal Choice: Pick {0, 1} for Cycle 1. This kicks off the long chain immediately.
+Cycle 1: {0, 1}
+Cycle 2: {3, 2} (Task 3 is now ready, Task 2 was waiting)
+Cycle 3: {4}
+Cycle 4: {5}
+Total Minimum Cycles: 4.`,
+    inputConstraints: `The first line contains $T$, the number of test cases.
+\n For each test case:
+\n The first line contains three integers: $N$ (number of tasks), $M$ (number of ports), and $C$ (global capacity).
+\n The second line contains $N$ integers, where the $i$-th integer is the Port ID assigned to Task $i$ (Port IDs range from $0$ to $M-1$).
+\n The third line contains $E$, the number of dependency edges.
+\n The next $E$ lines each contain two integers $u$ and $v$, representing a directed dependency $u \\to v$.
+\n Constraints:
+\n 1 <= T <= 50
+\n 1 <= N <= 1000
+\n 1 <= M <= 1000
+\n 1 <= C <= N
+\n 0 <= E <= N(N-1)/2
+\n The graph is guaranteed to be a Directed Acyclic Graph (DAG).`,
+    outputConstraints: `For each test case, output a single integer: the minimum number of cycles required.`,
     example: [
       {
         id: 1,
-        input: `3   
-3   
-3   
-1 2   
-2 1   
-1 1   
-2   
-0 0   
-0 1   
-2   
-1 0      
-0 1   
-`,
-        output: `2   
-1   
-2   
-`,
+        input: `1
+        \n6 3 2
+        \n0 1 2 0 1 2
+        \n3
+        \n0 3
+        \n3 4
+        \n4 5`,
+        output: `4`,
       },
     ],
   },
@@ -188,37 +240,7 @@ It is guaranteed that the sum of n over all test cases does not exceed 2 x 10^5.
 export const firstYearProblems: ProblemsInterface[] = [
   {
     id: 1,
-    title: 'Picky Pandas',
-    tags: ['Easy'],
-    content: `At JSS University, hidden among lots of bamboo, Professor Ankur has a cool classroom. It has got two rows of seats, each with m chairs. He has got a + b + c pandas as students, and he wants to fit as many as possible. The rule is simple: one panda per chair.   
-    Some pandas are picky. The a pandas only want the front row. The b pandas only want the back row. The c pandas do not mind they will sit anywhere. If a panda picks a row, Professor Ankur has to let them sit there if they get a seat.   
-    Outside, there are fun weekend parties with lights and dancing, but that does not change this puzzle. Figure out how many pandas can sit in the chairs.   `,
-    inputConstraints: `The opening line provides an integer t (where 1 <= t <= 10^4), representing the number of distinct testcases to evaluate.
-Each testcase is defined by a quartet of integers m, a, b, and c (each satisfying 1 <= m, a, b, c <= 10^8), delivered on a single line.`,
-    outputConstraints: `For every scenario, reveal the maximum count of pandas that can be seated.`,
-    timeLimit: 1,
-    example: [
-      {
-        id: 1,
-        input: `5   
-10 5 5 10   
-3 6 1 1   
-15 14 12 4   
-1 1 1 1   
-420 6 9 69   
-`,
-        output: `20   
-5   
-30   
-2   
-84   
-`,
-      },
-    ],
-  },
-  {
-    id: 2,
-    title: 'Sweet Butterfly',
+    title: 'Pattern Practice',
     tags: ['Easy'],
     content: ` Given an integer N, print the following pattern :`,
     inputConstraints: `1 <= n <= 20`,
@@ -229,109 +251,143 @@ Each testcase is defined by a quartet of integers m, a, b, and c (each satisfyin
         id: 1,
         input: `N = 6`,
         output: `
-        *          *     
-        **        **   
-        ***      ***   
-        ****    ****   
-        *****  *****   
-        ************ 
-        *****  *****   
-        ****    ****   
-        ***      ***   
-        **        **   
+        *          *
+        **        **
+        ***      ***
+        ****    ****
+        *****  *****
+        ************
+        *****  *****
+        ****    ****
+        ***      ***
+        **        **
         *          *`,
       },
     ],
   },
   {
-    id: 3,
-    title: "Nick's Noldbach Problem",
+    id: 2,
+    title: 'The Grand Gala Buffet',
     tags: ['Medium'],
-    content: `Nick is interested in prime numbers. Once he read about Goldbach problem. It states that every even integer greater than 2 can be expressed as the sum of two primes. That got Nick's attention and he decided to invent a problem of his own and call it Noldbach problem. Since Nick is interested only in prime numbers, Noldbach problem states that at least k prime numbers from 2 to n inclusively can be expressed as the sum of three integer numbers: two neighboring prime numbers and 1. For example, 19 = 7 + 11 + 1, or 13 = 5 + 7 + 1.      
-    Two prime numbers are called neighboring if there are no other prime numbers between them.       
-    You are to help Nick, and find out if he is right or wrong.   
-    `,
-    inputConstraints: `The first line of the input contains two integers n (2 ≤ n ≤ 10^7) and k (0 ≤ k ≤ 1000).
-Each test case begins with two numbers: n and k (where 2 <= n <= 2 x 10^5, 1 <= k <= 2 x n and n is even). The next line contains n integers x1,x2,...,xn (where 1 <= xi <= n).
-The sum of n across all test cases will not exceed 2 x 10^5.`,
-    outputConstraints: `Output YES if at least k prime numbers from 2 to n inclusively can be expressed as it was described above. Otherwise output NO.`,
+    content: `The city is hosting a massive gala with two primary food stations: a Vegetarian station (V) and a Non-Vegetarian station (N).\nEach station has a fixed capacity representing the number of meals available.\n
+    \nThere are four types of guests, each with different levels of flexibility:
+    \nGroup A (Strict Vegetarians) : Guests who only eat from the Vegetarian station.
+    \nGroup B (Strict Non-Vegetarians) : B guests who only eat from the Non-Vegetarian station.
+    \nGroup C (Flexitarians) : C guests who prefer Non-Veg, but will accept Veg if the Non-Veg station is full.\nGroup D (Omnivores) : D guests who will eat from either station with no preference.
+    \n\nThe Challenge
+    \nCalculate the maximum number of people you can feed. You must follow a specific organizational rule: Group C (Flexitarians) must be prioritized over Group D (Omnivores) when filling any remaining spots at the Non-Vegetarian station.`,
+    inputConstraints: `Two integers, V and N, representing the capacities of the Veg and Non-Veg counters.\nFour integers, A, B, C, D, representing the number of people in each dietary group.`,
+    outputConstraints: `4 integers representing the number of guests of each type fed`,
     timeLimit: 1,
     example: [
       {
         id: 1,
-        input: `27 2`,
-        output: `YES`,
+        input: `10 10
+        \n8 5 10 5`,
+        output: `[8,5,7,0]`,
+      },
+    ],
+  },
+  {
+    id: 3,
+    title: 'The Race Against Time',
+    tags: ['Medium'],
+    content: `The Grand Metropolitan Gallery has just suffered a localized climate control failure in its Renaissance Wing.
+    \nN priceless masterpieces have been exposed to humidity and require immediate restoration to prevent permanent decay.
+    \nAs the Head Restorer, you are the only one qualified to perform the delicate work.
+    \nHowever, you can only work on one painting at a time.
+    \n\nFor each painting i:
+    \nIt requires T_i hours of continuous labor to fully restore.
+    \nFor every hour the painting remains unrestored (from the moment you start working on the first painting until painting i is finished), its market value drops by D_i dollars per hour.
+    \nIf you begin working at t = 0, a painting finished at time t_{finish} will have incurred a total loss of D_i * t_{finish}.
+    \n\nThe Challenge
+    \nDetermine the optimal sequence in which to restore the paintings to minimize the total loss in value across all N masterpieces.
+    \nTie-breaking Rule: If two paintings have the exact same damage-to-time ratio, the painting with the smaller ID number must be restored first.`,
+    inputConstraints: `An integer N, representing the number of paintings.
+    \nNext, N lines contain 3 integers (n,t,d)
+    \nn = painting number
+    \nt = it's restoration time
+    \nd = its damage per hour`,
+    outputConstraints: `An ordered list of indices (or the paintings themselves) representing the optimal restoration schedule.`,
+    timeLimit: 1,
+    example: [
+      {
+        id: 1,
+        input: `4
+        \n1 2 10
+        \n2 5 15
+        \n3 1 8
+        \n4 4 16`,
+        output: `[3,1,4,2]`,
       },
     ],
   },
   {
     id: 4,
-    title: 'Galaxy Fortune',
+    title: 'Beta Test Selection – JSS Tech Club',
     tags: ['Hard'],
-    content: `Galaxy Fortune is a busy Casino known all over the solar system, and they have just started a new card game everyone is excited about. The game uses a pile of n cards, and each card has m numbers written on it. There are n players like miners, travelers from Pluto, or even a cook from the casino and each gets one card.   
-    Here is how it goes: every player faces off against every other player, one-on-one, and each pair plays just once. If there are four players say, a miner, a traveler, a mechanic, and a cook that is six games: miner vs. traveler, miner vs. mechanic, miner vs. cook, traveler vs. mechanic, traveler vs. cook, and mechanic vs. cook. Out there, they are tossing in bets under the casino bright lights.   
-    Each game has a winner, what matters is how many chips are paid out to the winner. When two players face off, if one player card shows numbers a1, a2, ..., am and the other shows b1, b2, ..., bm, the winner collects |a1 - b1| + |a2 - b2| + ... + |am - bm| chips from the pot. Here, |x| simply means the absolute value of x.   
-    The casino boss, needs to know how many chips the pot should hold. That is the total sum of all the chips winners grab from every game. With lots of cards and players you are picked to figure out that number so the game keeps going without any problem.   
-    `,
-    inputConstraints: `Each test consists of several test cases. The first line contains one integer t (1 <= t <= 1000) the number of test cases. The description of the test cases follows.
-The first line of each test case contains two integers n and m (1 <= n x m <= 3 x 10^5) the number of cards in the deck and the count of numbers on the one card.
-Each of the following n lines of the test case set contains m integers ci,j(1 <= ci , j <= 10^6) a description of the i-th card.
-It is guaranteed that the total n x m in all tests does not exceed 3 x 10^5.`,
-    outputConstraints: `For each test case, print one number the total amount of winnings from all games.`,
+    content: `The JSS College Tech Club is organizing a Hackathon. There are N students standing in a queue, each with a Skill Rating Sᵢ .
+    \nThe club wants to select the longest continuous group of students to form a special “Beta Test” team.
+    \n\nTo ensure fairness and proper coordination, the team must satisfy the following rules:
+    \nBudget Rule: Each student requires a licensed software kit equal in cost to their Skill Rating. \nHowever, the student with the highest Skill Rating in the selected group gets their kit for free. \nThe remaining total cost must not exceed the given budget B .
+    \nYear Synergy Rule: The first and last student in the selected group must belong to the same batch. \nTwo students are considered to be in the same batch if their Skill Ratings leave the same remainder when divided by 3.
+    \nMinimum Size Rule: The selected group must contain at least 2 students.
+    \nThe Challenge-Determine the maximum possible size of a continuous group that satisfies all the rules.
+    \nIf no valid group exists, output 0.`,
+    inputConstraints: `The first line contains two integers N and B , representing the number of students and the available budget.
+    \nThe second line contains N integers S₁, S₂, …, Sₙ , representing the Skill Ratings of the students.
+    \n\nConstraints: 1 ≤ N ≤ 2 × 10⁵, 0 ≤ B ≤ 10¹⁸, 0 ≤ Sᵢ ≤ 10⁹
+    \nTime limit is set such that an O(N) or O(N log N) solution is required.`,
+    outputConstraints: `Print a single integer representing the maximum possible size of a valid group.
+    \nIf no valid group exists, print 0.`,
     timeLimit: 1,
     example: [
       {
         id: 1,
-        input: `3
-3 5   
-1 4 2 8 5   
-7 9 2 1 4   
-3 8 5 3 1   
-1 4   
-4 15 1 10   
-4 3   
-1 2 3   
-3 2 1   
-1 2 1   
-4 2 7   
-`,
-        output: `50   
-0   
-31   
-`,
+        input: `7 10
+        \n3 6 2 8 5 4 9`,
+        output: `4`,
       },
     ],
   },
   {
     id: 5,
-    title: 'Crave the cupcake',
+    title: 'Unity Parade – JSS Cultural Fest',
     tags: ['Hard'],
-    content: `In a busy little town between hills and a river, Yasin and Amir head to the bakery one sunny morning to get cupcakes. The shop has n different kinds of cupcakes, lined up from 1 to n, and they have got plenty of each like they will never run out. Each type i has a flavor score ai, which can be a big positive number if it is yummy, zero if it is just okay, or a negative number if it is yucky.   
-    Yasin loves trying everything, so he grabs one of each kind, no skipping. Amir is pickier he picks a chunk of cupcakes from l to r (where 1 <= l <= r <= n), but he will not take all of them from 1 to n because that is copying Yasin. He takes one of each from his chosen stretch.   
-    After, they sit by the river, add up their flavor scores, and compare. Yasin wants his total to beat Amir every time, no matter what chunk Amir picks. For example, if there is three types with scores [7,4,-1], Yasin gets all three for 7+4-1=10. Amir might pick [7] for 7, [4] for 4, [-1] for -1, [7,4] for 11, or [4,-1] for 3. Since Amir can get 11, and 10 is not bigger, Yasin is not happy.   
-    Your job is to see if Yasin total will always be bigger than Amir, no matter what Amir chooses.`,
-    inputConstraints: `The tale begins with a number t (where 1 <= t <= 10^4), counting how many testcases you will judge.   
-     Each testcase consists of:   
-     1. First, a number n (where 2 <= n <= 10^5), the count of cupcake types on display.   
-     2. Then, n numbers a1,a2,...,an (where -10^9 <= ai <= 10^9), the flavor scores for each type, from first to last.   
-     Across all trips, the total n will not climb past 10^5, keeping the bakery shelves in check.`,
-    outputConstraints: `For each trip, say "YES" if Yasin full haul of cupcakes will always taste better by a clear margin than any stretch Amir picks. If not, say "NO."`,
+    content: `The Annual Cultural Fest at JSS College is about to begin.
+    \nThe highlight of the opening ceremony is the “Unity Parade,” where N student representatives from different branches must stand in a single straight line.
+    \nEach student has a Vibe Score Vᵢ and belongs to a Branch Bᵢ 
+    \nTo ensure the parade is successful, the Student Council has imposed the following rules:
+    \nMonotony Rule: No more than two students from the same branch may stand consecutively. \nIn other words, three consecutive students from the same branch are not allowed.
+    \nRivalry Constraint: You are given P pairs of students who refuse to stand next to each other. \nAny lineup where such a pair stands adjacent is invalid.
+    \nHarmony Calculation: The Harmony of a lineup is calculated as follows.
+    \nStart with a Harmony of 0. For every pair of adjacent students:
+    \n -->If both students belong to the same branch, add the product of their Vibe Scores.
+    \n --> If they belong to different branches, add the absolute difference of their Vibe Scores.
+    \n The total Harmony is the sum of these contributions.
+    \n\nThe Challenge
+    \nDetermine the maximum possible Harmony among all valid parade lineups using all N students.
+    \nIf no valid lineup exists, output -1.`,
+    inputConstraints: `The first line contains two integers N and P , representing the number of students and the number of rivalry pairs.
+    \nThe second line contains N integers V₁, V₂, …, Vₙ , representing the Vibe Scores.
+    \nThe third line contains N integers B₁, B₂, …, Bₙ , representing the Branch IDs.
+    \nThe next P lines each contain two integers u and v , indicating that student u and student v cannot stand next to each other.
+    \n\nConstraints:
+    \n1 ≤ N ≤ 12
+    \n0 ≤ P ≤ N(N−1)/2
+    \n1 ≤ Vᵢ ≤ 100
+    \n1 ≤ Bᵢ ≤ N
+    \nTime limit is set such that an O(N!) backtracking solution with pruning is expected.`,
+    outputConstraints: `Print a single integer representing the maximum possible Harmony. If no valid lineup exists, print -1.`,
     timeLimit: 1,
     example: [
       {
         id: 1,
-        input: `3   
-4   
-1 2 3 4   
-3   
-7 4 -1   
-3   
-5 -5 5   
-`,
-        output: `YES   
-NO   
-NO   
-`,
+        input: `3 1
+        \n5 3 4
+        \n1 1 2
+        \n1 2`,
+        output: `2`,
       },
     ],
   },
