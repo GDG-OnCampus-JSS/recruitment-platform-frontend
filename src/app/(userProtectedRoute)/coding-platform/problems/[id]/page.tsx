@@ -101,15 +101,22 @@ const EditorPage = () => {
         });
 
         if (status === statusCode.Created201 || status === statusCode.Ok200) {
-          // Format the data to match the expected structure
+          // Compute passed/total from the testResults array
+          const testResults = data.data.testResults || [];
+          const totalTests = testResults.length;
+          const passedTestCount = testResults.filter(
+            (t: { passed: boolean }) => t.passed,
+          ).length;
+          const allTestsPassed = totalTests > 0 && passedTestCount === totalTests;
+
           const formattedResult = {
             success: true,
             message: 'Submission successful',
             data: {
-              allTestsPassed: data.data.allTestsPassed || false,
-              passedTestCount: data.data.passedTestCount || 0,
-              totalTests: data.data.totalTests || 0,
-              testResults: data.data.testResults || [],
+              allTestsPassed,
+              passedTestCount,
+              totalTests,
+              testResults,
               timeElapsed: data.data.timeElapsed || 0,
             },
           };
