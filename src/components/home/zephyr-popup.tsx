@@ -100,8 +100,8 @@ export function ZephyrPopup({ open, onOpenChange }: ZephyrPopupProps) {
                   <Image
                     src="/zephyr-logo.svg"
                     alt="Zephyr Logo"
-                    width={36}
-                    height={36}
+                    width={80}
+                    height={80}
                     className="mx-auto mb-8 size-20"
                   />
                 </motion.div>
