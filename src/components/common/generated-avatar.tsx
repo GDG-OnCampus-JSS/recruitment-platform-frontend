@@ -18,8 +18,8 @@ export default function GeneratedAvatar({
   variant,
   options,
 }: GeneratedAvatarProps) {
-  const baseOptions = { ...options, seed };
   const avatarDataUri = useMemo(() => {
+    const baseOptions = { ...options, seed };
     let avatar;
 
     if (variant === 'avataaarsNeutral') {
