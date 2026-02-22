@@ -93,13 +93,16 @@ const EditorPage = () => {
     if (selectedLanguage?.id && userYear) {
       try {
         setIsSubmitting(true);
-        const { status, data } = await postApi(apiEndPoints.codingPlatform.submitCode, {
-          questionId: id,
-          code: code,
-          languageId: selectedLanguage.id,
-          year: userYear,
-        },
-      { timeout: 130000 });
+        const { status, data } = await postApi(
+          apiEndPoints.codingPlatform.submitCode,
+          {
+            questionId: id,
+            code: code,
+            languageId: selectedLanguage.id,
+            year: userYear,
+          },
+          { timeout: 130000 },
+        );
 
         if (status === statusCode.Created201 || status === statusCode.Ok200) {
           // Compute passed/total from the testResults array
@@ -152,13 +155,16 @@ const EditorPage = () => {
     if (selectedLanguage?.id && userYear) {
       try {
         setIsRunning(true);
-        const { status, data } = await postApi(apiEndPoints.codingPlatform.runCode, {
-          questionId: id,
-          code: code,
-          languageId: selectedLanguage.id,
-          year: userYear,
-        },
-      { timeout: 130000 });
+        const { status, data } = await postApi(
+          apiEndPoints.codingPlatform.runCode,
+          {
+            questionId: id,
+            code: code,
+            languageId: selectedLanguage.id,
+            year: userYear,
+          },
+          { timeout: 130000 },
+        );
 
         if (status === statusCode.Created201 || status === statusCode.Ok200) {
           setRunResult(data.data);
