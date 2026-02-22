@@ -49,8 +49,8 @@ export const steps: StepCardProps[] = [
     buttonBgColor: 'bg-[#4285F4]',
     gradientBg: 'bg-blue-gradient',
     action: '/coding-platform/problems/1',
-    eventStartDate: new Date('2026-02-23T00:00:00'),
-    eventEndDate: new Date('2026-02-23T23:59:59'),
+    eventStartDate: new Date('2026-02-23T14:30:00'),
+    eventEndDate: new Date('2026-02-23T16:30:00'),
   },
 ];
 
