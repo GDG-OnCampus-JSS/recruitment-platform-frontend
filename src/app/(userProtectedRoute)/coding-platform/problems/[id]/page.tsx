@@ -104,9 +104,7 @@ const EditorPage = () => {
           // Compute passed/total from the testResults array
           const testResults = data.data.testResults || [];
           const totalTests = testResults.length;
-          const passedTestCount = testResults.filter(
-            (t: { passed: boolean }) => t.passed,
-          ).length;
+          const passedTestCount = testResults.filter((t: { passed: boolean }) => t.passed).length;
           const allTestsPassed = totalTests > 0 && passedTestCount === totalTests;
 
           const formattedResult = {
