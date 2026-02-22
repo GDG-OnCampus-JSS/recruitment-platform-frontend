@@ -98,7 +98,8 @@ const EditorPage = () => {
           code: code,
           languageId: selectedLanguage.id,
           year: userYear,
-        });
+        },
+      { timeout: 130000 });
 
         if (status === statusCode.Created201 || status === statusCode.Ok200) {
           // Compute passed/total from the testResults array
@@ -156,7 +157,8 @@ const EditorPage = () => {
           code: code,
           languageId: selectedLanguage.id,
           year: userYear,
-        });
+        },
+      { timeout: 130000 });
 
         if (status === statusCode.Created201 || status === statusCode.Ok200) {
           setRunResult(data.data);

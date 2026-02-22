@@ -43,9 +43,9 @@ export const getByParamsApi = async (url: string, params: any) => {
   }
 };
 
-export const postApi = async (url: string, request: any = {}) => {
+export const postApi = async (url: string, request: any = {}, config?: any) => {
   try {
-    const result = await axiosInstance.post(url, request);
+    const result = await axiosInstance.post(url, request, config);
     return {
       status: result.status,
       data: result.data,
