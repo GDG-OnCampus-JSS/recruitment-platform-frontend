@@ -154,23 +154,11 @@ const EditorPage = () => {
         });
 
         if (status === statusCode.Created201 || status === statusCode.Ok200) {
-          const testResults = data.data.testResults || [];
-          const totalTests = testResults.length;
-          const passedTestCount = testResults.filter((t: { passed: boolean }) => t.passed).length;
-          const allTestsPassed = totalTests > 0 && passedTestCount === totalTests;
-
-          const formattedRunResult = {
-            allTestsPassed,
-            passedTestCount,
-            totalTests,
-            testResults,
-          };
-
-          setRunResult(formattedRunResult);
+          setRunResult(data.data);
           setIsRunResultDialogOpen(true);
 
           // Simplified output for run results
-          const runOutput = `Tests Passed: ${passedTestCount}/${totalTests}`;
+          const runOutput = `Status: ${data.data.status.description}`;
           setOutput(runOutput);
         } else {
           handleToastApiResponse(status, data);
