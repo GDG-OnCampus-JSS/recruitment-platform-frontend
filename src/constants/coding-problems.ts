@@ -277,7 +277,7 @@ export const firstYearProblems: ProblemsInterface[] = [
     \n\nThe Challenge
     \nCalculate the maximum number of people you can feed. You must follow a specific organizational rule: Group C (Flexitarians) must be prioritized over Group D (Omnivores) when filling any remaining spots at the Non-Vegetarian station.`,
     inputConstraints: `Two integers, V and N, representing the capacities of the Veg and Non-Veg counters.\nFour integers, A, B, C, D, representing the number of people in each dietary group.`,
-    outputConstraints: `4 integers representing the number of guests of each type fed`,
+    outputConstraints: `Print a single line contatining four comma-separated integers surrounded by square brackets representing the final number of guests succesfully fed from Group A, B, C and D respectively.`,
     timeLimit: 1,
     example: [
       {
