@@ -166,7 +166,7 @@ export default function LoginPage() {
             <Button
               type="submit"
               className="h-11 w-full border bg-btn-primary tracking-wide hover:bg-indigo-600"
-              disabled={form.formState.isSubmitting || isRegistrationDisabled}
+              disabled={form.formState.isSubmitting}
             >
               {form.formState.isSubmitting ? (
                 <>
