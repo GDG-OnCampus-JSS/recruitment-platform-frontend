@@ -1,5 +1,7 @@
+'use client';
 import { avataaarsNeutral, botttsNeutral, bigEarsNeutral, funEmoji } from '@dicebear/collection';
 import { createAvatar, Options } from '@dicebear/core';
+import { useMemo } from 'react';
 import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
 import { cn } from '@/lib/utils';
 
@@ -16,22 +18,26 @@ export default function GeneratedAvatar({
   variant,
   options,
 }: GeneratedAvatarProps) {
-  const baseOptions = { ...options, seed };
-  let avatar;
+  const avatarDataUri = useMemo(() => {
+    const baseOptions = { ...options, seed };
+    let avatar;
 
-  if (variant === 'avataaarsNeutral') {
-    avatar = createAvatar(avataaarsNeutral, baseOptions);
-  } else if (variant === 'botttsNeutral') {
-    avatar = createAvatar(botttsNeutral, baseOptions);
-  } else if (variant === 'bigEarsNeutral') {
-    avatar = createAvatar(bigEarsNeutral, baseOptions);
-  } else {
-    avatar = createAvatar(funEmoji, baseOptions);
-  }
+    if (variant === 'avataaarsNeutral') {
+      avatar = createAvatar(avataaarsNeutral, baseOptions);
+    } else if (variant === 'botttsNeutral') {
+      avatar = createAvatar(botttsNeutral, baseOptions);
+    } else if (variant === 'bigEarsNeutral') {
+      avatar = createAvatar(bigEarsNeutral, baseOptions);
+    } else {
+      avatar = createAvatar(funEmoji, baseOptions);
+    }
+
+    return avatar.toDataUri();
+  }, [seed, variant, options]);
 
   return (
     <Avatar className={cn(className)}>
-      <AvatarImage src={avatar.toDataUri()} alt="Avatar" />
+      <AvatarImage src={avatarDataUri} alt="Avatar" />
       <AvatarFallback>{seed.charAt(0).toUpperCase()}</AvatarFallback>
     </Avatar>
   );
