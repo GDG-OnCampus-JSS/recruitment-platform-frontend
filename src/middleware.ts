@@ -1,22 +1,25 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { apiEndPoints } from '@/api/apiEndpoints';
 
 const BACKEND_URL = process.env.NEXT_PUBLIC_API_URL;
 
-// Routes that require user authentication
-const USER_PROTECTED_PATHS = ['/dashboard', '/coding-platform'];
+// Single source of truth for protected route definitions.
+// `config.matcher` is derived from these at the bottom of the file.
+const PROTECTED_ROUTES = {
+  user: {
+    paths: ['/dashboard', '/coding-platform'],
+    validationEndpoint: apiEndPoints.users.me,
+    loginUrl: '/login',
+  },
+  admin: {
+    paths: ['/admin/dashboard'],
+    validationEndpoint: apiEndPoints.admin.me,
+    loginUrl: '/admin/login',
+  },
+} as const;
 
-// Routes that require admin authentication
-const ADMIN_PROTECTED_PATHS = ['/admin/dashboard'];
-
-// Public routes that authenticated users should NOT be redirected away from
-// (login, register, etc. are handled separately)
-
-function isUserProtectedRoute(pathname: string): boolean {
-  return USER_PROTECTED_PATHS.some((path) => pathname === path || pathname.startsWith(`${path}/`));
-}
-
-function isAdminProtectedRoute(pathname: string): boolean {
-  return ADMIN_PROTECTED_PATHS.some((path) => pathname === path || pathname.startsWith(`${path}/`));
+function matchesProtectedPaths(pathname: string, paths: readonly string[]): boolean {
+  return paths.some((path) => pathname === path || pathname.startsWith(`${path}/`));
 }
 
 async function validateSession(request: NextRequest, validationEndpoint: string): Promise<boolean> {
@@ -26,18 +29,19 @@ async function validateSession(request: NextRequest, validationEndpoint: string)
   }
 
   try {
-    // Forward all cookies from the browser to the backend validation endpoint
     const cookieHeader = request.headers.get('cookie');
     if (!cookieHeader) {
       return false;
     }
 
-    const response = await fetch(`${BACKEND_URL}${validationEndpoint}`, {
+    // Use URL constructor to safely join base and path regardless of trailing/leading slashes
+    const url = new URL(validationEndpoint, BACKEND_URL);
+
+    const response = await fetch(url, {
       method: 'GET',
       headers: {
         cookie: cookieHeader,
       },
-      // Short timeout so middleware doesn't block forever
       signal: AbortSignal.timeout(5000),
     });
 
@@ -51,37 +55,23 @@ async function validateSession(request: NextRequest, validationEndpoint: string)
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
-  // --- User protected routes ---
-  if (isUserProtectedRoute(pathname)) {
-    const isValid = await validateSession(request, 'users/me');
+  for (const route of Object.values(PROTECTED_ROUTES)) {
+    if (matchesProtectedPaths(pathname, route.paths)) {
+      const isValid = await validateSession(request, route.validationEndpoint);
 
-    if (!isValid) {
-      const loginUrl = new URL('/login', request.url);
-      loginUrl.searchParams.set('callbackUrl', pathname);
-      return NextResponse.redirect(loginUrl);
-    }
-  }
-
-  // --- Admin protected routes ---
-  if (isAdminProtectedRoute(pathname)) {
-    const isValid = await validateSession(request, 'admin/auth/me');
-
-    if (!isValid) {
-      const loginUrl = new URL('/admin/login', request.url);
-      loginUrl.searchParams.set('callbackUrl', pathname);
-      return NextResponse.redirect(loginUrl);
+      if (!isValid) {
+        const loginUrl = new URL(route.loginUrl, request.url);
+        loginUrl.searchParams.set('callbackUrl', pathname);
+        return NextResponse.redirect(loginUrl);
+      }
     }
   }
 
   return NextResponse.next();
 }
 
+// IMPORTANT: config.matcher must be static string literals (Next.js parses these at compile time).
+// Keep these in sync with PROTECTED_ROUTES.paths above.
 export const config = {
-  matcher: [
-    // User protected routes
-    '/dashboard/:path*',
-    '/coding-platform/:path*',
-    // Admin protected routes
-    '/admin/dashboard/:path*',
-  ],
+  matcher: ['/dashboard/:path*', '/coding-platform/:path*', '/admin/dashboard/:path*'],
 };
