@@ -13,8 +13,8 @@ export const steps: StepCardProps[] = [
     buttonBgColor: 'bg-[#FBBC04]',
     gradientBg: 'bg-yellow-gradient',
     action: '/dashboard/quiz',
-    eventStartDate: new Date('2026-02-21T00:00:00'),
-    eventEndDate: new Date('2026-02-23T23:59:59'),
+    eventStartDate: new Date('2026-03-06T00:00:00'),
+    eventEndDate: new Date('2026-03-23T23:59:59'),
   },
   {
     step: 2,
@@ -25,8 +25,8 @@ export const steps: StepCardProps[] = [
     buttonBgColor: 'bg-[#4285F4]',
     gradientBg: 'bg-blue-gradient',
     action: '/dashboard/task-round',
-    eventStartDate: new Date('2026-02-22T00:00:00'),
-    eventEndDate: new Date('2026-02-24T13:00:00'),
+    eventStartDate: new Date('2026-03-06T00:00:00'),
+    eventEndDate: new Date('2026-03-23T23:59:59'),
   },
   {
     step: 3,
@@ -37,8 +37,8 @@ export const steps: StepCardProps[] = [
     buttonBgColor: 'bg-[#EA4335]',
     gradientBg: 'bg-red-gradient',
     action: '#',
-    eventStartDate: new Date('2026-02-25T00:00:00'),
-    eventEndDate: new Date('2026-02-25T23:59:59'),
+    eventStartDate: new Date('2026-03-06T00:00:00'),
+    eventEndDate: new Date('2026-03-23T23:59:59'),
   },
   {
     step: 4,
@@ -49,8 +49,8 @@ export const steps: StepCardProps[] = [
     buttonBgColor: 'bg-[#4285F4]',
     gradientBg: 'bg-blue-gradient',
     action: '/coding-platform/problems/1',
-    eventStartDate: new Date('2026-02-23T14:30:00'),
-    eventEndDate: new Date('2026-02-23T16:30:00'),
+    eventStartDate: new Date('2026-03-06T00:00:00'),
+    eventEndDate: new Date('2026-03-23T23:59:59'),
   },
 ];
 
