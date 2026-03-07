@@ -1,5 +1,6 @@
 export const apiEndPoints = {
   users: {
+    me: '/users/me',
     registerEmail: '/users/send-otp-email', //used
     verifyEmail: '/users/verify-otp-email', //used
     register: '/users/register', //used
@@ -21,6 +22,7 @@ export const apiEndPoints = {
   },
 
   admin: {
+    me: '/admin/auth/me',
     login: '/admin/auth/login', //used
     logout: '/admin/auth/logout', //used
     createAptitude: '/admin/aptitude/create-aptitude',

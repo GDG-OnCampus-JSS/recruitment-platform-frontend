@@ -47,16 +47,6 @@ export interface LoginResponse {
 export interface LogoutResponse {
   message: string;
 }
-
-export interface AuthState {
-  user: User | null;
-  loading: boolean;
-  login: (email: string, password: string) => Promise<{ success: boolean; error?: string }>;
-  logout: () => Promise<void>;
-  fetchUserDetails: (id: string) => Promise<void>;
-  checkAuth: () => Promise<void>;
-  setLoading: (loading: boolean) => void;
-}
 export interface DropdownOption {
   label: string;
   value: string;
