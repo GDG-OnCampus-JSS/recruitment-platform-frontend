@@ -125,7 +125,7 @@ export const apiEndPoints = {
   },
 
   testCases: {
-    createTestCase: '/contest/crate-testcase',
+    createTestCase: '/contest/create-testcase',
     getAllTestCasesForProblem: (contestProblemId: string) => `/contest/all/${contestProblemId}`,
     updateTestCase: (id: string) => `/contest/update-testcase/${id}`,
     deleteTestCase: (id: string) => `/contest/delete-testcase/${id}`,
