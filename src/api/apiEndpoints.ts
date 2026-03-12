@@ -83,7 +83,7 @@ export const apiEndPoints = {
 
   option: {
     createOption: '/options/create-option',
-    getOptionsByQuestion: (questionId: string) => `/options/option-quesition/${questionId}`,
+    getOptionsByQuestion: (questionId: string) => `/options/option-question/${questionId}`,
     getOptionById: (id: string) => `/options/${id}`,
     updateOption: (id: string) => `/options/update-option/${id}`,
     deleteOption: (id: string) => `/options/delete-option/${id}`,
