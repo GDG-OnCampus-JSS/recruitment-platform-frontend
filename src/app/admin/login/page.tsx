@@ -86,7 +86,7 @@ export default function Login() {
                 name="password"
                 type={showPassword ? 'string' : 'password'}
                 label="Password"
-                placeholder="Enter your email"
+                placeholder="Enter your password"
                 isAsterisk
               />
               <Icon
