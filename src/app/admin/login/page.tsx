@@ -25,7 +25,7 @@ export default function Login() {
   const router = useRouter();
 
   const adminLoginSchema = z.object({
-    email: z.string().email('Please entear a valid email address!'),
+    email: z.string().email('Please enter a valid email address!'),
     password: z.string().min(1, 'Password is required!'),
   });
 
@@ -86,7 +86,7 @@ export default function Login() {
                 name="password"
                 type={showPassword ? 'string' : 'password'}
                 label="Password"
-                placeholder="Enter your email"
+                placeholder="Enter your password"
                 isAsterisk
               />
               <Icon

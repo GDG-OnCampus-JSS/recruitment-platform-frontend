@@ -83,7 +83,7 @@ export const apiEndPoints = {
 
   option: {
     createOption: '/options/create-option',
-    getOptionsByQuestion: (questionId: string) => `/options/option-quesition/${questionId}`,
+    getOptionsByQuestion: (questionId: string) => `/options/option-question/${questionId}`,
     getOptionById: (id: string) => `/options/${id}`,
     updateOption: (id: string) => `/options/update-option/${id}`,
     deleteOption: (id: string) => `/options/delete-option/${id}`,
@@ -117,7 +117,7 @@ export const apiEndPoints = {
   },
 
   codingQuestionRoutes: {
-    createCodingQuestion: '/problems/create//coding-question',
+    createCodingQuestion: '/problems/create/coding-question',
     getAllCodingQuestions: '/problems',
     getCodingQuestionsByContest: (contestId: string) => `/problems/${contestId}`,
     updateCodingQuestion: (id: string) => `/problems/update/coding-question/${id}`,
@@ -125,7 +125,7 @@ export const apiEndPoints = {
   },
 
   testCases: {
-    createTestCase: '/contest/crate-testcase',
+    createTestCase: '/contest/create-testcase',
     getAllTestCasesForProblem: (contestProblemId: string) => `/contest/all/${contestProblemId}`,
     updateTestCase: (id: string) => `/contest/update-testcase/${id}`,
     deleteTestCase: (id: string) => `/contest/delete-testcase/${id}`,
