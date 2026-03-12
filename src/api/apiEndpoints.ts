@@ -117,7 +117,7 @@ export const apiEndPoints = {
   },
 
   codingQuestionRoutes: {
-    createCodingQuestion: '/problems/create//coding-question',
+    createCodingQuestion: '/problems/create/coding-question',
     getAllCodingQuestions: '/problems',
     getCodingQuestionsByContest: (contestId: string) => `/problems/${contestId}`,
     updateCodingQuestion: (id: string) => `/problems/update/coding-question/${id}`,
